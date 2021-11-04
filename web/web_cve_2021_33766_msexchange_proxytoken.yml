@@ -1,0 +1,38 @@
+author: Florian Roth, Max Altgelt, Christian Burkard
+category: webserver
+date: 2021/08/30
+description: Detects the exploitation of Microsoft Exchange ProxyToken vulnerability
+  as described in CVE-2021-33766
+detection:
+  condition: selection1 or selection2
+  selection1:
+    http.http_method: POST
+    http.url|contains|all:
+    - /ecp/
+    - /RulesEditor/InboxRules.svc/NewObject
+    sc-status: 500
+  selection2:
+    http.url|contains|all:
+    - SecurityToken=
+    - /ecp/
+    sc-status: 500
+falsepositives:
+- Unknown
+fields:
+- src_ip
+- http.hostname
+id: 56973b50-3382-4b56-bdf5-f51a3183797a
+level: critical
+logsource:
+  category: webserver
+  product: suricata
+  service: http
+product: suricata
+references:
+- https://www.zerodayinitiative.com/blog/2021/8/30/proxytoken-an-authentication-bypass-in-microsoft-exchange-server
+service: http
+status: experimental
+tags:
+- attack.initial_access
+- attack.t1190
+title: CVE-2021-33766 Exchange ProxyToken Exploitation

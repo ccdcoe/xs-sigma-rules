@@ -1,0 +1,31 @@
+author: Thomas Patzke
+date: 2017/06/14
+description: Detects wceaux.dll access while WCE pass-the-hash remote command execution
+  on source host
+detection:
+  condition: selection
+  selection:
+    winlog.event_data.ObjectName|endswith: \wceaux.dll
+    winlog.event_id:
+    - 4656
+    - 4658
+    - 4660
+    - 4663
+falsepositives:
+- Penetration testing
+id: 1de68c67-af5c-4097-9c85-fe5578e09e67
+level: critical
+logsource:
+  product: windows
+  service: security
+product: windows
+references:
+- https://www.jpcert.or.jp/english/pub/sr/ir_research.html
+- https://jpcertcc.github.io/ToolAnalysisResultSheet
+service: security
+status: experimental
+tags:
+- attack.credential_access
+- attack.t1003
+- attack.s0005
+title: WCE wceaux.dll Access

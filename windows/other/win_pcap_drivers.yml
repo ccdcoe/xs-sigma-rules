@@ -1,0 +1,42 @@
+author: Cian Heasley
+date: 2020/06/10
+description: Detects Windows Pcap driver installation based on a list of associated
+  .sys files.
+detection:
+  condition: selection
+  selection:
+    winlog.event_data.ServiceFileName|contains:
+    - pcap
+    - npcap
+    - npf
+    - nm3
+    - ndiscap
+    - nmnt
+    - windivert
+    - USBPcap
+    - pktmon
+    winlog.event_id: 4697
+falsepositives:
+- unknown
+fields:
+- winlog.event_id
+- winlog.event_data.ServiceFileName
+- winlog.event_data.AccountName
+- winlog.ComputerName
+- winlog.event_data.OriginatingComputer
+- winlog.event_data.ServiceName
+id: 7b687634-ab20-11ea-bb37-0242ac130002
+level: medium
+logsource:
+  product: windows
+  service: security
+product: windows
+references:
+- https://ragged-lab.blogspot.com/2020/06/capturing-pcap-driver-installations.html#more
+service: security
+status: experimental
+tags:
+- attack.discovery
+- attack.credential_access
+- attack.t1040
+title: Windows Pcap Drivers

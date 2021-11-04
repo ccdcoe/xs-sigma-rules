@@ -1,0 +1,42 @@
+author: Samir Bousseaden
+date: 2019/04/03
+definition: 'Requirements: enable Object Access SAM on your Domain Controllers'
+description: Detect priv users or groups recon based on 4661 eventid and known privileged
+  users or groups SIDs
+detection:
+  condition: selection and selection_object
+  selection:
+    winlog.event_data.ObjectType:
+    - SAM_USER
+    - SAM_GROUP
+    winlog.event_id: 4661
+  selection_object:
+  - winlog.event_data.ObjectName|endswith:
+    - '-512'
+    - '-502'
+    - '-500'
+    - '-505'
+    - '-519'
+    - '-520'
+    - '-544'
+    - '-551'
+    - '-555'
+  - winlog.event_data.ObjectName|contains: admin
+falsepositives:
+- if source account name is not an admin then its super suspicious
+id: 35ba1d85-724d-42a3-889f-2e2362bcaf23
+level: high
+logsource:
+  definition: 'Requirements: enable Object Access SAM on your Domain Controllers'
+  product: windows
+  service: security
+modified: 2021/09/08
+product: windows
+references:
+- https://blog.menasec.net/2019/02/threat-hunting-5-detecting-enumeration.html
+service: security
+status: experimental
+tags:
+- attack.discovery
+- attack.t1087.002
+title: AD Privileged Users or Groups Reconnaissance

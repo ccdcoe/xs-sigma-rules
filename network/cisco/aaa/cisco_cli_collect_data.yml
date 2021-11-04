@@ -1,0 +1,37 @@
+author: Austin Clark
+category: accounting
+date: 2019/08/11
+description: Collect pertinent data from the configuration files
+detection:
+  condition: keywords
+  keywords:
+  - show running-config
+  - show startup-config
+  - show archive config
+  - more
+falsepositives:
+- Commonly run by administrators
+fields:
+- src
+- CmdSet
+- User
+- Privilege_Level
+- Remote_Address
+id: cd072b25-a418-4f98-8ebc-5093fb38fe1a
+level: low
+logsource:
+  category: accounting
+  product: cisco
+  service: aaa
+modified: 2020/09/02
+product: cisco
+service: aaa
+status: experimental
+tags:
+- attack.discovery
+- attack.credential_access
+- attack.collection
+- attack.t1087.001
+- attack.t1552.001
+- attack.t1005
+title: Cisco Collect Data

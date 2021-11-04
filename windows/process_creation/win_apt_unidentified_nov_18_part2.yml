@@ -1,0 +1,10 @@
+category: process_creation
+detection:
+  selection1:
+    winlog.event_data.CommandLine|contains: cyzfc.dat,
+    winlog.event_data.CommandLine|endswith: PointFunctionCall
+id: 7453575c-a747-40b9-839b-125a0aae324b
+logsource:
+  category: process_creation
+  product: windows
+product: windows

@@ -1,0 +1,29 @@
+author: Florian Roth
+date: 2021/04/23
+definition: Script Block Logging must be enable
+description: Detects a Get-Process command on lsass process, which is in almost all
+  cases a sign of malicious activity
+detection:
+  condition: select_LSASS
+  select_LSASS:
+    winlog.event_data.ScriptBlockText|contains: Get-Process lsass
+    winlog.event_id: 4104
+falsepositives:
+- Legitimate certificate exports invoked by administrators or users (depends on processes
+  in the environment - filter if unusable)
+id: 84c174ab-d3ef-481f-9c86-a50d0b8e3edb
+level: high
+logsource:
+  definition: Script Block Logging must be enable
+  product: windows
+  service: powershell
+modified: 2021/08/04
+product: windows
+references:
+- https://twitter.com/PythonResponder/status/1385064506049630211
+service: powershell
+status: experimental
+tags:
+- attack.credential_access
+- attack.t1003.001
+title: PowerShell Get-Process LSASS in ScriptBlock

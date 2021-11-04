@@ -1,0 +1,9 @@
+detection:
+  selection:
+  - SyncAppvPublishingServer.exe
+id: 9f7aa113-9da6-4a8d-907c-5f1a4b908299
+logsource:
+  product: windows
+  service: powershell
+product: windows
+service: powershell

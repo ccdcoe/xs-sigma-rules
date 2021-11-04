@@ -1,0 +1,28 @@
+author: Florian Roth
+category: process_creation
+date: 2020/10/12
+description: Detects WMI executing rundll32
+detection:
+  condition: selection
+  selection:
+    winlog.event_data.CommandLine|contains|all:
+    - process call create
+    - rundll32
+falsepositives:
+- Unknown
+fields:
+- winlog.event_data.CommandLine
+- winlog.event_data.ParentCommandLine
+id: 3c89a1e8-0fba-449e-8f1b-8409d6267ec8
+level: high
+logsource:
+  category: process_creation
+  product: windows
+product: windows
+references:
+- https://thedfirreport.com/2020/10/08/ryuks-return/
+status: experimental
+tags:
+- attack.execution
+- attack.t1047
+title: Suspicious WMI Execution Using Rundll32

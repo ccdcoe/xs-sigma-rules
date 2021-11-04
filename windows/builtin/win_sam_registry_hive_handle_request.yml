@@ -1,0 +1,34 @@
+author: Roberto Rodriguez @Cyb3rWard0g
+date: 2019/08/12
+description: Detects handles requested to SAM registry hive
+detection:
+  condition: selection
+  selection:
+    winlog.event_data.ObjectName|endswith: \SAM
+    winlog.event_data.ObjectType: Key
+    winlog.event_id: 4656
+falsepositives:
+- Unknown
+fields:
+- winlog.ComputerName
+- winlog.event_data.SubjectDomainName
+- winlog.event_data.SubjectUserName
+- winlog.event_data.ProcessName
+- winlog.event_data.ObjectName
+id: f8748f2c-89dc-4d95-afb0-5a2dfdbad332
+level: critical
+logsource:
+  product: windows
+  service: security
+modified: 2020/08/23
+product: windows
+references:
+- https://threathunterplaybook.com/notebooks/windows/07_discovery/WIN-190725024610.html
+service: security
+status: experimental
+tags:
+- attack.discovery
+- attack.t1012
+- attack.credential_access
+- attack.t1552.002
+title: SAM Registry Hive Handle Request

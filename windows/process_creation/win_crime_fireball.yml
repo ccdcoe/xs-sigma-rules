@@ -1,0 +1,31 @@
+author: Florian Roth
+category: process_creation
+date: 2017/06/03
+description: Detects Archer malware invocation via rundll32
+detection:
+  condition: selection
+  selection:
+    winlog.event_data.CommandLine|contains|all:
+    - rundll32.exe
+    - InstallArcherSvc
+falsepositives:
+- Unknown
+fields:
+- winlog.event_data.CommandLine
+- winlog.event_data.ParentCommandLine
+id: 3d4aebe0-6d29-45b2-a8a4-3dfde586a26d
+level: high
+logsource:
+  category: process_creation
+  product: windows
+modified: 2020/08/29
+product: windows
+references:
+- https://www.virustotal.com/en/file/9b4971349ae85aa09c0a69852ed3e626c954954a3927b3d1b6646f139b930022/analysis/
+- https://www.hybrid-analysis.com/sample/9b4971349ae85aa09c0a69852ed3e626c954954a3927b3d1b6646f139b930022?environmentId=100
+status: experimental
+tags:
+- attack.execution
+- attack.defense_evasion
+- attack.t1218.011
+title: Fireball Archer Install

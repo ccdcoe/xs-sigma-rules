@@ -1,0 +1,38 @@
+author: Markus Neis, Sander Wiebing
+category: process_creation
+date: 2018/11/22
+description: Detects Executables in the Downloads folder without FileVersion,Description,Product,Company
+  likely created with py2exe
+detection:
+  condition: (selection1 or selection2 or selection3) and folder
+  folder:
+    winlog.event_data.Image|contains: \Downloads\
+  selection1:
+    winlog.event_data.Description: \?
+    winlog.event_data.FileVersion: \?
+  selection2:
+    winlog.event_data.Description: \?
+    winlog.event_data.Product: \?
+  selection3:
+    winlog.event_data.Company: \?
+    winlog.event_data.Description: \?
+falsepositives:
+- Unknown
+fields:
+- winlog.event_data.CommandLine
+- winlog.event_data.ParentCommandLine
+id: 9637e8a5-7131-4f7f-bdc7-2b05d8670c43
+level: medium
+logsource:
+  category: process_creation
+  product: windows
+modified: 2021/06/27
+product: windows
+references:
+- https://securelist.com/muddywater/88059/
+- https://www.virustotal.com/#/file/276a765a10f98cda1a38d3a31e7483585ca3722ecad19d784441293acf1b7beb/detection
+status: experimental
+tags:
+- attack.execution
+- attack.t1059.006
+title: Suspicious File Characteristics Due to Missing Fields

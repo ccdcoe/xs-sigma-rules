@@ -1,0 +1,32 @@
+author: Florian Roth
+category: proxy
+date: 2017/03/13
+description: Detects Windows PowerShell Web Access
+detection:
+  condition: selection
+  selection:
+    http.http_user_agent|contains: ' WindowsPowerShell/'
+falsepositives:
+- Administrative scripts that download files from the Internet
+- Administrative scripts that retrieve certain website contents
+fields:
+- src_ip
+- http.url
+- http.http_user_agent
+id: c8557060-9221-4448-8794-96320e6f3e74
+level: medium
+logsource:
+  category: proxy
+  product: suricata
+  service: http
+modified: 2020/09/03
+product: suricata
+references:
+- https://msdn.microsoft.com/powershell/reference/5.1/microsoft.powershell.utility/Invoke-WebRequest
+service: http
+status: experimental
+tags:
+- attack.defense_evasion
+- attack.command_and_control
+- attack.t1071.001
+title: Windows PowerShell User Agent

@@ -1,0 +1,11 @@
+category: file_event
+detection:
+  condition: 1 of them
+  selection:
+    winlog.event_data.TargetFilename|endswith: \lsass.dmp
+    winlog.event_id: 11
+id: db2110f3-479d-42a6-94fb-d35bc1e46492
+logsource:
+  category: file_event
+  product: windows
+product: windows

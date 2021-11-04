@@ -1,0 +1,36 @@
+author: Florian Roth
+category: proxy
+date: 2020/07/13
+description: Detects user agent and URI paths used by empire agents
+detection:
+  condition: selection
+  selection:
+    cs-uri-query:
+    - /admin/get.php
+    - /news.php
+    - /login/process.php
+    http.http_method: POST
+    http.http_user_agent: Mozilla/5.0 (Windows NT 6.1; WOW64; Trident/7.0; rv:11.0)
+      like Gecko
+falsepositives:
+- Valid requests with this exact user agent to server scripts of the defined names
+fields:
+- http.url
+- src_ip
+id: b923f7d6-ac89-4a50-a71a-89fb846b4aa8
+level: high
+logsource:
+  category: proxy
+  product: suricata
+  service: http
+modified: 2020/09/03
+product: suricata
+references:
+- https://github.com/BC-SECURITY/Empire
+service: http
+status: experimental
+tags:
+- attack.defense_evasion
+- attack.command_and_control
+- attack.t1071.001
+title: Empire UserAgent URI Combo

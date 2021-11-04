@@ -1,0 +1,30 @@
+author: Florian Roth
+date: 2017/02/06
+description: Detects service ticket requests using RC4 encryption type
+detection:
+  condition: selection and not reduction
+  reduction:
+    winlog.event_data.ServiceName|startswith: $
+  selection:
+    winlog.event_data.TicketEncryptionType: '0x17'
+    winlog.event_data.TicketOptions: '0x40810000'
+    winlog.event_id: 4769
+falsepositives:
+- Service accounts used on legacy systems (e.g. NetApp)
+- Windows Domains with DFL 2003 and legacy systems
+id: 496a0e47-0a33-4dca-b009-9e6ca3591f39
+level: medium
+logsource:
+  product: windows
+  service: security
+modified: 2021/08/14
+product: windows
+references:
+- https://adsecurity.org/?p=3458
+- https://www.trimarcsecurity.com/single-post/TrimarcResearch/Detecting-Kerberoasting-Activity
+service: security
+status: experimental
+tags:
+- attack.credential_access
+- attack.t1558.003
+title: Suspicious Kerberos RC4 Ticket Encryption

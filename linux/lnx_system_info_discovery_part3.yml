@@ -1,0 +1,20 @@
+detection:
+  condition: selection
+  selection:
+    name:
+    - /sys/class/dmi/id/bios_version
+    - /sys/class/dmi/id/product_name
+    - /sys/class/dmi/id/chassis_vendor
+    - /proc/scsi/scsi
+    - /proc/ide/hd0/model
+    - /proc/version
+    - /etc/*version
+    - /etc/*release
+    - /etc/issue
+    type: PATH
+id: 1f358e2e-cb63-43c3-b575-dfb072a6814f
+logsource:
+  product: linux
+  service: auditd
+product: linux
+service: auditd

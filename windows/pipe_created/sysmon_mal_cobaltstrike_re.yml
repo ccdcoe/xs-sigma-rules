@@ -1,0 +1,55 @@
+author: Florian Roth
+category: pipe_created
+date: 2021/07/30
+definition: Note that you have to configure logging for Named Pipe Events in Sysmon
+  config (Event ID 17 and Event ID 18). In the current popular sysmon configuration
+  (https://github.com/SwiftOnSecurity/sysmon-config) this is not there, you have to
+  add it yourself or use this extended version that logs the Named Pipes used in this
+  Sigma repo (https://github.com/Neo23x0/sysmon-config)
+description: Detects the creation of a named pipe matching a pattern used by CobaltStrike
+  Malleable C2 profiles
+detection:
+  condition: selection
+  selection:
+  - winlog.event_data.PipeName|re: \\\\mojo\.5688\.8052\.(?:183894939787088877|35780273329370473)[0-9a-f]{2}
+  - winlog.event_data.PipeName|re: \\\\wkssvc_?[0-9a-f]{2}
+  - winlog.event_data.PipeName|re: \\\\ntsvcs[0-9a-f]{2}
+  - winlog.event_data.PipeName|re: \\\\DserNamePipe[0-9a-f]{2}
+  - winlog.event_data.PipeName|re: \\\\SearchTextHarvester[0-9a-f]{2}
+  - winlog.event_data.PipeName|re: \\\\mypipe\-(?:f|h)[0-9a-f]{2}
+  - winlog.event_data.PipeName|re: \\\\windows\.update\.manager[0-9a-f]{2,3}
+  - winlog.event_data.PipeName|re: \\\\ntsvcs_[0-9a-f]{2}
+  - winlog.event_data.PipeName|re: \\\\scerpc_?[0-9a-f]{2}
+  - winlog.event_data.PipeName|re: \\\\PGMessagePipe[0-9a-f]{2}
+  - winlog.event_data.PipeName|re: \\\\MsFteWds[0-9a-f]{2}
+  - winlog.event_data.PipeName|re: \\\\f4c3[0-9a-f]{2}
+  - winlog.event_data.PipeName|re: \\\\fullduplex_[0-9a-f]{2}
+  - winlog.event_data.PipeName|re: \\\\msrpc_[0-9a-f]{4}
+  - winlog.event_data.PipeName|re: \\\\win\\\\msrpc_[0-9a-f]{2}
+  - winlog.event_data.PipeName|re: \\\\f53f[0-9a-f]{2}
+  - winlog.event_data.PipeName|re: \\\\rpc_[0-9a-f]{2}
+  - winlog.event_data.PipeName|re: \\\\spoolss_[0-9a-f]{2}
+  - winlog.event_data.PipeName|re: \\\\Winsock2\\\\CatalogChangeListener-[0-9a-f]{3}-0,
+falsepositives:
+- Unknown
+id: 0e7163d4-9e19-4fa7-9be6-000c61aad77a
+level: critical
+logsource:
+  category: pipe_created
+  definition: Note that you have to configure logging for Named Pipe Events in Sysmon
+    config (Event ID 17 and Event ID 18). In the current popular sysmon configuration
+    (https://github.com/SwiftOnSecurity/sysmon-config) this is not there, you have
+    to add it yourself or use this extended version that logs the Named Pipes used
+    in this Sigma repo (https://github.com/Neo23x0/sysmon-config)
+  product: windows
+modified: 2021/09/02
+product: windows
+references:
+- https://svch0st.medium.com/guide-to-named-pipes-and-hunting-for-cobalt-strike-pipes-dc46b2c5f575
+- https://gist.github.com/MHaggis/6c600e524045a6d49c35291a21e10752
+status: experimental
+tags:
+- attack.defense_evasion
+- attack.privilege_escalation
+- attack.t1055
+title: CobaltStrike Named Pipe Pattern Regex

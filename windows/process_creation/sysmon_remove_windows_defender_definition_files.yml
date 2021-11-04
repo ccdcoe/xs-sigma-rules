@@ -1,0 +1,33 @@
+author: frack113
+category: process_creation
+date: 2021/07/07
+description: Adversaries may disable security tools to avoid possible detection of
+  their tools and activities by removing Windows Defender Definition Files
+detection:
+  condition: selection
+  selection:
+    winlog.event_data.CommandLine|contains|all:
+    - ' -RemoveDefinitions'
+    - ' -All'
+    winlog.event_data.OriginalFileName: MpCmdRun.exe
+falsepositives:
+- Unknown
+fields:
+- winlog.ComputerName
+- winlog.event_data.User
+- winlog.event_data.CommandLine
+- winlog.event_data.ParentCommandLine
+id: 9719a8aa-401c-41af-8108-ced7ec9cd75c
+level: medium
+logsource:
+  category: process_creation
+  product: windows
+product: windows
+references:
+- https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1562.001/T1562.001.md
+- https://unit42.paloaltonetworks.com/unit42-gorgon-group-slithering-nation-state-cybercrime/
+status: experimental
+tags:
+- attack.defense_evasion
+- attack.t1562.001
+title: Remove Windows Defender Definition Files

@@ -1,0 +1,29 @@
+author: Christian Burkard
+category: process_creation
+date: 2021/08/23
+description: Detects the pattern of UAC Bypass using consent.exe and comctl32.dll
+  (UACMe 22)
+detection:
+  condition: selection
+  selection:
+    winlog.event_data.Image|endswith: \werfault.exe
+    winlog.event_data.IntegrityLevel:
+    - High
+    - System
+    winlog.event_data.ParentImage|endswith: \consent.exe
+falsepositives:
+- Unknown
+id: 1ca6bd18-0ba0-44ca-851c-92ed89a61085
+level: high
+logsource:
+  category: process_creation
+  product: windows
+product: windows
+references:
+- https://github.com/hfiref0x/UACME
+status: experimental
+tags:
+- attack.defense_evasion
+- attack.privilege_escalation
+- attack.t1548.002
+title: UAC Bypass Using Consent and Comctl32 - Process

@@ -1,0 +1,33 @@
+author: Florian Roth
+category: process_creation
+date: 2020/07/03
+description: Detects a suspicious curl process start on Windows and outputs the requested
+  document to a local file
+detection:
+  condition: ( selection1 or selection2 ) and selection3
+  selection1:
+    winlog.event_data.Image|endswith: \curl.exe
+  selection2:
+    winlog.event_data.Product: The curl executable
+  selection3:
+    winlog.event_data.CommandLine|contains: ' -O '
+falsepositives:
+- Scripts created by developers and admins
+- Administrative activity
+fields:
+- winlog.event_data.CommandLine
+- winlog.event_data.ParentCommandLine
+id: e218595b-bbe7-4ee5-8a96-f32a24ad3468
+level: medium
+logsource:
+  category: process_creation
+  product: windows
+modified: 2020/09/05
+product: windows
+references:
+- https://twitter.com/reegun21/status/1222093798009790464
+status: experimental
+tags:
+- attack.command_and_control
+- attack.t1105
+title: Suspicious Curl Usage on Windows

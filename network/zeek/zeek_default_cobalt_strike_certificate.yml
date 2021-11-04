@@ -1,0 +1,28 @@
+author: Bhabesh Raj
+date: 2021/06/23
+description: Detects the presence of default Cobalt Strike certificate in the HTTPS
+  traffic
+detection:
+  condition: selection
+  selection:
+    certificate.serial: 8BB00EE
+falsepositives:
+- none
+fields:
+- san.dns
+- certificate.subject
+- certificate.issuer
+id: 7100f7e3-92ce-4584-b7b7-01b40d3d4118
+level: high
+logsource:
+  product: zeek
+  service: x509
+modified: 2021/08/24
+product: zeek
+references:
+- https://sergiusechel.medium.com/improving-the-network-based-detection-of-cobalt-strike-c2-servers-in-the-wild-while-reducing-the-6964205f6468
+service: x509
+tags:
+- attack.command_and_control
+- attack.s0154
+title: Default Cobalt Strike Certificate

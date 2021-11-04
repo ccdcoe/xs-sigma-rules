@@ -1,0 +1,19 @@
+author: Florian Roth
+date: 2017/03/25
+description: Detects suspicious log entries in Linux log files
+detection:
+  condition: keywords
+  keywords:
+  - entered promiscuous mode
+  - Deactivating service
+  - Oversized packet received from
+  - imuxsock begins to drop messages
+falsepositives:
+- Unknown
+id: f64b6e9a-5d9d-48a5-8289-e1dd2b3876e1
+level: medium
+logsource:
+  product: snoopy
+product: snoopy
+status: experimental
+title: Suspicious Log Entries

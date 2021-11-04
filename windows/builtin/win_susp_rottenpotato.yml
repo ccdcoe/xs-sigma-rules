@@ -1,0 +1,30 @@
+author: '@SBousseaden, Florian Roth'
+date: 2019/11/15
+description: Detects logon events that have characteristics of events generated during
+  an attack with RottenPotato and the like
+detection:
+  condition: selection
+  selection:
+    winlog.event_data.IpAddress: 127.0.0.1
+    winlog.event_data.LogonType: 3
+    winlog.event_data.TargetUserName: ANONYMOUS_LOGON
+    winlog.event_data.WorkstationName: '-'
+    winlog.event_id: 4624
+falsepositives:
+- Unknown
+id: 16f5d8ca-44bd-47c8-acbe-6fc95a16c12f
+level: high
+logsource:
+  product: windows
+  service: security
+modified: 2021/07/07
+product: windows
+references:
+- https://twitter.com/SBousseaden/status/1195284233729777665
+service: security
+status: experimental
+tags:
+- attack.privilege_escalation
+- attack.credential_access
+- attack.t1557.001
+title: RottenPotato Like Attack Pattern

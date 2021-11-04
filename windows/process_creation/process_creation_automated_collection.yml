@@ -1,0 +1,41 @@
+author: frack113
+category: process_creation
+date: 2021/07/28
+description: Once established within a system or network, an adversary may use automated
+  techniques for collecting internal data.
+detection:
+  condition: selection_ext and (selection_dir or selection_findstr)
+  selection_dir:
+    winlog.event_data.CommandLine|contains|all:
+    - 'dir '
+    - ' /b '
+    - ' /s '
+  selection_ext:
+    winlog.event_data.CommandLine|contains:
+    - .doc
+    - .docx
+    - .xls
+    - .xlsx
+    - .ppt
+    - .pptx
+    - .rtf
+    - .pdf
+    - .txt
+  selection_findstr:
+    winlog.event_data.CommandLine|contains: ' /e '
+    winlog.event_data.OriginalFileName: FINDSTR.EXE
+falsepositives:
+- Unknown
+id: f576a613-2392-4067-9d1a-9345fb58d8d1
+level: medium
+logsource:
+  category: process_creation
+  product: windows
+product: windows
+references:
+- https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1119/T1119.md
+status: experimental
+tags:
+- attack.collection
+- attack.t1119
+title: Automated Collection Command Prompt

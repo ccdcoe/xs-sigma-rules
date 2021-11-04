@@ -1,0 +1,16 @@
+category: file_event
+detection:
+  condition: system_files and not in_system_folder
+  in_system_folder:
+    winlog.event_data.TargetFilename|startswith:
+    - C:\Windows\System32\
+    - C:\Windows\SysWOW64\
+  system_files:
+    winlog.event_data.TargetFilename|endswith:
+    - WsmPty.xsl
+    - WsmTxt.xsl
+id: d353dac0-1b41-46c2-820c-d7d2561fc6ed
+logsource:
+  category: file_event
+  product: windows
+product: windows

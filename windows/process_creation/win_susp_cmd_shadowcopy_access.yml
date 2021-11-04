@@ -1,0 +1,24 @@
+author: Max Altgelt, Tobias Michalski
+category: process_creation
+date: 2021/08/09
+description: Detects a command used by conti to access volume shadow backups
+detection:
+  condition: selection
+  selection:
+    winlog.event_data.CommandLine|contains: copy \\\\\?\\GLOBALROOT\\Device\\HarddiskVolumeShadowCopy
+falsepositives:
+- Some rare backup scenarios
+id: c73124a7-3e89-44a3-bdc1-25fe4df754b1
+level: medium
+logsource:
+  category: process_creation
+  product: windows
+product: windows
+references:
+- https://twitter.com/vxunderground/status/1423336151860002816?s=20
+- https://www.virustotal.com/gui/file/03e9b8c2e86d6db450e5eceec057d7e369ee2389b9daecaf06331a95410aa5f8/detection
+status: experimental
+tags:
+- attack.impact
+- attack.t1490
+title: Conti Volume Shadow Listing

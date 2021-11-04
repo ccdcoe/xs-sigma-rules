@@ -1,0 +1,31 @@
+author: Omer Faruk Celik
+date: 2018/03/20
+description: Detects the use of smbexec.py tool by detecting a specific service installation
+detection:
+  condition: service_installation
+  service_installation:
+    winlog.event_data.ServiceFileName|endswith: \execute.bat
+    winlog.event_data.ServiceName: BTOBTO
+    winlog.event_id: 7045
+falsepositives:
+- Penetration Test
+- Unknown
+fields:
+- winlog.event_data.ServiceName
+- winlog.event_data.ServiceFileName
+id: 52a85084-6989-40c3-8f32-091e12e13f09
+level: critical
+logsource:
+  product: windows
+  service: system
+modified: 2020/08/23
+product: windows
+references:
+- https://blog.ropnop.com/using-credentials-to-own-windows-boxes-part-2-psexec-and-services/
+service: system
+tags:
+- attack.lateral_movement
+- attack.execution
+- attack.t1021.002
+- attack.t1569.002
+title: smbexec.py Service Installation

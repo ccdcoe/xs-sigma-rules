@@ -1,0 +1,29 @@
+author: Florian Roth
+category: registry_event
+date: 2019/10/16
+description: Detects a method to load DLL via LSASS process using an undocumented
+  Registry key
+detection:
+  condition: selection
+  selection:
+    winlog.event_data.TargetObject|contains:
+    - \CurrentControlSet\Services\NTDS\DirectoryServiceExtPt
+    - \CurrentControlSet\Services\NTDS\LsaDbExtPt
+falsepositives:
+- Unknown
+id: b3503044-60ce-4bf4-bbcb-e3db98788823
+level: high
+logsource:
+  category: registry_event
+  product: windows
+modified: 2020/07/01
+product: windows
+references:
+- https://blog.xpnsec.com/exploring-mimikatz-part-1/
+- https://twitter.com/SBousseaden/status/1183745981189427200
+status: experimental
+tags:
+- attack.execution
+- attack.persistence
+- attack.t1547.008
+title: DLL Load via LSASS

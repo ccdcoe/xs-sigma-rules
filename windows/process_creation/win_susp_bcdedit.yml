@@ -1,0 +1,31 @@
+author: '@neu5ron'
+category: process_creation
+date: 2019/02/07
+description: Detects, possibly, malicious unauthorized usage of bcdedit.exe
+detection:
+  condition: selection
+  selection:
+    winlog.event_data.CommandLine|contains:
+    - delete
+    - deletevalue
+    - import
+    - safeboot
+    - network
+    winlog.event_data.Image|endswith: \bcdedit.exe
+id: c9fbe8e9-119d-40a6-9b59-dd58a5d84429
+level: medium
+logsource:
+  category: process_creation
+  product: windows
+modified: 2021/06/18
+product: windows
+references:
+- https://docs.microsoft.com/en-us/windows-hardware/drivers/devtest/bcdedit--set
+- https://twitter.com/malwrhunterteam/status/1372536434125512712/photo/2
+status: experimental
+tags:
+- attack.defense_evasion
+- attack.t1070
+- attack.persistence
+- attack.t1542.003
+title: Possible Ransomware or Unauthorized MBR Modifications

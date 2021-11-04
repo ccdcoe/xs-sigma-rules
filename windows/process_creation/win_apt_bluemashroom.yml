@@ -1,0 +1,29 @@
+author: Florian Roth
+category: process_creation
+date: 2019/10/02
+description: Detects a suspicious DLL loading from AppData Local path as described
+  in BlueMashroom report
+detection:
+  condition: selection
+  selection:
+  - winlog.event_data.CommandLine|contains|all:
+    - \regsvr32
+    - \AppData\Local\
+  - winlog.event_data.CommandLine|contains|all:
+    - \AppData\Local\
+    - ',DllEntry'
+falsepositives:
+- Unlikely
+id: bd70d3f8-e60e-4d25-89f0-0b5a9cff20e0
+level: critical
+logsource:
+  category: process_creation
+  product: windows
+product: windows
+references:
+- https://www.virusbulletin.com/conference/vb2019/abstracts/apt-cases-exploiting-vulnerabilities-region-specific-software
+status: experimental
+tags:
+- attack.defense_evasion
+- attack.t1218.010
+title: BlueMashroom DLL Load

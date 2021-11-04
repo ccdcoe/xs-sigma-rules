@@ -1,0 +1,35 @@
+author: Ilyas Ochkov, oscd.community
+category: registry_event
+date: 2019/10/25
+description: Dynamic-link libraries (DLLs) that are specified in the AppCertDLLs value
+  in the Registry key can be abused to obtain persistence and privilege escalation
+  by causing a malicious DLL to be loaded and run in the context of separate processes
+  on the computer.
+detection:
+  condition: selection
+  selection:
+  - winlog.event_data.TargetObject: HKLM\SYSTEM\CurrentControlSet\Control\Session
+      Manager\AppCertDlls
+  - winlog.event_data.NewName: HKLM\SYSTEM\CurentControlSet\Control\Session Manager\AppCertDlls
+falsepositives:
+- Unknown
+fields:
+- winlog.event_id
+- winlog.event_data.Image
+- winlog.event_data.TargetObject
+- winlog.event_data.NewName
+id: 6aa1d992-5925-4e9f-a49b-845e51d1de01
+level: medium
+logsource:
+  category: registry_event
+  product: windows
+modified: 2020/09/06
+product: windows
+references:
+- http://www.hexacorn.com/blog/2013/01/19/beyond-good-ol-run-key-part-3/
+- https://eqllib.readthedocs.io/en/latest/analytics/14f90406-10a0-4d36-a672-31cabe149f2f.html
+status: experimental
+tags:
+- attack.persistence
+- attack.t1546.009
+title: New DLL Added to AppCertDlls Registry Key

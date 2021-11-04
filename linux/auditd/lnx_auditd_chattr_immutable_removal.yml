@@ -1,0 +1,25 @@
+author: Jakob Weinzettl, oscd.community
+date: 2019/09/23
+description: Detects removing immutable file attribute.
+detection:
+  condition: selection
+  selection:
+    a0|contains: chattr
+    a1|contains: -i
+    type: EXECVE
+falsepositives:
+- Administrator interacting with immutable files (e.g. for instance backups).
+id: a5b977d6-8a81-4475-91b9-49dbfcd941f7
+level: medium
+logsource:
+  product: linux
+  service: auditd
+product: linux
+references:
+- https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1222.002/T1222.002.md
+service: auditd
+status: experimental
+tags:
+- attack.defense_evasion
+- attack.t1222.002
+title: Remove Immutable File Attribute

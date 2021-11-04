@@ -1,0 +1,6 @@
+detection:
+  condition: selection | count(dst_ip) by src_ip > 10
+  selection:
+    action: denied
+  timeframe: 24h
+id: 4601eaec-6b45-4052-ad32-2d96d26ce0d8

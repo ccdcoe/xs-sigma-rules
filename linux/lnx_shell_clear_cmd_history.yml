@@ -1,0 +1,33 @@
+author: Patrick Bareiss
+date: 2019/03/24
+description: Clear command history in linux which is used for defense evasion.
+detection:
+  condition: keywords
+  keywords:
+  - rm *bash_history
+  - echo "" > *bash_history
+  - cat /dev/null > *bash_history
+  - ln -sf /dev/null *bash_history
+  - truncate -s0 *bash_history
+  - export HISTFILESIZE=0
+  - history -c
+  - history -w
+  - shred *bash_history
+  - empty_bash_history
+falsepositives:
+- Unknown
+id: fdc88d25-96fb-4b7c-9633-c0e417fdbd4e
+level: high
+logsource:
+  product: snoopy
+modified: 2020/07/13
+product: snoopy
+references:
+- https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1070.003/T1070.003.md
+- https://attack.mitre.org/techniques/T1070/003/
+- https://www.hackers-arise.com/single-post/2016/06/20/Covering-your-BASH-Shell-Tracks-AntiForensics
+status: experimental
+tags:
+- attack.defense_evasion
+- attack.t1070.003
+title: Clear Command History

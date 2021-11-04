@@ -1,0 +1,37 @@
+author: Florian Roth
+category: proxy
+date: 2019/08/30
+description: Detects URL pattern used by iOS Implant
+detection:
+  condition: selection
+  selection:
+    http.url|contains: /list/suc?name=
+falsepositives:
+- Unknown
+fields:
+- src_ip
+- http.url
+- http.http_user_agent
+id: e06ac91d-b9e6-443d-8e5b-af749e7aa6b6
+level: critical
+logsource:
+  category: proxy
+  product: suricata
+  service: http
+modified: 2020/09/03
+product: suricata
+references:
+- https://googleprojectzero.blogspot.com/2019/08/implant-teardown.html
+- https://twitter.com/craiu/status/1167358457344925696
+service: http
+status: experimental
+tags:
+- attack.execution
+- attack.t1203
+- attack.collection
+- attack.t1005
+- attack.t1119
+- attack.credential_access
+- attack.t1528
+- attack.t1552.001
+title: iOS Implant URL Pattern

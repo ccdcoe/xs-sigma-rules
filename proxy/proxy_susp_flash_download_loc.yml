@@ -1,0 +1,33 @@
+author: Florian Roth
+category: proxy
+date: 2017/10/25
+description: Detects a flashplayer update from an unofficial location
+detection:
+  condition: selection and not filter
+  filter:
+    http.hostname|contains: .adobe.com/
+  selection:
+  - http.url|contains: /flash_install.php
+  - http.url|endswith: /install_flash_player.exe
+falsepositives:
+- Unknown flash download locations
+id: 4922a5dd-6743-4fc2-8e81-144374280997
+level: high
+logsource:
+  category: proxy
+  product: suricata
+  service: http
+modified: 2020/11/28
+product: suricata
+references:
+- https://gist.github.com/roycewilliams/a723aaf8a6ac3ba4f817847610935cfb
+service: http
+status: experimental
+tags:
+- attack.initial_access
+- attack.t1189
+- attack.execution
+- attack.t1204.002
+- attack.defense_evasion
+- attack.t1036.005
+title: Flash Player Update from Suspicious Location

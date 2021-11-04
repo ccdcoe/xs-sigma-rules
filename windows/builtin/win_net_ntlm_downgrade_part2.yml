@@ -1,0 +1,16 @@
+category: registry_event
+detection:
+  selection1:
+    winlog.event_data.TargetObject|contains|all:
+    - SYSTEM\
+    - ControlSet
+    - \Control\Lsa
+    winlog.event_data.TargetObject|endswith:
+    - \lmcompatibilitylevel
+    - \NtlmMinClientSec
+    - \RestrictSendingNTLMTraffic
+id: d67572a0-e2ec-45d6-b8db-c100d14b8ef2
+logsource:
+  category: registry_event
+  product: windows
+product: windows

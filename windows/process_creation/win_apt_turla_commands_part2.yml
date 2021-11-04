@@ -1,0 +1,9 @@
+detection:
+  condition: selection
+  selection:
+    CommandLine:
+    - net use \\%DomainController%\C$ "P@ssw0rd" *
+    - dir c:\\*.doc* /s
+    - dir %TEMP%\\*.exe
+id: c601f20d-570a-4cde-a7d6-e17f99cb8e7f
+level: critical

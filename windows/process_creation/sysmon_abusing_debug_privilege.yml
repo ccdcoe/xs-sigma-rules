@@ -1,0 +1,48 @@
+author: Semanur Guneysu @semanurtg, oscd.community
+category: process_creation
+date: 2020/10/28
+description: Detection of unusual child processes by different system processes
+detection:
+  condition: selection1 and selection2 and selection3 and not filter
+  filter:
+    winlog.event_data.CommandLine|contains|all:
+    - ' route '
+    - ' ADD '
+  selection1:
+    winlog.event_data.ParentImage|endswith:
+    - \winlogon.exe
+    - \services.exe
+    - \lsass.exe
+    - \csrss.exe
+    - \smss.exe
+    - \wininit.exe
+    - \spoolsv.exe
+    - \searchindexer.exe
+  selection2:
+    winlog.event_data.Image|endswith:
+    - \powershell.exe
+    - \cmd.exe
+  selection3:
+    winlog.event_data.User|startswith:
+    - NT AUTHORITY\SYSTEM
+    - AUTORITE NT\Sys
+falsepositives:
+- unknown
+fields:
+- winlog.event_data.ParentImage
+- winlog.event_data.Image
+- winlog.event_data.User
+- winlog.event_data.CommandLine
+id: d522eca2-2973-4391-a3e0-ef0374321dae
+level: high
+logsource:
+  category: process_creation
+  product: windows
+product: windows
+references:
+- https://image.slidesharecdn.com/kheirkhabarovoffzonefinal-181117201458/95/hunting-for-privilege-escalation-in-windows-environment-74-638.jpg
+status: experimental
+tags:
+- attack.privilege_escalation
+- attack.t1548
+title: Abused Debug Privilege by Arbitrary Parent Processes

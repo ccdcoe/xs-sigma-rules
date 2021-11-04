@@ -1,0 +1,9 @@
+category: file_event
+detection:
+  selection2:
+    winlog.event_data.TargetFilename|contains: ds7002.lnk
+id: 3a3f81ca-652c-482b-adeb-b1c804727f74
+logsource:
+  category: file_event
+  product: windows
+product: windows

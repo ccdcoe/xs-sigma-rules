@@ -1,0 +1,19 @@
+action: global
+author: Roberto Rodriguez (Cyb3rWard0g), OTR (Open Threat Research)
+date: 2020/10/12
+description: Detects a threat actor creating a file named `wbemcomn.dll` in the `C:\Windows\System32\wbem\`
+  directory over the network and loading it for a WMI DLL Hijack scenario.
+falsepositives:
+- Unknown
+id: 4b8309f6-8e75-4461-8a83-09c5a3d87f9e
+level: critical
+modified: 2021/06/10
+references:
+- https://threathunterplaybook.com/notebooks/windows/08_lateral_movement/WIN-201009173318.html
+status: experimental
+tags:
+- attack.execution
+- attack.t1047
+- attack.lateral_movement
+- attack.t1021.002
+title: Wmiprvse Wbemcomn DLL Hijack

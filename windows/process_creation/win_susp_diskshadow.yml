@@ -1,0 +1,33 @@
+author: Ivan Dyachkov, oscd.community
+category: process_creation
+date: 2020/10/07
+definition: 'Requirements: Sysmon ProcessCreation logging must be activated and Windows
+  audit msut Include command line in process creation events'
+description: Detects using Diskshadow.exe to execute arbitrary code in text file
+detection:
+  condition: selection
+  selection:
+    winlog.event_data.CommandLine|contains:
+    - /s
+    - -s
+    winlog.event_data.Image|endswith: \diskshadow.exe
+falsepositives:
+- False postitve can be if administrators use diskshadow tool in their infrastructure
+  as a main backup tool with scripts.
+fields:
+- winlog.event_data.CommandLine
+id: 0c2f8629-7129-4a8a-9897-7e0768f13ff2
+level: high
+logsource:
+  category: process_creation
+  definition: 'Requirements: Sysmon ProcessCreation logging must be activated and
+    Windows audit msut Include command line in process creation events'
+  product: windows
+product: windows
+references:
+- https://bohops.com/2018/03/26/diskshadow-the-return-of-vss-evasion-persistence-and-active-directory-database-extraction/
+status: experimental
+tags:
+- attack.execution
+- attack.t1218
+title: Execution via Diskshadow.exe

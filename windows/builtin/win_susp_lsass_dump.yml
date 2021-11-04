@@ -1,0 +1,28 @@
+author: sigma
+date: 2017/02/12
+description: Detects process handle on LSASS process with certain access mask and
+  object type SAM_DOMAIN
+detection:
+  condition: selection
+  selection:
+    winlog.event_data.AccessMask: '0x705'
+    winlog.event_data.ObjectType: SAM_DOMAIN
+    winlog.event_data.ProcessName|endswith: \lsass.exe
+    winlog.event_id: 4656
+falsepositives:
+- Unknown
+id: aa1697b7-d611-4f9a-9cb2-5125b4ccfd5c
+level: high
+logsource:
+  product: windows
+  service: security
+modified: 2021/06/21
+product: windows
+references:
+- https://twitter.com/jackcr/status/807385668833968128
+service: security
+status: experimental
+tags:
+- attack.credential_access
+- attack.t1003.001
+title: Password Dumper Activity on LSASS

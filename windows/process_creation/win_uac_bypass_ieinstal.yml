@@ -1,0 +1,29 @@
+author: Christian Burkard
+category: process_creation
+date: 2021/08/30
+description: Detects the pattern of UAC Bypass using IEInstal.exe (UACMe 64)
+detection:
+  condition: selection
+  selection:
+    winlog.event_data.Image|contains: \AppData\Local\Temp\
+    winlog.event_data.Image|endswith: consent.exe
+    winlog.event_data.IntegrityLevel:
+    - High
+    - System
+    winlog.event_data.ParentImage|endswith: \ieinstal.exe
+falsepositives:
+- Unknown
+id: 80fc36aa-945e-4181-89f2-2f907ab6775d
+level: high
+logsource:
+  category: process_creation
+  product: windows
+product: windows
+references:
+- https://github.com/hfiref0x/UACME
+status: experimental
+tags:
+- attack.defense_evasion
+- attack.privilege_escalation
+- attack.t1548.002
+title: UAC Bypass Using IEInstal - Process

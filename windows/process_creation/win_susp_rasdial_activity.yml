@@ -1,0 +1,26 @@
+author: juju4
+category: process_creation
+date: 2019/01/16
+description: Detects suspicious process related to rasdial.exe
+detection:
+  condition: selection
+  selection:
+    winlog.event_data.Image|endswith:
+    - rasdial.exe
+falsepositives:
+- False positives depend on scripts and administrative tools used in the monitored
+  environment
+id: 6bba49bf-7f8c-47d6-a1bb-6b4dece4640e
+level: medium
+logsource:
+  category: process_creation
+  product: windows
+product: windows
+references:
+- https://twitter.com/subTee/status/891298217907830785
+status: experimental
+tags:
+- attack.defense_evasion
+- attack.execution
+- attack.t1059
+title: Suspicious RASdial Activity

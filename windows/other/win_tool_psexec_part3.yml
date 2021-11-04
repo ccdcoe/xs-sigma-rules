@@ -1,0 +1,12 @@
+category: process_creation
+detection:
+  sysmon_processcreation:
+    winlog.event_data.Image|endswith: \PSEXESVC.exe
+    winlog.event_data.User|startswith:
+    - NT AUTHORITY\SYSTEM
+    - AUTORITE NT\Sys
+id: fa91cc36-24c9-41ce-b3c8-3bbc3f2f67ba
+logsource:
+  category: process_creation
+  product: windows
+product: windows

@@ -1,0 +1,33 @@
+author: frack113
+date: 2021/07/30
+definition: EnableScriptBlockLogging must be set to enable
+description: Adversaries may log user keystrokes to intercept credentials as the user
+  types them.
+detection:
+  condition: selection_id and (selection_basic or selection_high)
+  selection_basic:
+    winlog.event_data.ScriptBlockText|contains: Get-Keystrokes
+  selection_high:
+    winlog.event_data.ScriptBlockText|contains|all:
+    - Get-ProcAddress user32.dll GetAsyncKeyState
+    - Get-ProcAddress user32.dll GetForegroundWindow
+  selection_id:
+    winlog.event_id: 4104
+falsepositives:
+- Unknown
+id: 34f90d3c-c297-49e9-b26d-911b05a4866c
+level: medium
+logsource:
+  definition: EnableScriptBlockLogging must be set to enable
+  product: windows
+  service: powershell
+product: windows
+references:
+- https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1218/T1218.md
+- https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1056.001/src/Get-Keystrokes.ps1
+service: powershell
+status: experimental
+tags:
+- attack.collection
+- attack.t1056.001
+title: Powershell Keylogging

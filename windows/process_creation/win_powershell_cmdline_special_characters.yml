@@ -1,0 +1,38 @@
+author: Teymur Kheirkhabarov (idea), Vasiliy Burov (rule), oscd.community
+category: process_creation
+date: 2020/10/15
+description: Detects the PowerShell command lines with special characters
+detection:
+  condition: selection1 or selection2 or selection3 or selection4 or selection5
+  selection1:
+    winlog.event_data.CommandLine|re: .*\+.*\+.*\+.*\+.*\+.*\+.*\+.*\+.*\+.*\+.*\+.*\+.*\+.*\+.*
+    winlog.event_data.Image|endswith: \powershell.exe
+  selection2:
+    winlog.event_data.CommandLine|re: .*\{.*\{.*\{.*\{.*\{.*\{.*\{.*\{.*\{.*\{.*
+    winlog.event_data.Image|endswith: \powershell.exe
+  selection3:
+    winlog.event_data.CommandLine|re: .*{.*{.*{.*{.*{.*
+    winlog.event_data.Image|endswith: \powershell.exe
+  selection4:
+    winlog.event_data.CommandLine|re: .*\^.*\^.*\^.*\^.*\^.*
+    winlog.event_data.Image|endswith: \powershell.exe
+  selection5:
+    winlog.event_data.CommandLine|re: .*`.*`.*`.*`.*`.*
+    winlog.event_data.Image|endswith: \powershell.exe
+falsepositives:
+- Unlikely
+id: d7bcd677-645d-4691-a8d4-7a5602b780d1
+level: high
+logsource:
+  category: process_creation
+  product: windows
+product: windows
+references:
+- https://speakerdeck.com/heirhabarov/hunting-for-powershell-abuse?slide=64
+status: experimental
+tags:
+- attack.defense_evasion
+- attack.t1027
+- attack.execution
+- attack.t1059.001
+title: Suspicious PowerShell Command Line

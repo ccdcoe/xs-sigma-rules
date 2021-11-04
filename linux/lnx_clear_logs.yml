@@ -1,0 +1,28 @@
+author: "\xD6mer G\xFCnal, oscd.community"
+category: process_creation
+date: 2020/10/07
+description: Detects clear logs
+detection:
+  condition: selection
+  selection:
+    CommandLine|contains:
+    - /var/log
+    - /var/spool/mail
+    Image|endswith:
+    - /rm
+    - /shred
+falsepositives:
+- Legitimate administration activities
+id: 80915f59-9b56-4616-9de0-fd0dea6c12fe
+level: medium
+logsource:
+  category: process_creation
+  product: linux
+product: linux
+references:
+- https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1070.002/T1070.002.md
+status: stable
+tags:
+- attack.defense_evasion
+- attack.t1070.002
+title: Clear Linux Logs

@@ -1,0 +1,10 @@
+category: file_event
+detection:
+  condition: selection
+  selection:
+    winlog.event_data.TargetFilename: C:\Windows\Temp\dumpert.dmp
+id: 93d94efc-d7ad-4161-ad7d-1638c4f908d8
+logsource:
+  category: file_event
+  product: windows
+product: windows

@@ -1,0 +1,16 @@
+category: registry_event
+detection:
+  condition: 1 of them
+  selection_registry:
+    winlog.event_data.TargetObject|endswith:
+    - \SOFTWARE\Microsoft\Windows NT\CurrentVersion\Image File Execution Options\sethc.exe\Debugger
+    - \SOFTWARE\Microsoft\Windows NT\CurrentVersion\Image File Execution Options\utilman.exe\Debugger
+    - \SOFTWARE\Microsoft\Windows NT\CurrentVersion\Image File Execution Options\osk.exe\Debugger
+    - \SOFTWARE\Microsoft\Windows NT\CurrentVersion\Image File Execution Options\Magnify.exe\Debugger
+    - \SOFTWARE\Microsoft\Windows NT\CurrentVersion\Image File Execution Options\Narrator.exe\Debugger
+    - \SOFTWARE\Microsoft\Windows NT\CurrentVersion\Image File Execution Options\DisplaySwitch.exe\Debugger
+id: baca5663-583c-45f9-b5dc-ea96a22ce542
+logsource:
+  category: registry_event
+  product: windows
+product: windows

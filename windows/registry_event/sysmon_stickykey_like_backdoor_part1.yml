@@ -1,0 +1,20 @@
+action: global
+author: Florian Roth, @twjackomo, Jonhnathan Ribeiro, oscd.community
+date: 2018/03/15
+description: Detects the usage and installation of a backdoor that uses an option
+  to register a malicious debugger for built-in tools that are accessible in the login
+  screen
+falsepositives:
+- Unlikely
+id: 05f8c9bf-36dd-449d-8203-440463958a1f
+level: critical
+modified: 2020/11/28
+references:
+- https://blogs.technet.microsoft.com/jonathantrull/2016/10/03/detecting-sticky-key-backdoors/
+tags:
+- attack.privilege_escalation
+- attack.persistence
+- attack.t1546.008
+- car.2014-11-003
+- car.2014-11-008
+title: Sticky Key Like Backdoor Usage

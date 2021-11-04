@@ -1,0 +1,26 @@
+author: Igor Fits, oscd.community
+date: 2020/10/15
+description: Detecting attempts to extract passwords with grep
+detection:
+  condition: execve and all of passwordgrep
+  execve:
+    type: EXECVE
+  passwordgrep:
+  - grep
+  - password
+falsepositives:
+- Unknown
+id: df3fcaea-2715-4214-99c5-0056ea59eb35
+level: high
+logsource:
+  product: linux
+  service: auditd
+product: linux
+references:
+- https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1552.001/T1552.001.md
+service: auditd
+status: experimental
+tags:
+- attack.credential_access
+- attack.t1552.001
+title: Credentials In Files

@@ -1,0 +1,32 @@
+author: Mikhail Larin, oscd.community
+date: 2019/10/25
+description: Detect changes in auditd configuration files
+detection:
+  condition: selection
+  selection:
+    name:
+    - /etc/audit/*
+    - /etc/libaudit.conf
+    - /etc/audisp/*
+    type: PATH
+falsepositives:
+- Legitimate administrative activity
+fields:
+- exe
+- comm
+- key
+id: 977ef627-4539-4875-adf4-ed8f780c4922
+level: high
+logsource:
+  product: linux
+  service: auditd
+product: linux
+references:
+- https://github.com/Neo23x0/auditd/blob/master/audit.rules
+- self experience
+service: auditd
+status: experimental
+tags:
+- attack.defense_evasion
+- attack.t1562.006
+title: Auditing Configuration Changes on Linux Host

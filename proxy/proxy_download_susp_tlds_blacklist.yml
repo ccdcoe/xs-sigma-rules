@@ -1,0 +1,114 @@
+author: Florian Roth
+category: proxy
+date: 2017/11/07
+description: Detects download of certain file types from hosts in suspicious TLDs
+detection:
+  condition: selection
+  selection:
+    http.hostname|endswith:
+    - .country
+    - .stream
+    - .gdn
+    - .mom
+    - .xin
+    - .kim
+    - .men
+    - .loan
+    - .download
+    - .racing
+    - .online
+    - .science
+    - .ren
+    - .gb
+    - .win
+    - .top
+    - .review
+    - .vip
+    - .party
+    - .tech
+    - .xyz
+    - .date
+    - .faith
+    - .zip
+    - .cricket
+    - .space
+    - .info
+    - .vn
+    - .cm
+    - .am
+    - .cc
+    - .asia
+    - .ws
+    - .tk
+    - .biz
+    - .su
+    - .st
+    - .ro
+    - .ge
+    - .ms
+    - .pk
+    - .nu
+    - .me
+    - .ph
+    - .to
+    - .tt
+    - .name
+    - .tv
+    - .kz
+    - .tc
+    - .mobi
+    - .study
+    - .click
+    - .link
+    - .trade
+    - .accountant
+    - .cf
+    - .gq
+    - .ml
+    - .ga
+    - .pw
+    http.url:
+    - exe
+    - vbs
+    - bat
+    - rar
+    - ps1
+    - doc
+    - docm
+    - xls
+    - xlsm
+    - pptm
+    - rtf
+    - hta
+    - dll
+    - ws
+    - wsf
+    - sct
+    - zip
+falsepositives:
+- All kinds of software downloads
+fields:
+- src_ip
+- http.url
+id: 00d0b5ab-1f55-4120-8e83-487c0a7baf19
+level: low
+logsource:
+  category: proxy
+  product: suricata
+  service: http
+modified: 2020/09/03
+product: suricata
+references:
+- https://www.symantec.com/connect/blogs/shady-tld-research-gdn-and-our-2016-wrap
+- https://promos.mcafee.com/en-US/PDF/MTMW_Report.pdf
+- https://www.spamhaus.org/statistics/tlds/
+- https://krebsonsecurity.com/2018/06/bad-men-at-work-please-dont-click/
+service: http
+status: experimental
+tags:
+- attack.initial_access
+- attack.t1566
+- attack.execution
+- attack.t1203
+- attack.t1204.002
+title: Download from Suspicious TLD

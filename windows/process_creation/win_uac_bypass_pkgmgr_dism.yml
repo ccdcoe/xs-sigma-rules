@@ -1,0 +1,29 @@
+author: Christian Burkard
+category: process_creation
+date: 2021/08/23
+description: Detects the pattern of UAC Bypass using pkgmgr.exe and dism.exe (UACMe
+  23)
+detection:
+  condition: selection
+  selection:
+    winlog.event_data.Image|endswith: \dism.exe
+    winlog.event_data.IntegrityLevel:
+    - High
+    - System
+    winlog.event_data.ParentImage|endswith: \pkgmgr.exe
+falsepositives:
+- Unknown
+id: a743ceba-c771-4d75-97eb-8a90f7f4844c
+level: high
+logsource:
+  category: process_creation
+  product: windows
+product: windows
+references:
+- https://github.com/hfiref0x/UACME
+status: experimental
+tags:
+- attack.defense_evasion
+- attack.privilege_escalation
+- attack.t1548.002
+title: UAC Bypass Using PkgMgr and DISM

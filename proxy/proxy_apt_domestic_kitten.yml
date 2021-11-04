@@ -1,0 +1,32 @@
+author: Florian Roth
+category: proxy
+date: 2021/02/08
+description: Detects specific malware patterns used by FurBall malware linked to Iranian
+  Domestic Kitten APT group
+detection:
+  condition: selection
+  selection:
+    http.url|contains:
+    - Get~~~AllBrowser
+    - Get~~~HardwareInfo
+    - Take~~RecordCall
+    - Reset~~~AllCommand
+falsepositives:
+- Unlikely
+fields:
+- src_ip
+- http.url
+id: 6c939dfa-c710-4e12-a4dd-47e1f10e68e1
+level: high
+logsource:
+  category: proxy
+  product: suricata
+  service: http
+product: suricata
+references:
+- https://research.checkpoint.com/2021/domestic-kitten-an-inside-look-at-the-iranian-surveillance-operations/
+service: http
+status: experimental
+tags:
+- attack.command_and_control
+title: Domestic Kitten FurBall Malware Pattern

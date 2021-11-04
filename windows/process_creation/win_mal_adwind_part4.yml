@@ -1,0 +1,10 @@
+category: registry_event
+detection:
+  selection:
+    winlog.event_data.Details|startswith: '%AppData%\Roaming\Oracle\bin\'
+    winlog.event_data.TargetObject|startswith: HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Run
+id: 42f0e038-767e-4b85-9d96-2c6335bad0b5
+logsource:
+  category: registry_event
+  product: windows
+product: windows

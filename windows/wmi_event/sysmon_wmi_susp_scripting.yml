@@ -1,0 +1,46 @@
+author: Florian Roth, Jonhnathan Ribeiro
+category: wmi_event
+date: 2019/04/15
+description: Detects suspicious scripting in WMI Event Consumers
+detection:
+  condition: selection_destination
+  selection_destination:
+  - Destination|contains|all:
+    - new-object
+    - net.webclient
+    - .downloadstring
+  - Destination|contains|all:
+    - new-object
+    - net.webclient
+    - .downloadfile
+  - Destination|contains:
+    - ' iex('
+    - WScript.shell
+    - ' -nop '
+    - ' -noprofile '
+    - ' -decode '
+    - ' -enc '
+  - Destination|contains:
+    - WScript.Shell
+    - System.Security.Cryptography.FromBase64Transform
+falsepositives:
+- Administrative scripts
+fields:
+- Operation
+- winlog.event_data.User
+id: fe21810c-2a8c-478f-8dd3-5a287fb2a0e0
+level: high
+logsource:
+  category: wmi_event
+  product: windows
+modified: 2021/09/01
+product: windows
+references:
+- https://in.security/an-intro-into-abusing-and-identifying-wmi-event-subscriptions-for-persistence/
+- https://github.com/Neo23x0/signature-base/blob/master/yara/gen_susp_lnk_files.yar#L19
+- https://github.com/RiccardoAncarani/LiquidSnake
+status: experimental
+tags:
+- attack.execution
+- attack.t1059.005
+title: Suspicious Scripting in a WMI Consumer

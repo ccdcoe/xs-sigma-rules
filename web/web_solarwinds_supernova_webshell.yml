@@ -1,0 +1,35 @@
+author: Florian Roth
+category: webserver
+date: 2020/12/17
+description: Detects access to SUPERNOVA webshell as described in Guidepoint report
+detection:
+  condition: selection1 or selection2
+  selection1:
+    http.url|contains|all:
+    - logoimagehandler.ashx
+    - clazz
+  selection2:
+    http.url|contains: logoimagehandler.ashx
+    sc-status: 500
+falsepositives:
+- Unknown
+fields:
+- scr_ip
+- http.status
+id: a2cee20b-eacc-459f-861d-c02e5d12f1db
+level: critical
+logsource:
+  category: webserver
+  product: suricata
+  service: http
+modified: 2021/08/09
+product: suricata
+references:
+- https://www.guidepointsecurity.com/supernova-solarwinds-net-webshell-analysis/
+- https://www.anquanke.com/post/id/226029
+service: http
+status: experimental
+tags:
+- attack.persistence
+- attack.t1505.003
+title: Solarwinds SUPERNOVA Webshell Access

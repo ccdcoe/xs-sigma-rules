@@ -1,0 +1,43 @@
+author: Florian Roth, Rich Warren
+category: webserver
+date: 2021/08/07
+description: Detects URL patterns that could be found in ProxyShell exploitation attempts
+  against Exchange servers (failed and successful)
+detection:
+  condition: selection_auto and selection_uri or selection_poc
+  selection:
+    sc-status: 401
+  selection_auto:
+    http.url|contains: /autodiscover.json
+  selection_poc:
+    http.url|contains:
+    - autodiscover.json?@
+    - autodiscover.json%3f@
+    - '%3f@foo.com'
+    - Email=autodiscover/autodiscover.json
+    - json?@foo.com
+  selection_uri:
+    http.url|contains:
+    - /powershell
+    - /mapi/nspi
+    - /EWS
+    - X-Rps-CAT
+falsepositives:
+- Unknown
+id: 23eee45e-933b-49f9-ae1b-df706d2d52ef
+level: medium
+logsource:
+  category: webserver
+  product: suricata
+  service: http
+modified: 2021/08/08
+product: suricata
+references:
+- https://youtu.be/5mqid-7zp8k?t=2231
+- https://blog.orange.tw/2021/08/proxylogon-a-new-attack-surface-on-ms-exchange-part-1.html
+- https://peterjson.medium.com/reproducing-the-proxyshell-pwn2own-exploit-49743a4ea9a1
+service: http
+status: experimental
+tags:
+- attack.initial_access
+title: Exchange ProxyShell Pattern

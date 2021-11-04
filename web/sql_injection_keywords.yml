@@ -1,0 +1,29 @@
+author: Saw Win Naung
+category: webserver
+date: 2020/02/22
+description: Detects sql injection that use GET requests by keyword searches in URL
+  strings
+detection:
+  condition: keywords
+  keywords:
+  - =select
+  - =union
+  - =concat
+falsepositives:
+- Java scripts and CSS Files
+- User searches in search boxes of the respective website
+fields:
+- scr_ip
+- http.hostname
+- http.url
+- http.status
+id: 5513deaf-f49a-46c2-a6c8-3f111b5cb453
+level: high
+logsource:
+  category: webserver
+  product: suricata
+  service: http
+product: suricata
+service: http
+status: experimental
+title: Detect Sql Injection By Keywords

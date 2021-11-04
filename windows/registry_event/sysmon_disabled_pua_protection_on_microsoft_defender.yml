@@ -1,0 +1,26 @@
+author: Austin Songer @austinsonger
+category: registry_event
+date: 2021/08/04
+description: Detects disabling Windows Defender PUA protection
+detection:
+  condition: selection
+  selection:
+    winlog.event_data.Details: DWORD (0x00000000)
+    winlog.event_data.EventType: SetValue
+    winlog.event_data.TargetObject|contains: HKLM\SOFTWARE\Policies\Microsoft\Windows
+      Defender\PUAProtection
+falsepositives:
+- Unknown
+id: 8ffc5407-52e3-478f-9596-0a7371eafe13
+level: high
+logsource:
+  category: registry_event
+  product: windows
+product: windows
+references:
+- https://www.tenforums.com/tutorials/32236-enable-disable-microsoft-defender-pua-protection-windows-10-a.html
+status: experimental
+tags:
+- attack.defense_evasion
+- attack.t1562.001
+title: Disable PUA Protection on Windows Defender

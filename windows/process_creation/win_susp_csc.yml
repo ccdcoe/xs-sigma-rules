@@ -1,0 +1,33 @@
+author: Florian Roth
+category: process_creation
+date: 2019/02/11
+description: Detects a suspicious parent of csc.exe, which could by a sign of payload
+  delivery
+detection:
+  condition: selection
+  selection:
+    winlog.event_data.Image|endswith: \csc.exe
+    winlog.event_data.ParentImage|endswith:
+    - \wscript.exe
+    - \cscript.exe
+    - \mshta.exe
+falsepositives:
+- Unknown
+id: b730a276-6b63-41b8-bcf8-55930c8fc6ee
+level: high
+logsource:
+  category: process_creation
+  product: windows
+modified: 2020/11/28
+product: windows
+references:
+- https://twitter.com/SBousseaden/status/1094924091256176641
+status: experimental
+tags:
+- attack.execution
+- attack.t1059.005
+- attack.t1059.007
+- attack.defense_evasion
+- attack.t1218.005
+- attack.t1027.004
+title: Suspicious Parent of Csc.exe

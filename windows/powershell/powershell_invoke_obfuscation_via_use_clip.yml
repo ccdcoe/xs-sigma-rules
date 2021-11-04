@@ -1,0 +1,33 @@
+author: Nikita Nazarov, oscd.community
+date: 2020/10/09
+definition: Script block logging must be enabled for 4104, Module Logging must be
+  enabled for 4103
+description: Detects Obfuscated Powershell via use Clip.exe in Scripts
+detection:
+  condition: 1 of them
+  selection_1:
+    winlog.event_data.ScriptBlockText|re: (?i).*?echo.*clip.*&&.*(Clipboard|i`?n`?v`?o`?k`?e`?).*
+    winlog.event_id: 4104
+  selection_2:
+    Payload|re: (?i).*?echo.*clip.*&&.*(Clipboard|i`?n`?v`?o`?k`?e`?).*
+    winlog.event_id: 4103
+falsepositives:
+- Unknown
+id: db92dd33-a3ad-49cf-8c2c-608c3e30ace0
+level: high
+logsource:
+  definition: Script block logging must be enabled for 4104, Module Logging must be
+    enabled for 4103
+  product: windows
+  service: powershell
+product: windows
+references:
+- https://github.com/Neo23x0/sigma/issues/1009
+service: powershell
+status: experimental
+tags:
+- attack.defense_evasion
+- attack.t1027
+- attack.execution
+- attack.t1059.001
+title: Invoke-Obfuscation Via Use Clip

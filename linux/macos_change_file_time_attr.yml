@@ -1,0 +1,30 @@
+author: Igor Fits, Mikhail Larin, oscd.community
+category: process_creation
+date: 2020/10/19
+description: Detect file time attribute change to hide new or changes to existing
+  files.
+detection:
+  condition: selection1 and selection2
+  selection1:
+    Image|endswith: /touch
+  selection2:
+    CommandLine|contains:
+    - -t
+    - -acmr
+    - -d
+    - -r
+falsepositives:
+- Unknown
+id: 88c0f9d8-30a8-4120-bb6b-ebb54abcf2a0
+level: medium
+logsource:
+  category: process_creation
+  product: macos
+product: macos
+references:
+- https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1070.006/T1070.006.md
+status: experimental
+tags:
+- attack.defense_evasion
+- attack.t1070.006
+title: File Time Attribute Change

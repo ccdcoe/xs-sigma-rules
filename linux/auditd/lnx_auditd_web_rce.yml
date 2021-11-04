@@ -1,0 +1,27 @@
+author: Ilyas Ochkov, Beyu Denis, oscd.community
+date: 2019/10/12
+description: Detects possible command execution by web application/web shell
+detection:
+  condition: selection
+  selection:
+    SYSCALL: execve
+    key: detect_execve_www
+    type: SYSCALL
+falsepositives:
+- Admin activity
+- Crazy web applications
+id: c0d3734d-330f-4a03-aae2-65dacc6a8222
+level: critical
+logsource:
+  product: linux
+  service: auditd
+modified: 2019/11/04
+product: linux
+references:
+- personal experience
+service: auditd
+status: experimental
+tags:
+- attack.persistence
+- attack.t1505.003
+title: Webshell Remote Command Execution

@@ -1,0 +1,22 @@
+author: "\xD6mer G\xFCnal"
+date: 2020/06/17
+description: Detects space after filename
+detection:
+  condition: selection1 and selection2
+  selection1:
+  - echo "*" > * && chmod +x *
+  selection2:
+  - mv * "* "
+falsepositives:
+- Typos
+id: 879c3015-c88b-4782-93d7-07adf92dbcb7
+level: low
+logsource:
+  product: linux
+product: linux
+references:
+- https://attack.mitre.org/techniques/T1064
+status: experimental
+tags:
+- attack.execution
+title: Space After Filename

@@ -1,0 +1,29 @@
+author: Kutepov Anton, oscd.community
+category: process_creation
+date: 2019/10/24
+description: Detects capture a network trace via netsh.exe trace functionality
+detection:
+  condition: selection
+  selection:
+    winlog.event_data.CommandLine|contains|all:
+    - netsh
+    - trace
+    - start
+falsepositives:
+- Legitimate administrator or user uses netsh.exe trace functionality for legitimate
+  reason
+id: d3c3861d-c504-4c77-ba55-224ba82d0118
+level: medium
+logsource:
+  category: process_creation
+  product: windows
+modified: 2020/09/01
+product: windows
+references:
+- https://blogs.msdn.microsoft.com/canberrapfe/2012/03/30/capture-a-network-trace-without-installing-anything-capture-a-network-trace-of-a-reboot/
+status: experimental
+tags:
+- attack.discovery
+- attack.credential_access
+- attack.t1040
+title: Capture a Network Trace with netsh.exe

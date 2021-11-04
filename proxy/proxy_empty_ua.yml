@@ -1,0 +1,31 @@
+author: Florian Roth
+category: proxy
+date: 2017/07/08
+description: Detects suspicious empty user agent strings in proxy logs
+detection:
+  condition: selection
+  selection:
+    http.http_user_agent: ''
+falsepositives:
+- Unknown
+fields:
+- src_ip
+- http.url
+- http.http_user_agent
+id: 21e44d78-95e7-421b-a464-ffd8395659c4
+level: medium
+logsource:
+  category: proxy
+  product: suricata
+  service: http
+modified: 2020/09/03
+product: suricata
+references:
+- https://twitter.com/Carlos_Perez/status/883455096645931008
+service: http
+status: experimental
+tags:
+- attack.defense_evasion
+- attack.command_and_control
+- attack.t1071.001
+title: Empty User Agent

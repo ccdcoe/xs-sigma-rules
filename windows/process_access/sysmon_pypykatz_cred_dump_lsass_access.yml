@@ -1,0 +1,30 @@
+author: Bhabesh Raj
+category: process_access
+date: 2021/08/03
+description: Detects LSASS process access by pypykatz for credential dumping.
+detection:
+  condition: selection
+  selection:
+    winlog.event_data.CallTrace|contains|all:
+    - C:\Windows\SYSTEM32\ntdll.dll+
+    - C:\Windows\System32\KERNELBASE.dll+
+    - libffi-7.dll
+    - _ctypes.pyd+
+    - python3*.dll+
+    winlog.event_data.GrantedAccess: '0x1FFFFF'
+    winlog.event_data.TargetImage|endswith: \lsass.exe
+falsepositives:
+- Unknown
+id: 7186e989-4ed7-4f4e-a656-4674b9e3e48b
+level: critical
+logsource:
+  category: process_access
+  product: windows
+product: windows
+references:
+- https://github.com/skelsec/pypykatz
+status: experimental
+tags:
+- attack.credential_access
+- attack.t1003.001
+title: Credential Dumping by Pypykatz

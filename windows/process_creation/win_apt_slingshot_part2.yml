@@ -1,0 +1,15 @@
+category: process_creation
+detection:
+  selection1:
+    winlog.event_data.CommandLine|contains:
+    - /delete
+    - /change
+    winlog.event_data.CommandLine|contains|all:
+    - /TN
+    - \Microsoft\Windows\Defrag\ScheduledDefrag
+    winlog.event_data.Image|endswith: \schtasks.exe
+id: 958d81aa-8566-4cea-a565-59ccd4df27b0
+logsource:
+  category: process_creation
+  product: windows
+product: windows

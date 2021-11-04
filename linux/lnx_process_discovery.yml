@@ -1,0 +1,26 @@
+author: "\xD6mer G\xFCnal, oscd.community"
+category: process_creation
+date: 2020/10/06
+description: Detects process discovery commands
+detection:
+  condition: selection
+  selection:
+    Image|endswith:
+    - /ps
+    - /top
+falsepositives:
+- Legitimate administration activities
+id: 4e2f5868-08d4-413d-899f-dc2f1508627b
+level: informational
+logsource:
+  category: process_creation
+  product: linux
+modified: 2021/08/14
+product: linux
+references:
+- https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1057/T1057.md
+status: stable
+tags:
+- attack.discovery
+- attack.t1057
+title: Process Discovery

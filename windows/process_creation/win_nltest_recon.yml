@@ -1,0 +1,44 @@
+author: Craig Young, oscd.community, Georg Lauenstein
+category: process_creation
+date: 2021/07/24
+description: Detects nltest commands that can be used for information discovery
+detection:
+  condition: selection_nltest AND (selection_recon1 OR selection_recon2)
+  selection_nltest:
+    winlog.event_data.Image|endswith: \nltest.exe
+  selection_recon1:
+    winlog.event_data.CommandLine|contains|all:
+    - /server
+    - /query
+  selection_recon2:
+    winlog.event_data.CommandLine|contains:
+    - '/dclist:'
+    - /parentdomain
+    - /domain_trusts
+    - /user
+falsepositives:
+- Legitimate administration use but user must be check out
+fields:
+- winlog.event_data.Image
+- winlog.event_data.User
+- winlog.event_data.CommandLine
+- winlog.event_data.ParentCommandLine
+id: 5cc90652-4cbd-4241-aa3b-4b462fa5a248
+level: medium
+logsource:
+  category: process_creation
+  product: windows
+modified: 2021/08/19
+product: windows
+references:
+- https://docs.microsoft.com/en-us/previous-versions/windows/it-pro/windows-server-2012-r2-and-2012/cc731935(v=ws.11)
+- https://thedfirreport.com/2021/08/16/trickbot-leads-up-to-fake-1password-installation/
+- https://attack.mitre.org/techniques/T1482/
+- https://attack.mitre.org/techniques/T1016/
+- https://book.hacktricks.xyz/windows/basic-cmd-for-pentesters
+status: experimental
+tags:
+- attack.discovery
+- attack.t1016
+- attack.t1482
+title: Recon Activity with NLTEST

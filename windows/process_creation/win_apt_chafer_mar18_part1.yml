@@ -1,0 +1,25 @@
+action: global
+author: Florian Roth, Markus Neis, Jonhnathan Ribeiro, Daniil Yugoslavskiy, oscd.community
+date: 2018/03/23
+description: Detects Chafer activity attributed to OilRig as reported in Nyotron report
+  in March 2018
+detection:
+  condition: 1 of them
+falsepositives:
+- Unknown
+id: 63ecd158-8cec-43eb-aea4-f83106a45560
+level: critical
+modified: 2020/08/26
+references:
+- https://nyotron.com/nyotron-discovers-next-generation-oilrig-attacks/
+tags:
+- attack.persistence
+- attack.g0049
+- attack.t1053.005
+- attack.s0111
+- attack.t1543.003
+- attack.defense_evasion
+- attack.t1112
+- attack.command_and_control
+- attack.t1071.004
+title: Chafer Activity

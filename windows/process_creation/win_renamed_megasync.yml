@@ -1,0 +1,31 @@
+author: Sittikorn S
+category: process_creation
+date: 2021/06/22
+description: Detects the execution of a renamed meg.exe of MegaSync during incident
+  response engagements associated with ransomware families like Nefilim, Sodinokibi,
+  Pysa, and Conti.
+detection:
+  condition: selection_proc or ( selection_orig and not filter )
+  filter:
+    winlog.event_data.Image|endswith: \meg.exe
+  selection_orig:
+    winlog.event_data.OriginalFileName: meg.exe
+  selection_proc:
+    winlog.event_data.CommandLine|contains: C:\Windows\Temp\meg.exe
+    winlog.event_data.ParentImage|endswith: \explorer.exe
+falsepositives:
+- Software that illegaly integrates MegaSync in a renamed form
+- Administrators that have renamed MegaSync
+id: 643bdcac-8b82-49f4-9fd9-25a90b929f3b
+level: high
+logsource:
+  category: process_creation
+  product: windows
+product: windows
+references:
+- https://redcanary.com/blog/rclone-mega-extortion/
+status: experimental
+tags:
+- attack.defense_evasion
+- attack.t1218
+title: Renamed MegaSync

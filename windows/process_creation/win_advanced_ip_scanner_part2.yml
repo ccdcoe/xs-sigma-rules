@@ -1,0 +1,10 @@
+category: process_creation
+detection:
+  condition: selection
+  selection:
+    winlog.event_data.Image|contains: \advanced_ip_scanner
+id: bef37fa2-f205-4a7b-b484-0759bfd5f86f
+logsource:
+  category: process_creation
+  product: windows
+product: windows

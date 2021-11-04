@@ -1,0 +1,30 @@
+author: Roberto Rodriguez (Cyb3rWard0g), OTR (Open Threat Research)
+date: 2020/09/02
+description: Detect potential adversaries leveraging WMI ActiveScriptEventConsumers
+  remotely to move laterally in a network
+detection:
+  condition: selection and not filter
+  filter:
+    winlog.event_data.TargetLogonId: '0x3e7'
+  selection:
+    winlog.event_data.LogonType: 3
+    winlog.event_data.ProcessName|endswith: scrcons.exe
+    winlog.event_id: 4624
+falsepositives:
+- SCCM
+id: 9599c180-e3a8-4743-8f92-7fb96d3be648
+level: high
+logsource:
+  product: windows
+  service: security
+product: windows
+references:
+- https://threathunterplaybook.com/notebooks/windows/08_lateral_movement/WIN-200902020333.html
+service: security
+status: experimental
+tags:
+- attack.lateral_movement
+- attack.privilege_escalation
+- attack.persistence
+- attack.t1546.003
+title: Remote WMI ActiveScriptEventConsumers

@@ -1,0 +1,23 @@
+action: global
+author: Florian Roth
+date: 2017/06/01
+description: Detects Pandemic Windows Implant
+falsepositives:
+- unknown
+fields:
+- EventID
+- CommandLine
+- ParentCommandLine
+- Image
+- User
+- TargetObject
+id: 2f83ca30-4633-4df7-8f07-b42344106fab
+level: critical
+references:
+- https://wikileaks.org/vault7/#Pandemic
+- https://twitter.com/MalwareJake/status/870349480356454401
+status: experimental
+tags:
+- attack.lateral_movement
+- attack.t1105
+title: Pandemic Registry Key

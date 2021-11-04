@@ -1,0 +1,27 @@
+author: Christian Burkard
+category: registry_event
+date: 2021/08/23
+description: Detects the pattern of UAC Bypass using Windows Media Player osksupport.dll
+  (UACMe 32)
+detection:
+  condition: selection
+  selection:
+    winlog.event_data.Details: Binary Data
+    winlog.event_data.TargetObject|endswith: \SOFTWARE\Microsoft\Windows NT\CurrentVersion\AppCompatFlags\Compatibility
+      Assistant\Store\C:\Program Files\Windows Media Player\osk.exe
+falsepositives:
+- Unknown
+id: 5f9db380-ea57-4d1e-beab-8a2d33397e93
+level: high
+logsource:
+  category: registry_event
+  product: windows
+product: windows
+references:
+- https://github.com/hfiref0x/UACME
+status: experimental
+tags:
+- attack.defense_evasion
+- attack.privilege_escalation
+- attack.t1548.002
+title: UAC Bypass Using Windows Media Player - Registry

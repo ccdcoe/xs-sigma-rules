@@ -1,0 +1,44 @@
+author: Pushkarev Dmitry
+date: 2020/06/28
+description: Detect run not allowed files. Applocker is a very useful tool, especially
+  on servers where unprivileged users have access. For example terminal servers. You
+  need configure applocker and log collect to receive these events.
+detection:
+  condition: selection
+  selection:
+    winlog.event_id:
+    - 8004
+    - 8007
+falsepositives:
+- need tuning applocker or add exceptions in SIEM
+fields:
+- winlog.event_data.PolicyName
+- winlog.event_data.RuleId
+- winlog.event_data.RuleName
+- winlog.event_data.TargetUser
+- winlog.event_data.TargetProcessId
+- winlog.event_data.FilePath
+- winlog.event_data.FileHash
+- winlog.event_data.Fqbn
+id: 401e5d00-b944-11ea-8f9a-00163ecd60ae
+level: medium
+logsource:
+  product: windows
+  service: applocker
+modified: 2020/08/23
+product: windows
+references:
+- https://docs.microsoft.com/en-us/windows/security/threat-protection/windows-defender-application-control/applocker/what-is-applocker
+- https://docs.microsoft.com/en-us/windows/security/threat-protection/windows-defender-application-control/applocker/using-event-viewer-with-applocker
+- https://nxlog.co/documentation/nxlog-user-guide/applocker.html
+service: applocker
+status: experimental
+tags:
+- attack.execution
+- attack.t1204.002
+- attack.t1059.001
+- attack.t1059.003
+- attack.t1059.005
+- attack.t1059.006
+- attack.t1059.007
+title: File Was Not Allowed To Run

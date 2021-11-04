@@ -1,0 +1,23 @@
+author: Aaron Greetham (@beardofbinary) - NCC Group
+category: dns_query
+date: 2021/05/26
+description: Detects DNS queries for subdomains used for upload to MEGA.io
+detection:
+  condition: dns_request
+  dns_request:
+    QueryName|contains: userstorage.mega.co.nz
+falsepositives:
+- Legitimate Mega upload
+id: 613c03ba-0779-4a53-8a1f-47f914a4ded3
+level: high
+logsource:
+  category: dns_query
+  product: windows
+product: windows
+references:
+- https://research.nccgroup.com/2021/05/27/detecting-rclone-an-effective-tool-for-exfiltration/
+status: experimental
+tags:
+- attack.exfiltration
+- attack.t1567.002
+title: DNS Query for MEGA.io Upload Domain

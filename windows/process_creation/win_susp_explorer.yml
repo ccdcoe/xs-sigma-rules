@@ -1,0 +1,28 @@
+author: Furkan CALISKAN, @caliskanfurkan_, @oscd_initiative
+category: process_creation
+date: 2020/10/05
+description: Attackers can use explorer.exe for evading defense mechanisms
+detection:
+  condition: selection
+  selection:
+    winlog.event_data.CommandLine|contains:
+    - explorer.exe
+    winlog.event_data.Image|endswith:
+    - \explorer.exe
+    winlog.event_data.ParentImage|endswith:
+    - \cmd.exe
+falsepositives:
+- Legitimate explorer.exe run from cmd.exe
+id: 9eb271b9-24ae-4cd4-9465-19cfc1047f3e
+level: low
+logsource:
+  category: process_creation
+  product: windows
+product: windows
+references:
+- https://twitter.com/CyberRaiju/status/1273597319322058752
+status: experimental
+tags:
+- attack.defense_evasion
+- attack.t1218
+title: Proxy Execution Via Explorer.exe

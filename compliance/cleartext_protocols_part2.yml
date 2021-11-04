@@ -1,0 +1,24 @@
+detection:
+  condition: selection
+  selection:
+    destination.port:
+    - 8080
+    - 21
+    - 80
+    - 23
+    - 50000
+    - 1521
+    - 27017
+    - 1433
+    - 11211
+    - 3306
+    - 15672
+    - 5900
+    - 5901
+    - 5902
+    - 5903
+    - 5904
+id: 7e4bfe58-4a47-4709-828d-d86c78b7cc1f
+logsource:
+  product: netflow
+product: netflow

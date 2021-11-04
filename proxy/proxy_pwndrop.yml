@@ -1,0 +1,33 @@
+author: Florian Roth
+category: proxy
+date: 2020/04/15
+description: Detects downloads from PwnDrp web servers developed for red team testing
+  and most likely also used for criminal activity
+detection:
+  condition: selection
+  selection:
+    http.url|contains: /pwndrop/
+falsepositives:
+- Unknown
+fields:
+- src_ip
+- http.url
+- http.http_user_agent
+id: 2b1ee7e4-89b6-4739-b7bb-b811b6607e5e
+level: critical
+logsource:
+  category: proxy
+  product: suricata
+  service: http
+modified: 2020/09/03
+product: suricata
+references:
+- https://breakdev.org/pwndrop/
+service: http
+status: experimental
+tags:
+- attack.command_and_control
+- attack.t1071.001
+- attack.t1102.001
+- attack.t1102.003
+title: PwnDrp Access

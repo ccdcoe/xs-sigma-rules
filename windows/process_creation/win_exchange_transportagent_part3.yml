@@ -1,0 +1,9 @@
+detection:
+  selection:
+  - Install-TransportAgent
+id: 4fe151c2-ecf9-4fae-95ae-b88ec9c2fca6
+logsource:
+  product: windows
+  service: msexchange-management
+product: windows
+service: msexchange-management

@@ -1,0 +1,15 @@
+definition: ModuleLogging must be enable
+detection:
+  condition: selection and not filter
+  filter:
+    ContextInfo|contains: powershell.exe
+  selection:
+    ContextInfo: '*'
+    winlog.event_id: 4103
+id: 64e8e417-c19a-475a-8d19-98ea705394cc
+logsource:
+  definition: ModuleLogging must be enable
+  product: windows
+  service: powershell
+product: windows
+service: powershell

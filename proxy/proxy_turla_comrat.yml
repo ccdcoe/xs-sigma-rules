@@ -1,0 +1,28 @@
+author: Florian Roth
+category: proxy
+date: 2020/05/26
+description: Detects Turla ComRAT patterns
+detection:
+  condition: selection
+  selection:
+    http.url|contains: /index/index.php?h=
+falsepositives:
+- Unknown
+id: 7857f021-007f-4928-8b2c-7aedbe64bb82
+level: critical
+logsource:
+  category: proxy
+  product: suricata
+  service: http
+modified: 2020/09/03
+product: suricata
+references:
+- https://www.welivesecurity.com/wp-content/uploads/2020/05/ESET_Turla_ComRAT.pdf
+service: http
+status: experimental
+tags:
+- attack.defense_evasion
+- attack.command_and_control
+- attack.t1071.001
+- attack.g0010
+title: Turla ComRAT

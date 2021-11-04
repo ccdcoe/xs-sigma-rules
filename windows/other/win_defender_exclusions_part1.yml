@@ -1,0 +1,15 @@
+action: global
+author: Christian Burkard
+date: 2021/07/06
+description: Detects the Setting of Windows Defender Exclusions
+falsepositives:
+- Administrator actions
+id: 2e51c11b-7351-4839-9964-c656f10f76f4
+level: medium
+references:
+- https://twitter.com/_nullbind/status/1204923340810543109
+status: stable
+tags:
+- attack.defense_evasion
+- attack.t1562.001
+title: Windows Defender Exclusions Added

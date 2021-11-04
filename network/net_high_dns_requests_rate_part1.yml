@@ -1,0 +1,16 @@
+action: global
+author: Daniil Yugoslavskiy, oscd.community
+date: 2019/10/24
+description: High DNS requests amount from host per short period of time
+falsepositives:
+- Legitimate high DNS requests rate to domain name which should be added to whitelist
+id: 0beb5182-d9fd-409b-9a31-935d269f11a3
+level: medium
+modified: 2020/08/27
+status: experimental
+tags:
+- attack.exfiltration
+- attack.t1048.003
+- attack.command_and_control
+- attack.t1071.004
+title: High DNS Requests Rate

@@ -1,0 +1,9 @@
+detection:
+  service_creation:
+    winlog.event_id: 7045
+id: a2e5019d-a658-4c6a-92bf-7197b54e2cae
+logsource:
+  product: windows
+  service: system
+product: windows
+service: system

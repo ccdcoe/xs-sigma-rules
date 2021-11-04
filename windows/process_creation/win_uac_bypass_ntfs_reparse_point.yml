@@ -1,0 +1,41 @@
+author: Christian Burkard
+category: process_creation
+date: 2021/08/30
+description: Detects the pattern of UAC Bypass using NTFS reparse point and wusa.exe
+  DLL hijacking (UACMe 36)
+detection:
+  condition: 1 of selection*
+  selection1:
+    winlog.event_data.CommandLine|endswith: \AppData\Local\Temp\update.msu
+    winlog.event_data.CommandLine|startswith: '"C:\Windows\system32\wusa.exe"  /quiet
+      C:\Users\'
+    winlog.event_data.IntegrityLevel:
+    - High
+    - System
+  selection2:
+    winlog.event_data.CommandLine|contains|all:
+    - C:\Users\
+    - \AppData\Local\Temp\
+    - \dismhost.exe {
+    winlog.event_data.Image|endswith: \DismHost.exe
+    winlog.event_data.IntegrityLevel:
+    - High
+    - System
+    winlog.event_data.ParentCommandLine: '"C:\Windows\system32\dism.exe" /online /quiet
+      /norestart /add-package /packagepath:"C:\Windows\system32\pe386" /ignorecheck'
+falsepositives:
+- Unknown
+id: 39ed3c80-e6a1-431b-9df3-911ac53d08a7
+level: high
+logsource:
+  category: process_creation
+  product: windows
+product: windows
+references:
+- https://github.com/hfiref0x/UACME
+status: experimental
+tags:
+- attack.defense_evasion
+- attack.privilege_escalation
+- attack.t1548.002
+title: UAC Bypass Using NTFS Reparse Point - Process

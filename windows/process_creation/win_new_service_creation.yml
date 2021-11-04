@@ -1,0 +1,30 @@
+author: Timur Zinniatullin, Daniil Yugoslavskiy, oscd.community
+category: process_creation
+date: 2019/10/21
+description: Detects creation of a new service.
+detection:
+  condition: selection
+  selection:
+  - winlog.event_data.CommandLine|contains|all:
+    - create
+    - binpath
+    winlog.event_data.Image|endswith: \sc.exe
+  - winlog.event_data.CommandLine|contains: new-service
+    winlog.event_data.Image|endswith: \powershell.exe
+falsepositives:
+- Legitimate administrator or user creates a service for legitimate reasons.
+id: 7fe71fc9-de3b-432a-8d57-8c809efc10ab
+level: low
+logsource:
+  category: process_creation
+  product: windows
+modified: 2019/11/04
+product: windows
+references:
+- https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1543.003/T1543.003.md
+status: experimental
+tags:
+- attack.persistence
+- attack.privilege_escalation
+- attack.t1543.003
+title: New Service Creation

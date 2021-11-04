@@ -1,0 +1,23 @@
+category: process_creation
+detection:
+  selection_process0:
+    winlog.event_data.CommandLine|contains: \Service.exe
+    winlog.event_data.CommandLine|endswith:
+    - i
+    - u
+  selection_process1:
+  - winlog.event_data.CommandLine|endswith: \microsoft\Taskbar\autoit3.exe
+  - winlog.event_data.CommandLine|startswith: C:\wsc.exe
+  selection_process2:
+    winlog.event_data.Image|contains: \Windows\Temp\DB\
+    winlog.event_data.Image|endswith: .exe
+  selection_process3:
+    winlog.event_data.CommandLine|contains|all:
+    - \nslookup.exe
+    - -q=TXT
+    winlog.event_data.ParentImage|contains: \Autoit
+id: ce6e34ca-966d-41c9-8d93-5b06c8b97a06
+logsource:
+  category: process_creation
+  product: windows
+product: windows

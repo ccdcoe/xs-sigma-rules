@@ -1,0 +1,24 @@
+author: remotephone, oscd.community
+category: process_creation
+date: 2020/10/13
+description: Detects attempts to use screencapture to collect macOS screenshots
+detection:
+  condition: selection
+  selection:
+    Image: /usr/sbin/screencapture
+falsepositives:
+- Legitimate user activity taking screenshots
+id: 0877ed01-da46-4c49-8476-d49cdd80dfa7
+level: low
+logsource:
+  category: process_creation
+  product: macos
+product: macos
+references:
+- https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1113/T1113.md
+- https://github.com/BC-SECURITY/Empire/blob/master/lib/modules/python/collection/osx/screenshot.py
+status: experimental
+tags:
+- attack.collection
+- attack.t1113
+title: Screen Capture - macOS

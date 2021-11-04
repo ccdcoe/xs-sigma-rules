@@ -1,0 +1,33 @@
+author: frack113
+category: process_creation
+date: 2021/07/16
+description: Adversaries may use scripts signed with trusted certificates to proxy
+  execution of malicious files.
+detection:
+  condition: select_vbs and select_opt
+  select_opt:
+    winlog.event_data.CommandLine|contains|all:
+    - '"n;'
+    - 'Start-Process '
+  select_vbs:
+    winlog.event_data.CommandLine|contains: \SyncAppvPublishingServer.vbs
+falsepositives:
+- Unknown
+fields:
+- winlog.ComputerName
+- winlog.event_data.User
+- winlog.event_data.CommandLine
+- winlog.event_data.ParentCommandLine
+id: 36475a7d-0f6d-4dce-9b01-6aeb473bbaf1
+level: medium
+logsource:
+  category: process_creation
+  product: windows
+product: windows
+references:
+- https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1216/T1216.md
+status: experimental
+tags:
+- attack.defense_evasion
+- attack.t1216
+title: SyncAppvPublishingServer VBS Execute Arbitrary PowerShell Code

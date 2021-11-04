@@ -1,0 +1,47 @@
+author: "Maxime Thiebaut (@0xThiebaut), oscd.community, C\xE9dric Hien"
+category: registry_event
+date: 2020/04/14
+description: Detects potential COM object hijacking leveraging the COM Search Order
+detection:
+  condition: selection and not ( filter1 or ( filterOneDrive and filterOneDrive2 )
+    or filter2 or filter3 )
+  filter1:
+    winlog.event_data.Details|contains:
+    - '%%systemroot%%\system32\'
+    - '%%systemroot%%\SysWow64\'
+  filter2:
+    winlog.event_data.Details|contains|all:
+    - \AppData\Local\Microsoft\TeamsMeetingAddin\
+    - \Microsoft.Teams.AddinLoader.dll
+  filter3:
+    winlog.event_data.Details|contains|all:
+    - \AppData\Roaming\Dropbox\
+    - \DropboxExt64.*.dll
+  filterOneDrive:
+    winlog.event_data.Details|contains: \AppData\Local\Microsoft\OneDrive\
+  filterOneDrive2:
+    winlog.event_data.Details|contains:
+    - \FileCoAuthLib64.dll
+    - \FileSyncShell64.dll
+    - \FileSyncApi64.dll
+  selection:
+    winlog.event_data.TargetObject|contains|all:
+    - HKU\
+    - _Classes\CLSID\
+    - \InProcServer32\(Default)
+falsepositives:
+- Some installed utilities (i.e. OneDrive) may serve new COM objects at user-level
+id: a0ff33d8-79e4-4cef-b4f3-9dc4133ccd12
+level: medium
+logsource:
+  category: registry_event
+  product: windows
+modified: 2021/08/14
+product: windows
+references:
+- https://www.cyberbit.com/blog/endpoint-security/com-hijacking-windows-overlooked-security-vulnerability/
+status: experimental
+tags:
+- attack.persistence
+- attack.t1574.001
+title: Windows Registry Persistence COM Search Order Hijacking

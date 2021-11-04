@@ -1,0 +1,43 @@
+author: Teymur Kheirkhabarov (idea), Mangatas Tondang (rule), oscd.community
+category: process_creation
+date: 2020/10/13
+description: This rule will looks for Windows Installer service (msiexec.exe) when
+  it tries to install MSI packages with SYSTEM privilege
+detection:
+  condition: (image_1 and user) or (image_2 and user and integrity_level)
+  image_1:
+    winlog.event_data.Image|contains|all:
+    - \Windows\Installer\
+    - msi
+    winlog.event_data.Image|endswith:
+    - tmp
+  image_2:
+    winlog.event_data.Image|endswith:
+    - \msiexec.exe
+  integrity_level:
+    winlog.event_data.IntegrityLevel: System
+  user:
+    winlog.event_data.User|startswith:
+    - NT AUTHORITY\SYSTEM
+    - AUTORITE NT\Sys
+falsepositives:
+- System administrator Usage
+- Penetration test
+fields:
+- winlog.event_data.IntegrityLevel
+- winlog.event_data.User
+- winlog.event_data.Image
+id: cd951fdc-4b2f-47f5-ba99-a33bf61e3770
+level: medium
+logsource:
+  category: process_creation
+  product: windows
+modified: 2021/08/26
+product: windows
+references:
+- https://image.slidesharecdn.com/kheirkhabarovoffzonefinal-181117201458/95/hunting-for-privilege-escalation-in-windows-environment-48-638.jpg
+status: experimental
+tags:
+- attack.privilege_escalation
+- attack.t1548.002
+title: Always Install Elevated Windows Installer

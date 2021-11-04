@@ -1,0 +1,33 @@
+author: Pawel Mazur
+date: 2021/09/03
+description: Detects System Information Discovery commands
+detection:
+  condition: selection or selection2
+  selection:
+    name:
+    - /etc/lsb-release
+    - /etc/redhat-release
+    - /etc/issue
+    type: PATH
+  selection2:
+    a0:
+    - uname
+    - uptime
+    type: EXECVE
+falsepositives:
+- Legitimate administrative activity
+id: f34047d9-20d3-4e8b-8672-0a35cc50dc71
+level: low
+logsource:
+  product: linux
+  service: auditd
+product: linux
+references:
+- https://attack.mitre.org/techniques/T1082/
+- https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1082/T1082.md
+service: auditd
+status: experimental
+tags:
+- attack.discovery
+- attack.t1082
+title: System Information Discovery

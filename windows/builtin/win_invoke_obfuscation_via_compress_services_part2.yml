@@ -1,0 +1,9 @@
+detection:
+  selection_eventid:
+    winlog.event_id: 7045
+id: 175997c5-803c-4b08-8bb0-70b099f47595
+logsource:
+  product: windows
+  service: system
+product: windows
+service: system

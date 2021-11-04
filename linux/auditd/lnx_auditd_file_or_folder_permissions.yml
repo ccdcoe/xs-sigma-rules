@@ -1,0 +1,26 @@
+author: Jakob Weinzettl, oscd.community
+date: 2019/09/23
+description: Detects file and folder permission changes.
+detection:
+  condition: selection
+  selection:
+    a0|contains:
+    - chmod
+    - chown
+    type: EXECVE
+falsepositives:
+- User interacting with files permissions (normal/daily behaviour).
+id: 74c01ace-0152-4094-8ae2-6fd776dd43e5
+level: low
+logsource:
+  product: linux
+  service: auditd
+product: linux
+references:
+- https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1222.002/T1222.002.md
+service: auditd
+status: experimental
+tags:
+- attack.defense_evasion
+- attack.t1222.002
+title: File or Folder Permissions Change

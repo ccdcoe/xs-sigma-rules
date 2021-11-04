@@ -1,0 +1,15 @@
+definition: fields have to be extract from event
+detection:
+  condition: selection and not filter
+  filter:
+    HostApplication|startswith: C:\WINDOWS\System32\WindowsPowerShell\v1.0\powershell.exe
+  selection:
+    HostApplication: '*'
+    winlog.event_id: 400
+id: d7326048-328b-4d5e-98af-86e84b17c765
+logsource:
+  definition: fields have to be extract from event
+  product: windows
+  service: powershell-classic
+product: windows
+service: powershell-classic

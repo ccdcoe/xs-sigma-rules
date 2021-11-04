@@ -1,0 +1,16 @@
+definition: fields have to be extract from event
+detection:
+  condition: selection
+  selection:
+    HostApplication|contains|all:
+    - 'Compress-Archive '
+    - ' -Path '
+    - ' -DestinationPath '
+    - $env:TEMP\
+id: 71ff406e-b633-4989-96ec-bc49d825a412
+logsource:
+  definition: fields have to be extract from event
+  product: windows
+  service: powershell-classic
+product: windows
+service: powershell-classic

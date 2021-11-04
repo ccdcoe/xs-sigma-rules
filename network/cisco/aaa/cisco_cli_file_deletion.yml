@@ -1,0 +1,30 @@
+author: Austin Clark
+category: accounting
+date: 2019/08/12
+description: See what files are being deleted from flash file systems
+detection:
+  condition: keywords
+  keywords:
+  - erase
+  - delete
+  - format
+falsepositives:
+- Will be used sometimes by admins to clean up local flash space
+fields:
+- CmdSet
+id: 71d65515-c436-43c0-841b-236b1f32c21e
+level: medium
+logsource:
+  category: accounting
+  product: cisco
+  service: aaa
+product: cisco
+service: aaa
+status: experimental
+tags:
+- attack.defense_evasion
+- attack.impact
+- attack.t1070.004
+- attack.t1561.001
+- attack.t1561.002
+title: Cisco File Deletion

@@ -1,0 +1,11 @@
+detection:
+  condition: selection1
+  selection1:
+    New Value|contains: \Microsoft\Windows Defender\Exclusions
+    winlog.event_id: 5007
+id: 1321dc4e-a1fe-481d-a016-52c45f0c8b4f
+logsource:
+  product: windows
+  service: windefend
+product: windows
+service: windefend

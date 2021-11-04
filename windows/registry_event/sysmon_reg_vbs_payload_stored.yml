@@ -1,0 +1,37 @@
+author: Florian Roth
+category: registry_event
+date: 2021/03/05
+description: Detects VBScript content stored into registry keys as seen being used
+  by UNC2452 group
+detection:
+  condition: selection and not filter
+  filter:
+    winlog.event_data.TargetObject|contains: Software\Microsoft\Windows\CurrentVersion\Run
+  selection:
+    winlog.event_data.Details|contains:
+    - vbscript
+    - jscript
+    - mshtml
+    - mshtml,
+    - 'mshtml '
+    - RunHTMLApplication
+    - Execute(
+    - CreateObject
+    - RegRead
+    - window.close
+    winlog.event_data.TargetObject|contains: Software\Microsoft\Windows\CurrentVersion
+falsepositives:
+- Unknown
+id: 46490193-1b22-4c29-bdd6-5bf63907216f
+level: high
+logsource:
+  category: registry_event
+  product: windows
+product: windows
+references:
+- https://www.microsoft.com/security/blog/2021/03/04/goldmax-goldfinder-sibot-analyzing-nobelium-malware/
+status: experimental
+tags:
+- attack.persistence
+- attack.t1547.001
+title: VBScript Payload Stored in Registry

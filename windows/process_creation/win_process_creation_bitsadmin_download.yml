@@ -1,0 +1,47 @@
+author: Michael Haag, FPT.EagleEye
+category: process_creation
+date: 2017/03/09
+description: Detects usage of bitsadmin downloading a file
+detection:
+  condition: (selection1 and susp_flag_2 and http_flag) or (selection1 and susp_flag_1)
+    or selection2
+  http_flag:
+    winlog.event_data.CommandLine|contains:
+    - http
+  selection1:
+    winlog.event_data.Image|endswith:
+    - \bitsadmin.exe
+  selection2:
+    winlog.event_data.CommandLine|contains:
+    - copy bitsadmin.exe
+  susp_flag_1:
+    winlog.event_data.CommandLine|contains:
+    - ' /transfer '
+  susp_flag_2:
+    winlog.event_data.CommandLine|contains:
+    - ' /create '
+    - ' /addfile '
+falsepositives:
+- Some legitimate apps use this, but limited.
+fields:
+- winlog.event_data.CommandLine
+- winlog.event_data.ParentCommandLine
+id: d059842b-6b9d-4ed1-b5c3-5b89143c6ede
+level: medium
+logsource:
+  category: process_creation
+  product: windows
+modified: 2021/07/16
+product: windows
+references:
+- https://blog.netspi.com/15-ways-to-download-a-file/#bitsadmin
+- https://isc.sans.edu/diary/22264
+- https://lolbas-project.github.io/lolbas/Binaries/Bitsadmin/
+status: experimental
+tags:
+- attack.defense_evasion
+- attack.persistence
+- attack.t1197
+- attack.s0190
+- attack.t1036.003
+title: Bitsadmin Download

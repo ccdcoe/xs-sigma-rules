@@ -1,0 +1,13 @@
+category: process_creation
+detection:
+  condition: 1 of them
+  dnsadmin:
+    winlog.event_data.CommandLine|contains|all:
+    - /config
+    - /serverlevelplugindll
+    winlog.event_data.Image|endswith: \dnscmd.exe
+id: f63b56ee-3f79-4b8a-97fb-5c48007e8573
+logsource:
+  category: process_creation
+  product: windows
+product: windows

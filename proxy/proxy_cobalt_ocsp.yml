@@ -1,0 +1,28 @@
+author: Markus Neis
+category: proxy
+date: 2019/11/12
+description: Detects Malleable (OCSP) Profile with Typo (OSCP) in URL
+detection:
+  condition: selection
+  selection:
+    http.hostname: ocsp.verisign.com
+    http.url|contains: /oscp/
+falsepositives:
+- Unknown
+id: 37325383-740a-403d-b1a2-b2b4ab7992e7
+level: high
+logsource:
+  category: proxy
+  product: suricata
+  service: http
+modified: 2020/09/02
+product: suricata
+references:
+- https://github.com/rsmudge/Malleable-C2-Profiles/blob/master/normal/ocsp.profile
+service: http
+status: experimental
+tags:
+- attack.defense_evasion
+- attack.command_and_control
+- attack.t1071.001
+title: CobaltStrike Malleable (OCSP) Profile

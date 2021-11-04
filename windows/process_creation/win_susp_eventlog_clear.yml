@@ -1,0 +1,42 @@
+author: Ecco, Daniil Yugoslavskiy, oscd.community
+category: process_creation
+date: 2019/09/26
+description: Detects clearing or configuration of eventlogs using wevtutil, powershell
+  and wmic. Might be used by ransomwares during the attack (seen by NotPetya and others).
+detection:
+  condition: 1 of selection_other_* or (selection_wevtutil_binary and selection_wevtutil_command)
+  selection_other_ps:
+    winlog.event_data.CommandLine|contains:
+    - Clear-EventLog
+    - Remove-EventLog
+    - Limit-EventLog
+    winlog.event_data.Image|endswith: \powershell.exe
+  selection_other_wmic:
+    winlog.event_data.CommandLine|contains: ' ClearEventLog '
+    winlog.event_data.Image|endswith: \wmic.exe
+  selection_wevtutil_binary:
+    winlog.event_data.Image|endswith: \wevtutil.exe
+  selection_wevtutil_command:
+    winlog.event_data.CommandLine|contains:
+    - clear-log
+    - ' cl '
+    - set-log
+    - ' sl '
+falsepositives:
+- Admin activity
+- Scripts and administrative tools used in the monitored environment
+id: cc36992a-4671-4f21-a91d-6c2b72a2edf5
+level: high
+logsource:
+  category: process_creation
+  product: windows
+modified: 2019/11/11
+product: windows
+references:
+- https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1070.001/T1070.001.md
+- https://eqllib.readthedocs.io/en/latest/analytics/5b223758-07d6-4100-9e11-238cfdd0fe97.html
+tags:
+- attack.defense_evasion
+- attack.t1070.001
+- car.2016-04-002
+title: Suspicious Eventlog Clear or Configuration Using Wevtutil

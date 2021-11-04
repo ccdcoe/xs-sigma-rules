@@ -1,0 +1,55 @@
+author: '@neu5ron, SOC Prime'
+date: 2020/03/19
+description: Windows DCE-RPC functions which indicate an execution techniques on the
+  remote system. All credit for the Zeek mapping of the suspicious endpoint/operation
+  field goes to MITRE
+detection:
+  condition: 1 of them
+  op1:
+    endpoint: JobAdd
+    operation: atsvc
+  op10:
+    endpoint: svcctl
+    operation: StartServiceW
+  op2:
+    endpoint: ITaskSchedulerService
+    operation: SchRpcEnableTask
+  op3:
+    endpoint: ITaskSchedulerService
+    operation: SchRpcRegisterTask
+  op4:
+    endpoint: ITaskSchedulerService
+    operation: SchRpcRun
+  op5:
+    endpoint: IWbemServices
+    operation: ExecMethod
+  op6:
+    endpoint: IWbemServices
+    operation: ExecMethodAsync
+  op7:
+    endpoint: svcctl
+    operation: CreateServiceA
+  op8:
+    endpoint: svcctl
+    operation: CreateServiceW
+  op9:
+    endpoint: svcctl
+    operation: StartServiceA
+falsepositives:
+- Windows administrator tasks or troubleshooting
+- Windows management scripts or software
+id: b640c0b8-87f8-4daa-aef8-95a24261dd1d
+level: medium
+logsource:
+  product: zeek
+  service: dce_rpc
+product: zeek
+references:
+- https://github.com/mitre-attack/bzar#indicators-for-attck-execution
+service: dce_rpc
+tags:
+- attack.execution
+- attack.t1047
+- attack.t1053.002
+- attack.t1569.002
+title: MITRE BZAR Indicators for Execution

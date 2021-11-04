@@ -1,0 +1,30 @@
+author: Austin Clark
+category: accounting
+date: 2019/08/15
+description: Detect a system being shutdown or put into different boot mode
+detection:
+  condition: keywords
+  keywords:
+  - shutdown
+  - config-register 0x2100
+  - config-register 0x2142
+falsepositives:
+- Legitimate administrators may run these commands, though rarely.
+fields:
+- CmdSet
+id: d94a35f0-7a29-45f6-90a0-80df6159967c
+level: medium
+logsource:
+  category: accounting
+  product: cisco
+  service: aaa
+modified: 2020/09/02
+product: cisco
+service: aaa
+status: experimental
+tags:
+- attack.impact
+- attack.t1495
+- attack.t1529
+- attack.t1565.001
+title: Cisco Denial of Service

@@ -1,0 +1,11 @@
+category: registry_event
+detection:
+  condition: methregistry
+  methregistry:
+    winlog.event_data.TargetObject|endswith: \mscfile\shell\open\command
+    winlog.event_data.TargetObject|startswith: HKU\
+id: 7c81fec3-1c1d-43b0-996a-46753041b1b6
+logsource:
+  category: registry_event
+  product: windows
+product: windows

@@ -1,0 +1,11 @@
+category: image_load
+detection:
+  condition: selection
+  selection:
+    winlog.event_data.ImageLoaded|endswith: \wbem\wbemcomn.dll
+    winlog.event_data.Image|endswith: \wmiprvse.exe
+id: 7707a579-e0d8-4886-a853-ce47e4575aaa
+logsource:
+  category: image_load
+  product: windows
+product: windows

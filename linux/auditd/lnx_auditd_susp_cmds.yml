@@ -1,0 +1,37 @@
+author: Florian Roth
+date: 2017/12/12
+description: Detects relevant commands often related to malware or hacking activity
+detection:
+  cmd1:
+    a0: chmod
+    a1: '777'
+    type: EXECVE
+  cmd2:
+    a0: chmod
+    a1: u+s
+    type: EXECVE
+  cmd3:
+    a0: cp
+    a1: /bin/ksh
+    type: EXECVE
+  cmd4:
+    a0: cp
+    a1: /bin/sh
+    type: EXECVE
+  condition: 1 of them
+falsepositives:
+- Admin activity
+id: 1543ae20-cbdf-4ec1-8d12-7664d667a825
+level: medium
+logsource:
+  product: linux
+  service: auditd
+product: linux
+references:
+- Internal Research - mostly derived from exploit code including code in MSF
+service: auditd
+status: experimental
+tags:
+- attack.execution
+- attack.t1059.004
+title: Suspicious Commands Linux

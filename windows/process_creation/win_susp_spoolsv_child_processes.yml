@@ -1,0 +1,78 @@
+author: Justin C. (@endisphotic), @dreadphones (detection), Thomas Patzke (Sigma rule)
+category: process_creation
+date: 2021/07/11
+description: Detects suspicious print spool service (spoolsv.exe) child processes.
+detection:
+  condition: spoolsv and ( suspicious_unrestricted or (suspicious_net and not suspicious_net_filter)
+    or (suspicious_cmd and not suspicious_cmd_filter) or (suspicious_netsh and not
+    suspicious_netsh_filter) or (suspicious_powershell and not suspicious_powershell_filter)
+    or suspicious_rundll32 )
+  spoolsv:
+    winlog.event_data.IntegrityLevel: System
+    winlog.event_data.ParentImage|endswith: \\spoolsv.exe
+  suspicious_cmd:
+    winlog.event_data.Image|endswith: \cmd.exe
+  suspicious_cmd_filter:
+    winlog.event_data.CommandLine|contains:
+    - .spl
+    - route add
+    - program files
+  suspicious_net:
+    winlog.event_data.Image|endswith: \net.exe
+  suspicious_net_filter:
+    winlog.event_data.CommandLine|contains: start
+  suspicious_netsh:
+    winlog.event_data.Image|endswith: \netsh.exe
+  suspicious_netsh_filter:
+    winlog.event_data.CommandLine|contains:
+    - add portopening
+    - rule name
+  suspicious_powershell:
+    winlog.event_data.Image|endswith: \powershell.exe
+  suspicious_powershell_filter:
+    winlog.event_data.CommandLine|contains: .spl
+  suspicious_rundll32:
+    winlog.event_data.CommandLine|endswith: rundll32.exe
+    winlog.event_data.Image|endswith: \rundll32.exe
+  suspicious_unrestricted:
+    winlog.event_data.Image|endswith:
+    - \gpupdate.exe
+    - \whoami.exe
+    - \nltest.exe
+    - \taskkill.exe
+    - \wmic.exe
+    - \taskmgr.exe
+    - \sc.exe
+    - \findstr.exe
+    - \curl.exe
+    - \wget.exe
+    - \certutil.exe
+    - \bitsadmin.exe
+    - \accesschk.exe
+    - \wevtutil.exe
+    - \bcdedit.exe
+    - \fsutil.exe
+    - \cipher.exe
+    - \schtasks.exe
+    - \write.exe
+    - \wuauclt.exe
+falsepositives:
+- None known
+fields:
+- winlog.event_data.Image
+- winlog.event_data.CommandLine
+id: dcdbc940-0bff-46b2-95f3-2d73f848e33b
+level: high
+logsource:
+  category: process_creation
+  product: windows
+product: windows
+references:
+- https://github.com/microsoft/Microsoft-365-Defender-Hunting-Queries/blob/master/Exploits/Print%20Spooler%20RCE/Suspicious%20Spoolsv%20Child%20Process.md
+status: stable
+tags:
+- attack.execution
+- attack.t1203
+- attack.privilege_escalation
+- attack.t1068
+title: Suspicious Spool Service Child Process

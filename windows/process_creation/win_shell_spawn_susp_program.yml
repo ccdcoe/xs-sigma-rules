@@ -1,0 +1,45 @@
+author: Florian Roth
+category: process_creation
+date: 2018/04/06
+description: Detects a suspicious child process of a Windows shell
+detection:
+  condition: selection and not falsepositives
+  falsepositives:
+    winlog.event_data.CurrentDirectory|contains: \ccmcache\
+  selection:
+    winlog.event_data.Image|endswith:
+    - \schtasks.exe
+    - \nslookup.exe
+    - \certutil.exe
+    - \bitsadmin.exe
+    - \mshta.exe
+    winlog.event_data.ParentImage|endswith:
+    - \mshta.exe
+    - \powershell.exe
+    - \rundll32.exe
+    - \cscript.exe
+    - \wscript.exe
+    - \wmiprvse.exe
+falsepositives:
+- Administrative scripts
+- Microsoft SCCM
+fields:
+- winlog.event_data.CommandLine
+- winlog.event_data.ParentCommandLine
+id: 3a6586ad-127a-4d3b-a677-1e6eacdf8fde
+level: high
+logsource:
+  category: process_creation
+  product: windows
+modified: 2020/09/06
+product: windows
+references:
+- https://mgreen27.github.io/posts/2018/04/02/DownloadCradle.html
+status: experimental
+tags:
+- attack.execution
+- attack.defense_evasion
+- attack.t1059.005
+- attack.t1059.001
+- attack.t1218
+title: Windows Shell Spawning Suspicious Program

@@ -1,0 +1,13 @@
+category: system
+detection:
+  condition: selection3 and all of keywords
+  keywords:
+  - Windows Defender Antivirus Service
+  - stopped
+  selection3:
+    winlog.event_id: 7036
+id: 6c0a7755-6d31-44fa-80e1-133e57752680
+logsource:
+  category: system
+  product: windows
+product: windows

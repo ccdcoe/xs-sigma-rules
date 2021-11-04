@@ -1,0 +1,11 @@
+category: file_event
+detection:
+  condition: selection
+  selection:
+    winlog.event_data.TargetFilename|contains: \AppData\Local\Temp\Advanced IP Scanner
+      2
+id: fed85bf9-e075-4280-9159-fbe8a023d6fa
+logsource:
+  category: file_event
+  product: windows
+product: windows

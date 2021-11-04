@@ -1,0 +1,22 @@
+author: Florian Roth
+date: 2017/02/28
+description: Detects a segmentation fault error message caused by a creashing apache
+  worker process
+detection:
+  condition: keywords
+  keywords:
+  - exit signal Segmentation Fault
+falsepositives:
+- Unknown
+id: 1da8ce0b-855d-4004-8860-7d64d42063b1
+level: high
+logsource:
+  product: linux
+modified: 2020/09/03
+product: linux
+references:
+- http://www.securityfocus.com/infocus/1633
+tags:
+- attack.impact
+- attack.t1499.004
+title: Apache Segmentation Fault

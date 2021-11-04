@@ -1,0 +1,28 @@
+author: Florian Roth
+category: process_creation
+date: 2018/12/19
+description: Detects the execution of SecurityXploded Tools
+detection:
+  condition: 1 of them
+  selection1:
+    winlog.event_data.Company: SecurityXploded
+  selection2:
+    winlog.event_data.Image|endswith: PasswordDump.exe
+  selection3:
+    winlog.event_data.OriginalFileName|endswith: PasswordDump.exe
+falsepositives:
+- unlikely
+id: 7679d464-4f74-45e2-9e01-ac66c5eb041a
+level: critical
+logsource:
+  category: process_creation
+  product: windows
+modified: 2021/05/11
+product: windows
+references:
+- https://securityxploded.com/
+- https://cyberx-labs.com/blog/gangnam-industrial-style-apt-campaign-targets-korean-industrial-companies/
+tags:
+- attack.credential_access
+- attack.t1555
+title: SecurityXploded Tool

@@ -1,0 +1,26 @@
+author: Syed Hasan (@syedhasan009)
+category: registry_event
+date: 2021/06/18
+description: Monitor the creation of a new key under 'TaskCache' when a new scheduled
+  task is registered
+detection:
+  condition: selection
+  selection:
+    winlog.event_data.EventType: SetValue
+    winlog.event_data.TargetObject|contains: SOFTWARE\Microsoft\Windows NT\CurrentVersion\Schedule\TaskCache\Tree\
+falsepositives:
+- Unknown
+id: 4720b7df-40c3-48fd-bbdf-fd4b3c464f0d
+level: medium
+logsource:
+  category: registry_event
+  product: windows
+modified: 2021/07/27
+product: windows
+references:
+- https://thedfirreport.com/2021/03/29/sodinokibi-aka-revil-ransomware/
+tags:
+- attack.persistence
+- attack.t1053
+- attack.t1053.005
+title: New TaskCache Entry

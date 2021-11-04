@@ -1,0 +1,25 @@
+author: frack113
+category: process_creation
+date: 2021/07/27
+description: Adversaries may collect data stored in the clipboard from users copying
+  information within or between applications.
+detection:
+  condition: selection
+  selection:
+    winlog.event_data.OriginalFileName: clip.exe
+falsepositives:
+- Unknown
+id: ddeff553-5233-4ae9-bbab-d64d2bd634be
+level: low
+logsource:
+  category: process_creation
+  product: windows
+product: windows
+references:
+- https://docs.microsoft.com/en-us/windows-server/administration/windows-commands/clip
+- https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1115/T1115.md
+status: experimental
+tags:
+- attack.collection
+- attack.t1115
+title: Use of CLIP

@@ -1,0 +1,46 @@
+author: NVISO
+date: 2020/03/26
+definition: Script block logging must be enabled
+description: Detects parameters used by WMImplant
+detection:
+  condition: selection
+  selection:
+    winlog.event_data.ScriptBlockText|contains:
+    - WMImplant
+    - ' change_user '
+    - ' gen_cli '
+    - ' command_exec '
+    - ' disable_wdigest '
+    - ' disable_winrm '
+    - ' enable_wdigest '
+    - ' enable_winrm '
+    - ' registry_mod '
+    - ' remote_posh '
+    - ' sched_job '
+    - ' service_mod '
+    - ' process_kill '
+    - ' active_users '
+    - ' basic_info '
+    - ' power_off '
+    - ' vacant_system '
+    - ' logon_events '
+    winlog.event_id: 4104
+falsepositives:
+- Administrative scripts that use the same keywords.
+id: 8028c2c3-e25a-46e3-827f-bbb5abf181d7
+level: high
+logsource:
+  definition: Script block logging must be enabled
+  product: windows
+  service: powershell
+modified: 2021/08/30
+product: windows
+references:
+- https://github.com/FortyNorthSecurity/WMImplant
+service: powershell
+status: experimental
+tags:
+- attack.execution
+- attack.t1047
+- attack.t1059.001
+title: WMImplant Hack Tool

@@ -1,0 +1,34 @@
+author: Florian Roth
+category: process_creation
+date: 2019/01/16
+description: Detects suspicious powershell invocations from interpreters or unusual
+  programs
+detection:
+  condition: selection and not falsepositive
+  falsepositive:
+    winlog.event_data.CurrentDirectory|contains: \Health Service State\
+  selection:
+    winlog.event_data.Image|endswith: \powershell.exe
+    winlog.event_data.ParentImage|endswith:
+    - \wscript.exe
+    - \cscript.exe
+falsepositives:
+- Microsoft Operations Manager (MOM)
+- Other scripts
+fields:
+- winlog.event_data.CommandLine
+- winlog.event_data.ParentCommandLine
+id: 95eadcb2-92e4-4ed1-9031-92547773a6db
+level: medium
+logsource:
+  category: process_creation
+  product: windows
+modified: 2020/11/28
+product: windows
+references:
+- https://www.carbonblack.com/2017/03/15/attackers-leverage-excel-powershell-dns-latest-non-malware-attack/
+status: experimental
+tags:
+- attack.execution
+- attack.t1059.001
+title: Suspicious PowerShell Invocation Based on Parent Process

@@ -1,0 +1,25 @@
+author: Florian Roth
+category: process_creation
+date: 2019/10/01
+description: Detects a suspicious program execution in Outlook temp folder
+detection:
+  condition: selection
+  selection:
+    winlog.event_data.Image|contains: \Temporary Internet Files\Content.Outlook\
+falsepositives:
+- Unknown
+fields:
+- winlog.event_data.CommandLine
+- winlog.event_data.ParentCommandLine
+id: a018fdc3-46a3-44e5-9afb-2cd4af1d4b39
+level: high
+logsource:
+  category: process_creation
+  product: windows
+modified: 2021/06/27
+product: windows
+status: experimental
+tags:
+- attack.initial_access
+- attack.t1566.001
+title: Execution in Outlook Temp Folder

@@ -1,0 +1,31 @@
+author: Austin Songer @austinsonger
+date: 2021/07/24
+description: Identifies the suspicious use of GetSessionToken. Tokens could be created
+  and used by attackers to move laterally and escalate privileges.
+detection:
+  condition: selection
+  selection:
+    eventName: GetSessionToken
+    eventSource: sts.amazonaws.com
+    userIdentity.type: IAMUser
+falsepositives:
+- GetSessionToken may be done by a system or network administrator. Verify whether
+  the user identity, user agent, and/or hostname should be making changes in your
+  environment. GetSessionToken from unfamiliar users or hosts should be investigated.
+  If known behavior is causing false positives, it can be exempted from the rule.
+id: b45ab1d2-712f-4f01-a751-df3826969807
+level: low
+logsource:
+  service: cloudtrail
+references:
+- https://github.com/elastic/detection-rules/pull/1213
+- https://docs.aws.amazon.com/STS/latest/APIReference/API_GetSessionToken.html
+service: cloudtrail
+status: experimental
+tags:
+- attack.lateral_movement
+- attack.privilege_escalation
+- attack.t1548
+- attack.t1550
+- attack.t1550.001
+title: AWS STS GetSessionToken Misuse

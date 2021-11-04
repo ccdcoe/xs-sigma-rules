@@ -1,0 +1,29 @@
+author: Jakob Weinzettl, oscd.community
+date: 2019/09/23
+description: Detects a reload or a start of a service.
+detection:
+  condition: selection
+  selection:
+    a0|contains: systemctl
+    a1|contains:
+    - daemon-reload
+    - start
+    type: EXECVE
+falsepositives:
+- Installation of legitimate service.
+- Legitimate reconfiguration of service.
+id: 2625cc59-0634-40d0-821e-cb67382a3dd7
+level: low
+logsource:
+  product: linux
+  service: auditd
+product: linux
+references:
+- https://attack.mitre.org/techniques/T1543/002/
+- https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1543.002/T1543.002.md
+service: auditd
+status: experimental
+tags:
+- attack.persistence
+- attack.t1543.002
+title: Systemd Service Reload or Start

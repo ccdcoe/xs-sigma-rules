@@ -1,0 +1,16 @@
+detection:
+  condition: selection_cmd and selection_opt
+  selection_cmd:
+    ContextInfo|contains: 'Invoke-ATHRemoteFXvGPUDisablementCommand '
+  selection_opt:
+    ContextInfo|contains:
+    - '-ModuleName '
+    - '-ModulePath '
+    - '-ScriptBlock '
+    - -RemoteFXvGPUDisablementFilePath
+id: 38a7625e-b2cb-485d-b83d-aff137d859f4
+logsource:
+  product: windows
+  service: powershell
+product: windows
+service: powershell

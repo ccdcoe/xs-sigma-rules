@@ -1,0 +1,77 @@
+author: Roberto Rodriguez, Teymur Kheirkhabarov, Dimitrios Slamaris, Mark Russinovich,
+  Aleksey Potapov, oscd.community (update)
+date: 2019/11/01
+description: Detects process handle on LSASS process with certain access mask
+detection:
+  condition: selection_1 or selection_2 and not filter1 and not filter2
+  filter1:
+    winlog.event_data.ProcessName|endswith:
+    - \wmiprvse.exe
+    - \taskmgr.exe
+    - \procexp64.exe
+    - \procexp.exe
+    - \lsm.exe
+    - \csrss.exe
+    - \wininit.exe
+    - \vmtoolsd.exe
+    - \minionhost.exe
+    - \VsTskMgr.exe
+    - \thor64.exe
+    winlog.event_data.ProcessName|startswith:
+    - C:\Windows\System32\
+    - C:\Windows\SysWow64\
+    - C:\Windows\SysNative\
+    - C:\Program Files\
+    - C:\Windows\Temp\asgard2-agent\
+  filter2:
+    winlog.event_data.ProcessName|startswith:
+    - C:\Program Files
+  selection_1:
+    winlog.event_data.AccessMask|contains:
+    - '0x40'
+    - '0x1400'
+    - '0x1000'
+    - '0x100000'
+    - '0x1410'
+    - '0x1010'
+    - '0x1438'
+    - '0x143a'
+    - '0x1418'
+    - '0x1f0fff'
+    - '0x1f1fff'
+    - '0x1f2fff'
+    - '0x1f3fff'
+    winlog.event_data.ObjectName|endswith: \lsass.exe
+    winlog.event_id: 4656
+  selection_2:
+    AccessList|contains:
+    - '4484'
+    - '4416'
+    winlog.event_data.ObjectName|endswith: \lsass.exe
+    winlog.event_id: 4663
+falsepositives:
+- Legitimate software accessing LSASS process for legitimate reason; update the whitelist
+  with it
+fields:
+- winlog.ComputerName
+- winlog.event_data.SubjectDomainName
+- winlog.event_data.SubjectUserName
+- winlog.event_data.ProcessName
+- winlog.event_data.ProcessId
+id: 4a1b6da0-d94f-4fc3-98fc-2d9cb9e5ee76
+level: high
+logsource:
+  product: windows
+  service: security
+modified: 2021/04/19
+product: windows
+references:
+- https://cyberwardog.blogspot.com/2017/03/chronicles-of-threat-hunter-hunting-for_22.html
+- https://www.slideshare.net/heirhabarov/hunting-for-credentials-dumping-in-windows-environment
+service: security
+status: experimental
+tags:
+- attack.credential_access
+- car.2019-04-004
+- attack.t1003.001
+title: Generic Password Dumper Activity on LSASS

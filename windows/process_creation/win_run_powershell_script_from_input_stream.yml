@@ -1,0 +1,27 @@
+author: Moriarty Meng (idea), Anton Kutepov (rule), oscd.community
+category: process_creation
+date: 2020/10/17
+description: Detects PowerShell script execution via input stream redirect
+detection:
+  condition: powershell_started and redirect_to_input_stream
+  powershell_started:
+    winlog.event_data.Image|endswith: \powershell.exe
+  redirect_to_input_stream:
+    winlog.event_data.CommandLine|re: \s-\s*<
+falsepositives:
+- Unknown
+id: c83bf4b5-cdf0-437c-90fa-43d734f7c476
+level: high
+logsource:
+  category: process_creation
+  product: windows
+product: windows
+references:
+- https://github.com/LOLBAS-Project/LOLBAS/blob/master/yml/LOLUtilz/OSBinaries/Powershell.yml
+- https://twitter.com/Moriarty_Meng/status/984380793383370752
+status: experimental
+tags:
+- attack.defense_evasion
+- attack.execution
+- attack.t1059
+title: Run PowerShell Script from Redirected Input Stream

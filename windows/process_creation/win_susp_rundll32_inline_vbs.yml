@@ -1,0 +1,28 @@
+author: Florian Roth
+category: process_creation
+date: 2021/03/05
+description: Detects suspicious process related to rundll32 based on command line
+  that invokes inline VBScript as seen being used by UNC2452
+detection:
+  condition: selection
+  selection:
+    winlog.event_data.CommandLine|contains|all:
+    - rundll32.exe
+    - Execute
+    - RegRead
+    - window.close
+falsepositives:
+- Unknown
+id: 1cc50f3f-1fc8-4acf-b2e9-6f172e1fdebd
+level: high
+logsource:
+  category: process_creation
+  product: windows
+product: windows
+references:
+- https://www.microsoft.com/security/blog/2021/03/04/goldmax-goldfinder-sibot-analyzing-nobelium-malware/
+status: experimental
+tags:
+- attack.defense_evasion
+- attack.t1055
+title: Suspicious Rundll32 Invoking Inline VBScript

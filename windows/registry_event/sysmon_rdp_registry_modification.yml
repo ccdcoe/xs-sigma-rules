@@ -1,0 +1,33 @@
+author: Roberto Rodriguez @Cyb3rWard0g
+category: registry_event
+date: 2019/09/12
+description: Detects potential malicious modification of the property value of fDenyTSConnections
+  and UserAuthentication to enable remote desktop connections.
+detection:
+  condition: selection
+  selection:
+    winlog.event_data.Details: DWORD (0x00000000)
+    winlog.event_data.TargetObject|endswith:
+    - \CurrentControlSet\Control\Terminal Server\WinStations\RDP-Tcp\UserAuthentication
+    - \CurrentControlSet\Control\Terminal Server\fDenyTSConnections
+falsepositives:
+- Unknown
+fields:
+- winlog.ComputerName
+- winlog.event_data.Image
+- winlog.event_data.EventType
+- winlog.event_data.TargetObject
+id: 41904ebe-d56c-4904-b9ad-7a77bdf154b3
+level: high
+logsource:
+  category: registry_event
+  product: windows
+modified: 2019/11/10
+product: windows
+references:
+- https://threathunterplaybook.com/notebooks/windows/05_defense_evasion/WIN-190407183310.html
+status: experimental
+tags:
+- attack.defense_evasion
+- attack.t1112
+title: RDP Registry Modification

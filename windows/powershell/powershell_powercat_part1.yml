@@ -1,0 +1,18 @@
+action: global
+author: frack113
+date: 2021/07/21
+description: Adversaries may use a non-application layer protocol for communication
+  between host and C2 server or among infected hosts within a network
+falsepositives:
+- Unknown
+id: c93af5d1-7e34-4386-8ec8-af34201a4f86
+level: medium
+references:
+- https://nmap.org/ncat/
+- https://github.com/besimorhino/powercat
+- https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1095/T1095.md
+status: experimental
+tags:
+- attack.command_and_control
+- attack.t1095
+title: Netcat The Powershell Version

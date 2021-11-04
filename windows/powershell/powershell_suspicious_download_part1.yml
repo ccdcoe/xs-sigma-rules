@@ -1,0 +1,14 @@
+action: global
+author: Florian Roth
+date: 2017/03/05
+description: Detects suspicious PowerShell download command
+falsepositives:
+- PowerShell scripts that download content from the Internet
+id: 63ed625f-fcbe-4909-a287-76f82b19c697
+level: medium
+modified: 2021/07/20
+status: experimental
+tags:
+- attack.execution
+- attack.t1059.001
+title: Suspicious PowerShell Download

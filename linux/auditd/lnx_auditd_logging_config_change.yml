@@ -1,0 +1,31 @@
+author: Mikhail Larin, oscd.community
+date: 2019/10/25
+description: Detect changes of syslog daemons configuration files
+detection:
+  condition: selection
+  selection:
+    name:
+    - /etc/syslog.conf
+    - /etc/rsyslog.conf
+    - /etc/syslog-ng/syslog-ng.conf
+    type: PATH
+falsepositives:
+- Legitimate administrative activity
+fields:
+- exe
+- comm
+- key
+id: c830f15d-6f6e-430f-8074-6f73d6807841
+level: high
+logsource:
+  product: linux
+  service: auditd
+product: linux
+references:
+- self experience
+service: auditd
+status: experimental
+tags:
+- attack.defense_evasion
+- attack.t1562.006
+title: Logging Configuration Changes on Linux Host

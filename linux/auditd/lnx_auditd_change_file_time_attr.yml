@@ -1,0 +1,31 @@
+author: Igor Fits, oscd.community
+date: 2020/10/15
+description: Detect file time attribute change to hide new or changes to existing
+  files.
+detection:
+  condition: execve and touch and selection2
+  execve:
+    type: EXECVE
+  selection2:
+  - -t
+  - -acmr
+  - -d
+  - -r
+  touch:
+  - touch
+falsepositives:
+- Unknown
+id: b3cec4e7-6901-4b0d-a02d-8ab2d8eb818b
+level: medium
+logsource:
+  product: linux
+  service: auditd
+product: linux
+references:
+- https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1070.006/T1070.006.md
+service: auditd
+status: experimental
+tags:
+- attack.defense_evasion
+- attack.t1070.006
+title: File Time Attribute Change

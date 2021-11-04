@@ -1,0 +1,33 @@
+author: Sean Metcalf (source), Florian Roth (rule)
+date: 2017/03/05
+definition: fields have to be extract from event
+description: Detects PowerShell called from an executable by the version mismatch
+  method
+detection:
+  condition: selection1
+  selection1:
+    winlog.event_data.EngineVersion|startswith:
+    - '2.'
+    - '4.'
+    - '5.'
+    winlog.event_data.HostVersion|startswith: '3.'
+    winlog.event_id: 400
+falsepositives:
+- Penetration Tests
+- Unknown
+id: c70e019b-1479-4b65-b0cc-cd0c6093a599
+level: high
+logsource:
+  definition: fields have to be extract from event
+  product: windows
+  service: powershell-classic
+product: windows
+references:
+- https://adsecurity.org/?p=2921
+service: powershell-classic
+status: experimental
+tags:
+- attack.defense_evasion
+- attack.execution
+- attack.t1059.001
+title: PowerShell Called from an Executable Version Mismatch

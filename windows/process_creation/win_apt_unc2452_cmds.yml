@@ -1,0 +1,50 @@
+author: Florian Roth
+category: process_creation
+date: 2021/01/22
+description: Detects a specific process creation patterns as seen used by UNC2452
+  and provided by Microsoft as Microsoft Defender ATP queries
+detection:
+  condition: selection1 or selection2 or selection3 or selection4 or ( specific1 and
+    not filter1 )
+  filter1:
+    winlog.event_data.CommandLine:
+    - ' '
+    - ''
+  selection1:
+    winlog.event_data.CommandLine|contains:
+    - 7z.exe a -v500m -mx9 -r0 -p
+  selection2:
+    winlog.event_data.CommandLine|contains|all:
+    - rundll32.exe
+    - C:\Windows
+    - .dll,Tk_
+    winlog.event_data.ParentCommandLine|contains|all:
+    - wscript.exe
+    - .vbs
+  selection3:
+    winlog.event_data.CommandLine|contains: 'cmd.exe /C '
+    winlog.event_data.ParentCommandLine|contains: C:\Windows
+    winlog.event_data.ParentImage|endswith: \rundll32.exe
+  selection4:
+    winlog.event_data.CommandLine|contains|all:
+    - rundll32 c:\windows\
+    - '.dll '
+  specific1:
+    winlog.event_data.Image|endswith: \dllhost.exe
+    winlog.event_data.ParentImage|endswith: \rundll32.exe
+falsepositives:
+- Unknown
+id: 9be34ad0-b6a7-4fbd-91cf-fc7ec1047f5f
+level: critical
+logsource:
+  category: process_creation
+  product: windows
+modified: 2021/06/27
+product: windows
+references:
+- https://www.microsoft.com/security/blog/2021/01/20/deep-dive-into-the-solorigate-second-stage-activation-from-sunburst-to-teardrop-and-raindrop/
+status: experimental
+tags:
+- attack.execution
+- attack.t1059.001
+title: UNC2452 Process Creation Patterns

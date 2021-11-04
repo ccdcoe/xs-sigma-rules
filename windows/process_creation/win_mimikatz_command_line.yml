@@ -1,0 +1,44 @@
+author: Teymur Kheirkhabarov, oscd.community
+category: process_creation
+date: 2019/10/22
+description: Detection well-known mimikatz command line arguments
+detection:
+  condition: selection_1 or selection_2 and selection_3
+  selection_1:
+    winlog.event_data.CommandLine|contains:
+    - DumpCreds
+    - invoke-mimikatz
+  selection_2:
+    winlog.event_data.CommandLine|contains:
+    - rpc
+    - token
+    - crypto
+    - dpapi
+    - sekurlsa
+    - kerberos
+    - lsadump
+    - privilege
+    - process
+  selection_3:
+    winlog.event_data.CommandLine|contains:
+    - '::'
+falsepositives:
+- Legitimate Administrator using tool for password recovery
+id: a642964e-bead-4bed-8910-1bb4d63e3b4d
+level: medium
+logsource:
+  category: process_creation
+  product: windows
+modified: 2020/09/01
+product: windows
+references:
+- https://www.slideshare.net/heirhabarov/hunting-for-credentials-dumping-in-windows-environment
+status: experimental
+tags:
+- attack.credential_access
+- attack.t1003.001
+- attack.t1003.002
+- attack.t1003.004
+- attack.t1003.005
+- attack.t1003.006
+title: Mimikatz Command Line

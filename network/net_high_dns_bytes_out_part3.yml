@@ -1,0 +1,11 @@
+category: firewall
+detection:
+  condition: selection | sum(message_size) by src_ip > 300000
+  selection:
+    dest_port: 53
+  timeframe: 1m
+id: 3b6e327d-8649-4102-993f-d25786481589
+logsource:
+  category: firewall
+  product: suricata
+product: suricata

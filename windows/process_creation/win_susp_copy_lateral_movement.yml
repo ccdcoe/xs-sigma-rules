@@ -1,0 +1,49 @@
+author: Florian Roth, oscd.community, Teymur Kheirkhabarov @HeirhabarovT, Zach Stanford
+  @svch0st
+category: process_creation
+date: 2019/12/30
+description: Detects a suspicious copy command to or from an Admin share
+detection:
+  condition: (selection1 or selection2 or selection3) and selection4
+  selection1:
+    winlog.event_data.Image|endswith:
+    - \robocopy.exe
+    - \xcopy.exe
+  selection2:
+    winlog.event_data.CommandLine|contains: copy
+    winlog.event_data.Image|endswith: \cmd.exe
+  selection3:
+    winlog.event_data.CommandLine|contains:
+    - copy-item
+    - copy
+    - 'cpi '
+    - ' cp '
+    winlog.event_data.Image|contains: \powershell
+  selection4:
+    winlog.event_data.CommandLine|contains|all:
+    - \\\\
+    - $
+falsepositives:
+- Administrative scripts
+fields:
+- winlog.event_data.CommandLine
+- winlog.event_data.ParentCommandLine
+id: 855bc8b5-2ae8-402e-a9ed-b889e6df1900
+level: high
+logsource:
+  category: process_creation
+  product: windows
+modified: 2020/11/28
+product: windows
+references:
+- https://twitter.com/SBousseaden/status/1211636381086339073
+- https://drive.google.com/file/d/1lKya3_mLnR3UQuCoiYruO3qgu052_iS_/view
+status: experimental
+tags:
+- attack.lateral_movement
+- attack.collection
+- attack.exfiltration
+- attack.t1039
+- attack.t1048
+- attack.t1021.002
+title: Copy from Admin Share

@@ -1,0 +1,36 @@
+author: Agro (@agro_sev) oscd.communitly
+category: process_creation
+date: 2020/10/13
+description: This rule detects execution of a PowerShell code through the sqltoolsps.exe
+  utility, which is included in the standard set of utilities supplied with the Microsoft
+  SQL Server Management studio. Script blocks are not logged in this case, so this
+  utility helps to bypass protection mechanisms based on the analysis of these logs.
+detection:
+  condition: selection1 or selection2 or selection3 and not reduction
+  reduction:
+    winlog.event_data.ParentImage|endswith: \smss.exe
+  selection1:
+    winlog.event_data.Image|endswith: \sqltoolsps.exe
+  selection2:
+    winlog.event_data.ParentImage|endswith: \sqltoolsps.exe
+  selection3:
+    winlog.event_data.OriginalFileName: \sqltoolsps.exe
+falsepositives:
+- Direct PS command execution through SQLToolsPS.exe is uncommon, childprocess sqltoolsps.exe
+  spawned by smss.exe is a legitimate action.
+id: a746c9b8-a2fb-4ee5-a428-92bee9e99060
+level: medium
+logsource:
+  category: process_creation
+  product: windows
+product: windows
+references:
+- https://github.com/LOLBAS-Project/LOLBAS/blob/master/yml/OtherMSBinaries/Sqltoolsps.yml
+- https://twitter.com/pabraeken/status/993298228840992768
+status: experimental
+tags:
+- attack.execution
+- attack.t1059.001
+- attack.defense_evasion
+- attack.t1127
+title: SQL Client Tools PowerShell Session Detection

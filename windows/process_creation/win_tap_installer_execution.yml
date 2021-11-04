@@ -1,0 +1,22 @@
+author: Daniil Yugoslavskiy, Ian Davis, oscd.community
+category: process_creation
+date: 2019/10/24
+description: Well-known TAP software installation. Possible preparation for data exfiltration
+  using tunneling techniques
+detection:
+  condition: selection
+  selection:
+    winlog.event_data.Image|endswith: \tapinstall.exe
+falsepositives:
+- Legitimate OpenVPN TAP insntallation
+id: 99793437-3e16-439b-be0f-078782cf953d
+level: medium
+logsource:
+  category: process_creation
+  product: windows
+product: windows
+status: experimental
+tags:
+- attack.exfiltration
+- attack.t1048
+title: Tap Installer Execution

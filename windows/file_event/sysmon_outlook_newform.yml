@@ -1,0 +1,27 @@
+author: Tobias Michalski
+category: file_event
+date: 2021/06/10
+description: Detects the creation of new Outlook form which can contain malicious
+  code
+detection:
+  condition: selection
+  selection:
+    winlog.event_data.Image: \outlook.exe
+    winlog.event_data.TargetFilename|contains: \appdata\local\microsoft\FORMS\
+falsepositives:
+- unknown
+fields:
+- winlog.event_data.TargetFilename
+id: c3edc6a5-d9d4-48d8-930e-aab518390917
+level: high
+logsource:
+  category: file_event
+  product: windows
+product: windows
+references:
+- https://twitter.com/blueteamsec1/status/1401290874202382336?s=20
+status: experimental
+tags:
+- attack.persistence
+- attack.t1137.003
+title: Outlook Form Installation

@@ -1,0 +1,34 @@
+author: Sreeman
+category: process_creation
+date: 2020/10/29
+description: BITS will allow you to schedule a command to execute after a successful
+  download to notify you that the job is finished. When the job runs on the system
+  the command specified in the BITS job will be executed. This can be abused by actors
+  to create a backdoor within the system and for persistence. It will be chained in
+  a BITS job to schedule the download of malware/additional binaries and execute the
+  program after being downloaded
+detection:
+  condition: selection_1 or selection_2
+  selection_1:
+    winlog.event_data.CommandLine|re: (?i).*bitsadmin.*\/SetNotifyCmdLine.*(%COMSPEC%|cmd.exe|regsvr32.exe).*
+  selection_2:
+    winlog.event_data.CommandLine|re: (?i).*bitsadmin.*\/Addfile.*(http|https|ftp|ftps):.*
+falsepositives:
+- None observed yet.
+fields:
+- winlog.event_data.CommandLine
+id: b9cbbc17-d00d-4e3d-a827-b06d03d2380d
+level: medium
+logsource:
+  category: process_creation
+  product: windows
+modified: 2021/07/15
+product: windows
+references:
+- https://www.fireeye.com/blog/threat-research/2020/10/kegtap-and-singlemalt-with-a-ransomware-chaser.html
+- http://0xthem.blogspot.com/2014/03/t-emporal-persistence-with-and-schtasks.html
+- https://isc.sans.edu/diary/Wipe+the+drive+Stealthy+Malware+Persistence+Mechanism+-+Part+1/15394
+status: experimental
+tags:
+- attack.defense_evasion
+title: Monitoring For Persistence Via BITS

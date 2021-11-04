@@ -1,0 +1,41 @@
+author: Alejandro Ortuno, oscd.community
+category: process_creation
+date: 2020/10/08
+description: Detects enumeration of local systeam accounts
+detection:
+  condition: 1 of them
+  selection_1:
+    Image|endswith:
+    - /lastlog
+  selection_2:
+    CommandLine|contains:
+    - '''x:0:'''
+  selection_3:
+    CommandLine|contains:
+    - /etc/passwd
+    - /etc/sudoers
+    Image|endswith:
+    - /cat
+  selection_4:
+    Image|endswith:
+    - /id
+  selection_5:
+    CommandLine|contains:
+    - -u
+    Image|endswith:
+    - /lsof
+falsepositives:
+- Legitimate administration activities
+id: b45e3d6f-42c6-47d8-a478-df6bd6cf534c
+level: low
+logsource:
+  category: process_creation
+  product: linux
+product: linux
+references:
+- https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1087.001/T1087.001.md
+status: experimental
+tags:
+- attack.discovery
+- attack.t1087.001
+title: Local System Accounts Discovery

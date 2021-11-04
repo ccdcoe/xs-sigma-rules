@@ -1,0 +1,25 @@
+author: Christian Burkard
+category: file_event
+date: 2021/08/30
+description: Detects the pattern of UAC Bypass using a msconfig GUI hack (UACMe 55)
+detection:
+  condition: selection
+  selection:
+    winlog.event_data.TargetFilename|endswith: \AppData\Local\Temp\pkgmgr.exe
+    winlog.event_data.TargetFilename|startswith: C:\Users\
+falsepositives:
+- Unknown
+id: 41bb431f-56d8-4691-bb56-ed34e390906f
+level: high
+logsource:
+  category: file_event
+  product: windows
+product: windows
+references:
+- https://github.com/hfiref0x/UACME
+status: experimental
+tags:
+- attack.defense_evasion
+- attack.privilege_escalation
+- attack.t1548.002
+title: UAC Bypass Using MSConfig Token Modification - File

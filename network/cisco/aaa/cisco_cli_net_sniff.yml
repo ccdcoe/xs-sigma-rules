@@ -1,0 +1,28 @@
+author: Austin Clark
+category: accounting
+date: 2019/08/11
+description: Show when a monitor or a span/rspan is setup or modified
+detection:
+  condition: keywords
+  keywords:
+  - monitor capture point
+  - set span
+  - set rspan
+falsepositives:
+- Admins may setup new or modify old spans, or use a monitor for troubleshooting
+fields:
+- CmdSet
+id: b9e1f193-d236-4451-aaae-2f3d2102120d
+level: medium
+logsource:
+  category: accounting
+  product: cisco
+  service: aaa
+product: cisco
+service: aaa
+status: experimental
+tags:
+- attack.credential_access
+- attack.discovery
+- attack.t1040
+title: Cisco Sniffing

@@ -1,0 +1,24 @@
+author: "\xD6mer G\xFCnal, oscd.community"
+category: process_creation
+date: 2020/10/05
+description: Detects installed new certificate
+detection:
+  condition: selection
+  selection:
+    Image|endswith:
+    - /update-ca-certificates
+    - /update-ca-trust
+falsepositives:
+- Legitimate administration activities
+id: 78a80655-a51e-4669-bc6b-e9d206a462ee
+level: low
+logsource:
+  category: process_creation
+  product: linux
+product: linux
+references:
+- https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1553.004/T1553.004.md
+tags:
+- attack.defense_evasion
+- attack.t1553.004
+title: Install Root Certificate

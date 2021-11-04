@@ -1,0 +1,32 @@
+author: frack113
+category: process_creation
+date: 2021/07/13
+description: Executes SCT script using scrobj.dll from a command in entered into a
+  specially prepared INF file.
+detection:
+  condition: selection
+  selection:
+    winlog.event_data.CommandLine|contains|all:
+    - 'InfDefaultInstall.exe '
+    - '.inf'
+falsepositives:
+- Unknown
+fields:
+- winlog.ComputerName
+- winlog.event_data.User
+- winlog.event_data.CommandLine
+- winlog.event_data.ParentCommandLine
+id: ce7cf472-6fcc-490a-9481-3786840b5d9b
+level: medium
+logsource:
+  category: process_creation
+  product: windows
+product: windows
+references:
+- https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1218/T1218.md
+- https://github.com/LOLBAS-Project/LOLBAS/blob/master/yml/OSBinaries/Infdefaultinstall.yml
+status: experimental
+tags:
+- attack.defense_evasion
+- attack.t1562.001
+title: InfDefaultInstall.exe .inf Execution

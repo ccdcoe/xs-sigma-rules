@@ -1,0 +1,38 @@
+author: Karneades, Swisscom CSIRT
+category: process_creation
+date: 2019/08/05
+description: Detects a Windows command line executable started from MMC
+detection:
+  condition: selection and selection2
+  selection:
+    winlog.event_data.ParentImage|endswith: \mmc.exe
+  selection2:
+  - winlog.event_data.Image|endswith:
+    - \cmd.exe
+    - \powershell.exe
+    - \wscript.exe
+    - \cscript.exe
+    - \sh.exe
+    - \bash.exe
+    - \reg.exe
+    - \regsvr32.exe
+  - winlog.event_data.Image|contains:
+    - \BITSADMIN
+fields:
+- winlog.event_data.CommandLine
+- winlog.event_data.Image
+- winlog.event_data.ParentCommandLine
+id: 05a2ab7e-ce11-4b63-86db-ab32e763e11d
+level: high
+logsource:
+  category: process_creation
+  product: windows
+modified: 2020/09/01
+product: windows
+references:
+- https://enigma0x3.net/2017/01/05/lateral-movement-using-the-mmc20-application-com-object/
+status: experimental
+tags:
+- attack.lateral_movement
+- attack.t1021.003
+title: MMC Spawning Windows Shell

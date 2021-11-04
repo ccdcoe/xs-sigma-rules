@@ -1,0 +1,22 @@
+action: global
+author: Jonathan Cheong, oscd.community
+date: 2020/10/15
+description: Detects Obfuscated use of Environment Variables to execute PowerShell
+detection:
+  condition: all of them
+  selection:
+    ImagePath|re: .*cmd.{0,5}(?:\/c|\/r)(?:\s|)\"set\s[a-zA-Z]{3,6}.*(?:\{\d\}){1,}\\\"\s+?\-f(?:.*\)){1,}.*\"
+falsepositives:
+- Unknown
+id: d75d0416-4695-4296-8aa7-8087031a8650
+level: high
+modified: 2021/08/09
+references:
+- https://github.com/Neo23x0/sigma/issues/1009
+status: experimental
+tags:
+- attack.defense_evasion
+- attack.t1027
+- attack.execution
+- attack.t1059.001
+title: Invoke-Obfuscation VAR+ Launcher

@@ -1,0 +1,29 @@
+author: Florian Roth
+category: process_creation
+date: 2019/03/04
+description: Detects Hurricane Panda Activity
+detection:
+  condition: selection
+  selection:
+  - winlog.event_data.CommandLine|contains|all:
+    - localgroup
+    - admin
+    - /add
+  - winlog.event_data.CommandLine|contains:
+    - \Win64.exe
+falsepositives:
+- Unknown
+id: 0eb2107b-a596-422e-b123-b389d5594ed7
+level: high
+logsource:
+  category: process_creation
+  product: windows
+product: windows
+references:
+- https://www.crowdstrike.com/blog/crowdstrike-discovers-use-64-bit-zero-day-privilege-escalation-exploit-cve-2014-4113-hurricane-panda/
+status: experimental
+tags:
+- attack.privilege_escalation
+- attack.g0009
+- attack.t1068
+title: Hurricane Panda Activity

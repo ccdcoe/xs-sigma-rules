@@ -1,0 +1,10 @@
+category: process_creation
+detection:
+  condition: 1 of them
+  selection2:
+    winlog.event_data.CommandLine|contains: ' -accepteula'
+id: 7cccd811-7ae9-4ebe-9afd-cb5c406b824b
+logsource:
+  category: process_creation
+  product: windows
+product: windows

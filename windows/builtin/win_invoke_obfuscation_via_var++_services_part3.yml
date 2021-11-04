@@ -1,0 +1,9 @@
+category: driver_load
+detection:
+  selection_eventid:
+    winlog.event_id: 6
+id: 7b9a650e-6788-4fdf-888d-ec7c0a62810d
+logsource:
+  category: driver_load
+  product: windows
+product: windows

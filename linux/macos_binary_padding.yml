@@ -1,0 +1,35 @@
+author: Igor Fits, Mikhail Larin, oscd.community
+category: process_creation
+date: 2020/10/19
+description: Adversaries may use binary padding to add junk data and change the on-disk
+  representation of malware. This rule detect using dd and truncate to add a junk
+  data to file.
+detection:
+  condition: selection1 or (selection2 and not filter)
+  filter:
+    CommandLine|contains: of=
+  selection1:
+    CommandLine|contains:
+    - -s
+    Image|endswith:
+    - /truncate
+  selection2:
+    CommandLine|contains:
+    - if=
+    Image|endswith:
+    - /dd
+falsepositives:
+- Legitimate script work
+id: 95361ce5-c891-4b0a-87ca-e24607884a96
+level: high
+logsource:
+  category: process_creation
+  product: macos
+product: macos
+references:
+- https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1027.001/T1027.001.md
+status: experimental
+tags:
+- attack.defense_evasion
+- attack.t1027.001
+title: Binary Padding

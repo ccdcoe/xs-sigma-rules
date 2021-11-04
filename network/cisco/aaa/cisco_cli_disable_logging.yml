@@ -1,0 +1,30 @@
+author: Austin Clark
+category: accounting
+date: 2019/08/11
+description: Turn off logging locally or remote
+detection:
+  condition: keywords
+  keywords:
+  - no logging
+  - no aaa new-model
+falsepositives:
+- Unknown
+fields:
+- src
+- CmdSet
+- User
+- Privilege_Level
+- Remote_Address
+id: 9e8f6035-88bf-4a63-96b6-b17c0508257e
+level: high
+logsource:
+  category: accounting
+  product: cisco
+  service: aaa
+product: cisco
+service: aaa
+status: experimental
+tags:
+- attack.defense_evasion
+- attack.t1562.001
+title: Cisco Disabling Logging

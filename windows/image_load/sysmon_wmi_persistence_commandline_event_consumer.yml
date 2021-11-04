@@ -1,0 +1,25 @@
+author: Thomas Patzke
+category: image_load
+date: 2018/03/07
+description: Detects WMI command line event consumers
+detection:
+  condition: selection
+  selection:
+    winlog.event_data.Image: C:\Windows\System32\wbem\WmiPrvSE.exe
+    winlog.event_data.ImageLoaded|endswith: \wbemcons.dll
+falsepositives:
+- Unknown (data set is too small; further testing needed)
+id: 05936ce2-ee05-4dae-9d03-9a391cf2d2c6
+level: high
+logsource:
+  category: image_load
+  product: windows
+modified: 2020/08/23
+product: windows
+references:
+- https://www.eideon.com/2018-03-02-THL03-WMIBackdoors/
+status: experimental
+tags:
+- attack.t1546.003
+- attack.persistence
+title: WMI Persistence - Command Line Event Consumer

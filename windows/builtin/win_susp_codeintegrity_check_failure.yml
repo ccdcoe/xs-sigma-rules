@@ -1,0 +1,24 @@
+author: Thomas Patzke
+date: 2019/12/03
+description: Code integrity failures may indicate tampered executables.
+detection:
+  condition: selection
+  selection:
+    winlog.event_id:
+    - 5038
+    - 6281
+falsepositives:
+- Disk device errors
+id: 470ec5fa-7b4e-4071-b200-4c753100f49b
+level: low
+logsource:
+  product: windows
+  service: security
+modified: 2020/08/23
+product: windows
+service: security
+status: stable
+tags:
+- attack.defense_evasion
+- attack.t1027.001
+title: Failed Code Integrity Checks

@@ -1,0 +1,30 @@
+author: Florian Roth
+category: process_creation
+date: 2019/07/13
+description: Detects a flag anomaly in which regsvr32.exe uses a /i flag without using
+  a /n flag at the same time
+detection:
+  condition: selection and not filter
+  filter:
+    winlog.event_data.CommandLine|contains: ' /n '
+  selection:
+    winlog.event_data.CommandLine|contains: ' /i:'
+    winlog.event_data.Image|endswith: \regsvr32.exe
+falsepositives:
+- Unknown
+fields:
+- winlog.event_data.CommandLine
+- winlog.event_data.ParentCommandLine
+id: b236190c-1c61-41e9-84b3-3fe03f6d76b0
+level: high
+logsource:
+  category: process_creation
+  product: windows
+product: windows
+references:
+- https://twitter.com/sbousseaden/status/1282441816986484737?s=12
+status: experimental
+tags:
+- attack.defense_evasion
+- attack.t1218.010
+title: Regsvr32 Flags Anomaly

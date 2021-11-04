@@ -1,0 +1,16 @@
+definition: Script block logging must be enabled
+detection:
+  selection:
+    winlog.event_data.ScriptBlockText|contains|all:
+    - get-itemProperty
+    - \software\
+    - select-object
+    - format-table
+    winlog.event_id: 4104
+id: 2650dd1a-eb2a-412d-ac36-83f06c4f2282
+logsource:
+  definition: Script block logging must be enabled
+  product: windows
+  service: powershell
+product: windows
+service: powershell

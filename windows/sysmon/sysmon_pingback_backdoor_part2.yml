@@ -1,0 +1,11 @@
+category: file_event
+detection:
+  condition: selection
+  selection:
+    winlog.event_data.Image|endswith: updata.exe
+    winlog.event_data.TargetFilename: C:\Windows\oci.dll
+id: 2bd63d53-84d4-4210-80ff-bf0658f1bf78
+logsource:
+  category: file_event
+  product: windows
+product: windows

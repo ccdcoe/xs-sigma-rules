@@ -1,0 +1,28 @@
+author: Florian Roth
+category: dns
+date: 2018/05/10
+description: Detects suspicious DNS queries using base64 encoding
+detection:
+  condition: selection
+  selection:
+    query|contains: ==.
+falsepositives:
+- Unknown
+id: 4153a907-2451-4e4f-a578-c52bb6881432
+level: medium
+logsource:
+  category: dns
+  product: suricata
+  service: dns
+modified: 2021/08/09
+product: suricata
+references:
+- https://github.com/krmaxwell/dns-exfiltration
+service: dns
+status: experimental
+tags:
+- attack.exfiltration
+- attack.t1048.003
+- attack.command_and_control
+- attack.t1071.004
+title: Suspicious DNS Query with B64 Encoded String

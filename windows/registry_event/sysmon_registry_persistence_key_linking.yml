@@ -1,0 +1,28 @@
+author: Kutepov Anton, oscd.community
+category: registry_event
+date: 2019/10/23
+description: Detects COM object hijacking via TreatAs subkey
+detection:
+  condition: selection
+  selection:
+    winlog.event_data.EventType: CreateKey
+    winlog.event_data.TargetObject|contains|all:
+    - HKU\
+    - _Classes\CLSID\
+    - \TreatAs
+falsepositives:
+- Maybe some system utilities in rare cases use linking keys for backward compatibility
+id: 9b0f8a61-91b2-464f-aceb-0527e0a45020
+level: medium
+logsource:
+  category: registry_event
+  product: windows
+modified: 2019/11/07
+product: windows
+references:
+- https://bohops.com/2018/08/18/abusing-the-com-registry-structure-part-2-loading-techniques-for-evasion-and-persistence/
+status: experimental
+tags:
+- attack.persistence
+- attack.t1546.015
+title: Windows Registry Persistence COM Key Linking

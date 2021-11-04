@@ -1,0 +1,30 @@
+author: Jakob Weinzettl, oscd.community
+category: process_creation
+date: 2019/10/23
+description: Detects a windows service to be stopped
+detection:
+  condition: selection
+  selection:
+    winlog.event_data.CommandLine|contains: stop
+    winlog.event_data.Image|endswith:
+    - \sc.exe
+    - \net.exe
+    - \net1.exe
+falsepositives:
+- Administrator shutting down the service due to upgrade or removal purposes
+fields:
+- winlog.ComputerName
+- winlog.event_data.User
+- winlog.event_data.CommandLine
+id: eb87818d-db5d-49cc-a987-d5da331fbd90
+level: low
+logsource:
+  category: process_creation
+  product: windows
+modified: 2021/08/14
+product: windows
+status: experimental
+tags:
+- attack.impact
+- attack.t1489
+title: Stop Windows Service

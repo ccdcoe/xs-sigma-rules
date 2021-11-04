@@ -1,0 +1,31 @@
+author: Pawel Mazur
+date: 2021/09/04
+description: Detects attempts to record audio with arecord utility
+detection:
+  condition: selection
+  selection:
+    a0:
+    - arecord
+    a1:
+    - -vv
+    a2:
+    - -fdat
+    type: EXECVE
+falsepositives:
+- None
+id: a7af2487-9c2f-42e4-9bb9-ff961f0561d5
+level: low
+logsource:
+  product: linux
+  service: auditd
+product: linux
+references:
+- https://linux.die.net/man/1/arecord
+- https://linuxconfig.org/how-to-test-microphone-with-audio-linux-sound-architecture-alsa
+- https://attack.mitre.org/techniques/T1123/
+service: auditd
+status: experimental
+tags:
+- attack.collection
+- attack.t1123
+title: Audio Capture

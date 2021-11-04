@@ -1,0 +1,18 @@
+action: global
+author: Daniil Yugoslavskiy, Ian Davis, oscd.community
+date: 2019/10/24
+description: Well-known TAP software installation. Possible preparation for data exfiltration
+  using tunnelling techniques
+detection:
+  condition: selection
+  selection:
+    ImagePath|contains: tap0901
+falsepositives:
+- Legitimate OpenVPN TAP insntallation
+id: ec2419b0-9079-4eaf-8db8-75541d0bc740
+level: medium
+status: experimental
+tags:
+- attack.exfiltration
+- attack.t1048
+title: Tap Driver Installation

@@ -1,0 +1,18 @@
+definition: fields have to be extract from event
+detection:
+  condition: selection_cmd and selection_opt
+  selection_cmd:
+    HostApplication|contains: 'Invoke-ATHRemoteFXvGPUDisablementCommand '
+  selection_opt:
+    HostApplication|contains:
+    - '-ModuleName '
+    - '-ModulePath '
+    - '-ScriptBlock '
+    - -RemoteFXvGPUDisablementFilePath
+id: f65e22f9-819e-4f96-9c7b-498364ae7a25
+logsource:
+  definition: fields have to be extract from event
+  product: windows
+  service: powershell-classic
+product: windows
+service: powershell-classic

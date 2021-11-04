@@ -1,0 +1,29 @@
+author: Florian Roth
+category: webserver
+date: 2021/05/14
+description: Detects successful exploitation of Exchange vulnerability as reported
+  in CVE-2021-28480
+detection:
+  condition: selection and not filter
+  filter:
+    sc-status: 503
+  selection:
+    http.http_method: POST
+    http.url|contains: /owa/calendar/a
+falsepositives:
+- Unknown
+id: a2a9d722-0acb-4096-bccc-daaf91a5037b
+level: critical
+logsource:
+  category: webserver
+  product: suricata
+  service: http
+product: suricata
+references:
+- https://twitter.com/GossiTheDog/status/1392965209132871683?s=20
+service: http
+status: experimental
+tags:
+- attack.initial_access
+- attack.t1190
+title: Exchange Exploitation CVE-2021-28480

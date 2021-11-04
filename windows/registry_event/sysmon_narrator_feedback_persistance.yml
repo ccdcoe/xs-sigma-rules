@@ -1,0 +1,27 @@
+author: Dmitriy Lifanov, oscd.community
+category: registry_event
+date: 2019/10/25
+description: Detects abusing Windows 10 Narrator's Feedback-Hub
+detection:
+  condition: 1 of them
+  selection1:
+    winlog.event_data.EventType: DeleteValue
+    winlog.event_data.TargetObject|endswith: \AppXypsaf9f1qserqevf0sws76dx4k9a5206\Shell\open\command\DelegateExecute
+  selection2:
+    winlog.event_data.TargetObject|endswith: \AppXypsaf9f1qserqevf0sws76dx4k9a5206\Shell\open\command\(Default)
+falsepositives:
+- unknown
+id: f663a6d9-9d1b-49b8-b2b1-0637914d199a
+level: high
+logsource:
+  category: registry_event
+  product: windows
+modified: 2020/09/06
+product: windows
+references:
+- https://giuliocomi.blogspot.com/2019/10/abusing-windows-10-narrators-feedback.html
+status: experimental
+tags:
+- attack.persistence
+- attack.t1547.001
+title: Narrator's Feedback-Hub Persistence

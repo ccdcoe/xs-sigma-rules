@@ -1,0 +1,11 @@
+detection:
+  condition: selection
+  selection:
+    winlog.event_data.ServiceName: ZzNetSvc
+    winlog.event_id: 7045
+id: 25b9c01c-350d-4b95-bed1-836d04a4f324
+logsource:
+  product: windows
+  service: system
+product: windows
+service: system

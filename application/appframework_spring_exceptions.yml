@@ -1,0 +1,32 @@
+author: Thomas Patzke
+category: application
+date: 2017/08/06
+description: Detects suspicious Spring framework exceptions that could indicate exploitation
+  attempts
+detection:
+  condition: keywords
+  keywords:
+  - AccessDeniedException
+  - CsrfException
+  - InvalidCsrfTokenException
+  - MissingCsrfTokenException
+  - CookieTheftException
+  - InvalidCookieException
+  - RequestRejectedException
+falsepositives:
+- Application bugs
+- Penetration testing
+id: ae48ab93-45f7-4051-9dfe-5d30a3f78e33
+level: medium
+logsource:
+  category: application
+  product: linux
+modified: 2020/09/01
+product: linux
+references:
+- https://docs.spring.io/spring-security/site/docs/current/apidocs/overview-tree.html
+status: stable
+tags:
+- attack.initial_access
+- attack.t1190
+title: Spring Framework Exceptions

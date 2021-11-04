@@ -1,0 +1,33 @@
+author: Avneet Singh @v3t0_, oscd.community
+category: process_creation
+date: 2020/10/18
+description: This rule detects DLL injection and execution via LOLBAS - Tracker.exe
+detection:
+  commandline_param1:
+    winlog.event_data.CommandLine|contains:
+    - ' /d '
+  commandline_param2:
+    winlog.event_data.CommandLine|contains:
+    - ' /c '
+  condition: (process_name or process_description) and commandline_param1 and commandline_param2
+  process_description:
+    winlog.event_data.Description:
+    - Tracker
+  process_name:
+    winlog.event_data.Image|endswith:
+    - \tracker.exe
+falsepositives:
+- Unknown
+id: 148431ce-4b70-403d-8525-fcc2993f29ea
+level: medium
+logsource:
+  category: process_creation
+  product: windows
+product: windows
+references:
+- https://github.com/LOLBAS-Project/LOLBAS/blob/master/yml/OtherMSBinaries/Tracker.yml
+status: experimental
+tags:
+- attack.defense_evasion
+- attack.t1055.001
+title: DLL Injection with Tracker.exe

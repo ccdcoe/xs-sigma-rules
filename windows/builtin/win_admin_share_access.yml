@@ -1,0 +1,29 @@
+author: Florian Roth
+date: 2017/03/04
+definition: The advanced audit policy setting "Object Access > Audit File Share" must
+  be configured for Success/Failure
+description: Detects access to $ADMIN share
+detection:
+  condition: selection and not filter
+  filter:
+    winlog.event_data.SubjectUserName|endswith: $
+  selection:
+    winlog.event_data.ShareName: Admin$
+    winlog.event_id: 5140
+falsepositives:
+- Legitimate administrative activity
+id: 098d7118-55bc-4912-a836-dc6483a8d150
+level: low
+logsource:
+  definition: The advanced audit policy setting "Object Access > Audit File Share"
+    must be configured for Success/Failure
+  product: windows
+  service: security
+modified: 2020/08/23
+product: windows
+service: security
+status: experimental
+tags:
+- attack.lateral_movement
+- attack.t1021.002
+title: Access to ADMIN$ Share

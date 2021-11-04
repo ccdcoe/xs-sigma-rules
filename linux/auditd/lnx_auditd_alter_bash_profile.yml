@@ -1,0 +1,34 @@
+author: Peter Matkovski
+date: 2019/05/12
+description: Detects change of user environment. Adversaries can insert code into
+  these files to gain persistence each time a user logs in or opens a new shell.
+detection:
+  condition: selection
+  selection:
+    name:
+    - /home/*/.bashrc
+    - /home/*/.bash_profile
+    - /home/*/.profile
+    - /etc/profile
+    - /etc/shells
+    - /etc/bashrc
+    - /etc/csh.cshrc
+    - /etc/csh.login
+    type: PATH
+falsepositives:
+- Admin or User activity
+id: e74e15cc-c4b6-4c80-b7eb-dfe49feb7fe9
+level: medium
+logsource:
+  product: linux
+  service: auditd
+product: linux
+references:
+- 'MITRE Attack technique T1156; .bash_profile and .bashrc. '
+service: auditd
+status: experimental
+tags:
+- attack.s0003
+- attack.persistence
+- attack.t1546.004
+title: Edit of .bash_profile and .bashrc

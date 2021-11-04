@@ -1,0 +1,11 @@
+category: firewall
+detection:
+  condition: selection | count() by src_ip > 1000
+  selection:
+    dest_port: 53
+  timeframe: 1m
+id: 51186749-7415-46be-90e5-6914865c825a
+logsource:
+  category: firewall
+  product: suricata
+product: suricata

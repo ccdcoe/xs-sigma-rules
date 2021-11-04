@@ -1,0 +1,33 @@
+author: Florian Roth, KevTheHermit, fuzzyf10w
+date: 2021/06/30
+description: Detect Attempt PrintNightmare (CVE-2021-1675) Remote code execution in
+  Windows Spooler Service
+detection:
+  condition: selection
+  selection:
+    ServerName|startswith: \1
+    winlog.event_data.Description|contains: Rejected an insecure guest logon
+    winlog.event_data.UserName: ''
+    winlog.event_id: 31017
+falsepositives:
+- Account fallback reasons (after failed login with specific account)
+fields:
+- winlog.event_data.Computer
+- winlog.event_data.User
+id: 71886b70-d7b4-4dbf-acce-87d2ca135262
+level: medium
+logsource:
+  product: windows
+  service: smbclient-security
+modified: 2021/07/05
+product: windows
+references:
+- https://twitter.com/KevTheHermit/status/1410203844064301056
+- https://github.com/hhlxf/PrintNightmare
+- https://github.com/afwu/PrintNightmare
+service: smbclient-security
+status: experimental
+tags:
+- attack.credential_access
+- attack.t1110.001
+title: Suspicious Rejected SMB Guest Logon From IP

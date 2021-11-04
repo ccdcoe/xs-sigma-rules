@@ -1,0 +1,27 @@
+author: Jose Rodriguez @Cyb3rPandaH
+date: 2021/03/15
+description: Rule to detect an adversary setting OabVirtualDirectory External URL
+  property to a script
+detection:
+  condition: all of selection
+  selection:
+  - Set-OabVirtualDirectory
+  - ExternalUrl
+  - Page_Load
+  - script
+falsepositives:
+- Unknown
+id: 9db37458-4df2-46a5-95ab-307e7f29e675
+level: high
+logsource:
+  product: windows
+  service: msexchange-management
+product: windows
+references:
+- https://twitter.com/OTR_Community/status/1371053369071132675
+service: msexchange-management
+status: experimental
+tags:
+- attack.persistence
+- attack.t1505.003
+title: Set OabVirtualDirectory ExternalUrl Property

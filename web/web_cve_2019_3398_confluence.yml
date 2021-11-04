@@ -1,0 +1,32 @@
+author: Florian Roth
+category: webserver
+date: 2020/05/26
+description: Detects the exploitation of the Confluence vulnerability described in
+  CVE-2019-3398
+detection:
+  condition: selection
+  selection:
+    http.http_method: POST
+    http.url|contains|all:
+    - /upload.action
+    - filename=../../../../
+falsepositives:
+- Unknown
+fields:
+- src_ip
+- http.hostname
+id: e9bc39ae-978a-4e49-91ab-5bd481fc668b
+level: critical
+logsource:
+  category: webserver
+  product: suricata
+  service: http
+product: suricata
+references:
+- https://devcentral.f5.com/s/articles/confluence-arbitrary-file-write-via-path-traversal-cve-2019-3398-34181
+service: http
+status: experimental
+tags:
+- attack.initial_access
+- attack.t1190
+title: Confluence Exploitation CVE-2019-3398

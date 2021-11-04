@@ -1,0 +1,27 @@
+author: austinsonger
+category: ThreatManagement
+date: 2021/08/19
+description: Detects when a Microsoft Cloud App Security reported when a user uploads
+  files to the cloud that might be infected with ransomware.
+detection:
+  condition: selection
+  selection:
+    eventName: Potential ransomware activity
+    eventSource: SecurityComplianceCenter
+    status: success
+falsepositives:
+- Unknown
+id: bd132164-884a-48f1-aa2d-c6d646b04c69
+level: medium
+logsource:
+  category: ThreatManagement
+  service: Microsoft365
+references:
+- https://docs.microsoft.com/en-us/cloud-app-security/anomaly-detection-policy
+- https://docs.microsoft.com/en-us/cloud-app-security/policy-template-reference
+service: Microsoft365
+status: experimental
+tags:
+- attack.impact
+- attack.t1486
+title: Microsoft 365 - Potential Ransomware Activity

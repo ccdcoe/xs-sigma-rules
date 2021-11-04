@@ -1,0 +1,36 @@
+author: Florian Roth
+category: webserver
+date: 2021/02/22
+description: Detects access to DEWMODE webshell as described in FIREEYE report
+detection:
+  condition: 1 of them
+  selection1:
+    http.url|contains|all:
+    - ?dwn=
+    - '&fn='
+    - .html?
+  selection2:
+    http.url|contains|all:
+    - '&dwn='
+    - ?fn=
+    - .html?
+falsepositives:
+- Unknown
+fields:
+- scr_ip
+- http.status
+id: fdf96c90-42d5-4406-8a9c-14a2c9a016b5
+level: critical
+logsource:
+  category: webserver
+  product: suricata
+  service: http
+product: suricata
+references:
+- https://www.fireeye.com/blog/threat-research/2021/02/accellion-fta-exploited-for-data-theft-and-extortion.html
+service: http
+status: experimental
+tags:
+- attack.persistence
+- attack.t1505.003
+title: DEWMODE Webshell Access

@@ -1,0 +1,15 @@
+action: global
+author: "\xD6mer G\xFCnal, Alejandro Ortuno, oscd.community"
+date: 2020/06/17
+description: Detects disabling security tools
+falsepositives:
+- Legitimate administration activities
+id: 6b9525b1-f39c-44e2-ac0d-d1ee84a6acd6
+level: medium
+references:
+- https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1562.004/T1562.004.md
+status: experimental
+tags:
+- attack.defense_evasion
+- attack.t1562.004
+title: Disabling Security Tools

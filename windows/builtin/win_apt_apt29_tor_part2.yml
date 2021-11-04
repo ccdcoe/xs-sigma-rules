@@ -1,0 +1,15 @@
+category: process_creation
+detection:
+  process:
+    winlog.event_data.Image:
+    - C:\Program Files(x86)\Google\GoogleService.exe
+    - C:\Program Files(x86)\Google\GoogleUpdate.exe
+fields:
+- winlog.ComputerName
+- winlog.event_data.User
+- winlog.event_data.CommandLine
+id: c069f460-2b87-4010-8dcf-e45bab362624
+logsource:
+  category: process_creation
+  product: windows
+product: windows

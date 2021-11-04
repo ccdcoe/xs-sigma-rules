@@ -1,0 +1,30 @@
+author: oscd.community, Teymur Kheirkhabarov @HeirhabarovT, Zach Stanford @svch0st,
+  wagga
+category: process_creation
+date: 2020/10/05
+description: Detects when an admin share is mounted using net.exe
+detection:
+  condition: selection
+  selection:
+    winlog.event_data.CommandLine|contains|all:
+    - ' use '
+    - \\\*\\*$
+    winlog.event_data.Image|endswith:
+    - \net.exe
+    - \net1.exe
+falsepositives:
+- Administrators
+id: 3abd6094-7027-475f-9630-8ab9be7b9725
+level: medium
+logsource:
+  category: process_creation
+  product: windows
+modified: 2021/06/27
+product: windows
+references:
+- https://drive.google.com/file/d/1lKya3_mLnR3UQuCoiYruO3qgu052_iS_/view
+status: experimental
+tags:
+- attack.lateral_movement
+- attack.t1021.002
+title: Mounted Windows Admin Shares with net.exe

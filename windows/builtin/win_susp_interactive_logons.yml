@@ -1,0 +1,31 @@
+author: Florian Roth
+date: 2017/03/17
+description: Detects interactive console logons to Server Systems
+detection:
+  condition: selection and not filter
+  filter:
+    winlog.ComputerName: '%Workstations%'
+    winlog.event_data.LogonProcessName: Advapi
+  selection:
+    winlog.ComputerName:
+    - '%ServerSystems%'
+    - '%DomainControllers%'
+    winlog.event_data.LogonType: 2
+    winlog.event_id:
+    - 528
+    - 529
+    - 4624
+    - 4625
+falsepositives:
+- Administrative activity via KVM or ILO board
+id: 3ff152b2-1388-4984-9cd9-a323323fdadf
+level: medium
+logsource:
+  product: windows
+  service: security
+product: windows
+service: security
+tags:
+- attack.lateral_movement
+- attack.t1078
+title: Interactive Logon to Server Systems

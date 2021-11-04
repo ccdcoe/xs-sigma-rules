@@ -1,0 +1,43 @@
+author: Konstantin Grishchenko, oscd.community
+category: process_creation
+date: 2020/10/17
+description: "Csi.exe is a signed binary from Microsoft that comes with Visual Studio\
+  \ and provides C# interactive capabilities. It can be used to run C# code from a\
+  \ file passed as a parameter in command line. Early version of this utility provided\
+  \ with Microsoft \u201CRoslyn\u201D Community Technology Preview was named 'rcsi.exe'"
+detection:
+  basic:
+  - winlog.event_data.Image|endswith: \csi.exe
+  - winlog.event_data.Image|endswith: \rcsi.exe
+  condition: (basic or renamed) and selection
+  renamed:
+  - winlog.event_data.OriginalFileName: csi.exe
+  - winlog.event_data.OriginalFileName: rcsi.exe
+  selection:
+    winlog.event_data.Company: Microsoft Corporation
+falsepositives:
+- Legitimate usage by software developers
+fields:
+- winlog.ComputerName
+- winlog.event_data.User
+- winlog.event_data.CommandLine
+- winlog.event_data.ParentCommandLine
+id: 40b95d31-1afc-469e-8d34-9a3a667d058e
+level: medium
+logsource:
+  category: process_creation
+  product: windows
+modified: 2021/05/11
+product: windows
+references:
+- https://github.com/LOLBAS-Project/LOLBAS/blob/master/yml/OtherMSBinaries/Csi.yml
+- https://github.com/LOLBAS-Project/LOLBAS/blob/master/yml/OtherMSBinaries/Rcsi.yml
+- https://enigma0x3.net/2016/11/21/bypassing-application-whitelisting-by-using-rcsi-exe/
+- https://twitter.com/Z3Jpa29z/status/1317545798981324801
+status: experimental
+tags:
+- attack.execution
+- attack.t1072
+- attack.defense_evasion
+- attack.t1218
+title: Suspicious Csi.exe Usage

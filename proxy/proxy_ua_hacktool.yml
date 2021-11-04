@@ -1,0 +1,80 @@
+author: Florian Roth
+category: proxy
+date: 2017/07/08
+description: Detects suspicious user agent strings user by hack tools in proxy logs
+detection:
+  condition: selection
+  selection:
+    http.http_user_agent|contains:
+    - (hydra)
+    - ' arachni/'
+    - ' BFAC '
+    - ' brutus '
+    - ' cgichk '
+    - core-project/1.0
+    - ' crimscanner/'
+    - datacha0s
+    - dirbuster
+    - domino hunter
+    - dotdotpwn
+    - FHScan Core
+    - floodgate
+    - get-minimal
+    - gootkit auto-rooter scanner
+    - grendel-scan
+    - ' inspath '
+    - internet ninja
+    - jaascois
+    - ' zmeu '
+    - masscan
+    - ' metis '
+    - morfeus fucking scanner
+    - n-stealth
+    - nsauditor
+    - pmafind
+    - security scan
+    - springenwerk
+    - teh forest lobster
+    - toata dragostea
+    - ' vega/'
+    - voideye
+    - webshag
+    - webvulnscan
+    - ' whcc/'
+    - ' Havij'
+    - absinthe
+    - bsqlbf
+    - mysqloit
+    - pangolin
+    - sql power injector
+    - sqlmap
+    - sqlninja
+    - uil2pn
+    - ruler
+    - Mozilla/5.0 (Windows; U; Windows NT 5.1; pt-PT; rv:1.9.1.2) Gecko/20090729 Firefox/3.5.2
+      (.NET CLR 3.5.30729)
+falsepositives:
+- Unknown
+fields:
+- src_ip
+- http.url
+- http.http_user_agent
+id: c42a3073-30fb-48ae-8c99-c23ada84b103
+level: high
+logsource:
+  category: proxy
+  product: suricata
+  service: http
+modified: 2020/09/03
+product: suricata
+references:
+- https://github.com/fastly/waf_testbed/blob/master/templates/default/scanners-user-agents.data.erb
+- http://rules.emergingthreats.net/open/snort-2.9.0/rules/emerging-user_agents.rules
+service: http
+status: experimental
+tags:
+- attack.initial_access
+- attack.t1190
+- attack.credential_access
+- attack.t1110
+title: Hack Tool User Agent

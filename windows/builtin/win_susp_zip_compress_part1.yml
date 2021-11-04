@@ -1,0 +1,16 @@
+action: global
+author: frack113
+date: 2021/07/20
+description: Use living off the land tools to zip a file and stage it in the Windows
+  temporary folder for later exfiltration
+falsepositives:
+- Unknown
+id: 46ccf27f-87ae-4be2-8c6d-948088da0fa5
+level: medium
+references:
+- https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1074.001/T1074.001.md
+status: experimental
+tags:
+- attack.collection
+- attack.t1074.001
+title: Zip A Folder With PowerShell For Staging In Temp

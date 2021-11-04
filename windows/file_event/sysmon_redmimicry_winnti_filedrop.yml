@@ -1,0 +1,25 @@
+author: Alexander Rausch
+category: file_event
+date: 2020/06/24
+description: Detects actions caused by the RedMimicry Winnti playbook
+detection:
+  condition: selection
+  selection:
+    winlog.event_data.TargetFilename|contains:
+    - gthread-3.6.dll
+    - sigcmm-2.4.dll
+    - \Windows\Temp\tmp.bat
+falsepositives:
+- Unknown
+id: 130c9e58-28ac-4f83-8574-0a4cc913b97e
+level: high
+logsource:
+  category: file_event
+  product: windows
+product: windows
+references:
+- https://redmimicry.com
+tags:
+- attack.defense_evasion
+- attack.t1027
+title: RedMimicry Winnti Playbook Dropped File

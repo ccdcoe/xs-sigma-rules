@@ -1,0 +1,7 @@
+detection:
+  condition: selection_user
+  selection_user:
+    USER:
+    - '#-*'
+    - '#*4294967295'
+id: 7fcc54cb-f27d-4684-84b7-436af096f858

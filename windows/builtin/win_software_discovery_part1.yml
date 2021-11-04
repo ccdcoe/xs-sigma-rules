@@ -1,0 +1,20 @@
+action: global
+author: Nikita Nazarov, oscd.community
+date: 2020/10/16
+description: Adversaries may attempt to enumerate software for a variety of reasons,
+  such as figuring out what security measures are present or if the compromised system
+  has a version of software that is vulnerable.
+detection:
+  condition: 1 of them
+falsepositives:
+- Legitimate administration activities
+id: 5c38b15c-ef0a-4c2c-8a15-459d1429648a
+level: medium
+references:
+- https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1518/T1518.md
+- https://github.com/harleyQu1nn/AggressorScripts
+status: experimental
+tags:
+- attack.discovery
+- attack.t1518
+title: Detected Windows Software Discovery

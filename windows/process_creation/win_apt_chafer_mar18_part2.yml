@@ -1,0 +1,12 @@
+detection:
+  selection_service:
+    winlog.event_data.ServiceName:
+    - SC Scheduled Scan
+    - UpdatMachine
+    winlog.event_id: 7045
+id: 53ba33fd-3a50-4468-a5ef-c583635cfa92
+logsource:
+  product: windows
+  service: system
+product: windows
+service: system

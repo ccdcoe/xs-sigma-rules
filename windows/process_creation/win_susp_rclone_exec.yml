@@ -1,0 +1,39 @@
+author: Aaron Greetham (@beardofbinary) - NCC Group
+category: process_creation
+date: 2021/05/26
+description: Detects Rclone which is commonly used by ransomware groups for exfiltration
+detection:
+  command_selection:
+    winlog.event_data.CommandLine|contains:
+    - ' pass '
+    - ' user '
+    - ' copy '
+    - ' mega '
+    - ' sync '
+    - ' config '
+    - ' lsd '
+    - ' remote '
+    - ' ls '
+  condition: command_selection and ( description_selection or exec_selection )
+  description_selection:
+    winlog.event_data.Description: Rsync for cloud storage
+  exec_selection:
+    winlog.event_data.Image|endswith: \rclone.exe
+    winlog.event_data.ParentImage|endswith:
+    - \PowerShell.exe
+    - \cmd.exe
+falsepositives:
+- Legitimate Rclone usage (rare)
+id: cb7286ba-f207-44ab-b9e6-760d82b84253
+level: high
+logsource:
+  category: process_creation
+  product: windows
+product: windows
+references:
+- https://research.nccgroup.com/2021/05/27/detecting-rclone-an-effective-tool-for-exfiltration/
+status: experimental
+tags:
+- attack.exfiltration
+- attack.t1567.002
+title: Rclone Execution via Command Line or PowerShell

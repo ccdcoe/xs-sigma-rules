@@ -1,0 +1,26 @@
+author: Christian Burkard
+category: file_event
+date: 2021/08/30
+description: Detects the pattern of UAC Bypass using NTFS reparse point and wusa.exe
+  DLL hijacking (UACMe 36)
+detection:
+  condition: selection
+  selection:
+    winlog.event_data.TargetFilename|endswith: \AppData\Local\Temp\api-ms-win-core-kernel32-legacy-l1.DLL
+    winlog.event_data.TargetFilename|startswith: C:\Users\
+falsepositives:
+- Unknown
+id: 7fff6773-2baa-46de-a24a-b6eec1aba2d1
+level: high
+logsource:
+  category: file_event
+  product: windows
+product: windows
+references:
+- https://github.com/hfiref0x/UACME
+status: experimental
+tags:
+- attack.defense_evasion
+- attack.privilege_escalation
+- attack.t1548.002
+title: UAC Bypass Using NTFS Reparse Point - File

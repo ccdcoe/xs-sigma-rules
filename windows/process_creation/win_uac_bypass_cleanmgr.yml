@@ -1,0 +1,31 @@
+author: Christian Burkard
+category: process_creation
+date: 2021/08/30
+description: Detects the pattern of UAC Bypass using scheduled tasks and variable
+  expansion of cleanmgr.exe (UACMe 34)
+detection:
+  condition: selection
+  selection:
+    winlog.event_data.CommandLine|endswith: '"\system32\cleanmgr.exe /autoclean /d
+      C:'
+    winlog.event_data.IntegrityLevel:
+    - High
+    - System
+    winlog.event_data.ParentCommandLine: C:\Windows\system32\svchost.exe -k netsvcs
+      -p -s Schedule
+falsepositives:
+- Unknown
+id: b697e69c-746f-4a86-9f59-7bfff8eab881
+level: high
+logsource:
+  category: process_creation
+  product: windows
+product: windows
+references:
+- https://github.com/hfiref0x/UACME
+status: experimental
+tags:
+- attack.defense_evasion
+- attack.privilege_escalation
+- attack.t1548.002
+title: UAC Bypass Using Disk Cleanup

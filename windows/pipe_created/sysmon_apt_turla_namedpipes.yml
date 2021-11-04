@@ -1,0 +1,29 @@
+author: Markus Neis
+category: pipe_created
+date: 2017/11/06
+definition: Note that you have to configure logging for PipeEvents in Symson config
+description: Detects a named pipe used by Turla group samples
+detection:
+  condition: selection
+  selection:
+    winlog.event_data.PipeName:
+    - \atctl
+    - \userpipe
+    - \iehelper
+    - \sdlrpc
+    - \comnap
+falsepositives:
+- Unknown
+id: 739915e4-1e70-4778-8b8a-17db02f66db1
+level: critical
+logsource:
+  category: pipe_created
+  definition: Note that you have to configure logging for PipeEvents in Symson config
+  product: windows
+product: windows
+references:
+- Internal Research
+status: experimental
+tags:
+- attack.g0010
+title: Turla Group Named Pipes

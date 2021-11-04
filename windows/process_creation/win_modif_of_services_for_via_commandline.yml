@@ -1,0 +1,31 @@
+author: Sreeman
+category: process_creation
+date: 2020/09/29
+description: Detects modification of an existing service on a compromised host in
+  order to execute an arbitrary payload when the service is started or killed as a
+  method of persistence.
+detection:
+  condition: selection_cmdline_1 or selection_cmdline_2 or selection_cmdline_3
+  selection_cmdline_1:
+    winlog.event_data.CommandLine|re: (?i)sc config.*binpath=.*
+  selection_cmdline_2:
+    winlog.event_data.CommandLine|re: (?i)sc failure.*command=.*
+  selection_cmdline_3:
+    winlog.event_data.CommandLine|re: (?i).*reg add.*(FailureCommand|ImagePath).*(\.sh|\.exe|\.dll|\.bin$|\.bat|\.cmd|\.js|\.msh$|\.reg$|\.scr|\.ps|\.vb|\.jar|\.pl).*
+falsepositives:
+- unknown
+id: 38879043-7e1e-47a9-8d46-6bec88e201df
+level: medium
+logsource:
+  category: process_creation
+  product: windows
+modified: 2021/08/10
+product: windows
+references:
+- https://pentestlab.blog/2020/01/22/persistence-modify-existing-service/
+status: experimental
+tags:
+- attack.persistence
+- attack.t1543.003
+- attack.t1574.011
+title: Modification Of Existing Services For Persistence

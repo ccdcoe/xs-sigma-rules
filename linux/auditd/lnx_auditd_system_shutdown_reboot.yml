@@ -1,0 +1,35 @@
+author: Igor Fits, oscd.community
+date: 2020/10/15
+description: Adversaries may shutdown/reboot systems to interrupt access to, or aid
+  in the destruction of, those systems.
+detection:
+  condition: execve and (shutdowncmd or (init and initselection))
+  execve:
+    type: EXECVE
+  init:
+  - init
+  - telinit
+  initselection:
+  - '0'
+  - '6'
+  shutdowncmd:
+  - shutdown
+  - reboot
+  - halt
+  - poweroff
+falsepositives:
+- Legitimate administrative activity
+id: 4cb57c2f-1f29-41f8-893d-8bed8e1c1d2f
+level: informational
+logsource:
+  product: linux
+  service: auditd
+product: linux
+references:
+- hhttps://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1529/T1529.md
+service: auditd
+status: experimental
+tags:
+- attack.impact
+- attack.t1529
+title: System Shutdown/Reboot

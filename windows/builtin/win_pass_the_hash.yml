@@ -1,0 +1,39 @@
+author: Ilias el Matani (rule), The Information Assurance Directorate at the NSA (method)
+date: 2017/03/08
+definition: The successful use of PtH for lateral movement between workstations would
+  trigger event ID 4624, a failed logon attempt would trigger an event ID 4625
+description: Detects the attack technique pass the hash which is used to move laterally
+  inside the network
+detection:
+  condition: selection and not filter
+  filter:
+    winlog.event_data.AccountName: ANONYMOUS LOGON
+  selection:
+    winlog.ComputerName: '%Workstations%'
+    winlog.event_data.LogonProcessName: NtLmSsp
+    winlog.event_data.LogonType: '3'
+    winlog.event_data.WorkstationName: '%Workstations%'
+    winlog.event_id:
+    - 4624
+    - 4625
+falsepositives:
+- Administrator activity
+- Penetration tests
+id: f8d98d6c-7a07-4d74-b064-dd4a3c244528
+level: medium
+logsource:
+  definition: The successful use of PtH for lateral movement between workstations
+    would trigger event ID 4624, a failed logon attempt would trigger an event ID
+    4625
+  product: windows
+  service: security
+product: windows
+references:
+- https://github.com/iadgov/Event-Forwarding-Guidance/tree/master/Events
+service: security
+status: experimental
+tags:
+- attack.lateral_movement
+- car.2016-04-004
+- attack.t1550.002
+title: Pass the Hash Activity

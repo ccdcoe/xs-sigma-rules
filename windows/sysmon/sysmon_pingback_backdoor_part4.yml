@@ -1,0 +1,15 @@
+category: process_creation
+detection:
+  condition: selection
+  selection:
+    winlog.event_data.CommandLine|contains|all:
+    - config
+    - msdtc
+    - start
+    - auto
+    winlog.event_data.ParentImage|endswith: updata.exe
+id: b2400ffb-7680-47c0-b08a-098a7de7e7a9
+logsource:
+  category: process_creation
+  product: windows
+product: windows

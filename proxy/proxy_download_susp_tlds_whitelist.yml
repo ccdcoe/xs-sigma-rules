@@ -1,0 +1,67 @@
+author: Florian Roth
+category: proxy
+date: 2017/03/13
+description: Detects executable downloads from suspicious remote systems
+detection:
+  condition: selection and not filter
+  filter:
+    http.hostname|endswith:
+    - .com
+    - .org
+    - .net
+    - .edu
+    - .gov
+    - .uk
+    - .ca
+    - .de
+    - .jp
+    - .fr
+    - .au
+    - .us
+    - .ch
+    - .it
+    - .nl
+    - .se
+    - .no
+    - .es
+  selection:
+    http.url:
+    - exe
+    - vbs
+    - bat
+    - rar
+    - ps1
+    - doc
+    - docm
+    - xls
+    - xlsm
+    - pptm
+    - rtf
+    - hta
+    - dll
+    - ws
+    - wsf
+    - sct
+    - zip
+falsepositives:
+- All kind of software downloads
+fields:
+- src_ip
+- http.url
+id: b5de2919-b74a-4805-91a7-5049accbaefe
+level: low
+logsource:
+  category: proxy
+  product: suricata
+  service: http
+modified: 2020/09/03
+product: suricata
+service: http
+status: experimental
+tags:
+- attack.initial_access
+- attack.t1566
+- attack.execution
+- attack.t1203
+- attack.t1204.002
+title: Download EXE from Suspicious TLD

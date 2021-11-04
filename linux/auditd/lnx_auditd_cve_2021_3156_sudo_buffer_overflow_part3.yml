@@ -1,0 +1,6 @@
+detection:
+  condition: selection | count() by host > 50
+  selection:
+    exe: /usr/bin/sudoedit
+    type: SYSCALL
+id: b9748c98-9ea7-4fdb-80b6-29bed6ba71d2

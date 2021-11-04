@@ -1,0 +1,66 @@
+author: Timur Zinniatullin, Daniil Yugoslavskiy, oscd.community
+category: process_creation
+date: 2019/10/21
+description: Local accounts, System Owner/User discovery using operating systems utilities
+detection:
+  condition: (selection_1 and not filter_1) or (selection_2 and not filter_2)
+  filter_1:
+    winlog.event_data.CommandLine|contains:
+    - ' rmdir '
+  filter_2:
+    winlog.event_data.CommandLine|contains:
+    - /domain
+    - /add
+    - /delete
+    - /active
+    - /expires
+    - /passwordreq
+    - /scriptpath
+    - /times
+    - /workstations
+  selection_1:
+  - winlog.event_data.Image|endswith: \whoami.exe
+  - winlog.event_data.CommandLine|contains|all:
+    - useraccount
+    - get
+    winlog.event_data.Image|endswith: \wmic.exe
+  - winlog.event_data.Image|endswith:
+    - \quser.exe
+    - \qwinsta.exe
+  - winlog.event_data.CommandLine|contains: /list
+    winlog.event_data.Image|endswith: \cmdkey.exe
+  - winlog.event_data.CommandLine|contains|all:
+    - /c
+    - 'dir '
+    - \Users\
+    winlog.event_data.Image|endswith: \cmd.exe
+  selection_2:
+    winlog.event_data.CommandLine|contains: user
+    winlog.event_data.Image|endswith:
+    - \net.exe
+    - \net1.exe
+falsepositives:
+- Legitimate administrator or user enumerates local users for legitimate reason
+fields:
+- winlog.event_data.Image
+- winlog.event_data.CommandLine
+- winlog.event_data.User
+- winlog.event_data.LogonGuid
+- winlog.event_data.Hashes
+- process.parent.entity_id
+- winlog.event_data.ParentCommandLine
+id: 502b42de-4306-40b4-9596-6f590c81f073
+level: low
+logsource:
+  category: process_creation
+  product: windows
+modified: 2020/09/01
+product: windows
+references:
+- https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1033/T1033.md
+status: experimental
+tags:
+- attack.discovery
+- attack.t1033
+- attack.t1087.001
+title: Local Accounts Discovery

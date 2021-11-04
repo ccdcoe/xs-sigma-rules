@@ -1,0 +1,29 @@
+author: Austin Songer @austinsonger
+date: 2021/08/08
+description: Identifies when a Virtual Network is modified or deleted in Azure.
+detection:
+  condition: selection
+  selection:
+    properties.message|endswith:
+    - /WRITE
+    - /DELETE
+    properties.message|startswith:
+    - MICROSOFT.NETWORK/VIRTUALNETWORKGATEWAYS/
+    - MICROSOFT.NETWORK/VIRTUALNETWORKS/
+falsepositives:
+- Virtual Network being modified or deleted may be performed by a system administrator.
+  Verify whether the user identity, user agent, and/or hostname should be making changes
+  in your environment.
+- Virtual Network modified or deleted from unfamiliar users should be investigated.
+  If known behavior is causing false positives, it can be exempted from the rule.
+id: bcfcc962-0e4a-4fd9-84bb-a833e672df3f
+level: medium
+logsource:
+  service: azure.activitylogs
+references:
+- https://docs.microsoft.com/en-us/azure/role-based-access-control/resource-provider-operations
+service: azure.activitylogs
+status: experimental
+tags:
+- attack.impact
+title: Azure Virtual Network Modified or Deleted

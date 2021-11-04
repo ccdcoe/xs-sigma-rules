@@ -1,0 +1,38 @@
+author: "\xD6mer G\xFCnal, Alejandro Ortuno, oscd.community"
+category: process_creation
+date: 2020/10/11
+description: Detects enumeration of local system groups
+detection:
+  condition: 1 of them
+  selection_1:
+    CommandLine|contains|all:
+    - -q
+    - group
+    Image|endswith:
+    - /dscacheutil
+  selection_2:
+    CommandLine|contains:
+    - /etc/group
+    Image|endswith:
+    - /cat
+  selection_3:
+    CommandLine|contains|all:
+    - -list
+    - /groups
+    Image|endswith:
+    - /dscl
+falsepositives:
+- Legitimate administration activities
+id: 89bb1f97-c7b9-40e8-b52b-7d6afbd67276
+level: informational
+logsource:
+  category: process_creation
+  product: macos
+product: macos
+references:
+- https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1069.001/T1069.001.md
+status: experimental
+tags:
+- attack.discovery
+- attack.t1069.001
+title: Local Groups Discovery

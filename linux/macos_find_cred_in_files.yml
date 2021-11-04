@@ -1,0 +1,28 @@
+author: Igor Fits, Mikhail Larin, oscd.community
+category: process_creation
+date: 2020/10/19
+description: Detecting attempts to extract passwords with grep and laZagne
+detection:
+  condition: selection1 or selection2
+  selection1:
+    CommandLine|contains:
+    - password
+    Image|endswith:
+    - /grep
+  selection2:
+    CommandLine|contains: laZagne
+falsepositives:
+- Unknown
+id: 53b1b378-9b06-4992-b972-dde6e423d2b4
+level: high
+logsource:
+  category: process_creation
+  product: macos
+product: macos
+references:
+- https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1552.001/T1552.001.md
+status: experimental
+tags:
+- attack.credential_access
+- attack.t1552.001
+title: Credentials In Files

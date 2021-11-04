@@ -1,0 +1,29 @@
+author: Austin Clark
+category: accounting
+date: 2019/08/11
+description: See what commands are being input into the device by other people, full
+  credentials can be in the history
+detection:
+  condition: keywords
+  keywords:
+  - show history
+  - show history all
+  - show logging
+falsepositives:
+- Not commonly run by administrators, especially if remote logging is configured
+fields:
+- CmdSet
+id: b094d9fb-b1ad-4650-9f1a-fb7be9f1d34b
+level: medium
+logsource:
+  category: accounting
+  product: cisco
+  service: aaa
+modified: 2020/09/02
+product: cisco
+service: aaa
+status: experimental
+tags:
+- attack.credential_access
+- attack.t1552.003
+title: Cisco Show Commands Input

@@ -1,0 +1,33 @@
+author: Bartlomiej Czyz, Relativity
+category: process_creation
+date: 2021/01/31
+description: Detects rundll32 execution without parameters as observed when running
+  Metasploit windows/smb/psexec exploit module
+detection:
+  condition: selection
+  selection:
+    winlog.event_data.CommandLine: rundll32.exe
+falsepositives:
+- Unknown
+fields:
+- winlog.ComputerName
+- winlog.event_data.SubjectUserName
+- winlog.event_data.CommandLine
+- winlog.event_data.Image
+- winlog.event_data.ParentImage
+id: 5bb68627-3198-40ca-b458-49f973db8752
+level: high
+logsource:
+  category: process_creation
+  product: windows
+product: windows
+references:
+- https://bczyz1.github.io/2021/01/30/psexec.html
+status: experimental
+tags:
+- attack.lateral_movement
+- attack.t1021.002
+- attack.t1570
+- attack.execution
+- attack.t1569.002
+title: Rundll32 Without Parameters

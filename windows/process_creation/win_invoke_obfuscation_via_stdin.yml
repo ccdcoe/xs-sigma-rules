@@ -1,0 +1,25 @@
+author: Nikita Nazarov, oscd.community
+category: process_creation
+date: 2020/10/12
+description: Detects Obfuscated Powershell via Stdin in Scripts
+detection:
+  condition: selection
+  selection:
+    winlog.event_data.CommandLine|re: (?i).*(set).*&&\s?set.*(environment|invoke|\${?input).*&&.*"
+falsepositives:
+- Unknown
+id: 9c14c9fa-1a63-4a64-8e57-d19280559490
+level: high
+logsource:
+  category: process_creation
+  product: windows
+product: windows
+references:
+- https://github.com/Neo23x0/sigma/issues/1009
+status: experimental
+tags:
+- attack.defense_evasion
+- attack.t1027
+- attack.execution
+- attack.t1059.001
+title: Invoke-Obfuscation Via Stdin

@@ -1,0 +1,23 @@
+action: global
+author: Florian Roth
+date: 2017/01/10
+description: Detects suspicious failed logins with different user accounts from a
+  single source system
+falsepositives:
+- Terminal servers
+- Jump servers
+- Other multiuser systems like Citrix server farms
+- Workstations with frequently changing users
+id: a7d0e084-e40b-4d56-adb1-c6ff7a592fe4
+level: medium
+logsource:
+  product: windows
+  service: security
+modified: 2021/08/29
+product: windows
+service: security
+tags:
+- attack.persistence
+- attack.privilege_escalation
+- attack.t1078
+title: Failed Logins with Different Accounts from Single Source System

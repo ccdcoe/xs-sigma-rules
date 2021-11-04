@@ -1,0 +1,31 @@
+author: Florian Roth
+category: wmi_event
+date: 2021/09/01
+description: Detects suspicious encoded payloads in WMI Event Consumers
+detection:
+  condition: selection_destination
+  selection_destination:
+    Destination|base64offset|contains:
+    - WriteProcessMemory
+    - This program cannot be run in DOS mode
+    - This program must be run under Win32
+falsepositives:
+- Unknown
+fields:
+- Operation
+- winlog.event_data.User
+id: 83844185-1c5b-45bc-bcf3-b5bf3084ca5b
+level: high
+logsource:
+  category: wmi_event
+  product: windows
+product: windows
+references:
+- https://github.com/RiccardoAncarani/LiquidSnake
+status: experimental
+tags:
+- attack.execution
+- attack.t1047
+- attack.persistence
+- attack.t1546.003
+title: Suspicious Encoded Scripts in a WMI Consumer

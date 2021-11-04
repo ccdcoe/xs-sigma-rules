@@ -1,0 +1,28 @@
+author: Austin Songer @austinsonger
+category: ThreatManagement
+date: 2021/08/23
+description: Detects when a Microsoft Cloud App Security reported when a user or IP
+  address uses an app that is not sanctioned to perform an activity that resembles
+  an attempt to exfiltrate information from your organization.
+detection:
+  condition: selection
+  selection:
+    eventName: Data exfiltration to unsanctioned apps
+    eventSource: SecurityComplianceCenter
+    status: success
+falsepositives:
+- null
+id: 2b669496-d215-47d8-bd9a-f4a45bf07cda
+level: medium
+logsource:
+  category: ThreatManagement
+  service: m365
+references:
+- https://docs.microsoft.com/en-us/cloud-app-security/anomaly-detection-policy
+- https://docs.microsoft.com/en-us/cloud-app-security/policy-template-reference
+service: m365
+status: experimental
+tags:
+- attack.exfiltration
+- attack.t1537
+title: Data Exfiltration to Unsanctioned Apps
