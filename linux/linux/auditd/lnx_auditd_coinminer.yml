@@ -1,0 +1,35 @@
+author: Florian Roth
+date: 2021/10/09
+description: Detects command line parameter very often used with coin miners
+detection:
+  cmd1:
+    a1|startswith: --cpu-priority
+  cmd2:
+    a2|startswith: --cpu-priority
+  cmd3:
+    a3|startswith: --cpu-priority
+  cmd4:
+    a4|startswith: --cpu-priority
+  cmd5:
+    a5|startswith: --cpu-priority
+  cmd6:
+    a6|startswith: --cpu-priority
+  cmd7:
+    a7|startswith: --cpu-priority
+  condition: 1 of them
+falsepositives:
+- Other tools that use a --cpu-priority flag
+id: 071d5e5a-9cef-47ec-bc4e-a42e34d8d0ed
+level: critical
+logsource:
+  product: linux
+  service: auditd
+product: linux
+references:
+- https://xmrig.com/docs/miner/command-line-options
+service: auditd
+status: experimental
+tags:
+- attack.privilege_escalation
+- attack.t1068
+title: Possible Coin Miner CPU Priority Param

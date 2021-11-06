@@ -1,0 +1,28 @@
+author: '@ROxPinTeddy'
+category: ps_script
+date: 2020/04/11
+definition: Script block logging must be enabled
+description: Detects creation of a local user via PowerShell
+detection:
+  condition: selection
+  selection:
+    winlog.event_data.ScriptBlockText|contains: New-LocalUser
+falsepositives:
+- Legitimate user creation
+id: 243de76f-4725-4f2e-8225-a8a69b15ad61
+level: medium
+logsource:
+  category: ps_script
+  definition: Script block logging must be enabled
+  product: windows
+modified: 2021/10/16
+product: windows
+references:
+- https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1136/T1136.md
+status: experimental
+tags:
+- attack.execution
+- attack.t1059.001
+- attack.persistence
+- attack.t1136.001
+title: PowerShell Create Local User

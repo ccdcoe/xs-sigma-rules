@@ -1,0 +1,31 @@
+author: Pawel Mazur
+date: 2021/09/09
+description: Detects appending of zip file to image
+detection:
+  a1:
+    a1|endswith:
+    - .jpg
+    - .png
+  a2:
+    a2|endswith: .zip
+  commands:
+    a0: cat
+    type: EXECVE
+  condition: commands and a1 and a2
+falsepositives:
+- None
+id: 45810b50-7edc-42ca-813b-bdac02fb946b
+level: low
+logsource:
+  product: linux
+  service: auditd
+product: linux
+references:
+- https://attack.mitre.org/techniques/T1027/003/
+- https://zerotoroot.me/steganography-hiding-a-zip-in-a-jpeg-file/
+service: auditd
+status: experimental
+tags:
+- attack.defense_evasion
+- attack.t1027.003
+title: Steganography Hide Zip Information in Picture File

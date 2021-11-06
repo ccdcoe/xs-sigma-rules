@@ -1,0 +1,28 @@
+author: Timur Zinniatullin, oscd.community
+date: 2020/10/13
+description: Detects Obfuscated Powershell via VAR++ LAUNCHER
+detection:
+  condition: selection and selection_eventid
+  selection:
+    winlog.event_data.ImagePath|re: (?i).*&&set.*(\{\d\}){2,}\\\"\s+?\-f.*&&.*cmd.*\/c
+  selection_eventid:
+    winlog.event_id: 7045
+falsepositives:
+- Unknown
+id: 14bcba49-a428-42d9-b943-e2ce0f0f7ae6
+level: high
+logsource:
+  product: windows
+  service: system
+modified: 2021/09/18
+product: windows
+references:
+- https://github.com/Neo23x0/sigma/issues/1009
+service: system
+status: experimental
+tags:
+- attack.defense_evasion
+- attack.t1027
+- attack.execution
+- attack.t1059.001
+title: Invoke-Obfuscation VAR++ LAUNCHER OBFUSCATION

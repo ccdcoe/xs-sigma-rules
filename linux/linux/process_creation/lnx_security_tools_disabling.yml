@@ -1,0 +1,85 @@
+author: "\xD6mer G\xFCnal, Alejandro Ortuno, oscd.community"
+category: process_creation
+date: 2020/06/17
+description: Detects disabling security tools
+detection:
+  carbonblack_1:
+    CommandLine|contains|all:
+    - cbdaemon
+    - stop
+    Image|endswith: /service
+  carbonblack_2:
+    CommandLine|contains|all:
+    - cbdaemon
+    - 'off'
+    Image|endswith: /chkconfig
+  carbonblack_3:
+    CommandLine|contains|all:
+    - cbdaemon
+    - stop
+    Image|endswith: /systemctl
+  carbonblack_4:
+    CommandLine|contains|all:
+    - cbdaemon
+    - disable
+    Image|endswith: /systemctl
+  condition: 1 of them
+  crowdstrike_1:
+    CommandLine|contains|all:
+    - stop
+    - falcon-sensor
+    Image|endswith: /systemctl
+  crowdstrike_2:
+    CommandLine|contains|all:
+    - disable
+    - falcon-sensor
+    Image|endswith: /systemctl
+  firewall_1:
+    CommandLine|contains|all:
+    - firewalld
+    - stop
+    Image|endswith: /systemctl
+  firewall_2:
+    CommandLine|contains|all:
+    - firewalld
+    - disable
+    Image|endswith: /systemctl
+  iptables_1:
+    CommandLine|contains|all:
+    - iptables
+    - stop
+    Image|endswith: /service
+  iptables_2:
+    CommandLine|contains|all:
+    - ip6tables
+    - stop
+    Image|endswith: /service
+  iptables_3:
+    CommandLine|contains|all:
+    - iptables
+    - stop
+    Image|endswith: /chkconfig
+  iptables_4:
+    CommandLine|contains|all:
+    - ip6tables
+    - stop
+    Image|endswith: /chkconfig
+  selinux:
+    CommandLine|contains: '0'
+    Image|endswith: /setenforce
+falsepositives:
+- Legitimate administration activities
+id: e3a8a052-111f-4606-9aee-f28ebeb76776
+level: medium
+logsource:
+  category: process_creation
+  product: linux
+modified: 2021/09/14
+product: linux
+references:
+- https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1562.004/T1562.004.md
+status: experimental
+tags:
+- attack.defense_evasion
+- attack.t1562.004
+title: Disabling Security Tools

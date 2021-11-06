@@ -1,9 +1,0 @@
-detection:
-  selection_eventid:
-    winlog.event_id: 4697
-id: 7a922f1b-2635-4d6c-91ef-af228b198ad3
-logsource:
-  product: windows
-  service: security
-product: windows
-service: security

@@ -1,0 +1,25 @@
+author: Daniil Yugoslavskiy, oscd.community
+category: firewall
+date: 2019/10/24
+description: High DNS requests amount from host per short period of time
+detection:
+  condition: selection | count() by src_ip > 1000
+  selection:
+    dest_port: 53
+  timeframe: 1m
+falsepositives:
+- Legitimate high DNS requests rate to domain name which should be added to whitelist
+id: 51186749-7415-46be-90e5-6914865c825a
+level: medium
+logsource:
+  category: firewall
+  product: suricata
+modified: 2021/09/21
+product: suricata
+status: experimental
+tags:
+- attack.exfiltration
+- attack.t1048.003
+- attack.command_and_control
+- attack.t1071.004
+title: High DNS Requests Rate

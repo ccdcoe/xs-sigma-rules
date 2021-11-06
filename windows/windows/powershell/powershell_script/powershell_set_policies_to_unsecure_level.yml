@@ -1,0 +1,29 @@
+author: frack113
+category: ps_script
+date: 2021/10/20
+description: Detects use of Set-ExecutionPolicy to set a unsecure policies
+detection:
+  cmdlet:
+    winlog.event_data.ScriptBlockText|contains: Set-ExecutionPolicy
+  condition: cmdlet and option
+  option:
+    winlog.event_data.ScriptBlockText|contains:
+    - Unrestricted
+    - bypass
+    - RemoteSigned
+falsepositives:
+- Administrator script
+id: 61d0475c-173f-4844-86f7-f3eebae1c66b
+level: high
+logsource:
+  category: ps_script
+  product: windows
+product: windows
+references:
+- https://docs.microsoft.com/en-us/powershell/module/microsoft.powershell.security/set-executionpolicy?view=powershell-7.1
+- https://docs.microsoft.com/en-us/powershell/module/microsoft.powershell.core/about/about_execution_policies?view=powershell-7.1
+- https://adsecurity.org/?p=2604
+tags:
+- attack.execution
+- attack.t1059.001
+title: Change PowerShell Policies to a Unsecure Level

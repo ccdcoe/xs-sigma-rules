@@ -1,0 +1,40 @@
+author: Ialle Teixeira @teixeira0xfffff, Austin Songer @austinsonger
+category: process_creation
+date: 2021/09/30
+description: Detects when a user performs data exfiltration by using DataSvcUtil.exe
+detection:
+  condition: selection
+  selection:
+    winlog.event_data.CommandLine|contains|all:
+    - '/in:'
+    - '/out:'
+    winlog.event_data.Image|endswith:
+    - \DataSvcUtil.exe
+falsepositives:
+- DataSvcUtil.exe being used may be performed by a system administrator.
+- Verify whether the user identity, user agent, and/or hostname should be making changes
+  in your environment.
+- DataSvcUtil.exe being executed from unfamiliar users should be investigated. If
+  known behavior is causing false positives, it can be exempted from the rule.
+- Penetration Testing
+fields:
+- winlog.ComputerName
+- winlog.event_data.User
+- winlog.event_data.CommandLine
+- winlog.event_data.ParentCommandLine
+id: e290b10b-1023-4452-a4a9-eb31a9013b3a
+level: medium
+logsource:
+  category: process_creation
+  product: windows
+product: windows
+references:
+- https://gist.github.com/teixeira0xfffff/837e5bfed0d1b0a29a7cb1e5dbdd9ca6
+- https://docs.microsoft.com/en-us/dotnet/framework/data/wcf/wcf-data-service-client-utility-datasvcutil-exe
+- https://docs.microsoft.com/en-us/dotnet/framework/data/wcf/generating-the-data-service-client-library-wcf-data-services
+- https://docs.microsoft.com/en-us/dotnet/framework/data/wcf/how-to-add-a-data-service-reference-wcf-data-services
+status: experimental
+tags:
+- attack.exfiltration
+- attack.t1567
+title: LOLBAS Data Exfiltration by DataSvcUtil.exe

@@ -1,0 +1,26 @@
+author: Bhabesh Raj
+date: 2021/09/01
+description: Detects successful installation of Atera Remote Monitoring & Management
+  (RMM) agent as recently found to be used by Conti operators
+detection:
+  condition: selection
+  selection:
+    Message|contains: AteraAgent
+    Provider_Name: MsiInstaller
+    winlog.event_id: 1033
+falsepositives:
+- Legitimate Atera agent installation
+id: 87261fb2-69d0-42fe-b9de-88c6b5f65a43
+level: high
+logsource:
+  product: windows
+  service: application
+modified: 2021/10/13
+product: windows
+references:
+- https://www.advintel.io/post/secret-backdoor-behind-conti-ransomware-operation-introducing-atera-agent
+service: application
+status: experimental
+tags:
+- attack.t1219
+title: Atera Agent Installation

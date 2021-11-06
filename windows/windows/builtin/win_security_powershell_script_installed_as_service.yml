@@ -1,0 +1,31 @@
+author: oscd.community, Natalia Shornikova
+date: 2020/10/06
+description: Detects powershell script installed as a Service
+detection:
+  condition: service_creation and powershell_as_service
+  powershell_as_service:
+    winlog.event_data.ServiceFileName|contains:
+    - powershell
+    - pwsh
+  service_creation:
+    winlog.event_id: 4697
+falsepositives:
+- Unknown
+id: 2a926e6a-4b81-4011-8a96-e36cc8c04302
+level: high
+logsource:
+  product: windows
+  service: security
+modified: 2021/09/21
+product: windows
+references:
+- https://speakerdeck.com/heirhabarov/hunting-for-powershell-abuse
+related:
+- id: a2e5019d-a658-4c6a-92bf-7197b54e2cae
+  type: derived
+service: security
+status: experimental
+tags:
+- attack.execution
+- attack.t1569.002
+title: PowerShell Scripts Installed as Services

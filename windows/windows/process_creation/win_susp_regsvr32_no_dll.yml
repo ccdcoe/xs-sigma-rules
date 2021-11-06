@@ -1,0 +1,40 @@
+author: Florian Roth
+category: process_creation
+date: 2019/07/17
+description: Detects a regsvr.exe execution that doesn't contain a DLL in the command
+  line
+detection:
+  condition: selection and not filter and not filter_null1_for_4688 and not filter_null2_for_4688
+  filter:
+    winlog.event_data.CommandLine|contains:
+    - .dll
+    - .ocx
+    - .cpl
+    - .ax
+    - .bav
+    - .ppl
+  filter_null1_for_4688:
+    winlog.event_data.CommandLine: null
+  filter_null2_for_4688:
+    winlog.event_data.CommandLine: ''
+  selection:
+    winlog.event_data.Image|endswith: \regsvr32.exe
+falsepositives:
+- Unknown
+fields:
+- winlog.event_data.CommandLine
+- winlog.event_data.ParentCommandLine
+id: 50919691-7302-437f-8e10-1fe088afa145
+level: high
+logsource:
+  category: process_creation
+  product: windows
+modified: 2021/10/19
+product: windows
+references:
+- https://app.any.run/tasks/34221348-072d-4b70-93f3-aa71f6ebecad/
+status: experimental
+tags:
+- attack.defense_evasion
+- attack.execution
+title: Regsvr32 Command Line Without DLL

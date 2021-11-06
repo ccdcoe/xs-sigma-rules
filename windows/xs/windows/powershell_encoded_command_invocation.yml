@@ -1,0 +1,24 @@
+author: Florian Roth (rule)
+description: Detects suspicious PowerShell invocation command parameters
+detection:
+  condition: selection
+  selection:
+    winlog.event_data.CommandLine:
+    - ' -EncodedCommand'
+falsepositives:
+- Penetration tests
+- Very special / sneaky PowerShell scripts
+fields:
+- winlog.event_data.CommandLine
+id: 4c4417a8-05e5-41c5-8dd5-2a732d9ee6ea
+level: high
+logsource:
+  product: windows
+  service: powershell
+product: windows
+service: powershell
+status: experimental
+tags:
+- attack.execution
+- attack.t1059.001
+title: PowerShell Encoded Command Invocation

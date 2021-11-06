@@ -1,0 +1,36 @@
+author: Teymur Kheirkhabarov
+category: process_creation
+date: 2019/10/26
+description: Detect modification of services configuration (ImagePath, FailureCommand
+  and ServiceDLL) in registry by processes with Medium integrity level
+detection:
+  condition: selection
+  selection:
+    winlog.event_data.CommandLine|contains:
+    - \ImagePath
+    - \FailureCommand
+    - \ServiceDll
+    winlog.event_data.CommandLine|contains|all:
+    - ControlSet
+    - services
+    winlog.event_data.IntegrityLevel: Medium
+enrichment:
+- EN_0001_cache_sysmon_event_id_1_info
+- EN_0003_enrich_other_sysmon_events_with_event_id_1_data
+falsepositives:
+- Unknown
+id: 0f9c21f1-6a73-4b0e-9809-cb562cb8d981
+level: high
+logsource:
+  category: process_creation
+  product: windows
+modified: 2021/09/15
+product: windows
+references:
+- https://speakerdeck.com/heirhabarov/hunting-for-privilege-escalation-in-windows-environment
+- https://pentestlab.blog/2017/03/31/insecure-registry-permissions/
+status: experimental
+tags:
+- attack.privilege_escalation
+- attack.t1574.011
+title: Possible Privilege Escalation via Service Permissions Weakness

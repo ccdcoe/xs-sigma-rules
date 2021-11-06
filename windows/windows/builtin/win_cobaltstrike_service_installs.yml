@@ -1,0 +1,43 @@
+author: Florian Roth, Wojciech Lesicki
+date: 2021/05/26
+description: Detects known malicious service installs that appear in cases in which
+  a Cobalt Strike beacon elevates privileges or lateral movement
+detection:
+  condition: selection_id and (selection1 or selection2 or selection3 or selection4)
+  selection1:
+    winlog.event_data.ImagePath|contains|all:
+    - ADMIN$
+    - .exe
+  selection2:
+    winlog.event_data.ImagePath|contains|all:
+    - '%COMSPEC%'
+    - start
+    - powershell
+  selection3:
+    winlog.event_data.ImagePath|contains: powershell -nop -w hidden -encodedcommand
+  selection4:
+    winlog.event_data.ImagePath|base64offset|contains: 'IEX (New-Object Net.Webclient).DownloadString(''http://127.0.0.1:'
+  selection_id:
+    winlog.event_id: 7045
+falsepositives:
+- Unknown
+id: 5a105d34-05fc-401e-8553-272b45c1522d
+level: critical
+logsource:
+  product: windows
+  service: system
+modified: 2021/09/21
+product: windows
+references:
+- https://www.sans.org/webcasts/119395
+- https://www.crowdstrike.com/blog/getting-the-bacon-from-cobalt-strike-beacon/
+- https://thedfirreport.com/2021/08/29/cobalt-strike-a-defenders-guide/
+service: system
+tags:
+- attack.execution
+- attack.privilege_escalation
+- attack.lateral_movement
+- attack.t1021.002
+- attack.t1543.003
+- attack.t1569.002
+title: CobaltStrike Service Installations

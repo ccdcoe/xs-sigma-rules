@@ -1,0 +1,23 @@
+author: Christian Burkard
+date: 2021/05/05
+description: Detects the ld.so preload persistence file. See `man ld.so` for more
+  information.
+detection:
+  condition: keyword
+  keyword:
+  - /etc/ld.so.preload
+falsepositives:
+- rare temporary workaround for library misconfiguration
+id: 7e3c4651-c347-40c4-b1d4-d48590fdf684
+level: high
+logsource:
+  product: linux
+product: linux
+references:
+- https://man7.org/linux/man-pages/man8/ld.so.8.html
+status: experimental
+tags:
+- attack.persistence
+- attack.privilege_escalation
+- attack.t1574.006
+title: Code Injection by ld.so Preload

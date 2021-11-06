@@ -1,0 +1,30 @@
+author: Harish Segar, frack113
+category: ps_classic_start
+date: 2020/06/29
+definition: fields have to be extract from event
+description: Detects renamed powershell
+detection:
+  condition: selection and not filter
+  filter:
+    HostApplication|startswith:
+    - powershell.exe
+    - C:\WINDOWS\System32\WindowsPowerShell\v1.0\powershell.exe
+  selection:
+    HostName: ConsoleHost
+falsepositives:
+- unknown
+id: 30a8cb77-8eb3-4cfb-8e79-ad457c5a4592
+level: low
+logsource:
+  category: ps_classic_start
+  definition: fields have to be extract from event
+  product: windows
+modified: 2021/10/16
+product: windows
+references:
+- https://speakerdeck.com/heirhabarov/hunting-for-powershell-abuse
+status: test
+tags:
+- attack.execution
+- attack.t1059.001
+title: Renamed Powershell Under Powershell Channel

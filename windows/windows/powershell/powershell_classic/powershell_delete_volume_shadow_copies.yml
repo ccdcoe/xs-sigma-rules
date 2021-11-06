@@ -1,0 +1,37 @@
+author: frack113
+category: ps_classic_start
+date: 2021/06/03
+definition: fields have to be extract from event
+description: Shadow Copies deletion using operating systems utilities via PowerShell
+detection:
+  condition: selection_obj and selection_del
+  selection_del:
+    HostApplication|contains:
+    - Delete()
+    - Remove-WmiObject
+  selection_obj:
+    HostApplication|contains|all:
+    - Get-WmiObject
+    - ' Win32_Shadowcopy'
+falsepositives:
+- Legitimate Administrator deletes Shadow Copies using operating systems utilities
+  for legitimate reason
+fields:
+- HostApplication
+id: 87df9ee1-5416-453a-8a08-e8d4a51e9ce1
+level: critical
+logsource:
+  category: ps_classic_start
+  definition: fields have to be extract from event
+  product: windows
+modified: 2021/10/16
+product: windows
+references:
+- https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1490/T1490.md
+- https://github.com/SigmaHQ/sigma/blob/master/rules/windows/process_creation/win_shadow_copies_deletion.yml
+- https://www.fortinet.com/blog/threat-research/stomping-shadow-copies-a-second-look-into-deletion-methods
+status: experimental
+tags:
+- attack.impact
+- attack.t1490
+title: Delete Volume Shadow Copies Via WMI With PowerShell

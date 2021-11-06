@@ -1,0 +1,41 @@
+author: Florian Roth
+category: webserver
+date: 2021/01/07
+description: Detects exploitation attempts on Cisco ASA FTD systems exploiting CVE-2020-3452
+  with a status code of 200 (sccessful exploitation)
+detection:
+  condition: selection_endpoint and selection_path_select and select_status_code
+  select_status_code:
+    sc-status: 200
+  selection_endpoint:
+    http.url|contains:
+    - +CSCOT+/translation-table
+    - +CSCOT+/oem-customization
+  selection_path_select:
+    http.url|contains:
+    - '&textdomain=/'
+    - '&textdomain=%'
+    - '&name=/'
+    - '&name=%'
+falsepositives:
+- Unknown
+fields:
+- src_ip
+- http.hostname
+id: aba47adc-4847-4970-95c1-61dce62a8b29
+level: high
+logsource:
+  category: webserver
+  product: suricata
+  service: http
+product: suricata
+references:
+- https://twitter.com/aboul3la/status/1286012324722155525
+- https://github.com/darklotuskdb/CISCO-CVE-2020-3452-Scanner-Exploiter
+service: http
+status: experimental
+tags:
+- attack.t1190
+- attack.initial_access
+- cve.2020.3452
+title: Cisco ASA FTD Exploit CVE-2020-3452

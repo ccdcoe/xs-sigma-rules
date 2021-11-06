@@ -1,0 +1,28 @@
+author: frack113
+category: ps_script
+date: 2021/10/20
+description: Adversaries may use hidden windows to conceal malicious activity from
+  the plain sight of users. In some cases, windows that would typically be displayed
+  when an application carries out an operation can be hidden
+detection:
+  condition: selection
+  selection:
+    winlog.event_data.ScriptBlockText|contains|all:
+    - powershell
+    - WindowStyle
+    - Hidden
+falsepositives:
+- Unknown
+id: 313fbb0a-a341-4682-848d-6d6f8c4fab7c
+level: medium
+logsource:
+  category: ps_script
+  product: windows
+product: windows
+references:
+- https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1564.003/T1564.003.md
+status: experimental
+tags:
+- attack.defense_evasion
+- attack.t1564.003
+title: Suspicious PowerShell WindowStyle Option

@@ -1,0 +1,25 @@
+author: '@41thexplorer, Microsoft Defender ATP'
+category: process_creation
+date: 2018/11/20
+description: A sigma rule detecting an unidetefied attacker who used phishing emails
+  to target high profile orgs on November 2018. The Actor shares some TTPs with YYTRIUM/APT29
+  campaign in 2016.
+detection:
+  condition: selection
+  selection:
+    winlog.event_data.CommandLine|contains: cyzfc.dat,
+    winlog.event_data.CommandLine|endswith: PointFunctionCall
+id: 7453575c-a747-40b9-839b-125a0aae324b
+level: high
+logsource:
+  category: process_creation
+  product: windows
+modified: 2021/09/19
+product: windows
+references:
+- https://twitter.com/DrunkBinary/status/1063075530180886529
+status: stable
+tags:
+- attack.execution
+- attack.t1218.011
+title: Unidentified Attacker November 2018

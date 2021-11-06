@@ -1,5 +1,0 @@
-detection:
-  condition: selection_keywords
-  selection_keywords:
-  - '* -u#*'
-id: f74107df-b6c6-4e80-bf00-4170b658162b

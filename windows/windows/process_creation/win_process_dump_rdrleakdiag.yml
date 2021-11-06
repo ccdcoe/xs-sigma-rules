@@ -1,0 +1,24 @@
+author: Cedric MAURUGEON
+category: process_creation
+date: 2021/09/24
+description: Detects a process memory dump performed by RdrLeakDiag.exe
+detection:
+  condition: selection
+  selection:
+    winlog.event_data.CommandLine|contains: fullmemdmp
+    winlog.event_data.OriginalFileName: RdrLeakDiag.exe
+falsepositives:
+- Unknown
+id: edadb1e5-5919-4e4c-8462-a9e643b02c4b
+level: high
+logsource:
+  category: process_creation
+  product: windows
+product: windows
+references:
+- https://www.pureid.io/dumping-abusing-windows-credentials-part-1/
+status: experimental
+tags:
+- attack.credential_access
+- attack.t1003.001
+title: Process Dump via RdrLeakDiag.exe

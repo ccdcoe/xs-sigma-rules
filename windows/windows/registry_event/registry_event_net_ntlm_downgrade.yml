@@ -1,0 +1,31 @@
+author: Florian Roth, wagga
+category: registry_event
+date: 2018/03/20
+description: Detects NetNTLM downgrade attack
+detection:
+  condition: selection
+  selection:
+    winlog.event_data.TargetObject|contains|all:
+    - SYSTEM\
+    - ControlSet
+    - \Control\Lsa
+    winlog.event_data.TargetObject|endswith:
+    - \lmcompatibilitylevel
+    - \NtlmMinClientSec
+    - \RestrictSendingNTLMTraffic
+falsepositives:
+- Unknown
+id: d67572a0-e2ec-45d6-b8db-c100d14b8ef2
+level: critical
+logsource:
+  category: registry_event
+  product: windows
+modified: 2021/09/21
+product: windows
+references:
+- https://www.optiv.com/blog/post-exploitation-using-netntlm-downgrade-attacks
+tags:
+- attack.defense_evasion
+- attack.t1562.001
+- attack.t1112
+title: NetNTLM Downgrade Attack

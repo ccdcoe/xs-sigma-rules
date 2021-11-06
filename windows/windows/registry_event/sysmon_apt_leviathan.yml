@@ -1,0 +1,22 @@
+author: Aidan Bracher
+category: registry_event
+date: 2020/07/07
+description: Detects registry key used by Leviathan APT in Malaysian focused campaign
+detection:
+  condition: selection
+  selection:
+    winlog.event_data.TargetObject: HKCU\Software\Microsoft\Windows\CurrentVersion\Run\ntkd
+id: 70d43542-cd2d-483c-8f30-f16b436fd7db
+level: critical
+logsource:
+  category: registry_event
+  product: windows
+modified: 2021/09/13
+product: windows
+references:
+- https://www.elastic.co/blog/advanced-techniques-used-in-malaysian-focused-apt-campaign
+status: experimental
+tags:
+- attack.persistence
+- attack.t1547.001
+title: Leviathan Registry Key Activity

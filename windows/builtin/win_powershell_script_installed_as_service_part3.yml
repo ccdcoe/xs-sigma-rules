@@ -1,9 +1,0 @@
-detection:
-  service_creation:
-    winlog.event_id: 6
-id: 46deb5e1-28c9-4905-b2df-51cdcc9e6073
-logsource:
-  product: windows
-  service: sysmon
-product: windows
-service: sysmon

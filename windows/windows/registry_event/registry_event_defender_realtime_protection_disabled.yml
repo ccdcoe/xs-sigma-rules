@@ -1,0 +1,39 @@
+author: AlertIQ
+category: registry_event
+date: 2021/10/18
+description: Detects disabling Windows Defender Real-Time Protection by modifying
+  registry
+detection:
+  condition: tamper_registry1 or tamper_registry2
+  tamper_registry1:
+    winlog.event_data.Details: DWORD (0x00000001)
+    winlog.event_data.EventType: SetValue
+    winlog.event_data.TargetObject:
+    - HKLM\SOFTWARE\Policies\Microsoft\Windows Defender\Real-Time Protection\DisableBehaviorMonitoring
+    - HKLM\SOFTWARE\Policies\Microsoft\Windows Defender\Real-Time Protection\DisableIOAVProtection
+    - HKLM\SOFTWARE\Policies\Microsoft\Windows Defender\Real-Time Protection\DisableOnAccessProtection
+    - HKLM\SOFTWARE\Policies\Microsoft\Windows Defender\Real-Time Protection\DisableRealtimeMonitoring
+    - HKLM\SOFTWARE\Policies\Microsoft\Windows Defender\Real-Time Protection\DisableScanOnRealtimeEnable
+    - HKLM\SOFTWARE\Policies\Microsoft\Windows Defender\SpyNet\DisableBlockAtFirstSeen
+  tamper_registry2:
+    winlog.event_data.Details: DWORD (0x00000000)
+    winlog.event_data.EventType: SetValue
+    winlog.event_data.TargetObject:
+    - HKLM\SOFTWARE\Policies\Microsoft\Windows Defender\SpyNet\SpynetReporting
+    - HKLM\SOFTWARE\Policies\Microsoft\Windows Defender\SpyNet\SubmitSamplesConsent
+falsepositives:
+- Administrator actions
+id: fd115e64-97c7-491f-951c-fc8da7e042fa
+level: high
+logsource:
+  category: registry_event
+  product: windows
+product: windows
+references:
+- https://thedfirreport.com/2021/10/18/icedid-to-xinglocker-ransomware-in-24-hours/
+- https://gist.github.com/anadr/7465a9fde63d41341136949f14c21105
+status: experimental
+tags:
+- attack.defense_evasion
+- attack.t1562.001
+title: Windows Defender Real-Time Protection Disabled

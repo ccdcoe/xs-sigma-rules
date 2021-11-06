@@ -1,0 +1,33 @@
+author: Florian Roth
+category: ps_classic_start
+date: 2017/03/05
+definition: fields have to be extract from event
+description: Detects suspicious PowerShell download command
+detection:
+  condition: downloadfile or downloadstring
+  downloadfile:
+    HostApplication|contains|all:
+    - System.Net.WebClient
+    - .DownloadFile(
+  downloadstring:
+    HostApplication|contains|all:
+    - System.Net.WebClient
+    - .DownloadString(
+falsepositives:
+- PowerShell scripts that download content from the Internet
+id: 3236fcd0-b7e3-4433-b4f8-86ad61a9af2d
+level: medium
+logsource:
+  category: ps_classic_start
+  definition: fields have to be extract from event
+  product: windows
+modified: 2021/10/16
+product: windows
+related:
+- id: 65531a81-a694-4e31-ae04-f8ba5bc33759
+  type: derived
+status: experimental
+tags:
+- attack.execution
+- attack.t1059.001
+title: Suspicious PowerShell Download

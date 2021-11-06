@@ -1,0 +1,26 @@
+author: Tobias Michalski, Max Altgelt
+category: webserver
+date: 2021/09/20
+description: Detects suspicious access to URLs that was noticed in cases in which
+  attackers exploitated the ADSelfService vulnerability CVE-2021-40539
+detection:
+  condition: selection
+  selection:
+    http.url|contains:
+    - /help/admin-guide/Reports/ReportGenerate.jsp
+    - /ServletApi/../RestApi/LogonCustomization
+    - /ServletApi/../RestAPI/Connection
+falsepositives:
+- Unknown
+id: 6702b13c-e421-44cc-ab33-42cc25570f11
+level: high
+logsource:
+  category: webserver
+  product: suricata
+  service: http
+product: suricata
+references:
+- https://us-cert.cisa.gov/ncas/alerts/aa21-259a
+service: http
+status: experimental
+title: ADSelfService Exploitation

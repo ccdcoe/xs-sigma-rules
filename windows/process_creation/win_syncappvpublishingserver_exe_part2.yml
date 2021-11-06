@@ -1,9 +1,0 @@
-category: process_creation
-detection:
-  selection:
-    winlog.event_data.Image|endswith: \SyncAppvPublishingServer.exe
-id: fde7929d-8beb-4a4c-b922-be9974671667
-logsource:
-  category: process_creation
-  product: windows
-product: windows

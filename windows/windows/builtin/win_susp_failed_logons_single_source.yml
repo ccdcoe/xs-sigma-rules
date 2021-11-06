@@ -1,0 +1,30 @@
+author: Florian Roth
+date: 2017/01/10
+description: Detects suspicious failed logins with different user accounts from a
+  single source system
+detection:
+  condition: selection1 | count(TargetUserName) by WorkstationName > 3
+  selection1:
+    winlog.event_data.TargetUserName: '*'
+    winlog.event_data.WorkstationName: '*'
+    winlog.event_id:
+    - 529
+    - 4625
+falsepositives:
+- Terminal servers
+- Jump servers
+- Other multiuser systems like Citrix server farms
+- Workstations with frequently changing users
+id: e98374a6-e2d9-4076-9b5c-11bdb2569995
+level: medium
+logsource:
+  product: windows
+  service: security
+modified: 2021/09/21
+product: windows
+service: security
+tags:
+- attack.persistence
+- attack.privilege_escalation
+- attack.t1078
+title: Failed Logins with Different Accounts from Single Source System

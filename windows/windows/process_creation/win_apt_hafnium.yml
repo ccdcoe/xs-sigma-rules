@@ -1,0 +1,79 @@
+author: Florian Roth
+category: process_creation
+date: 2021/03/09
+description: Detects activity observed by different researchers to be HAFNIUM group
+  activity (or related) on Exchange servers
+detection:
+  condition: 1 of them
+  selection1:
+    winlog.event_data.CommandLine|contains|all:
+    - attrib
+    - ' +h '
+    - ' +s '
+    - ' +r '
+    - .aspx
+  selection10:
+    winlog.event_data.CommandLine|contains:
+    - \Temp\xx.bat
+    - Windows\WwanSvcdcs
+    - Windows\Temp\cw.exe
+  selection11:
+    winlog.event_data.CommandLine|contains|all:
+    - \comsvcs.dll
+    - Minidump
+    - \inetpub\wwwroot
+  selection12:
+    winlog.event_data.CommandLine|contains|all:
+    - dsquery
+    - ' -uco '
+    - \inetpub\wwwroot
+  selection2:
+    winlog.event_data.CommandLine|contains|all:
+    - schtasks
+    - VSPerfMon
+  selection3:
+    winlog.event_data.CommandLine|contains|all:
+    - vssadmin list shadows
+    - Temp\__output
+  selection4:
+    winlog.event_data.CommandLine|contains: '%TEMP%\execute.bat'
+  selection5:
+    winlog.event_data.Image|endswith: Users\Public\opera\Opera_browser.exe
+  selection6:
+    winlog.event_data.Image|endswith: Opera_browser.exe
+    winlog.event_data.ParentImage|endswith:
+    - \services.exe
+    - \svchost.exe
+  selection7:
+    winlog.event_data.Image|contains: \ProgramData\VSPerfMon\
+  selection8:
+    winlog.event_data.CommandLine|contains|all:
+    - ' -t7z '
+    - C:\Programdata\pst
+    - \it.zip
+  selection9:
+    winlog.event_data.CommandLine|contains:
+    - Microsoft\Exchange Server\
+    - inetpub\wwwroot
+    winlog.event_data.Image|endswith: \makecab.exe
+falsepositives:
+- Unknown
+id: bbb2dedd-a0e3-46ab-ba6c-6c82ae7a9aa7
+level: high
+logsource:
+  category: process_creation
+  product: windows
+modified: 2021/03/16
+product: windows
+references:
+- https://blog.truesec.com/2021/03/07/exchange-zero-day-proxylogon-and-hafnium/
+- https://www.microsoft.com/security/blog/2021/03/02/hafnium-targeting-exchange-servers/
+- https://discuss.elastic.co/t/detection-and-response-for-hafnium-activity/266289/3
+- https://twitter.com/GadixCRK/status/1369313704869834753?s=20
+- https://twitter.com/BleepinComputer/status/1372218235949617161
+status: experimental
+tags:
+- attack.persistence
+- attack.t1546
+- attack.t1053
+title: Exchange Exploitation Activity

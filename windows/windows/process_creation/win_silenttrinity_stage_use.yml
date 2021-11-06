@@ -1,0 +1,23 @@
+author: Aleksey Potapov, oscd.community
+category: process_creation
+date: 2019/10/22
+description: Detects SILENTTRINITY stager use
+detection:
+  condition: selection
+  selection:
+    winlog.event_data.Description|contains: st2stager
+falsepositives:
+- unknown
+id: 03552375-cc2c-4883-bbe4-7958d5a980be
+level: high
+logsource:
+  category: process_creation
+  product: windows
+modified: 2021/09/19
+product: windows
+references:
+- https://github.com/byt3bl33d3r/SILENTTRINITY
+status: experimental
+tags:
+- attack.command_and_control
+title: SILENTTRINITY Stager Execution

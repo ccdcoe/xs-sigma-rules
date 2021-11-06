@@ -1,0 +1,25 @@
+author: "Ensar \u015Eamil, @sblmsrsn, OSCD Community"
+category: process_creation
+date: 2020/10/05
+description: Detects SyncAppvPublishingServer process execution which usually utilized
+  by adversaries to bypass PowerShell execution restrictions.
+detection:
+  condition: selection
+  selection:
+    winlog.event_data.Image|endswith: \SyncAppvPublishingServer.exe
+falsepositives:
+- App-V clients
+id: fde7929d-8beb-4a4c-b922-be9974671667
+level: medium
+logsource:
+  category: process_creation
+  product: windows
+modified: 2021/09/11
+product: windows
+references:
+- https://lolbas-project.github.io/lolbas/Binaries/Syncappvpublishingserver/
+status: deprecated
+tags:
+- attack.defense_evasion
+- attack.t1218
+title: SyncAppvPublishingServer Execution to Bypass Powershell Restriction

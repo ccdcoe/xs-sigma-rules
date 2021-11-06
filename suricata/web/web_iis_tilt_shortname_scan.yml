@@ -1,0 +1,35 @@
+author: frack113
+category: webserver
+date: 2021/10/06
+description: When IIS uses an old .Net Framework it's possible to enumeration folder
+  with the symbol ~.
+detection:
+  condition: selection
+  selection:
+    http.http_method:
+    - GET
+    - OPTIONS
+    http.url|contains: ~1
+    http.url|endswith: a.aspx
+    sc-status:
+    - 200
+    - 301
+falsepositives:
+- Unknown
+id: 7cb02516-6d95-4ffc-8eee-162075e111ac
+level: medium
+logsource:
+  category: webserver
+  product: suricata
+  service: http
+product: suricata
+references:
+- https://github.com/projectdiscovery/nuclei-templates/blob/master/fuzzing/iis-shortname.yaml
+- https://www.exploit-db.com/exploits/19525
+- https://github.com/lijiejie/IIS_shortname_Scanner
+service: http
+status: experimental
+tags:
+- attack.initial_access
+- attack.t1190
+title: Successful IIS Shortname Fuzzing Scan

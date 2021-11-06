@@ -1,8 +1,0 @@
-detection:
-  condition: selection2 | count(TargetUserName) by Workstation > 3
-  selection2:
-    EventID: 4776
-    TargetUserName: '*'
-    Workstation: '*'
-  timeframe: 24h
-id: 6309ffc4-8fa2-47cf-96b8-a2f72e58e538

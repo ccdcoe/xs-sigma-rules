@@ -1,0 +1,40 @@
+author: Thomas Patzke
+date: 2017/06/12
+description: Detects PsExec service installation and execution events (service and
+  Sysmon)
+detection:
+  condition: service_installation or service_execution
+  service_execution:
+    winlog.event_data.ServiceName: PSEXESVC
+    winlog.event_id: 7036
+  service_installation:
+    winlog.event_data.ServiceFileName|endswith: \PSEXESVC.exe
+    winlog.event_data.ServiceName: PSEXESVC
+    winlog.event_id: 7045
+falsepositives:
+- unknown
+fields:
+- winlog.event_id
+- winlog.event_data.CommandLine
+- winlog.event_data.ParentCommandLine
+- winlog.event_data.ServiceName
+- winlog.event_data.ServiceFileName
+- winlog.event_data.TargetFilename
+- winlog.event_data.PipeName
+id: 42c575ea-e41e-41f1-b248-8093c3e82a28
+level: low
+logsource:
+  product: windows
+  service: system
+modified: 2021/09/21
+product: windows
+references:
+- https://www.jpcert.or.jp/english/pub/sr/ir_research.html
+- https://jpcertcc.github.io/ToolAnalysisResultSheet
+service: system
+status: experimental
+tags:
+- attack.execution
+- attack.t1569.002
+- attack.s0029
+title: PsExec Tool Execution

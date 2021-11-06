@@ -1,0 +1,38 @@
+author: Roberto Rodriguez @Cyb3rWard0g
+date: 2021/10/08
+description: Detects suspicious local connections via a named pipe to the AD FS configuration
+  database (Windows Internal Database). Used to access information such as the AD
+  FS configuration settings which contains sensitive information used to sign SAML
+  tokens.
+detection:
+  condition: selection and not filter
+  filter:
+    winlog.event_data.Image|endswith:
+    - Microsoft.IdentityServer.ServiceHost.exe
+    - Microsoft.Identity.Health.Adfs.PshSurrogate.exe
+    - AzureADConnect.exe
+    - Microsoft.Tri.Sensor.exe
+    - wsmprovhost.exe
+    - mmc.exe
+    - sqlservr.exe
+  selection:
+    winlog.event_data.PipeName: \MICROSOFT##WID\tsql\query
+falsepositives:
+- Processes in the filter condition
+id: 1ea13e8c-03ea-409b-877d-ce5c3d2c1cb3
+level: critical
+logsource:
+  product: windows
+  service: pipe_connected
+modified: 2021/10/08
+product: windows
+references:
+- https://github.com/Azure/Azure-Sentinel/blob/master/Detections/SecurityEvent/ADFSDBNamedPipeConnection.yaml
+- https://o365blog.com/post/adfs/
+- https://github.com/Azure/SimuLand
+service: pipe_connected
+status: experimental
+tags:
+- attack.collection
+- attack.t1005
+title: ADFS Database Named Pipe Connection

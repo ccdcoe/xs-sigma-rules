@@ -1,0 +1,27 @@
+author: Bhabesh Raj
+category: file_event
+date: 2021/05/05
+description: Detects the use of Pingback backdoor that creates ICMP tunnel for C2
+  as described in the trustwave report
+detection:
+  condition: selection
+  selection:
+    winlog.event_data.Image|endswith: updata.exe
+    winlog.event_data.TargetFilename: C:\Windows\oci.dll
+falsepositives:
+- Very unlikely
+id: 2bd63d53-84d4-4210-80ff-bf0658f1bf78
+level: high
+logsource:
+  category: file_event
+  product: windows
+modified: 2021/09/09
+product: windows
+references:
+- https://www.trustwave.com/en-us/resources/blogs/spiderlabs-blog/backdoor-at-the-end-of-the-icmp-tunnel
+- https://app.any.run/tasks/4a54c651-b70b-4b72-84d7-f34d301d6406
+status: experimental
+tags:
+- attack.persistence
+- attack.t1574.001
+title: Pingback Backdoor

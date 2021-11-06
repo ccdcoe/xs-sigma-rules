@@ -1,0 +1,30 @@
+author: Austin Songer @austinsonger
+category: process_creation
+date: 2021/09/30
+description: Detects when a user manipulates with Firmward Password on MacOS. NOTE
+  - this command has been disabled on silicon-based apple computers.
+detection:
+  condition: selection1
+  selection1:
+    CommandLine|contains:
+    - setpasswd
+    - full
+    - delete
+    - check
+    Image: /usr/sbin/firmwarepasswd
+falsepositives:
+- Legitimate administration activities
+id: 7ed2c9f7-c59d-4c82-a7e2-f859aa676099
+level: medium
+logsource:
+  category: process_creation
+  product: macos
+product: macos
+references:
+- https://github.com/usnistgov/macos_security/blob/932a51f3e819dd3e02ebfcf3ef433cfffafbe28b/rules/os/os_firmware_password_require.yaml
+- https://www.manpagez.com/man/8/firmwarepasswd/
+- https://support.apple.com/guide/security/firmware-password-protection-sec28382c9ca/web
+status: experimental
+tags:
+- attack.impact
+title: Suspicious MacOS Firmware Activity

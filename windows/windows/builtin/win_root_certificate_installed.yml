@@ -1,0 +1,34 @@
+author: oscd.community, @redcanary, Zach Stanford @svch0st
+date: 2020/10/10
+description: Adversaries may install a root certificate on a compromised system to
+  avoid warnings when connecting to adversary controlled web servers.
+detection:
+  condition: selection1 or selection2
+  selection1:
+    winlog.event_data.ScriptBlockText|contains|all:
+    - Move-Item
+    - Cert:\LocalMachine\Root
+    winlog.event_id: 4104
+  selection2:
+    winlog.event_data.ScriptBlockText|contains|all:
+    - Import-Certificate
+    - Cert:\LocalMachine\Root
+    winlog.event_id: 4104
+falsepositives:
+- Help Desk or IT may need to manually add a corporate Root CA on occasion. Need to
+  test if GPO push doesn't trigger FP
+id: 42821614-9264-4761-acfc-5772c3286f76
+level: medium
+logsource:
+  product: windows
+  service: powershell
+modified: 2021/09/21
+product: windows
+references:
+- https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1553.004/T1553.004.md
+service: powershell
+status: experimental
+tags:
+- attack.defense_evasion
+- attack.t1553.004
+title: Root Certificate Installed

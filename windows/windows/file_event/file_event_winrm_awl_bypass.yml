@@ -1,0 +1,34 @@
+author: Julia Fomina, oscd.community
+category: file_event
+date: 2020/10/06
+description: Detects execution of attacker-controlled WsmPty.xsl or WsmTxt.xsl via
+  winrm.vbs and copied cscript.exe (can be renamed)
+detection:
+  condition: system_files and not in_system_folder
+  in_system_folder:
+    winlog.event_data.TargetFilename|startswith:
+    - C:\Windows\System32\
+    - C:\Windows\SysWOW64\
+  system_files:
+    winlog.event_data.TargetFilename|endswith:
+    - WsmPty.xsl
+    - WsmTxt.xsl
+falsepositives:
+- Unlikely
+id: d353dac0-1b41-46c2-820c-d7d2561fc6ed
+level: medium
+logsource:
+  category: file_event
+  product: windows
+modified: 2021/09/19
+product: windows
+references:
+- https://posts.specterops.io/application-whitelisting-bypass-and-arbitrary-unsigned-code-execution-technique-in-winrm-vbs-c8c24fb40404
+related:
+- id: 074e0ded-6ced-4ebd-8b4d-53f55908119
+  type: derived
+status: experimental
+tags:
+- attack.defense_evasion
+- attack.t1216
+title: AWL Bypass with Winrm.vbs and Malicious WsmPty.xsl/WsmTxt.xsl

@@ -1,0 +1,24 @@
+author: Austin Songer @austinsonger
+date: 2021/09/12
+description: Detects when an application Sign-on Policy is modified or deleted.
+detection:
+  condition: selection
+  selection:
+    eventtype:
+    - application.policy.sign_on.update
+    - application.policy.sign_on.rule.delete
+falsepositives:
+- Unknown
+id: 8f668cc4-c18e-45fe-ad00-624a981cf88a
+level: medium
+logsource:
+  service: okta
+modified: 2021/09/22
+references:
+- https://developer.okta.com/docs/reference/api/system-log/
+- https://developer.okta.com/docs/reference/api/event-types/
+service: okta
+status: experimental
+tags:
+- attack.impact
+title: Okta Application Sign-On Policy Modified or Deleted

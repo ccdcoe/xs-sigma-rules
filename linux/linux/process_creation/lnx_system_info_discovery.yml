@@ -1,0 +1,31 @@
+author: "\xD6mer G\xFCnal, oscd.community"
+category: process_creation
+date: 2020/10/08
+description: Detects system information discovery commands
+detection:
+  condition: selection
+  selection:
+    Image|endswith:
+    - /uname
+    - /hostname
+    - /uptime
+    - /lspci
+    - /dmidecode
+    - /lscpu
+    - /lsmod
+falsepositives:
+- Legitimate administration activities
+id: 42df45e7-e6e9-43b5-8f26-bec5b39cc239
+level: informational
+logsource:
+  category: process_creation
+  product: linux
+modified: 2021/09/14
+product: linux
+references:
+- https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1082/T1082.md
+status: stable
+tags:
+- attack.discovery
+- attack.t1082
+title: System Information Discovery

@@ -1,0 +1,31 @@
+author: frack113
+category: ps_script
+date: 2021/07/20
+definition: Script Block Logging must be enable
+description: Use living off the land tools to zip a file and stage it in the Windows
+  temporary folder for later exfiltration
+detection:
+  condition: selection_4104
+  selection_4104:
+    winlog.event_data.ScriptBlockText|contains|all:
+    - 'Compress-Archive '
+    - ' -Path '
+    - ' -DestinationPath '
+    - $env:TEMP\
+falsepositives:
+- Unknown
+id: b7a3c9a3-09ea-4934-8864-6a32cacd98d9
+level: medium
+logsource:
+  category: ps_script
+  definition: Script Block Logging must be enable
+  product: windows
+modified: 2021/10/16
+product: windows
+references:
+- https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1074.001/T1074.001.md
+status: experimental
+tags:
+- attack.collection
+- attack.t1074.001
+title: Zip A Folder With PowerShell For Staging In Temp

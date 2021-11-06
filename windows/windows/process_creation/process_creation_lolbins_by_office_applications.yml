@@ -1,0 +1,38 @@
+author: Vadim Khrykov (ThreatIntel), Cyb3rEng (Rule)
+category: process_creation
+date: 2021/08/23
+description: This rule will monitor any office apps that spins up a new LOLBin process.
+  This activity is pretty suspicious and should be investigated.
+detection:
+  condition: selection1 and selection2
+  selection1:
+    winlog.event_data.Image|endswith:
+    - regsvr32
+    - rundll32
+    - msiexec
+    - mshta
+    - verclsid
+  selection2:
+    winlog.event_data.ParentImage|endswith:
+    - winword.exe
+    - excel.exe
+    - powerpnt.exe
+falsepositives:
+- Unknown
+id: 23daeb52-e6eb-493c-8607-c4f0246cb7d8
+level: high
+logsource:
+  category: process_creation
+  product: windows
+product: windows
+references:
+- https://thedfirreport.com/2021/03/29/sodinokibi-aka-revil-ransomware/
+- https://github.com/vadim-hunter/Detection-Ideas-Rules/blob/main/Threat%20Intelligence/The%20DFIR%20Report/20210329_Sodinokibi_(aka_REvil)_Ransomware.yaml
+status: experimental
+tags:
+- attack.t1204.002
+- attack.t1047
+- attack.t1218.010
+- attack.execution
+- attack.defense_evasion
+title: New Lolbin Process by Office Applications

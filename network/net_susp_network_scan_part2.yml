@@ -1,6 +1,0 @@
-detection:
-  condition: selection | count(dst_port) by src_ip > 10
-  selection:
-    action: denied
-  timeframe: 24h
-id: fab0ddf0-b8a9-4d70-91ce-a20547209afb

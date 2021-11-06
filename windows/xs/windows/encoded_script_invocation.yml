@@ -1,0 +1,25 @@
+author: Mauno Pihelgas
+description: Detects suspicious PowerShell invocation command parameters
+detection:
+  condition: selection
+  selection:
+    winlog.event_data.ScriptBlockText:
+    - ' -FromBase64String'
+falsepositives:
+- Penetration tests
+- Very special / sneaky PowerShell scripts
+fields:
+- winlog.event_data.ScriptBlockText
+id: 697e4279-4b0d-4b14-b233-9596bc1cacda
+level: high
+logsource:
+  product: windows
+  service: powershell
+product: windows
+service: powershell
+status: experimental
+tags:
+- attack.execution
+- attack.defense-evasion
+- attack.t1064
+title: Encoded ScriptBlock Command Invocation

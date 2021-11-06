@@ -1,0 +1,29 @@
+author: Roberto Rodriguez (Cyb3rWard0g), OTR (Open Threat Research), MSTIC
+category: process_creation
+date: 2021/10/15
+description: Detects potential overwriting and deletion of a file using DD.
+detection:
+  condition: selection1 and selection2 and selection3
+  selection1:
+    Image: /bin/dd
+  selection2:
+    CommandLine|contains: of=
+  selection3:
+    CommandLine|contains:
+    - if=/dev/zero
+    - if=/dev/null
+falsepositives:
+- Any user deleting files that way.
+id: 2953194b-e33c-4859-b9e8-05948c167447
+level: low
+logsource:
+  category: process_creation
+  product: linux
+product: linux
+references:
+- https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1485/T1485.md#atomic-test-2---macoslinux---overwrite-file-with-dd
+status: experimental
+tags:
+- attack.impact
+- attack.t1485
+title: DD File Overwrite

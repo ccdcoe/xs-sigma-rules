@@ -1,9 +1,0 @@
-category: pipe_created
-detection:
-  sysmon_pipecreated:
-    winlog.event_data.PipeName: \PSEXESVC
-id: f3f3a972-f982-40ad-b63c-bca6afdfad7c
-logsource:
-  category: pipe_created
-  product: windows
-product: windows

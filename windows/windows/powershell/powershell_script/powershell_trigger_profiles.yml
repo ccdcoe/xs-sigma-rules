@@ -1,0 +1,33 @@
+author: frack113
+category: ps_script
+date: 2021/08/18
+definition: EnableScriptBlockLogging must be set to enable
+description: Adversaries may gain persistence and elevate privileges by executing
+  malicious content triggered by PowerShell profiles.
+detection:
+  condition: selection
+  selection:
+    winlog.event_data.ScriptBlockText|contains:
+    - Start-Process
+    - '""'
+    winlog.event_data.ScriptBlockText|contains|all:
+    - Add-Content
+    - $profile
+    - -Value
+falsepositives:
+- Unknown
+id: 05b3e303-faf0-4f4a-9b30-46cc13e69152
+level: medium
+logsource:
+  category: ps_script
+  definition: EnableScriptBlockLogging must be set to enable
+  product: windows
+modified: 2021/10/16
+product: windows
+references:
+- https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1546.013/T1546.013.md
+status: experimental
+tags:
+- attack.privilege_escalation
+- attack.t1546.013
+title: Powershell Trigger Profiles by Add_Content

@@ -1,0 +1,37 @@
+author: "\xD6mer G\xFCnal, oscd.community"
+date: 2020/10/08
+description: Detects system information discovery commands
+detection:
+  condition: selection
+  selection:
+    name:
+    - /sys/class/dmi/id/bios_version
+    - /sys/class/dmi/id/product_name
+    - /sys/class/dmi/id/chassis_vendor
+    - /proc/scsi/scsi
+    - /proc/ide/hd0/model
+    - /proc/version
+    - /etc/*version
+    - /etc/*release
+    - /etc/issue
+    type: PATH
+falsepositives:
+- Legitimate administration activities
+id: 1f358e2e-cb63-43c3-b575-dfb072a6814f
+level: informational
+logsource:
+  product: linux
+  service: auditd
+modified: 2021/09/14
+product: linux
+references:
+- https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1082/T1082.md
+related:
+- id: 42df45e7-e6e9-43b5-8f26-bec5b39cc239
+  type: derived
+service: auditd
+status: stable
+tags:
+- attack.discovery
+- attack.t1082
+title: System Information Discovery

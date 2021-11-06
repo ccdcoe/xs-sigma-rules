@@ -1,0 +1,29 @@
+author: "J\xE1n Tren\u010Dansk\xFD, frack113"
+date: 2020/07/28
+description: Detects disabling Windows Defender threat protection
+detection:
+  condition: selection
+  selection:
+    winlog.event_id:
+    - 5001
+    - 5010
+    - 5012
+    - 5101
+falsepositives:
+- Administrator actions
+id: fe34868f-6e0e-4882-81f6-c43aa8f15b62
+level: high
+logsource:
+  product: windows
+  service: windefend
+modified: 2021/09/21
+product: windows
+references:
+- https://docs.microsoft.com/en-us/windows/security/threat-protection/windows-defender-antivirus/troubleshoot-windows-defender-antivirus
+- https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1562.001/T1562.001.md
+service: windefend
+status: stable
+tags:
+- attack.defense_evasion
+- attack.t1562.001
+title: Windows Defender Threat Detection Disabled
