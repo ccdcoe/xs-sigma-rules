@@ -1,0 +1,29 @@
+name: Publish
+
+on:
+  push:
+    tags:
+      - '*'
+
+jobs:
+
+  build:
+    name: Build binary
+    runs-on: ubuntu-latest
+    steps:
+
+    - name: Check out code
+      uses: actions/checkout@v2
+
+    - name: Package
+      run: tar cvzf ruleset.tar.gz snoopy windows linux suricata
+      working-directory: "."
+
+    - name: Upload Linux binary to release
+      uses: svenstaro/upload-release-action@v2
+      with:
+        repo_token: ${{ secrets.GITHUB_TOKEN }}
+        file: ./ruleset.tar.gz
+        asset_name: ruleset.tar.gz
+        tag: ${{ github.ref }}
+        overwrite: true
