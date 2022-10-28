@@ -1,0 +1,25 @@
+author: Austin Songer
+date: 2021/08/23
+description: Detects when an API access service account is granted domain authority.
+detection:
+  condition: selection
+  selection:
+    eventName: AUTHORIZE_API_CLIENT_ACCESS
+    eventService: admin.googleapis.com
+falsepositives:
+- Unknown
+id: 04e2a23a-9b29-4a5c-be3a-3542e3f982ba
+level: medium
+logsource:
+  product: google_workspace
+  service: google_workspace.admin
+product: google_workspace
+references:
+- https://cloud.google.com/logging/docs/audit/gsuite-audit-logging#3
+- https://developers.google.com/admin-sdk/reports/v1/appendix/activity/admin-domain-settings#AUTHORIZE_API_CLIENT_ACCESS
+service: google_workspace.admin
+status: experimental
+tags:
+- attack.persistence
+- attack.t1098
+title: Google Workspace Granted Domain API Access

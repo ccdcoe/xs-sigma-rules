@@ -5,7 +5,7 @@ description: Detects connections from routable IPs to an RDP listener - which is
 detection:
   condition: not selection
   selection:
-    src_ip|startswith:
+    id.orig_h|startswith:
     - 192.168.
     - '10.'
     - 172.16.
@@ -24,6 +24,8 @@ detection:
     - 172.29.
     - 172.30.
     - 172.31.
+    - fd
+    - 2620:83:800f
 falsepositives:
 - Although it is recommended to NOT have RDP exposed to the internet, verify that
   this is a) allowed b) the server has not already been compromised via some brute
@@ -37,6 +39,7 @@ level: high
 logsource:
   product: zeek
   service: rdp
+modified: 2021/11/14
 product: zeek
 references:
 - https://attack.mitre.org/techniques/T1021/001/

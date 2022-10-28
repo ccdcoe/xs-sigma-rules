@@ -1,0 +1,27 @@
+author: Nasreddine Bencherchali
+category: process_creation
+date: 2022/06/16
+description: Detects usage of OpenConsole binary as a LOLBIN to launch other binaries
+  to bypass application Whitelisting
+detection:
+  condition: selection and not filter
+  filter:
+    winlog.event_data.Image|startswith: C:\Program Files\WindowsApps\Microsoft.WindowsTerminal
+  selection:
+  - winlog.event_data.OriginalFileName: OpenConsole.exe
+  - winlog.event_data.Image|endswith: \OpenConsole.exe
+falsepositives:
+- Legitimate use by an administrator
+id: 814c95cc-8192-4378-a70a-f1aafd877af1
+level: medium
+logsource:
+  category: process_creation
+  product: windows
+product: windows
+references:
+- https://twitter.com/nas_bench/status/1537563834478645252
+status: experimental
+tags:
+- attack.execution
+- attack.t1059
+title: Use of OpenConsole

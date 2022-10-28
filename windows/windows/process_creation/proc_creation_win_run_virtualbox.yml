@@ -1,0 +1,42 @@
+author: Janantha Marasinghe
+category: process_creation
+date: 2020/09/26
+description: Adversaries can carry out malicious operations using a virtual instance
+  to avoid detection. This rule is built to detect the registration of the Virtualbox
+  driver or start of a Virtualbox VM.
+detection:
+  condition: 1 of selection_*
+  selection_1:
+    winlog.event_data.CommandLine|contains:
+    - VBoxRT.dll,RTR3Init
+    - VBoxC.dll
+    - VBoxDrv.sys
+  selection_2:
+    winlog.event_data.CommandLine|contains:
+    - startvm
+    - controlvm
+falsepositives:
+- This may have false positives on hosts where Virtualbox is legitimately being used
+  for operations
+fields:
+- winlog.ComputerName
+- winlog.event_data.User
+- winlog.event_data.CommandLine
+- winlog.event_data.ParentCommandLine
+id: bab049ca-7471-4828-9024-38279a4c04da
+level: low
+logsource:
+  category: process_creation
+  product: windows
+modified: 2022/07/14
+product: windows
+references:
+- https://attack.mitre.org/techniques/T1564/006/
+- https://news.sophos.com/en-us/2020/05/21/ragnar-locker-ransomware-deploys-virtual-machine-to-dodge-security/
+- https://threatpost.com/maze-ransomware-ragnar-locker-virtual-machine/159350/
+status: experimental
+tags:
+- attack.defense_evasion
+- attack.t1564.006
+- attack.t1564
+title: Detect Virtualbox Driver Installation OR Starting Of VMs

@@ -1,0 +1,34 @@
+author: Austin Songer @austinsonger
+date: 2021/10/03
+description: Detects possible suspicious glue development endpoint activity.
+detection:
+  condition: selection1 or selection2 or selection3
+  selection1:
+    eventName: CreateDevEndpoint
+    eventSource: glue.amazonaws.com
+  selection2:
+    eventName: DeleteDevEndpoint
+    eventSource: glue.amazonaws.com
+  selection3:
+    eventName: UpdateDevEndpoint
+    eventSource: glue.amazonaws.com
+falsepositives:
+- Glue Development Endpoint Activity may be performed by a system administrator. Verify
+  whether the user identity, user agent, and/or hostname should be making changes
+  in your environment.
+- If known behavior is causing false positives, it can be exempted from the rule.
+id: 4990c2e3-f4b8-45e3-bc3c-30b14ff0ed26
+level: low
+logsource:
+  product: aws
+  service: cloudtrail
+modified: 2021/10/13
+product: aws
+references:
+- https://rhinosecuritylabs.com/aws/aws-privilege-escalation-methods-mitigation/
+- https://docs.aws.amazon.com/glue/latest/webapi/API_CreateDevEndpoint.html
+service: cloudtrail
+status: experimental
+tags:
+- attack.privilege_escalation
+title: AWS Glue Development Endpoint Activity

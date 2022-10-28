@@ -1,0 +1,29 @@
+author: Nasreddine Bencherchali
+category: registry_set
+date: 2022/09/02
+description: Detects tamper attempts to sophos av functionality via registry key modification
+detection:
+  condition: selection
+  selection:
+    winlog.event_data.Details: DWORD (0x00000000)
+    winlog.event_data.EventType: SetValue
+    winlog.event_data.TargetObject|contains:
+    - \Sophos Endpoint Defense\TamperProtection\Config\SAVEnabled
+    - \Sophos Endpoint Defense\TamperProtection\Config\SEDEnabled
+    - \Sophos\SAVService\TamperProtection\Enabled
+falsepositives:
+- Some FP may occure when the feature is disabled by the AV itself, you should always
+  investigate if the action was legitimate
+id: 9f4662ac-17ca-43aa-8f12-5d7b989d0101
+level: high
+logsource:
+  category: registry_set
+  product: windows
+product: windows
+references:
+- https://redacted.com/blog/bianlian-ransomware-gang-gives-it-a-go/
+status: experimental
+tags:
+- attack.defense_evasion
+- attack.t1562.001
+title: Tamper With Sophos AV Registry Keys

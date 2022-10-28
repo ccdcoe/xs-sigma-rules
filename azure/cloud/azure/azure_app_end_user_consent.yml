@@ -1,0 +1,22 @@
+author: Bailey Bercik '@baileybercik', Mark Morowczynski '@markmorow'
+date: 2022/07/28
+description: Detects when an end user consents to an application
+detection:
+  condition: selection
+  selection:
+    ConsentContext.IsAdminConsent: 'false'
+falsepositives:
+- Unknown
+id: 9b2cc4c4-2ad4-416d-8e8e-ee6aa6f5035a
+level: low
+logsource:
+  product: azure
+  service: auditlogs
+product: azure
+references:
+- https://docs.microsoft.com/en-us/azure/active-directory/fundamentals/security-operations-applications#end-user-consent
+service: auditlogs
+status: experimental
+tags:
+- attack.privilege_escalation
+title: End User Consent

@@ -1,0 +1,40 @@
+author: Nasreddine Bencherchali
+category: process_creation
+date: 2022/08/01
+description: Detects when attackers use "sc.exe" or the powershell "Set-Service" cmdlet
+  to change the startup type of a service to "disabled"
+detection:
+  condition: all of selection_sc_* or selection_pwsh
+  selection_pwsh:
+    winlog.event_data.CommandLine|contains:
+    - Disabled
+    - Manual
+    winlog.event_data.CommandLine|contains|all:
+    - Set-Service
+    - -StartupType
+  selection_sc_cli:
+    winlog.event_data.CommandLine|contains:
+    - disabled
+    - demand
+    winlog.event_data.CommandLine|contains|all:
+    - ' config '
+    - start
+  selection_sc_img:
+  - winlog.event_data.Image|endswith: \sc.exe
+  - winlog.event_data.OriginalFileName: sc.exe
+falsepositives:
+- Administrators settings a service to disable via script or cli for testing purposes
+id: 85c312b7-f44d-4a51-a024-d671c40b49fc
+level: medium
+logsource:
+  category: process_creation
+  product: windows
+product: windows
+references:
+- https://www.virustotal.com/gui/file/38283b775552da8981452941ea74191aa0d203edd3f61fb2dee7b0aea3514955
+status: experimental
+tags:
+- attack.execution
+- attack.defense_evasion
+- attack.t1562.001
+title: Sc Or Set-Service Cmdlet Execution to Disable Services

@@ -1,0 +1,28 @@
+author: Nasreddine Bencherchali
+category: process_creation
+date: 2022/06/16
+description: Detects usage of Sysinternals PsService for service reconnaissance or
+  tamper
+detection:
+  condition: selection
+  selection:
+  - winlog.event_data.OriginalFileName: psservice.exe
+  - winlog.event_data.Image|endswith:
+    - \PsService.exe
+    - \PsService64.exe
+falsepositives:
+- Legitimate use of PsService by an administrator
+id: 3371f518-5fe3-4cf6-a14b-2a0ae3fd8a4f
+level: medium
+logsource:
+  category: process_creation
+  product: windows
+product: windows
+references:
+- https://docs.microsoft.com/en-us/sysinternals/downloads/psservice
+status: experimental
+tags:
+- attack.discovery
+- attack.persistence
+- attack.t1543.003
+title: Use of Sysinternals PsService

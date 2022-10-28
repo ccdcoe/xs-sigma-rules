@@ -1,0 +1,30 @@
+author: frack113, Tim Shelton (fps)
+category: network_connection
+date: 2022/07/14
+description: Detects suspicious "epmap" connection to a remote computer via remote
+  procedure call (RPC)
+detection:
+  condition: selection and not filter
+  filter:
+    winlog.event_data.Image|startswith:
+    - C:\Windows\
+    - C:\ProgramData\Amazon\SSM\Update\amazon-ssm-agent-updater
+  selection:
+    Initiated: 'true'
+    Protocol: tcp
+    winlog.event_data.DestinationPort: 135
+falsepositives:
+- Unknown
+id: 628d7a0b-7b84-4466-8552-e6138bc03b43
+level: high
+logsource:
+  category: network_connection
+  product: windows
+modified: 2022/07/18
+product: windows
+references:
+- https://github.com/RiccardoAncarani/TaskShell/
+status: experimental
+tags:
+- attack.lateral_movement
+title: Suspicious Epmap Connection

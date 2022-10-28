@@ -1,0 +1,35 @@
+author: '@neu5ron'
+date: 2017/07/30
+definition: 'Requirements: Audit Policy : Policy Change > Audit Authorization Policy
+  Change, Group Policy : Computer Configuration\Windows Settings\Security Settings\Advanced
+  Audit Policy Configuration\Audit Policies\Policy Change\Audit Authorization Policy
+  Change'
+description: Detects scenario where if a user is assigned the SeEnableDelegationPrivilege
+  right in Active Directory it would allow control of other AD user objects.
+detection:
+  condition: all of selection*
+  selection_base:
+    winlog.event_id: 4704
+  selection_keywords:
+    winlog.event_data.PrivilegeList|contains: SeEnableDelegationPrivilege
+falsepositives:
+- Unknown
+id: 311b6ce2-7890-4383-a8c2-663a9f6b43cd
+level: high
+logsource:
+  definition: 'Requirements: Audit Policy : Policy Change > Audit Authorization Policy
+    Change, Group Policy : Computer Configuration\Windows Settings\Security Settings\Advanced
+    Audit Policy Configuration\Audit Policies\Policy Change\Audit Authorization Policy
+    Change'
+  product: windows
+  service: security
+modified: 2021/12/02
+product: windows
+references:
+- https://www.harmj0y.net/blog/activedirectory/the-most-dangerous-user-right-you-probably-have-never-heard-of/
+service: security
+status: test
+tags:
+- attack.persistence
+- attack.t1098
+title: Enabled User Right in AD to Control User Objects

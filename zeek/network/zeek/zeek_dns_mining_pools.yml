@@ -3,7 +3,7 @@ date: 2021/08/19
 description: Identifies clients that may be performing DNS lookups associated with
   common currency mining pools.
 detection:
-  condition: selection and not (exclude_answers or exclude_rejected)
+  condition: selection and not 1 of exclude_*
   exclude_answers:
     answers:
     - 127.0.0.1
@@ -86,7 +86,7 @@ falsepositives:
 - A DNS lookup does not necessarily  mean a successful attempt, verify a) if there
   was a response using the zeek answers field, if there was then verify the connections
   (conn.log) to those IPs. b) verify if HTTP, SSL, or TLS activity to the domain that
-  was queried. http.log field is "host" and ssl/tls is "server_name".
+  was queried. http.log field is 'host' and ssl/tls is 'server_name'.
 fields:
 - id.orig_h
 - id.resp_h
@@ -99,11 +99,12 @@ level: low
 logsource:
   product: zeek
   service: dns
-modified: 2021/08/23
+modified: 2022/07/07
 product: zeek
 references:
-- https://github.com/Azure/Azure-Sentinel/blob/master/Detections/ASimDNS/imDNS_Miners.yaml
+- https://github.com/Azure/Azure-Sentinel/blob/fa0411f9424b6c47b4d5a20165e4f1b168c1f103/Detections/ASimDNS/imDNS_Miners.yaml
 service: dns
+status: experimental
 tags:
 - attack.t1569.002
 - attack.t1496

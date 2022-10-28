@@ -1,0 +1,28 @@
+author: Samir Bousseaden (original elastic rule), Nasreddine Bencherchali (sigma)
+category: process_access
+date: 2022/06/29
+description: Detects suspicious access to Lsass handle via a call trace to "seclogon.dll"
+detection:
+  condition: selection
+  selection:
+    winlog.event_data.CallTrace|contains: seclogon.dll
+    winlog.event_data.GrantedAccess: '0x14c0'
+    winlog.event_data.SourceImage|endswith: \svchost.exe
+    winlog.event_data.TargetImage|endswith: \lsass.exe
+falsepositives:
+- Unknown
+id: 472159c5-31b9-4f56-b794-b766faa8b0a7
+level: high
+logsource:
+  category: process_access
+  product: windows
+product: windows
+references:
+- https://twitter.com/SBousseaden/status/1541920424635912196
+- https://github.com/elastic/detection-rules/blob/2bc1795f3d7bcc3946452eb4f07ae799a756d94e/rules/windows/credential_access_lsass_handle_via_malseclogon.toml
+- https://splintercod3.blogspot.com/p/the-hidden-side-of-seclogon-part-3.html
+status: experimental
+tags:
+- attack.credential_access
+- attack.t1003.001
+title: Suspicious LSASS Access Via MalSecLogon

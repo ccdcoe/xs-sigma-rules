@@ -15,11 +15,12 @@ level: high
 logsource:
   product: linux
   service: auditd
+modified: 2021/11/27
 product: linux
 references:
-- https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1552.001/T1552.001.md
+- https://github.com/redcanaryco/atomic-red-team/blob/f339e7da7d05f6057fdfcdd3742bfcf365fee2a9/atomics/T1552.001/T1552.001.md
 service: auditd
-status: experimental
+status: test
 tags:
 - attack.credential_access
 - attack.t1552.001

@@ -1,0 +1,29 @@
+author: Florian Roth, Nasreddine Bencherchali @nas_bench
+category: process_creation
+date: 2022/01/24
+description: Detects the use of NirCmd tool for command execution as SYSTEM user
+detection:
+  condition: selection
+  selection:
+    winlog.event_data.CommandLine|contains: ' runassystem '
+falsepositives:
+- Legitimate use by administrators
+fields:
+- winlog.event_data.CommandLine
+- winlog.event_data.ParentCommandLine
+id: d9047477-0359-48c9-b8c7-792cedcdc9c4
+level: high
+logsource:
+  category: process_creation
+  product: windows
+product: windows
+references:
+- https://www.nirsoft.net/utils/nircmd.html
+- https://www.winhelponline.com/blog/run-program-as-system-localsystem-account-windows/
+- https://www.nirsoft.net/utils/nircmd2.html#using
+status: experimental
+tags:
+- attack.execution
+- attack.t1569.002
+- attack.s0029
+title: NirCmd Tool Execution As LOCAL SYSTEM

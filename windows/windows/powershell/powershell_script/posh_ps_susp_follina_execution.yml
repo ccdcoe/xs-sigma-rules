@@ -1,0 +1,31 @@
+author: Nasreddine Bencherchali
+category: ps_script
+date: 2022/06/21
+definition: Script block logging must be enabled
+description: Detects execution of "TroubleshootingPack" cmdlets to leverage CVE-2022-30190
+  or action similar to "msdt" lolbin (as described in LOLBAS)
+detection:
+  condition: selection
+  selection:
+    winlog.event_data.ScriptBlockText|contains|all:
+    - Invoke-TroubleshootingPack
+    - C:\Windows\Diagnostics\System\PCW
+    - -AnswerFile
+    - -Unattended
+falsepositives:
+- Legitimate usage of "TroubleshootingPack" cmdlet for troubleshooting purposes
+id: 03409c93-a7c7-49ba-9a4c-a00badf2a153
+level: medium
+logsource:
+  category: ps_script
+  definition: Script block logging must be enabled
+  product: windows
+product: windows
+references:
+- https://twitter.com/nas_bench/status/1537919885031772161
+- https://lolbas-project.github.io/lolbas/Binaries/Msdt/
+status: experimental
+tags:
+- attack.defense_evasion
+- attack.t1202
+title: Troubleshooting Pack Cmdlet Execution

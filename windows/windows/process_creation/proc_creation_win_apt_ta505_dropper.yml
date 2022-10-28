@@ -1,0 +1,29 @@
+author: Florian Roth
+category: process_creation
+date: 2020/12/08
+description: Detects mshta loaded by wmiprvse as parent as used by TA505 malicious
+  documents
+detection:
+  condition: all of selection_*
+  selection_mshta:
+  - winlog.event_data.Image|endswith: \mshta.exe
+  - winlog.event_data.OriginalFileName: mshta.exe
+  selection_parent:
+    winlog.event_data.ParentImage|endswith: \wmiprvse.exe
+falsepositives:
+- Unknown
+id: 18cf6cf0-39b0-4c22-9593-e244bdc9a2d4
+level: critical
+logsource:
+  category: process_creation
+  product: windows
+modified: 2022/03/31
+product: windows
+references:
+- https://twitter.com/ForensicITGuy/status/1334734244120309760
+status: test
+tags:
+- attack.execution
+- attack.g0092
+- attack.t1106
+title: TA505 Dropper Load Pattern

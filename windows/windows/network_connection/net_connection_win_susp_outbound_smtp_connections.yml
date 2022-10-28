@@ -1,0 +1,42 @@
+author: frack113
+category: network_connection
+date: 2022/01/07
+description: 'Adversaries may steal data by exfiltrating it over an un-encrypted network
+  protocol other than that of the existing command and control channel.
+
+  The data may also be sent to an alternate network location from the main command
+  and control server.
+
+  '
+detection:
+  condition: selection and not 1 of filter*
+  filter_clients:
+    winlog.event_data.Image|endswith:
+    - \thunderbird.exe
+    - \outlook.exe
+  filter_mailserver:
+    winlog.event_data.Image|startswith: C:\Program Files\Microsoft\Exchange Server\
+  selection:
+    Initiated: 'true'
+    winlog.event_data.DestinationPort:
+    - 25
+    - 587
+    - 465
+    - 2525
+falsepositives:
+- Other SMTP tools
+id: 9976fa64-2804-423c-8a5b-646ade840773
+level: medium
+logsource:
+  category: network_connection
+  product: windows
+modified: 2022/02/16
+product: windows
+references:
+- https://github.com/redcanaryco/atomic-red-team/blob/f339e7da7d05f6057fdfcdd3742bfcf365fee2a9/atomics/T1048.003/T1048.003.md#atomic-test-5---exfiltration-over-alternative-protocol---smtp
+- https://www.ietf.org/rfc/rfc2821.txt
+status: experimental
+tags:
+- attack.exfiltration
+- attack.t1048.003
+title: Suspicious Outbound SMTP Connections

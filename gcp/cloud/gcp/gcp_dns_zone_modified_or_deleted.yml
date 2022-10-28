@@ -1,0 +1,25 @@
+author: Austin Songer @austinsonger
+date: 2021/08/15
+description: Identifies when a DNS Zone is modified or deleted in Google Cloud.
+detection:
+  condition: selection
+  selection:
+    gcp.audit.method_name:
+    - Dns.ManagedZones.Delete
+    - Dns.ManagedZones.Update
+    - Dns.ManagedZones.Patch
+falsepositives:
+- Unknown
+id: 28268a8f-191f-4c17-85b2-f5aa4fa829c3
+level: medium
+logsource:
+  product: gcp
+  service: gcp.audit
+product: gcp
+references:
+- https://cloud.google.com/dns/docs/reference/v1/managedZones
+service: gcp.audit
+status: experimental
+tags:
+- attack.impact
+title: Google Cloud DNS Zone Modified or Deleted

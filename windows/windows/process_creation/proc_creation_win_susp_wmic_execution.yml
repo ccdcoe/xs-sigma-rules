@@ -1,0 +1,48 @@
+author: Michael Haag, Florian Roth, juju4, oscd.community
+category: process_creation
+date: 2019/01/16
+description: Detects WMIC executing suspicious or recon commands
+detection:
+  condition: all of selection_* or (selection_img and all of recon_*)
+  recon_part1:
+    winlog.event_data.CommandLine|contains: ' path '
+  recon_part2:
+    winlog.event_data.CommandLine|contains:
+    - AntiVirus
+    - Firewall
+    winlog.event_data.CommandLine|contains|all:
+    - ' get '
+    - winlog.event_data.Product
+  recon_part3:
+    winlog.event_data.CommandLine|contains: wmic csproduct get name
+  selection_img:
+  - winlog.event_data.Image|endswith: \wmic.exe
+  - winlog.event_data.OriginalFileName: wmic.exe
+  selection_process_call:
+    winlog.event_data.CommandLine|contains|all:
+    - process
+    - call
+    - 'create '
+falsepositives:
+- If using Splunk, we recommend | stats count by Computer,CommandLine following for
+  easy hunting by Computer/CommandLine
+fields:
+- winlog.event_data.CommandLine
+- winlog.event_data.ParentCommandLine
+id: 526be59f-a573-4eea-b5f7-f0973207634d
+level: medium
+logsource:
+  category: process_creation
+  product: windows
+modified: 2022/08/29
+product: windows
+references:
+- https://digital-forensics.sans.org/blog/2010/06/04/wmic-draft/
+- https://www.hybrid-analysis.com/sample/4be06ecd234e2110bd615649fe4a6fa95403979acf889d7e45a78985eb50acf9?environmentId=1
+- https://blog.malwarebytes.com/threat-analysis/2016/04/rokku-ransomware/
+status: test
+tags:
+- attack.execution
+- attack.t1047
+- car.2016-03-002
+title: Suspicious WMIC Execution

@@ -1,0 +1,32 @@
+author: Olaf Hartong
+category: process_creation
+date: 2019/05/22
+description: Detects Task Scheduler .job import arbitrary DACL write\par
+detection:
+  condition: all of selection*
+  selection_cli:
+    winlog.event_data.CommandLine|contains|all:
+    - /change
+    - /TN
+    - /RU
+    - /RP
+  selection_img:
+    winlog.event_data.Image|endswith: \schtasks.exe
+    winlog.event_data.OriginalFileName: schtasks.exe
+falsepositives:
+- Unknown
+id: 931b6802-d6a6-4267-9ffa-526f57f22aaf
+level: high
+logsource:
+  category: process_creation
+  product: windows
+modified: 2022/05/13
+product: windows
+references:
+- https://github.com/SandboxEscaper/polarbearrepo/tree/master/bearlpe
+status: test
+tags:
+- attack.privilege_escalation
+- attack.t1053.005
+- car.2013-08-001
+title: Windows 10 Scheduled Task SandboxEscaper 0-day

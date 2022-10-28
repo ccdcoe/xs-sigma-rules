@@ -1,0 +1,29 @@
+author: Florian Roth (rule), Microsoft (idea)
+category: process_creation
+date: 2022/08/04
+description: Detects a suspicious IIS module registration as described in Microsoft
+  threat report on IIS backdoors
+detection:
+  condition: 1 of selection*
+  selection_1:
+    winlog.event_data.CommandLine|contains: appcmd.exe add module
+    winlog.event_data.ParentImage|endswith: \w3wp.exe
+  selection_2:
+    winlog.event_data.CommandLine|contains: ' system.enterpriseservices.internal.publish'
+    winlog.event_data.Image|endswith: \powershell.exe
+    winlog.event_data.ParentImage|endswith: \w3wp.exe
+  selection_3:
+    winlog.event_data.CommandLine|contains: ' \\gacutil.exe /I'
+    winlog.event_data.ParentImage|endswith: \w3wp.exe
+falsepositives:
+- Administrative activity
+id: 043c4b8b-3a54-4780-9682-081cb6b8185c
+level: high
+logsource:
+  category: process_creation
+  product: windows
+product: windows
+references:
+- https://www.microsoft.com/security/blog/2022/07/26/malicious-iis-extensions-quietly-open-persistent-backdoors-into-servers/
+status: test
+title: Suspicious IIS Module Registration

@@ -3,7 +3,7 @@ category: webserver
 date: 2021/02/22
 description: Detects access to DEWMODE webshell as described in FIREEYE report
 detection:
-  condition: 1 of them
+  condition: 1 of selection*
   selection1:
     http.url|contains|all:
     - ?dwn=
@@ -20,7 +20,7 @@ fields:
 - scr_ip
 - http.status
 id: fdf96c90-42d5-4406-8a9c-14a2c9a016b5
-level: critical
+level: high
 logsource:
   category: webserver
   product: suricata

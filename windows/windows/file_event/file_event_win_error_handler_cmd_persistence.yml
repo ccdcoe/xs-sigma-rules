@@ -1,0 +1,29 @@
+author: Nasreddine Bencherchali
+category: file_event
+date: 2022/08/09
+description: 'Detects creation of a file named "ErrorHandler.cmd" in the "C:\WINDOWS\Setup\Scripts\"
+  directory which could be used as a method of persistence
+
+  The content of C:\WINDOWS\Setup\Scripts\ErrorHandler.cmd is read whenever some tools
+  under C:\WINDOWS\System32\oobe\ (e.g. Setup.exe) fail to run for any reason.
+
+  '
+detection:
+  condition: selection
+  selection:
+    winlog.event_data.TargetFilename|endswith: \WINDOWS\Setup\Scripts\ErrorHandler.cmd
+falsepositives:
+- Unknown
+id: 15904280-565c-4b73-9303-3291f964e7f9
+level: medium
+logsource:
+  category: file_event
+  product: windows
+product: windows
+references:
+- https://www.hexacorn.com/blog/2022/01/16/beyond-good-ol-run-key-part-135/
+- https://github.com/last-byte/PersistenceSniper
+status: experimental
+tags:
+- attack.persistence
+title: Persistence Via ErrorHandler.Cmd

@@ -1,0 +1,28 @@
+author: Mark Morowczynski '@markmorow', MikeDuddington, '@dudders1', Tim Shelton
+date: 2022/08/11
+description: Detects when an account was created and deleted in a short period of
+  time.
+detection:
+  condition: selection
+  selection:
+    Status: Success
+    properties.message:
+    - Add user
+    - Delete user
+falsepositives:
+- Legit administrative action
+id: 6f583da0-3a90-4566-a4ed-83c09fe18bbf
+level: high
+logsource:
+  product: azure
+  service: auditlogs
+modified: 2022/08/18
+product: azure
+references:
+- https://docs.microsoft.com/en-us/azure/active-directory/fundamentals/security-operations-user-accounts#short-lived-accounts
+service: auditlogs
+status: experimental
+tags:
+- attack.defense_evasion
+- attack.t1078
+title: Account Created And Deleted Within A Close Time Frame

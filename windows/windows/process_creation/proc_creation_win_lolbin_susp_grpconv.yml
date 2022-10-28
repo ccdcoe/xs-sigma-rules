@@ -1,0 +1,26 @@
+author: Florian Roth
+category: process_creation
+date: 2022/05/19
+description: Detects the suspicious execution of a utility to convert Windows 3.x
+  .grp files or for persistence purposes by malicious software or actors
+detection:
+  condition: selection
+  selection:
+    winlog.event_data.CommandLine|contains:
+    - grpconv.exe -o
+    - grpconv -o
+falsepositives:
+- Unknown
+id: f14e169e-9978-4c69-acb3-1cff8200bc36
+level: high
+logsource:
+  category: process_creation
+  product: windows
+product: windows
+references:
+- https://twitter.com/0gtweet/status/1526833181831200770
+status: experimental
+tags:
+- attack.persistence
+- attack.t1547
+title: Suspicious GrpConv Execution

@@ -1,0 +1,31 @@
+author: Florian Roth
+category: ps_module
+date: 2022/03/16
+definition: PowerShell Module Logging must be enabled
+description: Detects suspicious invocation of the Get-ADDBAccount script that reads
+  from a ntds.dit file and may be used to get access to credentials without using
+  any credential dumpers
+detection:
+  condition: selection
+  selection:
+    Payload|contains|all:
+    - Get-ADDBAccount
+    - 'BootKey '
+    - 'DatabasePath '
+falsepositives:
+- Unknown
+id: b140afd9-474b-4072-958e-2ebb435abd68
+level: high
+logsource:
+  category: ps_module
+  definition: PowerShell Module Logging must be enabled
+  product: windows
+product: windows
+references:
+- https://www.n00py.io/2022/03/manipulating-user-passwords-without-mimikatz/
+- https://github.com/MichaelGrafnetter/DSInternals/blob/7ba59c12ee9a1cb430d7dc186a3366842dd612c8/Documentation/PowerShell/Get-ADDBAccount.md
+status: experimental
+tags:
+- attack.credential_access
+- attack.t1003.003
+title: Suspicious Get-ADDBAccount Usage

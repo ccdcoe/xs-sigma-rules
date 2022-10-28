@@ -1,0 +1,31 @@
+author: Bhabesh Raj
+category: security-mitigations
+date: 2022/08/02
+description: Detects Code Integrity (CI) engine blocking Microsoft Defender's processes
+  (MpCmdRun and NisSrv) from loading unsigned DLLs which may be an attempt to sideload
+  arbitrary DLL
+detection:
+  condition: selection
+  selection:
+    winlog.event_data.ProcessPath|endswith:
+    - \MpCmdRun.exe
+    - \NisSrv.exe
+    winlog.event_id:
+    - 11
+    - 12
+falsepositives:
+- Unknown
+id: 0b0ea3cc-99c8-4730-9c53-45deee2a4c86
+level: high
+logsource:
+  category: security-mitigations
+  product: windows
+modified: 2022/08/05
+product: windows
+references:
+- https://www.sentinelone.com/blog/living-off-windows-defender-lockbit-ransomware-sideloads-cobalt-strike-through-microsoft-security-tool
+status: experimental
+tags:
+- attack.defense_evasion
+- attack.t1574.002
+title: Microsoft Defender Blocked from Loading Unsigned DLL

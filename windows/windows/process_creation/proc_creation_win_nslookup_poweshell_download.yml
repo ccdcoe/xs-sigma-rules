@@ -1,0 +1,32 @@
+author: Nasreddine Bencherchali
+category: process_creation
+date: 2022/09/05
+description: Detects usage of powershell in conjunction with nslookup as a mean of
+  download.
+detection:
+  condition: 1 of selection_*
+  selection_cli:
+    winlog.event_data.CommandLine|contains|all:
+    - powershell .
+    - nslookup
+    - ' -q=txt '
+  selection_img:
+    winlog.event_data.CommandLine|contains:
+    - ' -q=txt '
+    - ' -querytype=txt '
+    winlog.event_data.Image|contains: \nslookup.exe
+    winlog.event_data.ParentImage|endswith: \powershell.exe
+falsepositives:
+- Unlikely
+id: 1b3b01c7-84e9-4072-86e5-fc285a41ff23
+level: high
+logsource:
+  category: process_creation
+  product: windows
+product: windows
+references:
+- https://twitter.com/Alh4zr3d/status/1566489367232651264
+status: experimental
+tags:
+- attack.defense_evasion
+title: Nslookup PowerShell Download

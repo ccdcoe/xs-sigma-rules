@@ -24,11 +24,12 @@ level: informational
 logsource:
   product: linux
   service: auditd
+modified: 2021/11/27
 product: linux
 references:
-- hhttps://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1529/T1529.md
+- https://github.com/redcanaryco/atomic-red-team/blob/f339e7da7d05f6057fdfcdd3742bfcf365fee2a9/atomics/T1529/T1529.md
 service: auditd
-status: experimental
+status: test
 tags:
 - attack.impact
 - attack.t1529

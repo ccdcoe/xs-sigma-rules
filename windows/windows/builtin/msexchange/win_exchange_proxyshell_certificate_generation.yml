@@ -1,0 +1,32 @@
+author: Max Altgelt
+date: 2021/08/23
+description: Detects a write of an Exchange CSR to an untypical directory or with
+  aspx name suffix which can be used to place a webshell
+detection:
+  condition: all of export_command and export_params
+  export_command:
+  - New-ExchangeCertificate
+  - ' -GenerateRequest'
+  - ' -BinaryEncoded'
+  - ' -RequestFile'
+  export_params:
+  - \\\\localhost\\C$
+  - \\\\127.0.0.1\\C$
+  - C:\\inetpub
+  - .aspx
+falsepositives:
+- Unlikely
+id: b7bc7038-638b-4ffd-880c-292c692209ef
+level: critical
+logsource:
+  product: windows
+  service: msexchange-management
+product: windows
+references:
+- https://twitter.com/GossiTheDog/status/1429175908905127938
+service: msexchange-management
+status: experimental
+tags:
+- attack.persistence
+- attack.t1505.003
+title: Certificate Request Export to Exchange Webserver

@@ -1,0 +1,48 @@
+author: xknow @xknow_infosec, Tim Shelton
+category: file_event
+date: 2019/03/24
+description: Detects the usage of ADSI (LDAP) operations by tools. This may also detect
+  tools like LDAPFragger.
+detection:
+  condition: selection and not 1 of filter*
+  filter_begins:
+    winlog.event_data.Image|startswith:
+    - C:\Windows\ccmsetup\autoupgrade\ccmsetup
+    - C:\Program Files\SentinelOne\Sentinel Agent
+  filter_domain_controller:
+    winlog.event_data.Image:
+    - C:\Windows\system32\efsui.exe
+    - C:\Windows\system32\dsac.exe
+  filter_ends:
+    winlog.event_data.Image|endswith: \LANDesk\LDCLient\ldapwhoami.exe
+  filter_eq:
+    winlog.event_data.Image:
+    - C:\windows\system32\svchost.exe
+    - C:\windows\system32\dllhost.exe
+    - C:\windows\system32\mmc.exe
+    - C:\windows\system32\WindowsPowerShell\v1.0\powershell.exe
+    - C:\Windows\CCM\CcmExec.exe
+    - C:\Program Files\Cylance\Desktop\CylanceSvc.exe
+    - C:\Windows\System32\wbem\WmiPrvSE.exe
+  selection:
+    winlog.event_data.TargetFilename|contains: \Local\Microsoft\Windows\SchCache\
+    winlog.event_data.TargetFilename|endswith: .sch
+falsepositives:
+- Other legimate tools, which do ADSI (LDAP) operations, e.g. any remoting activity
+  by MMC, Powershell, Windows etc.
+id: 75bf09fa-1dd7-4d18-9af9-dd9e492562eb
+level: high
+logsource:
+  category: file_event
+  product: windows
+modified: 2022/08/24
+product: windows
+references:
+- https://medium.com/@ivecodoe/detecting-ldapfragger-a-newly-released-cobalt-strike-beacon-using-ldap-for-c2-communication-c274a7f00961
+- https://blog.fox-it.com/2020/03/19/ldapfragger-command-and-control-over-ldap-attributes/
+- https://github.com/fox-it/LDAPFragger
+status: test
+tags:
+- attack.t1001.003
+- attack.command_and_control
+title: Suspicious ADSI-Cache Usage By Unknown Tool

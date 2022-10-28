@@ -1,0 +1,42 @@
+author: Cian Heasley
+category: webserver
+date: 2020/08/04
+description: Certain strings in the uri_query field when combined with null referer
+  and null user agent can indicate activity associated with the webshell ReGeorg.
+detection:
+  condition: selection and filter
+  filter:
+    cs-User-Agent: null
+    cs-referer: null
+    http.http_method: POST
+  selection:
+    cs-uri-query|contains:
+    - cmd=read
+    - connect&target
+    - cmd=connect
+    - cmd=disconnect
+    - cmd=forward
+falsepositives:
+- Web applications that use the same URL parameters as ReGeorg
+fields:
+- cs-uri-query
+- cs-referer
+- cs-User-Agent
+- http.http_method
+id: 2ea44a60-cfda-11ea-87d0-0242ac130003
+level: high
+logsource:
+  category: webserver
+  product: suricata
+  service: http
+modified: 2021/11/23
+product: suricata
+references:
+- https://community.rsa.com/community/products/netwitness/blog/2019/02/19/web-shells-and-netwitness-part-3
+- https://github.com/sensepost/reGeorg
+service: http
+status: experimental
+tags:
+- attack.persistence
+- attack.t1505.003
+title: Webshell ReGeorg Detection Via Web Logs

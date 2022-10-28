@@ -1,0 +1,35 @@
+author: Nikita Nazarov, oscd.community
+category: process_creation
+date: 2019/10/08
+description: Detects Obfuscated Powershell via use Rundll32 in Scripts
+detection:
+  condition: selection
+  selection:
+    winlog.event_data.CommandLine|contains:
+    - value
+    - invoke
+    - comspec
+    - iex
+    winlog.event_data.CommandLine|contains|all:
+    - '&&'
+    - rundll32
+    - shell32.dll
+    - shellexec_rundll
+falsepositives:
+- Unknown
+id: 36c5146c-d127-4f85-8e21-01bf62355d5a
+level: high
+logsource:
+  category: process_creation
+  product: windows
+modified: 2022/03/08
+product: windows
+references:
+- https://github.com/Neo23x0/sigma/issues/1009
+status: test
+tags:
+- attack.defense_evasion
+- attack.t1027
+- attack.execution
+- attack.t1059.001
+title: Invoke-Obfuscation Via Use Rundll32

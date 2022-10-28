@@ -1,0 +1,24 @@
+author: Michael Epping, '@mepples21'
+date: 2022/06/28
+description: Monitor and alert for changes to the device registration policy.
+detection:
+  condition: selection
+  selection:
+    ActivityDisplayName: Set device registration policies
+    Category: Policy
+falsepositives:
+- Unknown
+id: 9494bff8-959f-4440-bbce-fb87a208d517
+level: high
+logsource:
+  product: azure
+  service: auditlogs
+product: azure
+references:
+- https://docs.microsoft.com/en-us/azure/active-directory/fundamentals/security-operations-devices#device-registrations-and-joins-outside-policy
+service: auditlogs
+status: experimental
+tags:
+- attack.domain_policy_modification
+- attack.t1484
+title: Changes to Device Registration Policy

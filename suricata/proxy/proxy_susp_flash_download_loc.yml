@@ -5,7 +5,7 @@ description: Detects a flashplayer update from an unofficial location
 detection:
   condition: selection and not filter
   filter:
-    http.hostname|contains: .adobe.com/
+    http.hostname|endswith: .adobe.com
   selection:
   - http.url|contains: /flash_install.php
   - http.url|endswith: /install_flash_player.exe
@@ -17,12 +17,12 @@ logsource:
   category: proxy
   product: suricata
   service: http
-modified: 2020/11/28
+modified: 2022/08/08
 product: suricata
 references:
 - https://gist.github.com/roycewilliams/a723aaf8a6ac3ba4f817847610935cfb
 service: http
-status: experimental
+status: test
 tags:
 - attack.initial_access
 - attack.t1189

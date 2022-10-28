@@ -1,0 +1,35 @@
+author: Jose Luis Sanchez Martinez (@Joseliyo_Jstnk)
+category: registry_set
+date: 2022/05/04
+description: Detects registry key established after masqueraded .scr file execution
+  using Rundll32 through desk.cpl
+detection:
+  condition: selection and registry and not filter
+  filter:
+    winlog.event_data.Details|contains:
+    - C:\Windows\System32\
+    - C:\Windows\SysWOW64\
+  registry:
+    winlog.event_data.Details|endswith: .scr
+    winlog.event_data.TargetObject|contains: \Control Panel\Desktop\SCRNSAVE.EXE
+  selection:
+    winlog.event_data.EventType: SetValue
+    winlog.event_data.Image|endswith: \rundll32.exe
+falsepositives:
+- Legitimate use of screen saver
+id: 40b6e656-4e11-4c0c-8772-c1cc6dae34ce
+level: medium
+logsource:
+  category: registry_set
+  product: windows
+modified: 2022/05/04
+product: windows
+references:
+- https://twitter.com/VakninHai/status/1517027824984547329
+- https://twitter.com/pabraeken/status/998627081360695297
+- https://jstnk9.github.io/jstnk9/research/InstallScreenSaver-SCR-files
+status: experimental
+tags:
+- attack.defense_evasion
+- attack.t1218.011
+title: ScreenSaver Registry Key Set

@@ -1,0 +1,28 @@
+author: Austin Songer @austinsonger
+date: 2021/09/03
+description: Identifies when a application is deleted in Azure.
+detection:
+  condition: selection
+  selection:
+    properties.message:
+    - Delete application
+    - Hard Delete application
+falsepositives:
+- Application being deleted may be performed by a system administrator.
+- Verify whether the user identity, user agent, and/or hostname should be making changes
+  in your environment.
+- Application deleted from unfamiliar users should be investigated. If known behavior
+  is causing false positives, it can be exempted from the rule.
+id: 410d2a41-1e6d-452f-85e5-abdd8257a823
+level: medium
+logsource:
+  product: azure
+  service: activitylogs
+product: azure
+references:
+- https://docs.microsoft.com/en-us/azure/active-directory/reports-monitoring/reference-audit-activities#application-proxy
+service: activitylogs
+status: experimental
+tags:
+- attack.defense_evasion
+title: Azure Application Deleted

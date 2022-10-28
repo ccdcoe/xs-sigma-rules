@@ -1,0 +1,50 @@
+author: Florian Roth
+category: process_creation
+date: 2021/08/12
+description: Detects the execution of whoami with suspicious parents or parameters
+detection:
+  condition: ( selection and not filter1 and not filter2 and not filter3 ) or selection_special
+  filter1:
+    winlog.event_data.ParentImage|endswith:
+    - \cmd.exe
+    - \powershell.exe
+    - \pwsh.exe
+    - \powershell_ise.exe
+  filter2:
+    winlog.event_data.ParentImage:
+    - C:\Program Files\Microsoft Monitoring Agent\Agent\MonitoringHost.exe
+    - ''
+  filter3:
+    winlog.event_data.ParentImage: null
+  selection:
+  - winlog.event_data.Image|endswith: \whoami.exe
+  - winlog.event_data.OriginalFileName: whoami.exe
+  selection_special:
+    winlog.event_data.CommandLine|contains:
+    - whoami -all
+    - whoami /all
+    - whoami.exe -all
+    - whoami.exe /all
+    - whoami.exe >
+    - whoami >
+falsepositives:
+- Admin activity
+- Scripts and administrative tools used in the monitored environment
+- Monitoring activity
+id: 8de1cbe8-d6f5-496d-8237-5f44a721c7a0
+level: high
+logsource:
+  category: process_creation
+  product: windows
+modified: 2022/07/19
+product: windows
+references:
+- https://brica.de/alerts/alert/public/1247926/agent-tesla-keylogger-delivered-inside-a-power-iso-daa-archive/
+- https://app.any.run/tasks/7eaba74e-c1ea-400f-9c17-5e30eee89906/
+- https://www.youtube.com/watch?v=DsJ9ByX84o4&t=6s
+status: experimental
+tags:
+- attack.discovery
+- attack.t1033
+- car.2016-03-001
+title: Whoami Execution Anomaly

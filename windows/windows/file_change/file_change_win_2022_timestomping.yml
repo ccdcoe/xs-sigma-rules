@@ -1,0 +1,46 @@
+author: frack113, Florian Roth
+category: file_change
+date: 2022/08/12
+description: 'Attackers may change the file creation time of a backdoor to make it
+  look like it was installed with the operating system.
+
+  Note that many processes legitimately change the creation time of a file; it does
+  not necessarily indicate malicious activity.
+
+  '
+detection:
+  condition: ( selection1 and not filter1 ) or ( selection2 and not filter2 ) and
+    not 1 of gen_filter*
+  filter1:
+    winlog.event_data.CreationUtcTime|startswith: '2022'
+  filter2:
+    winlog.event_data.CreationUtcTime|startswith: '202'
+  gen_filter_updates:
+  - winlog.event_data.Image:
+    - C:\Windows\system32\ProvTool.exe
+    - C:\Windows\System32\usocoreworker.exe
+    - C:\Windows\ImmersiveControlPanel\SystemSettings.exe
+  - winlog.event_data.TargetFilename|startswith: C:\ProgramData\USOPrivate\UpdateStore\
+  - winlog.event_data.TargetFilename|endswith:
+    - .tmp
+    - .temp
+  selection1:
+    winlog.event_data.PreviousCreationUtcTime|startswith: '2022'
+  selection2:
+    winlog.event_data.PreviousCreationUtcTime|startswith: '202'
+falsepositives:
+- Changes made to or by the local NTP service
+id: 558eebe5-f2ba-4104-b339-36f7902bcc1a
+level: high
+logsource:
+  category: file_change
+  product: windows
+modified: 2022/09/05
+product: windows
+references:
+- https://www.inversecos.com/2022/04/defence-evasion-technique-timestomping.html
+status: experimental
+tags:
+- attack.t1070.006
+- attack.defense_evasion
+title: File Creation Date Changed to Another Year

@@ -1,0 +1,26 @@
+author: frack113
+category: process_creation
+date: 2022/05/28
+description: Detects the use of a Microsoft signed script executing a managed DLL
+  with PowerShell.
+detection:
+  condition: selection
+  selection:
+    winlog.event_data.CommandLine|contains:
+    - UtilityFunctions.ps1
+    - 'RegSnapin '
+falsepositives:
+- Unknown
+id: 0403d67d-6227-4ea8-8145-4e72db7da120
+level: medium
+logsource:
+  category: process_creation
+  product: windows
+product: windows
+references:
+- https://lolbas-project.github.io/lolbas/Scripts/UtilityFunctions/
+status: experimental
+tags:
+- attack.defense_evasion
+- attack.t1216
+title: UtilityFunctions.ps1 Proxy Dll

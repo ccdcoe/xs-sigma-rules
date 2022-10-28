@@ -1,0 +1,28 @@
+author: Markus Neis
+category: process_creation
+date: 2018/04/08
+description: Detects CrackMapExecWin Activity as Described by NCSC
+detection:
+  condition: selection
+  selection:
+    winlog.event_data.Image|endswith: \crackmapexec.exe
+falsepositives:
+- Unknown
+id: 04d9079e-3905-4b70-ad37-6bdf11304965
+level: critical
+logsource:
+  category: process_creation
+  product: windows
+modified: 2021/11/27
+product: windows
+references:
+- https://www.ncsc.gov.uk/alerts/hostile-state-actors-compromising-uk-organisations-focus-engineering-and-industrial-control
+- https://attack.mitre.org/software/S0488/
+status: test
+tags:
+- attack.g0035
+- attack.credential_access
+- attack.discovery
+- attack.t1110
+- attack.t1087
+title: CrackMapExecWin

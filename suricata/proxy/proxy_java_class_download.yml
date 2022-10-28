@@ -1,0 +1,25 @@
+author: Andreas Hunkeler (@Karneades)
+category: proxy
+date: 2021/12/21
+description: Detects Java class download in proxy logs, e.g. used in Log4shell exploitation
+  attacks against Log4j.
+detection:
+  condition: selection
+  selection:
+    http.url|endswith: .class
+falsepositives:
+- Unknown
+id: 53c15703-b04c-42bb-9055-1937ddfb3392
+level: high
+logsource:
+  category: proxy
+  product: suricata
+  service: http
+product: suricata
+references:
+- https://www.lunasec.io/docs/blog/log4j-zero-day/
+service: http
+status: experimental
+tags:
+- attack.initial_access
+title: Java Class Proxy Download

@@ -1,0 +1,49 @@
+author: '@Kostastsale, @TheDFIRReport, slightly modified by pH-T'
+category: process_creation
+date: 2022/02/12
+description: Detects the execution of reg.exe and subsequent command line arguments
+  for enabling RDP service on the host by tampering with the 'CurrentControlSet\Control\Terminal
+  Server' subkeys
+detection:
+  condition: selection_cli and 1 of selection_values_*
+  selection_cli:
+    winlog.event_data.CommandLine|contains|all:
+    - ' add '
+    - \SYSTEM\CurrentControlSet\Control\Terminal Server
+    - REG_DWORD
+    - ' /f'
+    winlog.event_data.Image|endswith: \reg.exe
+  selection_values_1:
+    winlog.event_data.CommandLine|contains|all:
+    - Licensing Core
+    - EnableConcurrentSessions
+  selection_values_2:
+    winlog.event_data.CommandLine|contains:
+    - WinStations\RDP-Tcp
+    - MaxInstanceCount
+    - fEnableWinStation
+    - TSUserEnabled
+    - TSEnabled
+    - TSAppCompat
+    - IdleWinStationPoolCount
+    - TSAdvertise
+    - AllowTSConnections
+    - fSingleSessionPerUser
+falsepositives:
+- Unknown
+id: 0d5675be-bc88-4172-86d3-1e96a4476536
+level: high
+logsource:
+  category: process_creation
+  product: windows
+modified: 2022/08/06
+product: windows
+references:
+- https://thedfirreport.com/2022/02/21/qbot-and-zerologon-lead-to-full-domain-compromise/
+status: experimental
+tags:
+- attack.defense_evasion
+- attack.lateral_movement
+- attack.t1021.001
+- attack.t1112
+title: Enabling RDP Service via Reg.exe

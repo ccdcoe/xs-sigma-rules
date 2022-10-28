@@ -1,0 +1,42 @@
+author: Nasreddine Bencherchali
+category: process_creation
+date: 2022/06/03
+description: Detects spawning of suspicious child processes by Atlassian Confluence
+  server which may indicate successful exploitation of CVE-2022-26134
+detection:
+  condition: selection
+  selection:
+    CommandLine|contains:
+    - /bin/sh
+    - bash
+    - dash
+    - ksh
+    - zsh
+    - csh
+    - fish
+    - curl
+    - wget
+    - python
+    ParentImage|endswith: /java
+    ParentImage|startswith: /opt/atlassian/confluence/
+falsepositives:
+- Unknown
+id: 7fb14105-530e-4e2e-8cfb-99f7d8700b66
+level: high
+logsource:
+  category: process_creation
+  product: linux
+product: linux
+references:
+- https://www.volexity.com/blog/2022/06/02/zero-day-exploitation-of-atlassian-confluence/
+related:
+- id: 245f92e3-c4da-45f1-9070-bc552e06db11
+  type: derived
+status: experimental
+tags:
+- attack.initial_access
+- attack.execution
+- attack.t1190
+- attack.t1059
+- cve.2022.26134
+title: Atlassian Confluence CVE-2022-26134

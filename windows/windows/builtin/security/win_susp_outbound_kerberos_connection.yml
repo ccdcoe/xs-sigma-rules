@@ -1,0 +1,32 @@
+author: Ilyas Ochkov, oscd.community
+date: 2019/10/24
+description: Detects suspicious outbound network activity via kerberos default port
+  indicating possible lateral movement or first stage PrivEsc via delegation.
+detection:
+  condition: selection and not filter
+  filter:
+    Application|endswith:
+    - \lsass.exe
+    - \opera.exe
+    - \chrome.exe
+    - \firefox.exe
+  selection:
+    DestPort: 88
+    winlog.event_id: 5156
+falsepositives:
+- Other browsers
+id: eca91c7c-9214-47b9-b4c5-cb1d7e4f2350
+level: high
+logsource:
+  product: windows
+  service: security
+modified: 2022/08/15
+product: windows
+references:
+- https://github.com/GhostPack/Rubeus
+service: security
+status: test
+tags:
+- attack.lateral_movement
+- attack.t1558.003
+title: Suspicious Outbound Kerberos Connection

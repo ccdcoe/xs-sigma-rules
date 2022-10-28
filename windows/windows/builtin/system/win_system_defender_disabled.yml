@@ -1,0 +1,34 @@
+author: "J\xE1n Tren\u010Dansk\xFD, frack113"
+date: 2020/07/28
+description: Detects the "Windows Defender Threat Protection" service has been disabled
+detection:
+  condition: selection
+  selection:
+    Provider_Name: Service Control Manager
+    winlog.event_data.param1:
+    - Windows Defender Antivirus Service
+    - Service antivirus Microsoft Defender
+    winlog.event_data.param2: stopped
+    winlog.event_id: 7036
+falsepositives:
+- Administrator actions
+- Auto updates of Windows Defender causes restarts
+id: 6c0a7755-6d31-44fa-80e1-133e57752680
+level: low
+logsource:
+  product: windows
+  service: system
+modified: 2022/08/01
+product: windows
+references:
+- https://docs.microsoft.com/en-us/windows/security/threat-protection/windows-defender-antivirus/troubleshoot-windows-defender-antivirus
+- https://github.com/redcanaryco/atomic-red-team/blob/f339e7da7d05f6057fdfcdd3742bfcf365fee2a9/atomics/T1562.001/T1562.001.md
+related:
+- id: fe34868f-6e0e-4882-81f6-c43aa8f15b62
+  type: derived
+service: system
+status: stable
+tags:
+- attack.defense_evasion
+- attack.t1562.001
+title: Windows Defender Threat Detection Disabled - Service

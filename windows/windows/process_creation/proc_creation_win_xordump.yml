@@ -1,0 +1,29 @@
+author: Florian Roth
+category: process_creation
+date: 2022/01/28
+description: Detects suspicious use of XORDump process memory dumping utility
+detection:
+  condition: selection
+  selection:
+  - winlog.event_data.Image|endswith: \xordump.exe
+  - winlog.event_data.CommandLine|contains:
+    - ' -process lsass.exe '
+    - ' -m comsvcs '
+    - ' -m dbghelp '
+    - ' -m dbgcore '
+falsepositives:
+- Another tool that uses the command line switches of XORdump
+id: 66e563f9-1cbd-4a22-a957-d8b7c0f44372
+level: high
+logsource:
+  category: process_creation
+  product: windows
+product: windows
+references:
+- https://github.com/audibleblink/xordump
+status: experimental
+tags:
+- attack.defense_evasion
+- attack.t1036
+- attack.t1003.001
+title: XORDump Use

@@ -1,0 +1,36 @@
+author: frack113
+category: process_creation
+date: 2022/01/02
+description: Commandline to launch powershell with a base64 payload
+detection:
+  condition: selection and not filter
+  filter:
+    winlog.event_data.CommandLine|contains: ' -Encoding '
+  selection:
+    winlog.event_data.CommandLine|contains:
+    - ' -e '
+    - ' -en '
+    - ' -enc '
+    - ' -enco'
+    - ' -ec '
+    winlog.event_data.Image|endswith:
+    - \powershell.exe
+    - \pwsh.exe
+falsepositives:
+- Unknown
+id: fb843269-508c-4b76-8b8d-88679db22ce7
+level: medium
+logsource:
+  category: process_creation
+  product: windows
+modified: 2022/07/14
+product: windows
+references:
+- https://github.com/redcanaryco/atomic-red-team/blob/f339e7da7d05f6057fdfcdd3742bfcf365fee2a9/atomics/T1059.001/T1059.001.md#atomic-test-20---powershell-invoke-known-malicious-cmdlets
+- https://unit42.paloaltonetworks.com/unit42-pulling-back-the-curtains-on-encodedcommand-powershell-attacks/
+- https://mikefrobbins.com/2017/06/15/simple-obfuscation-with-powershell-using-base64-encoding/
+status: experimental
+tags:
+- attack.execution
+- attack.t1059.001
+title: Suspicious Execution of Powershell with Base64

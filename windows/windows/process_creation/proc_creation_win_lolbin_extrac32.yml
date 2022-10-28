@@ -1,0 +1,33 @@
+author: frack113
+category: process_creation
+date: 2021/11/26
+description: Download or Copy file with Extrac32
+detection:
+  condition: all of selection_*
+  selection_archive:
+    winlog.event_data.CommandLine|contains: .cab
+  selection_lolbas:
+  - winlog.event_data.CommandLine|contains: extrac32.exe
+  - winlog.event_data.Image|endswith: \extrac32.exe
+  - winlog.event_data.OriginalFileName: extrac32.exe
+  selection_options:
+    winlog.event_data.CommandLine|contains:
+    - /C
+    - /Y
+    - ' \\\\'
+falsepositives:
+- Unknown
+id: aa8e035d-7be4-48d3-a944-102aec04400d
+level: medium
+logsource:
+  category: process_creation
+  product: windows
+modified: 2022/08/13
+product: windows
+references:
+- https://lolbas-project.github.io/lolbas/Binaries/Extrac32/
+status: experimental
+tags:
+- attack.command_and_control
+- attack.t1105
+title: Suspicious Extrac32 Execution

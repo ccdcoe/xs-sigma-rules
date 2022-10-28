@@ -1,0 +1,25 @@
+author: Daniil Yugoslavskiy, oscd.community
+category: process_creation
+date: 2020/10/19
+description: Detects usage of base64 utility to decode arbitrary base64-encoded text
+detection:
+  condition: selection
+  selection:
+    CommandLine|contains: -d
+    Image: /usr/bin/base64
+falsepositives:
+- Legitimate activities
+id: 719c22d7-c11a-4f2c-93a6-2cfdd5412f68
+level: low
+logsource:
+  category: process_creation
+  product: macos
+modified: 2021/11/27
+product: macos
+references:
+- https://github.com/redcanaryco/atomic-red-team/blob/f339e7da7d05f6057fdfcdd3742bfcf365fee2a9/atomics/T1027/T1027.md
+status: test
+tags:
+- attack.defense_evasion
+- attack.t1027
+title: Decode Base64 Encoded Text

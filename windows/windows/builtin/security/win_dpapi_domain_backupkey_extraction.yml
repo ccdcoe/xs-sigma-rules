@@ -1,0 +1,28 @@
+author: Roberto Rodriguez @Cyb3rWard0g
+date: 2019/06/20
+description: Detects tools extracting LSA secret DPAPI domain backup key from Domain
+  Controllers
+detection:
+  condition: selection
+  selection:
+    winlog.event_data.AccessMask: '0x2'
+    winlog.event_data.ObjectName|contains: BCKUPKEY
+    winlog.event_data.ObjectType: SecretObject
+    winlog.event_id: 4662
+falsepositives:
+- Unknown
+id: 4ac1f50b-3bd0-4968-902d-868b4647937e
+level: high
+logsource:
+  product: windows
+  service: security
+modified: 2022/02/24
+product: windows
+references:
+- https://threathunterplaybook.com/notebooks/windows/06_credential_access/WIN-190620024610.html
+service: security
+status: test
+tags:
+- attack.credential_access
+- attack.t1003.004
+title: DPAPI Domain Backup Key Extraction

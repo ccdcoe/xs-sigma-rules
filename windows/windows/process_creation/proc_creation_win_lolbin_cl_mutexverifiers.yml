@@ -1,0 +1,26 @@
+author: oscd.community, Natalia Shornikova, frack113
+category: process_creation
+date: 2022/05/21
+description: Detects the use of a Microsoft signed script to execute commands
+detection:
+  condition: selection
+  selection:
+    winlog.event_data.CommandLine|contains|all:
+    - \CL_Mutexverifiers.ps1
+    - 'runAfterCancelProcess '
+falsepositives:
+- Unknown
+id: 1e0e1a81-e79b-44bc-935b-ddb9c8006b3d
+level: medium
+logsource:
+  category: process_creation
+  product: windows
+modified: 2022/06/28
+product: windows
+references:
+- https://lolbas-project.github.io/lolbas/Scripts/CL_mutexverifiers/
+status: experimental
+tags:
+- attack.defense_evasion
+- attack.t1216
+title: CL_Mutexverifiers.ps1 Proxy Execution

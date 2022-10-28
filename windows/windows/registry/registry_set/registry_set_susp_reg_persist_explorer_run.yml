@@ -1,0 +1,39 @@
+author: Florian Roth, oscd.community
+category: registry_set
+date: 2018/07/18
+description: Detects a possible persistence mechanism using RUN key for Windows Explorer
+  and pointing to a suspicious folder
+detection:
+  condition: selection and selection2
+  selection:
+    winlog.event_data.EventType: SetValue
+    winlog.event_data.TargetObject|endswith: \Microsoft\Windows\CurrentVersion\Policies\Explorer\Run
+  selection2:
+  - winlog.event_data.Details|startswith:
+    - C:\Windows\Temp\
+    - C:\ProgramData\
+    - C:\$Recycle.bin\
+    - C:\Temp\
+    - C:\Users\Public\
+    - C:\Users\Default\
+  - winlog.event_data.Details|contains:
+    - \AppData\
+falsepositives:
+- Unknown
+fields:
+- winlog.event_data.Image
+- winlog.event_data.ParentImage
+id: b7916c2a-fa2f-4795-9477-32b731f70f11
+level: high
+logsource:
+  category: registry_set
+  product: windows
+modified: 2022/03/26
+product: windows
+references:
+- https://researchcenter.paloaltonetworks.com/2018/07/unit42-upatre-continues-evolve-new-anti-analysis-techniques/
+status: test
+tags:
+- attack.persistence
+- attack.t1547.001
+title: Registry Persistence via Explorer Run Key

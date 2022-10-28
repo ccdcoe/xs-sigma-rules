@@ -1,0 +1,34 @@
+author: Austin Songer @austinsonger
+category: process_creation
+date: 2021/11/05
+description: Detects when the registration of a VSS/VDS Provider as a COM+ application.
+detection:
+  condition: all of selection*
+  selection1:
+    winlog.event_data.CommandLine|contains: -register
+    winlog.event_data.Image|endswith: \cscript.exe
+  selection2:
+    winlog.event_data.CommandLine|contains:
+    - \Windows Kits\10\bin\10.0.22000.0\x64
+    - \Windows Kits\10\bin\10.0.19041.0\x64
+    - \Windows Kits\10\bin\10.0.17763.0\x64
+falsepositives:
+- Unknown
+fields:
+- winlog.event_data.CommandLine
+- winlog.event_data.ParentCommandLine
+id: 28c8f68b-098d-45af-8d43-8089f3e35403
+level: medium
+logsource:
+  category: process_creation
+  product: windows
+modified: 2022/07/07
+product: windows
+references:
+- https://twitter.com/sblmsrsn/status/1456613494783160325?s=20
+- https://ss64.com/vb/cscript.html
+status: experimental
+tags:
+- attack.defense_evasion
+- attack.t1218
+title: Suspicious Registration via cscript.exe

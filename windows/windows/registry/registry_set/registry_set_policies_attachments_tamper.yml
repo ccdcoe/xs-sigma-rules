@@ -1,0 +1,34 @@
+author: Nasreddine Bencherchali
+category: registry_set
+date: 2022/08/01
+description: Detects tampering with attachment manager settings policies attachments
+  (See reference for more information)
+detection:
+  condition: root and 1 of selection_*
+  root:
+    winlog.event_data.EventType: SetValue
+    winlog.event_data.TargetObject|contains: \SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\Attachments\
+  selection_hide_zone_info:
+    winlog.event_data.Details: DWORD (0x00000001)
+    winlog.event_data.TargetObject|endswith: \HideZoneInfoOnProperties
+  selection_save_zone_info:
+    winlog.event_data.Details: DWORD (0x00000002)
+    winlog.event_data.TargetObject|endswith: \SaveZoneInformation
+  selection_scan_with_av:
+    winlog.event_data.Details: DWORD (0x00000001)
+    winlog.event_data.TargetObject|endswith: \ScanWithAntiVirus
+falsepositives:
+- Unlikely
+id: ee77a5db-b0f3-4be2-bfd4-b58be1c6b15a
+level: high
+logsource:
+  category: registry_set
+  product: windows
+product: windows
+references:
+- https://support.microsoft.com/en-us/topic/information-about-the-attachment-manager-in-microsoft-windows-c48a4dcd-8de5-2af5-ee9b-cd795ae42738
+- https://www.virustotal.com/gui/file/2bcd5702a7565952c44075ac6fb946c7780526640d1264f692c7664c02c68465
+status: experimental
+tags:
+- attack.defense_evasion
+title: Modify Attachment Manager Settings - Attachments

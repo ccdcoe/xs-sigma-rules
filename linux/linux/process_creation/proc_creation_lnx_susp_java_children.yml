@@ -1,0 +1,34 @@
+author: Nasreddine Bencherchali
+category: process_creation
+date: 2022/06/03
+description: Detects java process spawning suspicious children
+detection:
+  condition: selection
+  selection:
+    CommandLine|contains:
+    - /bin/sh
+    - bash
+    - dash
+    - ksh
+    - zsh
+    - csh
+    - fish
+    - curl
+    - wget
+    - python
+    ParentImage|endswith: /java
+falsepositives:
+- Unknown
+id: d292e0af-9a18-420c-9525-ec0ac3936892
+level: high
+logsource:
+  category: process_creation
+  product: linux
+product: linux
+references:
+- https://www.tecmint.com/different-types-of-linux-shells/
+status: experimental
+tags:
+- attack.execution
+- attack.t1059
+title: Suspicious Java Children Processes

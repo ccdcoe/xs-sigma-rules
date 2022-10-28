@@ -1,0 +1,24 @@
+author: Austin Songer @austinsonger
+date: 2021/09/12
+description: Detects when a API Token is revoked.
+detection:
+  condition: selection
+  selection:
+    eventtype: system.api_token.revoke
+falsepositives:
+- Unknown
+id: cf1dbc6b-6205-41b4-9b88-a83980d2255b
+level: medium
+logsource:
+  product: okta
+  service: okta
+modified: 2021/09/22
+product: okta
+references:
+- https://developer.okta.com/docs/reference/api/system-log/
+- https://developer.okta.com/docs/reference/api/event-types/
+service: okta
+status: experimental
+tags:
+- attack.impact
+title: Okta API Token Revoked

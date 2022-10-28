@@ -1,0 +1,38 @@
+author: Florian Roth, wagga
+date: 2018/03/20
+definition: 'Requirements: Audit Policy : Object Access > Audit Registry (Success)'
+description: Detects NetNTLM downgrade attack
+detection:
+  condition: selection
+  selection:
+    winlog.event_data.ObjectName|contains|all:
+    - \REGISTRY\MACHINE\SYSTEM
+    - ControlSet
+    - \Control\Lsa
+    winlog.event_data.ObjectValueName:
+    - LmCompatibilityLevel
+    - NtlmMinClientSec
+    - RestrictSendingNTLMTraffic
+    winlog.event_id: 4657
+falsepositives:
+- Unknown
+id: d3abac66-f11c-4ed0-8acb-50cc29c97eed
+level: high
+logsource:
+  definition: 'Requirements: Audit Policy : Object Access > Audit Registry (Success)'
+  product: windows
+  service: security
+modified: 2021/06/27
+product: windows
+references:
+- https://www.optiv.com/blog/post-exploitation-using-netntlm-downgrade-attacks
+related:
+- id: d67572a0-e2ec-45d6-b8db-c100d14b8ef2
+  type: derived
+service: security
+status: experimental
+tags:
+- attack.defense_evasion
+- attack.t1562.001
+- attack.t1112
+title: NetNTLM Downgrade Attack

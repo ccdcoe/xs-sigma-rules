@@ -1,0 +1,45 @@
+author: frack113
+category: ps_module
+date: 2021/12/15
+definition: PowerShell Module Logging must be enabled
+description: 'Adversaries may attempt to find domain-level groups and permission settings.
+
+  The knowledge of domain-level permission groups can help adversaries determine which
+  groups exist and which users belong to a particular group.
+
+  Adversaries may use this information to determine which users have elevated permissions,
+  such as domain administrators.
+
+  '
+detection:
+  condition: 1 of test_*
+  test_2:
+  - Payload|contains: get-ADPrincipalGroupMembership
+  - ContextInfo|contains: get-ADPrincipalGroupMembership
+  test_7:
+  - Payload|contains|all:
+    - get-aduser
+    - '-f '
+    - '-pr '
+    - DoesNotRequirePreAuth
+  - ContextInfo|contains|all:
+    - get-aduser
+    - '-f '
+    - '-pr '
+    - DoesNotRequirePreAuth
+falsepositives:
+- Administrator script
+id: 815bfc17-7fc6-4908-a55e-2f37b98cedb4
+level: low
+logsource:
+  category: ps_module
+  definition: PowerShell Module Logging must be enabled
+  product: windows
+product: windows
+references:
+- https://github.com/redcanaryco/atomic-red-team/blob/f339e7da7d05f6057fdfcdd3742bfcf365fee2a9/atomics/T1069.002/T1069.002.md
+status: experimental
+tags:
+- attack.discovery
+- attack.t1069.001
+title: AD Groups Or Users Enumeration Using PowerShell - PoshModule

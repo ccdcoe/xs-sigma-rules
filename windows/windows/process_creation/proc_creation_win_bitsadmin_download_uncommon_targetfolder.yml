@@ -1,0 +1,43 @@
+author: Florian Roth
+category: process_creation
+date: 2022/06/28
+description: Detects usage of bitsadmin downloading a file to uncommon target folder
+detection:
+  condition: all of selection*
+  selection:
+    winlog.event_data.CommandLine|contains:
+    - ' /transfer '
+    - ' /create '
+    - ' /addfile '
+    winlog.event_data.Image|endswith: \bitsadmin.exe
+  selection_folder:
+    winlog.event_data.CommandLine|contains:
+    - C:\Windows\Temp\
+    - '%temp%'
+    - C:\ProgramData\
+    - '%ProgramData%'
+    - \AppData\Local\
+    - '%AppData%'
+falsepositives:
+- Unknown
+fields:
+- winlog.event_data.CommandLine
+- winlog.event_data.ParentCommandLine
+id: 6e30c82f-a9f8-4aab-b79c-7c12bce6f248
+level: medium
+logsource:
+  category: process_creation
+  product: windows
+product: windows
+references:
+- https://blog.netspi.com/15-ways-to-download-a-file/#bitsadmin
+- https://isc.sans.edu/diary/22264
+- https://lolbas-project.github.io/lolbas/Binaries/Bitsadmin/
+status: experimental
+tags:
+- attack.defense_evasion
+- attack.persistence
+- attack.t1197
+- attack.s0190
+- attack.t1036.003
+title: Bitsadmin Download to Uncommon Target Folder

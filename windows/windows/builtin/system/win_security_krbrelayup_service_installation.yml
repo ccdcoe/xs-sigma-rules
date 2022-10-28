@@ -1,0 +1,26 @@
+author: Sittikorn S, Tim Shelton
+date: 2022/05/11
+description: Detects service creation from KrbRelayUp tool used for privilege escalation
+  in windows domain environments where LDAP signing is not enforced (the default settings)
+detection:
+  condition: selection
+  selection:
+    winlog.event_data.ServiceName: KrbSCM
+    winlog.event_id: '7045'
+falsepositives:
+- Unknown
+id: e97d9903-53b2-41fc-8cb9-889ed4093e80
+level: high
+logsource:
+  product: windows
+  service: system
+product: windows
+references:
+- https://github.com/Dec0ne/KrbRelayUp
+service: system
+status: experimental
+tags:
+- attack.privilege_escalation
+- attack.t1543
+title: KrbRelayUp Service Installation
+updated: 2022/05/16

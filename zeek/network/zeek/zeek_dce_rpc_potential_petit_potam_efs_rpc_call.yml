@@ -9,8 +9,8 @@ description: "Detects usage of the windows RPC library Encrypting File System Re
   \ IP to. Logs from from the Source IP would include dce_rpc, smb_mapping, smb_files,\
   \ rdp, ntlm, kerberos, etc..'\n"
 detection:
-  condition: efs_operation
-  efs_operation:
+  condition: selection
+  selection:
     operation|startswith:
     - Efs
     - efs
@@ -32,11 +32,12 @@ logsource:
   service: dce_rpc
 product: zeek
 references:
-- https://github.com/topotam/PetitPotam/blob/main/PetitPotam/PetitPotam.cpp
+- https://github.com/topotam/PetitPotam/blob/d83ac8f2dd34654628c17490f99106eb128e7d1e/PetitPotam/PetitPotam.cpp
 - https://msrc.microsoft.com/update-guide/vulnerability/ADV210003
 - https://vx-underground.org/archive/Symantec/windows-vista-network-attack-07-en.pdf
 - https://threatpost.com/microsoft-petitpotam-poc/168163/
 service: dce_rpc
+status: experimental
 tags:
 - attack.t1557.001
 - attack.t1187

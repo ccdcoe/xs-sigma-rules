@@ -1,0 +1,26 @@
+author: Andreas Hunkeler (@Karneades)
+category: registry_set
+date: 2021/11/19
+description: Detects the abuse of the exefile handler in new file association. Used
+  for bypass of security products.
+detection:
+  condition: selection
+  selection:
+    winlog.event_data.Details: exefile
+    winlog.event_data.EventType: SetValue
+    winlog.event_data.TargetObject|contains: Classes\.
+falsepositives:
+- Unknown
+id: 44a22d59-b175-4f13-8c16-cbaef5b581ff
+level: high
+logsource:
+  category: registry_set
+  product: windows
+modified: 2022/03/26
+product: windows
+references:
+- https://twitter.com/mrd0x/status/1461041276514623491
+status: experimental
+tags:
+- attack.defense_evasion
+title: New File Association Using Exefile

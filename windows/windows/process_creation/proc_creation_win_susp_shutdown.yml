@@ -1,0 +1,27 @@
+author: frack113
+category: process_creation
+date: 2022/01/01
+description: Use of the commandline to shutdown or reboot windows
+detection:
+  condition: selection
+  selection:
+    winlog.event_data.CommandLine|contains:
+    - '/r '
+    - '/s '
+    winlog.event_data.Image|endswith: \shutdown.exe
+falsepositives:
+- Unknown
+id: 34ebb878-1b15-4895-b352-ca2eeb99b274
+level: medium
+logsource:
+  category: process_creation
+  product: windows
+product: windows
+references:
+- https://github.com/redcanaryco/atomic-red-team/blob/f339e7da7d05f6057fdfcdd3742bfcf365fee2a9/atomics/T1529/T1529.md
+- https://docs.microsoft.com/en-us/windows-server/administration/windows-commands/shutdown
+status: experimental
+tags:
+- attack.impact
+- attack.t1529
+title: Suspicious Execution of Shutdown

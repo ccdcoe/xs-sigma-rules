@@ -1,0 +1,30 @@
+author: Florian Roth
+category: process_creation
+date: 2019/12/11
+description: Detects suspicious IIS native-code module installations via command line
+detection:
+  condition: selection
+  selection:
+    winlog.event_data.CommandLine|contains|all:
+    - install
+    - module
+    - '/name:'
+    winlog.event_data.Image|endswith: \appcmd.exe
+falsepositives:
+- Unknown as it may vary from organisation to organisation how admins use to install
+  IIS modules
+id: 9465ddf4-f9e4-4ebd-8d98-702df3a93239
+level: medium
+logsource:
+  category: process_creation
+  product: windows
+modified: 2022/01/07
+product: windows
+references:
+- https://researchcenter.paloaltonetworks.com/2018/01/unit42-oilrig-uses-rgdoor-iis-backdoor-targets-middle-east/
+- https://www.microsoft.com/security/blog/2022/07/26/malicious-iis-extensions-quietly-open-persistent-backdoors-into-servers/
+status: test
+tags:
+- attack.persistence
+- attack.t1505.003
+title: IIS Native-Code Module Command Line Installation

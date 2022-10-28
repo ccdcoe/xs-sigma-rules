@@ -1,0 +1,36 @@
+author: frack113, Nasreddine Bencherchali
+category: process_creation
+date: 2022/08/01
+description: Detects the import of the '.reg' files from suspicious paths using the
+  'reg.exe' utility
+detection:
+  condition: all of selection_*
+  selection_paths:
+    winlog.event_data.CommandLine|contains:
+    - C:\Users\
+    - '%temp%'
+    - '%appdata%'
+    - \AppData\Local\Temp\
+    - C:\Windows\Temp\
+    - C:\ProgramData\
+  selection_root:
+    winlog.event_data.CommandLine|contains: ' import '
+    winlog.event_data.Image|endswith: \reg.exe
+falsepositives:
+- Legitimate import of keys
+id: 62e0298b-e994-4189-bc87-bc699aa62d97
+level: medium
+logsource:
+  category: process_creation
+  product: windows
+product: windows
+references:
+- https://docs.microsoft.com/en-us/windows-server/administration/windows-commands/reg-import
+related:
+- id: 73bba97f-a82d-42ce-b315-9182e76c57b1
+  type: derived
+status: experimental
+tags:
+- attack.t1112
+- attack.defense_evasion
+title: Imports Registry Key From a File Using Reg.exe

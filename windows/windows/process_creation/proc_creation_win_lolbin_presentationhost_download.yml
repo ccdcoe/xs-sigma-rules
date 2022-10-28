@@ -1,0 +1,31 @@
+author: Nasreddine Bencherchali
+category: process_creation
+date: 2022/08/19
+description: Detects usage of "PresentationHost" which is a utility that runs ".xbap"
+  (Browser Applications) files to download arbitrary files
+detection:
+  condition: all of selection*
+  selection_cli:
+    winlog.event_data.CommandLine|contains:
+    - http://
+    - https://
+    - ftp://
+  selection_img:
+  - winlog.event_data.Image|endswith: \presentationhost.exe
+  - winlog.event_data.OriginalFileName: PresentationHost.exe
+falsepositives:
+- Unknown
+id: b124ddf4-778d-418e-907f-6dd3fc0d31cd
+level: medium
+logsource:
+  category: process_creation
+  product: windows
+product: windows
+references:
+- https://github.com/LOLBAS-Project/LOLBAS/pull/239/files
+status: experimental
+tags:
+- attack.defense_evasion
+- attack.execution
+- attack.t1218
+title: Download Arbitrary Files Via PresentationHost.exe

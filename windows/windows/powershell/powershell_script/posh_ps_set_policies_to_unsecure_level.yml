@@ -1,0 +1,39 @@
+author: frack113
+category: ps_script
+date: 2021/10/20
+definition: Script block logging must be enabled
+description: Detects use of Set-ExecutionPolicy to set insecure policies
+detection:
+  cmdlet:
+    winlog.event_data.ScriptBlockText|contains: Set-ExecutionPolicy
+  condition: cmdlet and option and not filter
+  filter:
+  - winlog.event_data.ParentImage:
+    - C:\ProgramData\chocolatey\choco.exe
+  - winlog.event_data.ScriptBlockText|contains:
+    - (New-Object System.Net.WebClient).DownloadString('https://community.chocolatey.org/install.ps1')
+    - (New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1')
+  option:
+    winlog.event_data.ScriptBlockText|contains:
+    - Unrestricted
+    - bypass
+    - RemoteSigned
+falsepositives:
+- Administrator script
+id: 61d0475c-173f-4844-86f7-f3eebae1c66b
+level: medium
+logsource:
+  category: ps_script
+  definition: Script block logging must be enabled
+  product: windows
+modified: 2022/02/23
+product: windows
+references:
+- https://docs.microsoft.com/en-us/powershell/module/microsoft.powershell.security/set-executionpolicy?view=powershell-7.1
+- https://docs.microsoft.com/en-us/powershell/module/microsoft.powershell.core/about/about_execution_policies?view=powershell-7.1
+- https://adsecurity.org/?p=2604
+status: experimental
+tags:
+- attack.execution
+- attack.t1059.001
+title: Change PowerShell Policies to an Insecure Level

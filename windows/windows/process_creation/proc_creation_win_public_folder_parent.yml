@@ -1,0 +1,36 @@
+author: Florian Roth
+category: process_creation
+date: 2022/02/25
+description: This rule detects suspicious processes with parent images located in
+  the C:\Users\Public folder
+detection:
+  condition: selection
+  selection:
+    winlog.event_data.CommandLine|contains:
+    - powershell
+    - 'cmd.exe /c '
+    - 'cmd.exe /k '
+    - 'cmd /c '
+    - 'cmd /k '
+    - wscript.exe
+    - cscript.exe
+    - bitsadmin
+    - certutil
+    - mshta.exe
+    winlog.event_data.ParentImage|startswith: C:\Users\Public\
+falsepositives:
+- Unknown
+fields:
+- winlog.ComputerName
+- winlog.event_data.User
+- winlog.event_data.CommandLine
+id: 69bd9b97-2be2-41b6-9816-fb08757a4d1a
+level: high
+logsource:
+  category: process_creation
+  product: windows
+product: windows
+references:
+- https://redcanary.com/blog/blackbyte-ransomware/
+status: experimental
+title: Parent in Public Folder Suspicious Process

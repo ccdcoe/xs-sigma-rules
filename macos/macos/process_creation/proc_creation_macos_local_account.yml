@@ -1,0 +1,44 @@
+author: Alejandro Ortuno, oscd.community
+category: process_creation
+date: 2020/10/08
+description: Detects enumeration of local systeam accounts on MacOS
+detection:
+  condition: 1 of selection*
+  selection_1:
+    CommandLine|contains|all:
+    - list
+    - /users
+    Image|endswith: /dscl
+  selection_2:
+    CommandLine|contains|all:
+    - -q
+    - user
+    Image|endswith: /dscacheutil
+  selection_3:
+    CommandLine|contains: '''x:0:'''
+  selection_4:
+    CommandLine|contains:
+    - /etc/passwd
+    - /etc/sudoers
+    Image|endswith: /cat
+  selection_5:
+    Image|endswith: /id
+  selection_6:
+    CommandLine|contains: -u
+    Image|endswith: /lsof
+falsepositives:
+- Legitimate administration activities
+id: ddf36b67-e872-4507-ab2e-46bda21b842c
+level: low
+logsource:
+  category: process_creation
+  product: macos
+modified: 2021/11/27
+product: macos
+references:
+- https://github.com/redcanaryco/atomic-red-team/blob/f339e7da7d05f6057fdfcdd3742bfcf365fee2a9/atomics/T1087.001/T1087.001.md
+status: test
+tags:
+- attack.discovery
+- attack.t1087.001
+title: Local System Accounts Discovery

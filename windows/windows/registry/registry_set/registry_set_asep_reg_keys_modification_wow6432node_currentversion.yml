@@ -1,0 +1,49 @@
+author: Victor Sergeev, Daniil Yugoslavskiy, Gleb Sukhodolskiy, Timur Zinniatullin,
+  oscd.community, Tim Shelton, frack113 (split)
+category: registry_set
+date: 2019/10/25
+description: Detects modification of autostart extensibility point (ASEP) in registry.
+detection:
+  condition: wow_nt_current_version_base and wow_nt_current_version and not filter
+  filter:
+    winlog.event_data.Details:
+    - (Empty)
+    - \REGISTRY\MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Image File Execution
+      Options
+  wow_nt_current_version:
+    winlog.event_data.TargetObject|contains:
+    - \Windows\Appinit_Dlls
+    - \Image File Execution Options
+    - \Drivers32
+  wow_nt_current_version_base:
+    winlog.event_data.EventType: SetValue
+    winlog.event_data.TargetObject|contains: \SOFTWARE\Wow6432Node\Microsoft\Windows
+      NT\CurrentVersion
+falsepositives:
+- Legitimate software automatically (mostly, during installation) sets up autorun
+  keys for legitimate reason
+- Legitimate administrator sets up autorun keys for legitimate reason
+fields:
+- OldValueType
+- NewValueType
+- winlog.event_data.SecurityID
+- winlog.event_data.ObjectName
+id: 480421f9-417f-4d3b-9552-fd2728443ec8
+level: medium
+logsource:
+  category: registry_set
+  product: windows
+modified: 2022/03/26
+product: windows
+references:
+- https://github.com/redcanaryco/atomic-red-team/blob/f339e7da7d05f6057fdfcdd3742bfcf365fee2a9/atomics/T1547.001/T1547.001.md
+- https://docs.microsoft.com/en-us/sysinternals/downloads/autoruns
+- https://gist.github.com/GlebSukhodolskiy/0fc5fa5f482903064b448890db1eaf9d
+related:
+- id: 17f878b8-9968-4578-b814-c4217fc5768c
+  type: derived
+status: experimental
+tags:
+- attack.persistence
+- attack.t1547.001
+title: Wow6432Node CurrentVersion Autorun Keys Modification

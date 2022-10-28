@@ -5,9 +5,10 @@ description: Detects PowerShell remote thread creation in Rundll32.exe
 detection:
   condition: selection
   selection:
-    winlog.event_data.SourceImage|endswith: \powershell.exe
+    winlog.event_data.SourceImage|endswith:
+    - \powershell.exe
+    - \pwsh.exe
     winlog.event_data.TargetImage|endswith: \rundll32.exe
-    winlog.event_id: 8
 falsepositives:
 - Unknown
 id: 99b97608-3e21-4bfe-8217-2a127c396a0e
@@ -15,6 +16,7 @@ level: high
 logsource:
   category: create_remote_thread
   product: windows
+modified: 2022/07/14
 product: windows
 references:
 - https://www.fireeye.com/blog/threat-research/2018/06/bring-your-own-land-novel-red-teaming-technique.html

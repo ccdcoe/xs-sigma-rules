@@ -4,8 +4,8 @@ description: Detects possible command execution by web application/web shell
 detection:
   condition: selection
   selection:
-    SYSCALL: execve
     key: detect_execve_www
+    syscall: execve
     type: SYSCALL
 falsepositives:
 - Admin activity
@@ -15,7 +15,7 @@ level: critical
 logsource:
   product: linux
   service: auditd
-modified: 2019/11/04
+modified: 2021/11/11
 product: linux
 references:
 - personal experience

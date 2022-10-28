@@ -27,9 +27,9 @@ level: high
 logsource:
   category: process_creation
   product: windows
-modified: 2020/09/01
+modified: 2021/11/27
 product: windows
-status: experimental
+status: test
 tags:
 - attack.persistence
 - attack.t1547.001

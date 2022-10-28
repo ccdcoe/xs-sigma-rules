@@ -1,0 +1,24 @@
+author: Florian Roth
+category: process_creation
+date: 2022/08/26
+description: Detects suspicious child processes of SysAidServer (as seen in MERCURY
+  threat actor intrusions)
+detection:
+  condition: selection
+  selection:
+    winlog.event_data.ParentCommandLine|contains: SysAidServer
+    winlog.event_data.ParentImage|endswith:
+    - \java.exe
+    - \javaw.exe
+falsepositives:
+- Unknown
+id: 60bfeac3-0d35-4302-8efb-1dd16f715bc6
+level: medium
+logsource:
+  category: process_creation
+  product: windows
+product: windows
+references:
+- https://www.microsoft.com/security/blog/2022/08/25/mercury-leveraging-log4j-2-vulnerabilities-in-unpatched-systems-to-target-israeli-organizations/
+status: experimental
+title: Suspicious SysAidServer Child

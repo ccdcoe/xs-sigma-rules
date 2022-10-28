@@ -1,0 +1,27 @@
+author: frack113
+category: registry_set
+date: 2022/07/17
+description: Detect change of the user account associated with the FAX service to
+  avoid the escalation problem.
+detection:
+  condition: selection and not filter
+  filter:
+    details|contains: NetworkService
+  selection:
+    winlog.event_data.TargetObject: HKLM\System\CurrentControlSet\Services\Fax\ObjectName
+falsepositives:
+- Unknown
+id: e3fdf743-f05b-4051-990a-b66919be1743
+level: high
+logsource:
+  category: registry_set
+  product: windows
+product: windows
+references:
+- https://twitter.com/dottor_morte/status/1544652325570191361
+- https://raw.githubusercontent.com/RiccardoAncarani/talks/master/F-Secure/unorthodox-lateral-movement.pdf
+status: experimental
+tags:
+- attack.defense_evasion
+- attack.t1112
+title: Change User Account Associated with the FAX Service

@@ -1,0 +1,27 @@
+author: frack113
+category: registry_set
+date: 2022/08/20
+description: Detect modification for a specific user to prevent that user from being
+  listed on the logon screen
+detection:
+  condition: selection
+  selection:
+    winlog.event_data.Details: DWORD (0x00000000)
+    winlog.event_data.EventType: SetValue
+    winlog.event_data.TargetObject|contains: \SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\SpecialAccounts\Userlist\
+    winlog.event_data.TargetObject|endswith: $
+falsepositives:
+- Unknown
+id: 8a58209c-7ae6-4027-afb0-307a78e4589a
+level: high
+logsource:
+  category: registry_set
+  product: windows
+product: windows
+references:
+- https://github.com/redcanaryco/atomic-red-team/blob/40b77d63808dd4f4eafb83949805636735a1fd15/atomics/T1564.002/T1564.002.md
+status: experimental
+tags:
+- attack.defense_evasion
+- attack.t1564.002
+title: User Account Hidden By Registry

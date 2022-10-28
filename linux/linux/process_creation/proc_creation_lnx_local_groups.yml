@@ -1,0 +1,28 @@
+author: "\xD6mer G\xFCnal, Alejandro Ortuno, oscd.community"
+category: process_creation
+date: 2020/10/11
+description: Detects enumeration of local system groups. Adversaries may attempt to
+  find local system groups and permission settings
+detection:
+  condition: 1 of selection*
+  selection_1:
+    Image|endswith: /groups
+  selection_2:
+    CommandLine|contains: /etc/group
+    Image|endswith: /cat
+falsepositives:
+- Legitimate administration activities
+id: 676381a6-15ca-4d73-a9c8-6a22e970b90d
+level: low
+logsource:
+  category: process_creation
+  product: linux
+modified: 2022/07/07
+product: linux
+references:
+- https://github.com/redcanaryco/atomic-red-team/blob/f339e7da7d05f6057fdfcdd3742bfcf365fee2a9/atomics/T1069.001/T1069.001.md
+status: test
+tags:
+- attack.discovery
+- attack.t1069.001
+title: Local Groups Discovery

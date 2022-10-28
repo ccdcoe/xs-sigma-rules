@@ -4,7 +4,7 @@ date: 2020/02/29
 description: Detects the exploitation of Microsoft Exchange vulnerability as described
   in CVE-2020-0688
 detection:
-  condition: selection1 and selection2
+  condition: all of selection*
   selection1:
     http.http_method: GET
     http.url|contains:
@@ -23,11 +23,12 @@ logsource:
   category: webserver
   product: suricata
   service: http
+modified: 2021/11/27
 product: suricata
 references:
 - https://www.trustedsec.com/blog/detecting-cve-20200688-remote-code-execution-vulnerability-on-microsoft-exchange-server/
 service: http
-status: experimental
+status: test
 tags:
 - attack.initial_access
 - attack.t1190

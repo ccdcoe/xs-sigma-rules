@@ -1,0 +1,36 @@
+author: Sagie Dulce, Dekel Paz
+category: application
+date: 2022/01/01
+definition: 'Requirements: install and apply the RPC Firewall to all processes with
+  "audit:true action:block uuid:378e52b0-c0a9-11cf-822d-00aa0051e40f"'
+description: Detects remote RPC calls to read information about scheduled tasks via
+  SASec
+detection:
+  condition: selection and not filter
+  filter:
+    OpNum:
+    - 0
+    - 1
+  selection:
+    EventID: 3
+    EventLog: RPCFW
+    InterfaceUuid: 378e52b0-c0a9-11cf-822d-00aa0051e40f
+falsepositives:
+- Unknown
+id: 0a3ff354-93fc-4273-8a03-1078782de5b7
+level: high
+logsource:
+  category: application
+  definition: 'Requirements: install and apply the RPC Firewall to all processes with
+    "audit:true action:block uuid:378e52b0-c0a9-11cf-822d-00aa0051e40f"'
+  product: rpc_firewall
+modified: 2022/01/01
+product: rpc_firewall
+references:
+- https://attack.mitre.org/tactics/TA0007/
+- https://docs.microsoft.com/en-us/openspecs/windows_protocols/ms-tsch/d1058a28-7e02-4948-8b8d-4a347fa64931
+- https://github.com/jsecurity101/MSRPC-to-ATTACK/blob/ddd4608fe8684fcf2fcf9b48c5f0b3c28097f8a3/documents/MS-TSCH.md
+- https://github.com/zeronetworks/rpcfirewall
+- https://zeronetworks.com/blog/stopping_lateral_movement_via_the_rpc_firewall/
+status: experimental
+title: Remote Schedule Task Lateral Movement via SASec

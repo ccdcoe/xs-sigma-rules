@@ -1,0 +1,30 @@
+author: Florian Roth
+category: process_creation
+date: 2022/01/06
+description: Detects suspicious LOLBIN AccCheckConsole execution with parameters as
+  used to load an arbitrary DLL
+detection:
+  condition: all of selection*
+  selection_cli:
+    winlog.event_data.CommandLine|contains|all:
+    - ' -window '
+    - .dll
+  selection_img:
+  - winlog.event_data.Image|endswith: \AccCheckConsole.exe
+  - winlog.event_data.OriginalFileName: AccCheckConsole.exe
+falsepositives:
+- Legitimate use of the UI Accessibility Checker
+id: 0f6da907-5854-4be6-859a-e9958747b0aa
+level: high
+logsource:
+  category: process_creation
+  product: windows
+product: windows
+references:
+- https://gist.github.com/bohops/2444129419c8acf837aedda5f0e7f340
+- https://twitter.com/bohops/status/1477717351017680899?s=12
+- https://lolbas-project.github.io/lolbas/OtherMSBinaries/AccCheckConsole/
+status: experimental
+tags:
+- attack.execution
+title: Suspicious LOLBIN AccCheckConsole

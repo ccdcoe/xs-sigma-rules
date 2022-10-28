@@ -8,7 +8,7 @@ detection:
   selection:
     http.url|contains: /manager/files?path=etc/lists/../../../../..
 falsepositives:
-- None
+- Unknown
 fields:
 - src_ip
 - http.hostname
@@ -20,7 +20,7 @@ logsource:
   service: http
 product: suricata
 references:
-- https://github.com/WickdDavid/CVE-2021-26814/blob/main/PoC.py
+- https://github.com/WickdDavid/CVE-2021-26814/blob/6a17355a10ec4db771d0f112cbe031e418d829d5/PoC.py
 service: http
 status: experimental
 tags:

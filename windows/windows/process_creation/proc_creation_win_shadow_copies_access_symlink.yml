@@ -1,0 +1,28 @@
+author: Teymur Kheirkhabarov, oscd.community
+category: process_creation
+date: 2019/10/22
+description: Shadow Copies storage symbolic link creation using operating systems
+  utilities
+detection:
+  condition: selection
+  selection:
+    winlog.event_data.CommandLine|contains|all:
+    - mklink
+    - HarddiskVolumeShadowCopy
+falsepositives:
+- Legitimate administrator working with shadow copies, access for backup purposes
+id: 40b19fa6-d835-400c-b301-41f3a2baacaf
+level: medium
+logsource:
+  category: process_creation
+  product: windows
+modified: 2021/11/27
+product: windows
+references:
+- https://www.slideshare.net/heirhabarov/hunting-for-credentials-dumping-in-windows-environment
+status: test
+tags:
+- attack.credential_access
+- attack.t1003.002
+- attack.t1003.003
+title: Shadow Copies Access via Symlink

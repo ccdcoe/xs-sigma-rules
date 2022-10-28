@@ -1,0 +1,28 @@
+author: frack113
+category: ps_script
+date: 2022/04/02
+definition: Script block logging must be enabled
+description: Detects suspicious Powershell code that execute COM Objects
+detection:
+  condition: selection
+  selection:
+    winlog.event_data.ScriptBlockText|contains|all:
+    - ::GetTypeFromCLSID(
+    - .ShellExecute(
+falsepositives:
+- Legitimate PowerShell scripts
+id: 8bc063d5-3a3a-4f01-a140-bc15e55e8437
+level: medium
+logsource:
+  category: ps_script
+  definition: Script block logging must be enabled
+  product: windows
+product: windows
+references:
+- https://github.com/redcanaryco/atomic-red-team/blob/f339e7da7d05f6057fdfcdd3742bfcf365fee2a9/atomics/T1546.015/T1546.015.md#atomic-test-2---powershell-execute-com-object
+status: experimental
+tags:
+- attack.privilege_escalation
+- attack.persistence
+- attack.t1546.015
+title: Suspicious GetTypeFromCLSID ShellExecute

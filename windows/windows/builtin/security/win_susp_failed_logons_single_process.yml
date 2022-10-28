@@ -1,0 +1,35 @@
+author: Mauricio Velazco
+date: 2021/06/01
+description: Detects failed logins with multiple accounts from a single process on
+  the system.
+detection:
+  condition:
+  - selection1 and not filter | count(TargetUserName) by ProcessName > 10
+  filter:
+    winlog.event_data.ProcessName: '-'
+  selection1:
+    winlog.event_data.LogonType: 2
+    winlog.event_id: 4625
+  timeframe: 24h
+falsepositives:
+- Terminal servers
+- Jump servers
+- Other multiuser systems like Citrix server farms
+- Workstations with frequently changing users
+id: fe563ab6-ded4-4916-b49f-a3a8445fe280
+level: medium
+logsource:
+  product: windows
+  service: security
+modified: 2021/07/07
+product: windows
+references:
+- https://docs.splunk.com/Documentation/ESSOC/3.22.0/stories/UseCase#Active_directory_password_spraying
+- https://www.trimarcsecurity.com/single-post/2018/05/06/trimarc-research-detecting-password-spraying-with-security-event-auditing
+service: security
+status: experimental
+tags:
+- attack.t1110.003
+- attack.initial_access
+- attack.privilege_escalation
+title: Multiple Users Failing to Authenticate from Single Process

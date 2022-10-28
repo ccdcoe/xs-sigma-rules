@@ -1,0 +1,32 @@
+author: Sergey Soldatov, Kaspersky Lab, oscd.community
+category: process_creation
+date: 2019/10/30
+description: Detects PowerShell script execution from Alternate Data Stream (ADS)
+detection:
+  condition: selection
+  selection:
+    winlog.event_data.CommandLine|contains|all:
+    - Get-Content
+    - -Stream
+    winlog.event_data.Image|endswith:
+    - \powershell.exe
+    - \pwsh.exe
+    winlog.event_data.ParentImage|endswith:
+    - \powershell.exe
+    - \pwsh.exe
+falsepositives:
+- Unknown
+id: 45a594aa-1fbd-4972-a809-ff5a99dd81b8
+level: high
+logsource:
+  category: process_creation
+  product: windows
+modified: 2022/07/14
+product: windows
+references:
+- https://github.com/p0shkatz/Get-ADS/blob/1c3a3562e713c254edce1995a7d9879c687c7473/Get-ADS.ps1
+status: test
+tags:
+- attack.defense_evasion
+- attack.t1564.004
+title: Run PowerShell Script from ADS

@@ -1,0 +1,31 @@
+author: Max Altgelt
+category: process_creation
+date: 2022/04/06
+description: Detects the execution of other scripts using the Node executable packaged
+  with Adobe Creative Cloud
+detection:
+  condition: selection and not filter
+  filter:
+    winlog.event_data.CommandLine|contains: Adobe Creative Cloud Experience\js
+  selection:
+    winlog.event_data.Image|endswith: \Adobe Creative Cloud Experience\libs\node.exe
+falsepositives:
+- Unknown
+fields:
+- winlog.event_data.Image
+- winlog.event_data.CommandLine
+- winlog.event_data.ParentCommandLine
+id: df1f26d3-bea7-4700-9ea2-ad3e990cf90e
+level: medium
+logsource:
+  category: process_creation
+  product: windows
+product: windows
+references:
+- https://twitter.com/mttaggart/status/1511804863293784064
+status: experimental
+tags:
+- attack.defense_evasion
+- attack.t1127
+- attack.t1059.007
+title: Node Process Executions

@@ -1,0 +1,48 @@
+author: Florian Roth
+category: registry_set
+date: 2022/05/02
+description: Detect the creation of a service with a service binary located in a uncommon
+  directory
+detection:
+  condition: 1 of selection_* and not filter
+  filter:
+  - winlog.event_data.Image|contains:
+    - \AppData\Roaming\Zoom
+    - \AppData\Local\Zoom
+  - winlog.event_data.Details|contains:
+    - \AppData\Roaming\Zoom
+    - \AppData\Local\Zoom
+  selection_1:
+    winlog.event_data.Details:
+    - DWORD (0x00000000)
+    - DWORD (0x00000001)
+    - DWORD (0x00000002)
+    winlog.event_data.EventType: SetValue
+    winlog.event_data.Image|contains:
+    - \AppData\Local\
+    - \AppData\Roaming\
+    winlog.event_data.TargetObject|endswith: \Start
+    winlog.event_data.TargetObject|startswith: HKLM\System\CurrentControlSet\Services\
+  selection_2:
+    winlog.event_data.Details|contains:
+    - \AppData\Local\
+    - \AppData\Roaming\
+    winlog.event_data.EventType: SetValue
+    winlog.event_data.TargetObject|endswith: \ImagePath
+    winlog.event_data.TargetObject|startswith: HKLM\System\CurrentControlSet\Services\
+falsepositives:
+- Unknown
+id: 277dc340-0540-42e7-8efb-5ff460045e07
+level: medium
+logsource:
+  category: registry_set
+  product: windows
+modified: 2022/05/04
+product: windows
+references:
+- https://github.com/redcanaryco/atomic-red-team/blob/f339e7da7d05f6057fdfcdd3742bfcf365fee2a9/atomics/T1562.001/T1562.001.md
+status: experimental
+tags:
+- attack.defense_evasion
+- attack.t1112
+title: Service Binary in Uncommon Folder

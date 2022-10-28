@@ -1,0 +1,34 @@
+author: Florian Roth, frack113
+category: process_creation
+date: 2019/08/22
+description: Detects the execution of a renamed PowerShell often used by attackers
+  or malware
+detection:
+  condition: selection and not filter
+  filter:
+    winlog.event_data.Image|endswith:
+    - \powershell.exe
+    - \powershell_ise.exe
+    - \pwsh.exe
+  selection:
+    winlog.event_data.Company: Microsoft Corporation
+    winlog.event_data.Description|startswith:
+    - Windows PowerShell
+    - pwsh
+falsepositives:
+- Unknown
+id: d178a2d7-129a-4ba4-8ee6-d6e1fecd5d20
+level: high
+logsource:
+  category: process_creation
+  product: windows
+modified: 2021/07/03
+product: windows
+references:
+- https://twitter.com/christophetd/status/1164506034720952320
+status: test
+tags:
+- car.2013-05-009
+- attack.defense_evasion
+- attack.t1036.003
+title: Renamed PowerShell

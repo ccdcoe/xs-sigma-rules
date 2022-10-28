@@ -1,0 +1,23 @@
+author: frack113
+category: dns_query
+date: 2022/02/20
+description: Detects DNS resolution of an .onion address related to Tor routing networks
+detection:
+  condition: selection
+  selection:
+    QueryName|contains: .onion
+falsepositives:
+- Unknown
+id: b55ca2a3-7cff-4dda-8bdd-c7bfa63bf544
+level: high
+logsource:
+  category: dns_query
+  product: windows
+product: windows
+references:
+- https://www.logpoint.com/en/blog/detecting-tor-use-with-logpoint/
+status: experimental
+tags:
+- attack.command_and_control
+- attack.t1090.003
+title: Query Tor Onion Address

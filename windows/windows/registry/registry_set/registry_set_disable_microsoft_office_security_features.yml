@@ -1,0 +1,35 @@
+author: frack113
+category: registry_set
+date: 2021/06/08
+definition: key must be add to the sysmon configuration to works
+description: Disable Microsoft Office Security Features by registry
+detection:
+  condition: selection
+  selection:
+    winlog.event_data.Details: DWORD (0x00000001)
+    winlog.event_data.EventType: SetValue
+    winlog.event_data.TargetObject|contains: \SOFTWARE\Microsoft\Office\
+    winlog.event_data.TargetObject|endswith:
+    - VBAWarnings
+    - DisableInternetFilesInPV
+    - DisableUnsafeLocationsInPV
+    - DisableAttachementsInPV
+falsepositives:
+- Unknown
+id: 7c637634-c95d-4bbf-b26c-a82510874b34
+level: high
+logsource:
+  category: registry_set
+  definition: key must be add to the sysmon configuration to works
+  product: windows
+modified: 2022/03/26
+product: windows
+references:
+- https://github.com/redcanaryco/atomic-red-team/blob/f339e7da7d05f6057fdfcdd3742bfcf365fee2a9/atomics/T1562.001/T1562.001.md
+- https://unit42.paloaltonetworks.com/unit42-gorgon-group-slithering-nation-state-cybercrime/
+- https://yoroi.company/research/cyber-criminal-espionage-operation-insists-on-italian-manufacturing/
+status: experimental
+tags:
+- attack.defense_evasion
+- attack.t1562.001
+title: Disable Microsoft Office Security Features

@@ -1,0 +1,26 @@
+author: Mark Morowczynski '@markmorow', Yochana Henderson, '@Yochana-H'
+date: 2022/08/10
+description: Detects when a user that doesn't have permissions to invite a guest user
+  attempts to invite one.
+detection:
+  condition: selection
+  selection:
+    Status: failure
+    properties.message: Invite external user
+falsepositives:
+- A non malicious user is unaware of the proper process
+id: 0b4b72e3-4c53-4d5b-b198-2c58cfef39a9
+level: medium
+logsource:
+  product: azure
+  service: auditlogs
+product: azure
+references:
+- https://docs.microsoft.com/en-us/azure/active-directory/fundamentals/security-operations-privileged-accounts#things-to-monitor
+service: auditlogs
+status: experimental
+tags:
+- attack.persistence
+- attack.defense_evasion
+- attack.t1078
+title: Guest User Invited By Non Approved Inviters

@@ -3,7 +3,8 @@ date: 2021/09/11
 description: Detects embeding of files with usage of steghide binary, the adversaries
   may use this technique to prevent the detection of hidden information.
 detection:
-  Steghide:
+  condition: selection
+  selection:
     a0: steghide
     a1: embed
     a2:
@@ -13,9 +14,8 @@ detection:
     - -cf
     - -ef
     type: EXECVE
-  condition: Steghide
 falsepositives:
-- None
+- Unknown
 id: ce446a9e-30b9-4483-8e38-d2c9ad0a2280
 level: low
 logsource:

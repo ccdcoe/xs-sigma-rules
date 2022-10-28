@@ -1,0 +1,35 @@
+author: Nasreddine Bencherchali
+category: process_creation
+date: 2022/06/20
+description: Detects usage of Dsacls to grant over permissive permissions
+detection:
+  condition: all of selection*
+  selection_flag:
+    winlog.event_data.CommandLine|contains: ' /G '
+  selection_img:
+  - winlog.event_data.Image|endswith: \dsacls.exe
+  - winlog.event_data.OriginalFileName: DSACLS.EXE
+  selection_permissions:
+    winlog.event_data.CommandLine|contains:
+    - GR
+    - GE
+    - GW
+    - GA
+    - WP
+    - WD
+falsepositives:
+- Legitimate administrators granting over permissive permissions to users
+id: 01c42d3c-242d-4655-85b2-34f1739632f7
+level: medium
+logsource:
+  category: process_creation
+  product: windows
+product: windows
+references:
+- https://ss64.com/nt/dsacls.html
+- https://docs.microsoft.com/en-us/previous-versions/windows/it-pro/windows-server-2012-r2-and-2012/cc771151(v=ws.11)
+status: experimental
+tags:
+- attack.execution
+- attack.t1218
+title: Abusing Permissions Using Dsacls

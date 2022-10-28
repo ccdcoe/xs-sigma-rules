@@ -1,0 +1,34 @@
+author: Florian Roth
+date: 2022/06/28
+description: 'Adversaries may abuse BITS jobs to persistently execute or clean up
+  after malicious payloads.
+
+  Windows Background Intelligent Transfer Service (BITS) is a low-bandwidth, asynchronous
+  file transfer mechanism exposed through [Component Object Model](https://attack.mitre.org/techniques/T1559/001)
+
+  '
+detection:
+  condition: selection
+  selection:
+    LocalName|contains:
+    - C:\Users\Public\
+    - '%public%'
+    - \Desktop\
+    winlog.event_id: 16403
+falsepositives:
+- Administrator PowerShell scripts
+id: f8a56cb7-a363-44ed-a82f-5926bb44cd05
+level: high
+logsource:
+  product: windows
+  service: bits-client
+product: windows
+references:
+- https://github.com/redcanaryco/atomic-red-team/blob/f339e7da7d05f6057fdfcdd3742bfcf365fee2a9/atomics/T1197/T1197.md
+service: bits-client
+status: experimental
+tags:
+- attack.defense_evasion
+- attack.persistence
+- attack.t1197
+title: Download with BITS to Suspicious Folder

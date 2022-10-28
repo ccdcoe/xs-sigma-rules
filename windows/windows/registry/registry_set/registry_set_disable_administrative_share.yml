@@ -1,0 +1,31 @@
+author: frack113
+category: registry_set
+date: 2022/01/16
+description: Administrative shares are hidden network shares created by Microsoft
+  Windows NT operating systems that grant system administrators remote access to every
+  disk volume on a network-connected system
+detection:
+  condition: selection
+  selection:
+    winlog.event_data.Details: DWORD (0x00000000)
+    winlog.event_data.EventType: SetValue
+    winlog.event_data.TargetObject|endswith:
+    - AutoShareWks
+    - AutoShareServer
+    winlog.event_data.TargetObject|startswith: HKLM\System\CurrentControlSet\Services\LanmanServer\Parameters\
+falsepositives:
+- Unknown
+id: c7dcacd0-cc59-4004-b0a4-1d6cdebe6f3e
+level: medium
+logsource:
+  category: registry_set
+  product: windows
+modified: 2022/03/26
+product: windows
+references:
+- https://github.com/redcanaryco/atomic-red-team/blob/f339e7da7d05f6057fdfcdd3742bfcf365fee2a9/atomics/T1070.005/T1070.005.md#atomic-test-4---disable-administrative-share-creation-at-startup
+status: experimental
+tags:
+- attack.defense_evasion
+- attack.t1070.005
+title: Disable Administrative Share Creation at Startup

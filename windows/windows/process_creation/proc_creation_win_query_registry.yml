@@ -1,0 +1,44 @@
+author: Timur Zinniatullin, oscd.community
+category: process_creation
+date: 2019/10/21
+description: Adversaries may interact with the Windows Registry to gather information
+  about the system, configuration, and installed software.
+detection:
+  condition: all of selection_*
+  selection_1:
+    winlog.event_data.CommandLine|contains:
+    - query
+    - save
+    - export
+    winlog.event_data.Image|endswith: \reg.exe
+  selection_2:
+    winlog.event_data.CommandLine|contains:
+    - currentVersion\windows
+    - winlogon\
+    - currentVersion\shellServiceObjectDelayLoad
+    - currentVersion\run
+    - currentVersion\policies\explorer\run
+    - currentcontrolset\services
+fields:
+- winlog.event_data.Image
+- winlog.event_data.CommandLine
+- winlog.event_data.User
+- winlog.event_data.LogonGuid
+- winlog.event_data.Hashes
+- process.parent.entity_id
+- winlog.event_data.ParentCommandLine
+id: 970007b7-ce32-49d0-a4a4-fbef016950bd
+level: low
+logsource:
+  category: process_creation
+  product: windows
+modified: 2022/08/04
+product: windows
+references:
+- https://github.com/redcanaryco/atomic-red-team/blob/f339e7da7d05f6057fdfcdd3742bfcf365fee2a9/atomics/T1012/T1012.md
+status: test
+tags:
+- attack.discovery
+- attack.t1012
+- attack.t1007
+title: Query Registry

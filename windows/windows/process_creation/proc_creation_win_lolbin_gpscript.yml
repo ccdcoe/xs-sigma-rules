@@ -1,0 +1,30 @@
+author: frack113
+category: process_creation
+date: 2022/05/16
+description: Detects the execution of the LOLBIN gpscript, which executes logon or
+  startup scripts configured in Group Policy
+detection:
+  condition: all of selection*
+  selection_cli:
+    winlog.event_data.CommandLine|contains:
+    - ' /logon'
+    - ' /startup'
+  selection_img:
+  - winlog.event_data.Image|endswith: \gpscript.exe
+  - winlog.event_data.OriginalFileName: GPSCRIPT.EXE
+falsepositives:
+- Legitimate uses of logon scripts distributed via group policy
+id: 1e59c230-6670-45bf-83b0-98903780607e
+level: medium
+logsource:
+  category: process_creation
+  product: windows
+product: windows
+references:
+- https://oddvar.moe/2018/04/27/gpscript-exe-another-lolbin-to-the-list/
+- https://lolbas-project.github.io/lolbas/Binaries/Gpscript/
+status: experimental
+tags:
+- attack.defense_evasion
+- attack.t1218
+title: Gpscript Execution

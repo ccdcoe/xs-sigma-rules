@@ -1,0 +1,34 @@
+author: Timur Zinniatullin, oscd.community
+date: 2020/10/18
+description: Detects Obfuscated Powershell via COMPRESS OBFUSCATION
+detection:
+  condition: selection
+  selection:
+    Provider_Name: Service Control Manager
+    winlog.event_data.ImagePath|contains:
+    - :system.io.compression.deflatestream
+    - system.io.streamreader
+    winlog.event_data.ImagePath|contains|all:
+    - new-object
+    - text.encoding]::ascii
+    - readtoend
+    winlog.event_id: 7045
+falsepositives:
+- Unknown
+id: 175997c5-803c-4b08-8bb0-70b099f47595
+level: medium
+logsource:
+  product: windows
+  service: system
+modified: 2022/03/06
+product: windows
+references:
+- https://github.com/Neo23x0/sigma/issues/1009
+service: system
+status: experimental
+tags:
+- attack.defense_evasion
+- attack.t1027
+- attack.execution
+- attack.t1059.001
+title: Invoke-Obfuscation COMPRESS OBFUSCATION

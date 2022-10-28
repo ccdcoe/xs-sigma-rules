@@ -1,0 +1,38 @@
+author: Florian Roth
+category: process_creation
+date: 2022/08/03
+description: Detects use of an encoded/obfuscated version of an IP address (hex, octal...)
+  in an URL combined with a download command
+detection:
+  condition: all of selection*
+  selection_img:
+    winlog.event_data.CommandLine|contains:
+    - Invoke-WebRequest
+    - 'iwr '
+    - 'wget '
+    - 'curl '
+    - DownloadFile
+    - DownloadString
+  selection_ip:
+  - winlog.event_data.CommandLine|contains:
+    - //0x
+    - .0x
+    - .00x
+  - winlog.event_data.CommandLine|contains|all:
+    - http://%
+    - '%2e'
+falsepositives:
+- Unknown
+id: cb5a2333-56cf-4562-8fcb-22ba1bca728d
+level: medium
+logsource:
+  category: process_creation
+  product: windows
+product: windows
+references:
+- https://h.43z.one/ipconverter/
+- https://twitter.com/Yasser_Elsnbary/status/1553804135354564608
+status: experimental
+tags:
+- attack.discovery
+title: Obfuscated IP Download

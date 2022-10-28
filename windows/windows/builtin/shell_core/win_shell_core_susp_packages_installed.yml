@@ -1,0 +1,35 @@
+author: Nasreddine Bencherchali
+date: 2022/08/14
+description: Detects suspicious application installed by looking at the added shortcut
+  to the app resolver cache
+detection:
+  condition: 1 of selection_*
+  selection_name:
+    Name|contains:
+    - Zenmap
+    - AnyDesk
+    - wireshark
+    - openvpn
+    winlog.event_id: 28115
+  selection_packageid:
+    AppID|contains:
+    - zenmap.exe
+    - prokzult ad
+    - wireshark
+    - openvpn
+    winlog.event_id: 28115
+falsepositives:
+- Packages or applications being legitimately used by users or administrators
+id: 83c161b6-ca67-4f33-8ad0-644a0737cf07
+level: medium
+logsource:
+  product: windows
+  service: shell-core
+product: windows
+references:
+- https://nasbench.medium.com/finding-forensic-goodness-in-obscure-windows-event-logs-60e978ea45a3
+service: shell-core
+status: experimental
+tags:
+- attack.execution
+title: Suspicious Application Installed

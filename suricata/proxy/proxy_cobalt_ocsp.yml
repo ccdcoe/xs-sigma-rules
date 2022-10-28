@@ -15,12 +15,12 @@ logsource:
   category: proxy
   product: suricata
   service: http
-modified: 2020/09/02
+modified: 2021/11/27
 product: suricata
 references:
-- https://github.com/rsmudge/Malleable-C2-Profiles/blob/master/normal/ocsp.profile
+- https://github.com/rsmudge/Malleable-C2-Profiles/blob/26323784672913923d20c5a638c6ca79459e8529/normal/ocsp.profile
 service: http
-status: experimental
+status: test
 tags:
 - attack.defense_evasion
 - attack.command_and_control

@@ -1,0 +1,22 @@
+author: frack113
+date: 2022/02/19
+description: A rule has been modified in the Windows Firewall exception list
+detection:
+  condition: selection and not 1 of filter*
+  filter:
+    ModifyingApplication|startswith:
+    - C:\Program Files (x86)\
+    - C:\Program Files\
+  selection:
+    winlog.event_id: 2005
+id: 5570c4d9-8fdd-4622-965b-403a5a101aa0
+level: low
+logsource:
+  product: windows
+  service: firewall-as
+product: windows
+references:
+- https://docs.microsoft.com/en-us/previous-versions/windows/it-pro/windows-server-2008-r2-and-2008/dd364427(v=ws.10)
+service: firewall-as
+status: experimental
+title: Modified Rule in Windows Firewall with Advanced Security

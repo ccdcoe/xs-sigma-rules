@@ -1,0 +1,38 @@
+author: Austin Songer @austinsonger
+category: ps_script
+date: 2021/11/25
+definition: Script block logging must be enabled
+description: Identifies when a user attempts to clear console history. An adversary
+  may clear the command history of a compromised account to conceal the actions undertaken
+  during an intrusion.
+detection:
+  condition: selection1 or selection2a and selection2b
+  selection1:
+    winlog.event_data.ScriptBlockText|contains: Clear-History
+  selection2a:
+    winlog.event_data.ScriptBlockText|contains:
+    - Remove-Item
+    - rm
+  selection2b:
+    winlog.event_data.ScriptBlockText|contains:
+    - ConsoleHost_history.txt
+    - (Get-PSReadlineOption).HistorySavePath
+falsepositives:
+- Unknown
+id: bde47d4b-9987-405c-94c7-b080410e8ea7
+level: high
+logsource:
+  category: ps_script
+  definition: Script block logging must be enabled
+  product: windows
+product: windows
+references:
+- https://stefanos.cloud/blog/kb/how-to-clear-the-powershell-command-history/
+- https://www.shellhacks.com/clear-history-powershell/
+- https://community.sophos.com/sophos-labs/b/blog/posts/powershell-command-history-forensics
+status: experimental
+tags:
+- attack.defense_evasion
+- attack.t1070
+- attack.t1070.003
+title: Clearing Windows Console History

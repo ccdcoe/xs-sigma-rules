@@ -6,18 +6,20 @@ detection:
   condition: selection
   selection:
     name: atsvc
-    path: \\*\IPC$
+    path: \\\*\IPC$
 falsepositives:
-- unknown
+- Unknown
 id: dde85b37-40cd-4a94-b00c-0b8794f956b5
 level: medium
 logsource:
   product: zeek
   service: smb_files
+modified: 2021/11/27
 product: zeek
 references:
 - https://github.com/neo23x0/sigma/blob/d42e87edd741dd646db946f30964f331f92f50e6/rules/windows/builtin/win_atsvc_task.yml
 service: smb_files
+status: test
 tags:
 - attack.lateral_movement
 - attack.persistence

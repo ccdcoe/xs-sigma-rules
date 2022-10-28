@@ -1,0 +1,58 @@
+author: bartblaze
+category: network_connection
+date: 2020/07/13
+description: Detects Dllhost that communicates with public IP addresses
+detection:
+  condition: selection and not 1 of filter*
+  filter_ipv4:
+    winlog.event_data.DestinationIp|startswith:
+    - '10.'
+    - 192.168.
+    - 172.16.
+    - 172.17.
+    - 172.18.
+    - 172.19.
+    - 172.20.
+    - 172.21.
+    - 172.22.
+    - 172.23.
+    - 172.24.
+    - 172.25.
+    - 172.26.
+    - 172.27.
+    - 172.28.
+    - 172.29.
+    - 172.30.
+    - 172.31.
+    - 169.254.
+    - '127.'
+  filter_ipv6:
+    winlog.event_data.DestinationIp|startswith:
+    - ::1
+    - 0:0:0:0:0:0:0:1
+    - 'fe80:'
+    - fc
+    - fd
+  selection:
+    Initiated: 'true'
+    winlog.event_data.Image|endswith: \dllhost.exe
+falsepositives:
+- Communication to other corporate systems that use IP addresses from public address
+  spaces
+id: cfed2f44-16df-4bf3-833a-79405198b277
+level: medium
+logsource:
+  category: network_connection
+  product: windows
+modified: 2022/04/21
+product: windows
+references:
+- https://redcanary.com/blog/child-processes/
+- https://nasbench.medium.com/what-is-the-dllhost-exe-process-actually-running-ef9fe4c19c08
+status: test
+tags:
+- attack.defense_evasion
+- attack.t1218
+- attack.execution
+- attack.t1559.001
+title: Dllhost Internet Connection

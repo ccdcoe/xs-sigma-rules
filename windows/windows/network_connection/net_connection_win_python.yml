@@ -1,0 +1,27 @@
+author: frack113
+category: network_connection
+date: 2021/12/10
+description: Adversaries may attempt to get a listing of services running on remote
+  hosts, including those that may be vulnerable to remote software exploitation
+detection:
+  condition: selection
+  selection:
+    Initiated: 'true'
+    winlog.event_data.Image|contains: python
+falsepositives:
+- Legitimate python script
+id: bef0bc5a-b9ae-425d-85c6-7b2d705980c6
+level: medium
+logsource:
+  category: network_connection
+  product: windows
+modified: 2022/08/12
+product: windows
+references:
+- https://github.com/redcanaryco/atomic-red-team/blob/f339e7da7d05f6057fdfcdd3742bfcf365fee2a9/atomics/T1046/T1046.md#atomic-test-4---port-scan-using-python
+- https://pypi.org/project/scapy/
+status: experimental
+tags:
+- attack.discovery
+- attack.t1046
+title: Python Initiated Connection

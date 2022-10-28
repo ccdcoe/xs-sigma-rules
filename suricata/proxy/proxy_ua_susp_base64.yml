@@ -1,0 +1,32 @@
+author: Florian Roth
+category: proxy
+date: 2022/07/08
+description: Detects suspicious User Agent strings that end with an equal sign, which
+  can be a sign of base64 encoded values used as User Agent string
+detection:
+  condition: selection
+  selection:
+    http.http_user_agent|endswith:
+    - '='
+    - TW96aWxsY
+falsepositives:
+- Unknown
+fields:
+- src_ip
+- http.url
+- http.http_user_agent
+id: 894a8613-cf12-48b3-8e57-9085f54aa0c3
+level: high
+logsource:
+  category: proxy
+  product: suricata
+  service: http
+product: suricata
+references:
+- https://blogs.jpcert.or.jp/en/2022/07/yamabot.html
+service: http
+status: experimental
+tags:
+- attack.command_and_control
+- attack.t1071.001
+title: Suspicious User Agent

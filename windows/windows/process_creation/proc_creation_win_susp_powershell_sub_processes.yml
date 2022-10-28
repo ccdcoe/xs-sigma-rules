@@ -1,0 +1,43 @@
+author: Florian Roth, Tim Shelton
+category: process_creation
+date: 2022/04/26
+description: Detects suspicious sub processes spawned by PowerShell
+detection:
+  condition: selection and not falsepositive
+  falsepositive:
+    winlog.event_data.CommandLine|contains: \Program Files\Amazon\WorkspacesConfig\Scripts\
+    winlog.event_data.ParentCommandLine|contains: \Program Files\Amazon\WorkspacesConfig\Scripts\
+  selection:
+    winlog.event_data.Image|endswith:
+    - \sh.exe
+    - \bash.exe
+    - \schtasks.exe
+    - \certutil.exe
+    - \bitsadmin.exe
+    - \wscript.exe
+    - \cscript.exe
+    - \scrcons.exe
+    - \regsvr32.exe
+    - \hh.exe
+    - \wmic.exe
+    - \mshta.exe
+    - \rundll32.exe
+    - \forfiles.exe
+    - \scriptrunner.exe
+    winlog.event_data.ParentImage|endswith:
+    - \powershell.exe
+    - \pwsh.exe
+    - \powershell_ise.exe
+falsepositives:
+- Unknown
+id: e4b6d2a7-d8a4-4f19-acbd-943c16d90647
+level: high
+logsource:
+  category: process_creation
+  product: windows
+modified: 2022/07/14
+product: windows
+references:
+- https://twitter.com/ankit_anubhav/status/1518835408502620162
+status: experimental
+title: Suspicious PowerShell Sub Processes

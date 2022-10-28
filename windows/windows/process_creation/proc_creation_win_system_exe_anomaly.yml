@@ -1,0 +1,83 @@
+author: Florian Roth, Patrick Bareiss, Anton Kutepov, oscd.community, Nasreddine Bencherchali
+category: process_creation
+date: 2017/11/27
+description: Detects a Windows program executable started from a suspicious folder
+detection:
+  condition: selection and not filter
+  filter:
+  - winlog.event_data.Image|startswith:
+    - C:\Windows\System32\
+    - C:\Windows\SysWOW64\
+    - C:\Windows\WinSxS\
+  - winlog.event_data.Image|contains: \SystemRoot\System32\
+  - winlog.event_data.Image: C:\Windows\explorer.exe
+  selection:
+    winlog.event_data.Image|endswith:
+    - \svchost.exe
+    - \rundll32.exe
+    - \services.exe
+    - \powershell.exe
+    - \powershell_ise.exe
+    - \pwsh.exe
+    - \regsvr32.exe
+    - \spoolsv.exe
+    - \lsass.exe
+    - \smss.exe
+    - \csrss.exe
+    - \conhost.exe
+    - \wininit.exe
+    - \lsm.exe
+    - \winlogon.exe
+    - \explorer.exe
+    - \taskhost.exe
+    - \Taskmgr.exe
+    - \sihost.exe
+    - \RuntimeBroker.exe
+    - \smartscreen.exe
+    - \dllhost.exe
+    - \audiodg.exe
+    - \wlanext.exe
+    - \dashost.exe
+    - \schtasks.exe
+    - \cscript.exe
+    - \wscript.exe
+    - \wsl.exe
+    - \bitsadmin.exe
+    - \atbroker.exe
+    - \bcdedit.exe
+    - \certutil.exe
+    - \certreq.exe
+    - \cmstp.exe
+    - \consent.exe
+    - \defrag.exe
+    - \dism.exe
+    - \dllhst3g.exe
+    - \eventvwr.exe
+    - \msiexec.exe
+    - \runonce.exe
+    - \winver.exe
+    - \logonui.exe
+    - \userinit.exe
+    - \dwm.exe
+    - \LsaIso.exe
+    - \ntoskrnl.exe
+falsepositives:
+- Exotic software
+fields:
+- winlog.ComputerName
+- winlog.event_data.User
+- winlog.event_data.Image
+id: e4a6b256-3e47-40fc-89d2-7a477edd6915
+level: high
+logsource:
+  category: process_creation
+  product: windows
+modified: 2022/09/07
+product: windows
+references:
+- https://twitter.com/GelosSnake/status/934900723426439170
+status: experimental
+tags:
+- attack.defense_evasion
+- attack.t1036
+title: System File Execution Location Anomaly

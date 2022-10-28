@@ -1,0 +1,29 @@
+author: Nasreddine Bencherchali
+category: process_creation
+date: 2022/07/03
+description: Detects the "IDiagnosticProfileUAC" UAC bypass technique
+detection:
+  condition: selection
+  selection:
+    winlog.event_data.IntegrityLevel:
+    - High
+    - System
+    winlog.event_data.ParentCommandLine|contains: ' /Processid:{12C21EA7-2EB8-4B55-9249-AC243DA8C666}'
+    winlog.event_data.ParentImage|endswith: \DllHost.exe
+falsepositives:
+- Unknown
+id: 4cbef972-f347-4170-b62a-8253f6168e6d
+level: high
+logsource:
+  category: process_creation
+  product: windows
+product: windows
+references:
+- https://github.com/Wh04m1001/IDiagnosticProfileUAC
+status: experimental
+tags:
+- attack.execution
+- attack.defense_evasion
+- attack.privilege_escalation
+- attack.t1548.002
+title: UAC Bypass Using IDiagnostic Profile

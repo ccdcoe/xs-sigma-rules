@@ -1,0 +1,31 @@
+author: Nasreddine Bencherchali
+category: file_event
+date: 2022/08/10
+description: Detects when a file with a suspicious extension is created in the startup
+  folder
+detection:
+  condition: selection
+  selection:
+    winlog.event_data.TargetFilename|contains: \Windows\Start Menu\Programs\Startup\
+    winlog.event_data.TargetFilename|endswith:
+    - .vbs
+    - .vbe
+    - .bat
+    - .ps1
+    - .hta
+    - .dll
+falsepositives:
+- Rare legitimate usage of some of the extensions mentioned in the rule
+id: 28208707-fe31-437f-9a7f-4b1108b94d2e
+level: high
+logsource:
+  category: file_event
+  product: windows
+product: windows
+references:
+- https://github.com/last-byte/PersistenceSniper
+status: experimental
+tags:
+- attack.persistence
+- attack.t1547.001
+title: Suspicious Startup Folder Persistence

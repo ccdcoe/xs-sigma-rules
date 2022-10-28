@@ -1,0 +1,32 @@
+author: Timur Zinniatullin, oscd.community
+category: process_creation
+date: 2020/10/18
+description: Detects Obfuscated Powershell via COMPRESS OBFUSCATION
+detection:
+  condition: selection
+  selection:
+    winlog.event_data.CommandLine|contains:
+    - system.io.compression.deflatestream
+    - system.io.streamreader
+    winlog.event_data.CommandLine|contains|all:
+    - new-object
+    - text.encoding]::ascii
+    winlog.event_data.CommandLine|endswith: readtoend
+falsepositives:
+- Unknown
+id: 7eedcc9d-9fdb-4d94-9c54-474e8affc0c7
+level: medium
+logsource:
+  category: process_creation
+  product: windows
+modified: 2022/03/07
+product: windows
+references:
+- https://github.com/Neo23x0/sigma/issues/1009
+status: test
+tags:
+- attack.defense_evasion
+- attack.t1027
+- attack.execution
+- attack.t1059.001
+title: Invoke-Obfuscation COMPRESS OBFUSCATION

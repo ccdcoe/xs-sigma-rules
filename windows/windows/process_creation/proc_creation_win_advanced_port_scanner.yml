@@ -1,0 +1,29 @@
+author: Nasreddine Bencherchali @nas_bench
+category: process_creation
+date: 2021/12/18
+description: Detects the use of Advanced Port Scanner.
+detection:
+  condition: 1 of selection*
+  selection1:
+    winlog.event_data.Image|contains: \advanced_port_scanner
+  selection2:
+    winlog.event_data.CommandLine|contains|all:
+    - /portable
+    - /lng
+falsepositives:
+- Legitimate administrative use
+- Tools with similar commandline (very rare)
+id: 54773c5f-f1cc-4703-9126-2f797d96a69d
+level: medium
+logsource:
+  category: process_creation
+  product: windows
+product: windows
+references:
+- https://github.com/3CORESec/MAL-CL/tree/master/Descriptors/Other/Advanced%20Port%20Scanner
+status: experimental
+tags:
+- attack.discovery
+- attack.t1046
+- attack.t1135
+title: Advanced Port Scanner

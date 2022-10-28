@@ -1,0 +1,41 @@
+author: Florian Roth
+category: process_creation
+date: 2019/11/18
+description: Detects the execution of a renamed ProcDump executable often used by
+  attackers or malware
+detection:
+  condition: (selection_org or all of selection_args_*) and not filter
+  filter:
+    winlog.event_data.Image|endswith:
+    - \procdump.exe
+    - \procdump64.exe
+  selection_args_ma:
+    winlog.event_data.CommandLine|contains:
+    - ' -ma '
+    - ' /ma '
+  selection_args_other:
+    winlog.event_data.CommandLine|contains:
+    - ' -accepteula '
+    - ' /accepteula '
+  selection_org:
+    winlog.event_data.OriginalFileName: procdump
+falsepositives:
+- Procdump illegaly bundled with legitimate software
+- Weird admins who renamed binaries (and should be investigated)
+id: 4a0b2c7e-7cb2-495d-8b63-5f268e7bfd67
+level: high
+logsource:
+  category: process_creation
+  product: windows
+modified: 2022/08/12
+product: windows
+references:
+- https://docs.microsoft.com/en-us/sysinternals/downloads/procdump
+related:
+- id: 03795938-1387-481b-9f4c-3f6241e604fe
+  type: obsoletes
+status: test
+tags:
+- attack.defense_evasion
+- attack.t1036.003
+title: Renamed ProcDump

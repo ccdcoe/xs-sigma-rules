@@ -1,0 +1,61 @@
+author: Florian Roth
+category: process_creation
+date: 2022/08/23
+description: Detects Windows command lines that miss a space before or after the /c
+  flag when running a command using the cmd.exe. This could be a sign of obfuscation
+  of a fat finger problem (typo by the developer).
+detection:
+  condition: 1 of selection* and not 1 of filter*
+  filter1:
+    winlog.event_data.CommandLine|contains:
+    - 'cmd.exe /c '
+    - 'cmd /c '
+    - 'cmd.exe /k '
+    - 'cmd /k '
+  filter_falsepositives:
+  - winlog.event_data.CommandLine|contains: AppData\Local\Programs\Microsoft VS Code\resources\app\node_modules
+  - winlog.event_data.CommandLine|endswith: cmd.exe/c .
+  - winlog.event_data.CommandLine: cmd.exe /c
+  selection1:
+    winlog.event_data.CommandLine|contains:
+    - cmd.exe/c
+    - \cmd/c
+    - '"cmd/c'
+    - cmd.exe/k
+    - \cmd/k
+    - '"cmd/k'
+  selection2:
+    winlog.event_data.CommandLine|contains:
+    - /cwhoami
+    - /cpowershell
+    - /cschtasks
+    - /cbitsadmin
+    - /ccertutil
+    - /kwhoami
+    - /kpowershell
+    - /kschtasks
+    - /kbitsadmin
+    - /kcertutil
+  selection3:
+    winlog.event_data.CommandLine|contains:
+    - cmd.exe /c
+    - cmd /c
+    - cmd.exe /k
+    - cmd /k
+falsepositives:
+- Unknown
+id: a16980c2-0c56-4de0-9a79-17971979efdd
+level: high
+logsource:
+  category: process_creation
+  product: windows
+modified: 2022/08/31
+product: windows
+references:
+- https://twitter.com/cyb3rops/status/1562072617552678912
+- https://ss64.com/nt/cmd.html
+status: experimental
+tags:
+- attack.execution
+- attack.t1059.001
+title: Missing Space Characters in Command Lines

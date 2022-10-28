@@ -1,0 +1,23 @@
+author: Pawel Mazur
+date: 2022/04/16
+description: Detects suspicious modification of crontab file.
+detection:
+  condition: keywords
+  keywords:
+  - REPLACE
+falsepositives:
+- Legitimate modification of crontab
+id: af202fd3-7bff-4212-a25a-fb34606cfcbe
+level: medium
+logsource:
+  product: linux
+  service: cron
+product: linux
+references:
+- https://github.com/redcanaryco/atomic-red-team/blob/f339e7da7d05f6057fdfcdd3742bfcf365fee2a9/atomics/T1053.003/T1053.003.md
+service: cron
+status: experimental
+tags:
+- attack.persistence
+- attack.t1053.003
+title: Modifying Crontab

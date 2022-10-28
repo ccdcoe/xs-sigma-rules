@@ -26,7 +26,7 @@ level: medium
 logsource:
   product: zeek
   service: dce_rpc
-modified: 2020/09/02
+modified: 2021/11/14
 product: zeek
 references:
 - https://github.com/OTRF/detection-hackathon-apt29

@@ -4,7 +4,7 @@ description: Windows DCE-RPC functions which indicate an execution techniques on
   remote system. All credit for the Zeek mapping of the suspicious endpoint/operation
   field goes to MITRE
 detection:
-  condition: 1 of them
+  condition: 1 of op*
   op1:
     endpoint: JobAdd
     operation: atsvc
@@ -43,10 +43,12 @@ level: medium
 logsource:
   product: zeek
   service: dce_rpc
+modified: 2021/11/27
 product: zeek
 references:
 - https://github.com/mitre-attack/bzar#indicators-for-attck-execution
 service: dce_rpc
+status: test
 tags:
 - attack.execution
 - attack.t1047

@@ -11,7 +11,7 @@ detection:
 falsepositives:
 - Unknown
 id: b9748c98-9ea7-4fdb-80b6-29bed6ba71d2
-level: critical
+level: high
 logsource:
   product: linux
   service: auditd

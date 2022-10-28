@@ -1,0 +1,25 @@
+author: MikeDuddington, '@dudders1'
+date: 2022/06/30
+description: Detects the change of user type from "Guest" to "Member" for potential
+  elevation of privilege.
+detection:
+  condition: selection
+  selection:
+    Category: UserManagement
+    OperationName: Update user
+    properties.message: '"displayName":"UserType","oldValue":"[\"Guest\"]","newValue":"[\"Member\"]"'
+falsepositives:
+- If this was approved by System Administrator.
+id: 8dee7a0d-43fd-4b3c-8cd1-605e189d195e
+level: medium
+logsource:
+  product: azure
+  service: auditlogs
+product: azure
+references:
+- https://docs.microsoft.com/en-gb/azure/active-directory/fundamentals/security-operations-user-accounts#monitoring-external-user-sign-ins
+service: auditlogs
+status: experimental
+tags:
+- attack.t1078
+title: User State Changed From Guest To Member

@@ -1,0 +1,26 @@
+author: Nasreddine Bencherchali
+category: process_creation
+date: 2022/06/13
+description: Detects indirect command execution via Program Compatibility Assistant
+  "pcwrun.exe" leveraging the follina (CVE-2022-30190) vulnerability
+detection:
+  condition: selection
+  selection:
+    winlog.event_data.CommandLine|contains: ../
+    winlog.event_data.Image|endswith: \pcwrun.exe
+falsepositives:
+- Unlikely
+id: 6004abd0-afa4-4557-ba90-49d172e0a299
+level: high
+logsource:
+  category: process_creation
+  product: windows
+product: windows
+references:
+- https://twitter.com/nas_bench/status/1535663791362519040
+status: experimental
+tags:
+- attack.defense_evasion
+- attack.t1218
+- attack.execution
+title: Execute Pcwrun.EXE To Leverage Follina

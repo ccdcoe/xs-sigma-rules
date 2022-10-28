@@ -1,0 +1,30 @@
+author: Florian Roth
+category: process_creation
+date: 2022/01/24
+description: Detects the use of RunXCmd tool for command execution
+detection:
+  condition: selection
+  selection:
+    winlog.event_data.CommandLine|contains|all:
+    - ' /account=system '
+    - /exec=
+falsepositives:
+- Legitimate use by administrators
+fields:
+- winlog.event_data.CommandLine
+- winlog.event_data.ParentCommandLine
+id: 93199800-b52a-4dec-b762-75212c196542
+level: high
+logsource:
+  category: process_creation
+  product: windows
+product: windows
+references:
+- https://www.d7xtech.com/free-software/runx/
+- https://www.winhelponline.com/blog/run-program-as-system-localsystem-account-windows/
+status: experimental
+tags:
+- attack.execution
+- attack.t1569.002
+- attack.s0029
+title: RunXCmd Tool Execution As System

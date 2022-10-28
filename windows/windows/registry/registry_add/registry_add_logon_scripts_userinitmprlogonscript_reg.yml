@@ -1,0 +1,27 @@
+author: Tom Ueltschi (@c_APT_ure)
+category: registry_add
+date: 2019/01/12
+description: Detects creation of UserInitMprLogonScript persistence method
+detection:
+  condition: selection
+  selection:
+    winlog.event_data.EventType: CreateKey
+    winlog.event_data.TargetObject|contains: UserInitMprLogonScript
+falsepositives:
+- Exclude legitimate logon scripts
+id: 9ace0707-b560-49b8-b6ca-5148b42f39fb
+level: high
+logsource:
+  category: registry_add
+  product: windows
+modified: 2022/06/26
+product: windows
+references:
+- https://attack.mitre.org/techniques/T1037/
+- https://github.com/redcanaryco/atomic-red-team/blob/f339e7da7d05f6057fdfcdd3742bfcf365fee2a9/atomics/T1037.001/T1037.001.md
+status: test
+tags:
+- attack.t1037.001
+- attack.persistence
+- attack.lateral_movement
+title: Logon Scripts Creation in UserInitMprLogonScript Registry

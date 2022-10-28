@@ -1,0 +1,52 @@
+author: Florian Roth, Nasreddine Bencherchali
+category: process_creation
+date: 2020/10/12
+description: Detects WMIC executing "process call create" with suspicious calls to
+  processes such as "rundll32", "regsrv32"...etc
+detection:
+  condition: selection
+  selection:
+    winlog.event_data.CommandLine|contains:
+    - rundll32
+    - bitsadmin
+    - regsvr32
+    - 'cmd.exe /c '
+    - 'cmd.exe /k '
+    - powershell
+    - pwsh
+    - certutil
+    - cscript
+    - wscript
+    - mshta
+    - \Users\Public\
+    - \Windows\Temp\
+    - \AppData\Local\
+    - '%temp%'
+    - '%ProgramData%'
+    - '%appdata%'
+    - '%comspec%'
+    - '%localappdata%'
+    winlog.event_data.CommandLine|contains|all:
+    - 'process '
+    - 'call '
+    - 'create '
+falsepositives:
+- Unknown
+fields:
+- winlog.event_data.CommandLine
+- winlog.event_data.ParentCommandLine
+id: 3c89a1e8-0fba-449e-8f1b-8409d6267ec8
+level: high
+logsource:
+  category: process_creation
+  product: windows
+modified: 2022/08/24
+product: windows
+references:
+- https://thedfirreport.com/2020/10/08/ryuks-return/
+- https://symantec-enterprise-blogs.security.com/blogs/threat-intelligence/ransomware-hive-conti-avoslocker
+status: test
+tags:
+- attack.execution
+- attack.t1047
+title: Suspicious WMIC Execution - ProcessCallCreate

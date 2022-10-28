@@ -1,0 +1,64 @@
+author: Sorina Ionescu
+category: network_connection
+date: 2022/08/17
+description: Detects an executable, which is not an internet browser, making DNS request
+  to legit popular websites, which were seen to be used as dead drop resolvers in
+  previous attacks.
+detection:
+  condition: selection and not 1 of filter*
+  filter_browsers:
+    winlog.event_data.Image|endswith:
+    - \iexplore.exe
+    - \msedge.exe
+    - \edge.exe
+    - \opera.exe
+    - \brave.exe
+    - \vivaldi.exe
+    - \whale.exe
+    - \chrome.exe
+    - \firefox.exe
+  filter_others:
+    winlog.event_data.Image|endswith:
+    - \MsMpEng.exe
+    - \MsSense.exe
+    - \PRTG Probe.exe
+    - \Engine.exe
+    - \msedgewebview2.exe
+  selection:
+    Initiated: 'true'
+    winlog.event_data.DestinationHostname|endswith:
+    - cdn.discordapp.com
+    - pastebin.com
+    - youtube.com
+    - technet.microsoft.com
+    - facebook.com
+    - .cloudflare.com
+    - docs.google.com
+    - steamcommunity.com
+    - reddit.com
+    - fotolog.com
+    - twitter.com
+    - imgur.com
+    - feeds.rapidfeeds.com
+    - livejournal.com
+    - .githubusercontent.com
+falsepositives:
+- One might need to exclude other internet browsers found in it's network or other
+  applications like ones mentioned above from Microsoft Defender.
+id: 297ae038-edc2-4b2e-bb3e-7c5fc94dd5c7
+level: high
+logsource:
+  category: network_connection
+  product: windows
+modified: 2022/08/29
+product: windows
+references:
+- https://content.fireeye.com/apt-41/rpt-apt41
+- https://securelist.com/the-tetrade-brazilian-banking-malware/97779/
+- https://blog.bushidotoken.net/2021/04/dead-drop-resolvers-espionage-inspired.html
+status: test
+tags:
+- attack.command_and_control
+- attack.t1102
+- attack.t1102.001
+title: Dead Drop Resolvers

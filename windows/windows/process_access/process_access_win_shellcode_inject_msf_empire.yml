@@ -1,0 +1,25 @@
+author: Bhabesh Raj
+category: process_access
+date: 2022/03/11
+description: Detects shellcode injection by Metasploit's migrate and Empire's psinject
+detection:
+  condition: selection
+  selection:
+    winlog.event_data.CallTrace|contains: UNKNOWN
+    winlog.event_data.GrantedAccess:
+    - '0x147a'
+    - '0x1f3fff'
+falsepositives:
+- Empire's csharp_exe payload uses 0x1f3fff for process enumeration as well
+id: 250ae82f-736e-4844-a68b-0b5e8cc887da
+level: high
+logsource:
+  category: process_access
+  product: windows
+product: windows
+status: experimental
+tags:
+- attack.defense_evasion
+- attack.privilege_escalation
+- attack.t1055
+title: Shellcode Injection

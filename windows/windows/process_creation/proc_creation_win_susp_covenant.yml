@@ -1,0 +1,37 @@
+author: Florian Roth, Jonhnathan Ribeiro, oscd.community
+category: process_creation
+date: 2020/06/04
+description: Detects suspicious command lines used in Covenant luanchers
+detection:
+  condition: selection or selection2
+  selection:
+    winlog.event_data.CommandLine|contains:
+    - -Command
+    - -EncodedCommand
+    winlog.event_data.CommandLine|contains|all:
+    - -Sta
+    - -Nop
+    - -Window
+    - Hidden
+  selection2:
+    winlog.event_data.CommandLine|contains:
+    - 'sv o (New-Object IO.MemorySteam);sv d '
+    - mshta file.hta
+    - GruntHTTP
+    - -EncodedCommand cwB2ACAAbwAgA
+id: c260b6db-48ba-4b4a-a76f-2f67644e99d2
+level: high
+logsource:
+  category: process_creation
+  product: windows
+modified: 2021/11/27
+product: windows
+references:
+- https://posts.specterops.io/covenant-v0-5-eee0507b85ba
+status: test
+tags:
+- attack.execution
+- attack.defense_evasion
+- attack.t1059.001
+- attack.t1564.003
+title: Covenant Launcher Indicators

@@ -1,0 +1,64 @@
+author: Teymur Kheirkhabarov, Harish Segar (rule)
+category: process_creation
+date: 2020/03/20
+description: Detects a suspicious parents of powershell.exe
+detection:
+  condition: all of selection*
+  selection_image1:
+  - winlog.event_data.ParentImage|endswith:
+    - \mshta.exe
+    - \rundll32.exe
+    - \regsvr32.exe
+    - \services.exe
+    - \winword.exe
+    - \wmiprvse.exe
+    - \powerpnt.exe
+    - \excel.exe
+    - \msaccess.exe
+    - \mspub.exe
+    - \visio.exe
+    - \outlook.exe
+    - \amigo.exe
+    - \chrome.exe
+    - \firefox.exe
+    - \iexplore.exe
+    - \microsoftedgecp.exe
+    - \microsoftedge.exe
+    - \browser.exe
+    - \vivaldi.exe
+    - \safari.exe
+    - \sqlagent.exe
+    - \sqlserver.exe
+    - \sqlservr.exe
+    - \w3wp.exe
+    - \httpd.exe
+    - \nginx.exe
+    - \php-cgi.exe
+    - \jbosssvc.exe
+    - MicrosoftEdgeSH.exe
+  - winlog.event_data.ParentImage|contains: tomcat
+  selection_powershell:
+  - winlog.event_data.Image|endswith:
+    - \powershell.exe
+    - \pwsh.exe
+  - winlog.event_data.CommandLine|contains:
+    - /c powershell
+    - /c pwsh
+  - winlog.event_data.Description: Windows PowerShell
+  - winlog.event_data.Product: PowerShell Core 6
+falsepositives:
+- Other scripts
+id: 754ed792-634f-40ae-b3bc-e0448d33f695
+level: high
+logsource:
+  category: process_creation
+  product: windows
+modified: 2022/07/27
+product: windows
+references:
+- https://speakerdeck.com/heirhabarov/hunting-for-powershell-abuse?slide=26
+status: test
+tags:
+- attack.execution
+- attack.t1059.001
+title: Suspicious PowerShell Parent Process

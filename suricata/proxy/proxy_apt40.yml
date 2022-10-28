@@ -19,12 +19,12 @@ logsource:
   category: proxy
   product: suricata
   service: http
-modified: 2020/09/02
+modified: 2021/11/27
 product: suricata
 references:
 - Internal research from Florian Roth
 service: http
-status: experimental
+status: test
 tags:
 - attack.command_and_control
 - attack.t1071.001

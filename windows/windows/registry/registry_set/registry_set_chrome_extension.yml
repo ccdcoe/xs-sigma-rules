@@ -1,0 +1,134 @@
+author: frack113
+category: registry_set
+date: 2021/12/28
+description: Running Chrome VPN Extensions via the Registry install 2 vpn extension
+detection:
+  chrome_ext:
+    winlog.event_data.EventType: SetValue
+    winlog.event_data.TargetObject|contains: Software\Wow6432Node\Google\Chrome\Extensions
+    winlog.event_data.TargetObject|endswith: update_url
+  chrome_vpn:
+    winlog.event_data.TargetObject|contains:
+    - fdcgdnkidjaadafnichfpabhfomcebme
+    - fcfhplploccackoneaefokcmbjfbkenj
+    - bihmplhobchoageeokmgbdihknkjbknd
+    - gkojfkhlekighikafcpjkiklfbnlmeio
+    - jajilbjjinjmgcibalaakngmkilboobh
+    - gjknjjomckknofjidppipffbpoekiipm
+    - nabbmpekekjknlbkgpodfndbodhijjem
+    - kpiecbcckbofpmkkkdibbllpinceiihk
+    - nlbejmccbhkncgokjcmghpfloaajcffj
+    - omghfjlpggmjjaagoclmmobgdodcjboh
+    - bibjcjfmgapbfoljiojpipaooddpkpai
+    - mpcaainmfjjigeicjnlkdfajbioopjko
+    - jljopmgdobloagejpohpldgkiellmfnc
+    - lochiccbgeohimldjooaakjllnafhaid
+    - nhnfcgpcbfclhfafjlooihdfghaeinfc
+    - ookhnhpkphagefgdiemllfajmkdkcaim
+    - namfblliamklmeodpcelkokjbffgmeoo
+    - nbcojefnccbanplpoffopkoepjmhgdgh
+    - majdfhpaihoncoakbjgbdhglocklcgno
+    - lnfdmdhmfbimhhpaeocncdlhiodoblbd
+    - eppiocemhmnlbhjplcgkofciiegomcon
+    - cocfojppfigjeefejbpfmedgjbpchcng
+    - foiopecknacmiihiocgdjgbjokkpkohc
+    - hhdobjgopfphlmjbmnpglhfcgppchgje
+    - jgbaghohigdbgbolncodkdlpenhcmcge
+    - inligpkjkhbpifecbdjhmdpcfhnlelja
+    - higioemojdadgdbhbbbkfbebbdlfjbip
+    - hipncndjamdcmphkgngojegjblibadbe
+    - iolonopooapdagdemdoaihahlfkncfgg
+    - nhfjkakglbnnpkpldhjmpmmfefifedcj
+    - jpgljfpmoofbmlieejglhonfofmahini
+    - fgddmllnllkalaagkghckoinaemmogpe
+    - ejkaocphofnobjdedneohbbiilggdlbi
+    - keodbianoliadkoelloecbhllnpiocoi
+    - hoapmlpnmpaehilehggglehfdlnoegck
+    - poeojclicodamonabcabmapamjkkmnnk
+    - dfkdflfgjdajbhocmfjolpjbebdkcjog
+    - kcdahmgmaagjhocpipbodaokikjkampi
+    - klnkiajpmpkkkgpgbogmcgfjhdoljacg
+    - lneaocagcijjdpkcabeanfpdbmapcjjg
+    - pgfpignfckbloagkfnamnolkeaecfgfh
+    - jplnlifepflhkbkgonidnobkakhmpnmh
+    - jliodmnojccaloajphkingdnpljdhdok
+    - hnmpcagpplmpfojmgmnngilcnanddlhb
+    - ffbkglfijbcbgblgflchnbphjdllaogb
+    - kcndmbbelllkmioekdagahekgimemejo
+    - jdgilggpfmjpbodmhndmhojklgfdlhob
+    - bihhflimonbpcfagfadcnbbdngpopnjb
+    - ppajinakbfocjfnijggfndbdmjggcmde
+    - oofgbpoabipfcfjapgnbbjjaenockbdp
+    - bhnhkdgoefpmekcgnccpnhjfdgicfebm
+    - knmmpciebaoojcpjjoeonlcjacjopcpf
+    - dhadilbmmjiooceioladdphemaliiobo
+    - jedieiamjmoflcknjdjhpieklepfglin
+    - mhngpdlhojliikfknhfaglpnddniijfh
+    - omdakjcmkglenbhjadbccaookpfjihpa
+    - npgimkapccfidfkfoklhpkgmhgfejhbj
+    - akeehkgglkmpapdnanoochpfmeghfdln
+    - gbmdmipapolaohpinhblmcnpmmlgfgje
+    - aigmfoeogfnljhnofglledbhhfegannp
+    - cgojmfochfikphincbhokimmmjenhhgk
+    - ficajfeojakddincjafebjmfiefcmanc
+    - ifnaibldjfdmaipaddffmgcmekjhiloa
+    - jbnmpdkcfkochpanomnkhnafobppmccn
+    - apcfdffemoinopelidncddjbhkiblecc
+    - mjolnodfokkkaichkcjipfgblbfgojpa
+    - oifjbnnafapeiknapihcmpeodaeblbkn
+    - plpmggfglncceinmilojdkiijhmajkjh
+    - mjnbclmflcpookeapghfhapeffmpodij
+    - bblcccknbdbplgmdjnnikffefhdlobhp
+    - aojlhgbkmkahabcmcpifbolnoichfeep
+    - lcmammnjlbmlbcaniggmlejfjpjagiia
+    - knajdeaocbpmfghhmijicidfcmdgbdpm
+    - bdlcnpceagnkjnjlbbbcepohejbheilk
+    - edknjdjielmpdlnllkdmaghlbpnmjmgb
+    - eidnihaadmmancegllknfbliaijfmkgo
+    - ckiahbcmlmkpfiijecbpflfahoimklke
+    - macdlemfnignjhclfcfichcdhiomgjjb
+    - chioafkonnhbpajpengbalkececleldf
+    - amnoibeflfphhplmckdbiajkjaoomgnj
+    - llbhddikeonkpbhpncnhialfbpnilcnc
+    - pcienlhnoficegnepejpfiklggkioccm
+    - iocnglnmfkgfedpcemdflhkchokkfeii
+    - igahhbkcppaollcjeaaoapkijbnphfhb
+    - njpmifchgidinihmijhcfpbdmglecdlb
+    - ggackgngljinccllcmbgnpgpllcjepgc
+    - kchocjcihdgkoplngjemhpplmmloanja
+    - bnijmipndnicefcdbhgcjoognndbgkep
+    - lklekjodgannjcccdlbicoamibgbdnmi
+    - dbdbnchagbkhknegmhgikkleoogjcfge
+    - egblhcjfjmbjajhjhpmnlekffgaemgfh
+    - ehbhfpfdkmhcpaehaooegfdflljcnfec
+    - bkkgdjpomdnfemhhkalfkogckjdkcjkg
+    - almalgbpmcfpdaopimbdchdliminoign
+    - akkbkhnikoeojlhiiomohpdnkhbkhieh
+    - gbfgfbopcfokdpkdigfmoeaajfmpkbnh
+    - bniikohfmajhdcffljgfeiklcbgffppl
+    - lejgfmmlngaigdmmikblappdafcmkndb
+    - ffhhkmlgedgcliajaedapkdfigdobcif
+    - gcknhkkoolaabfmlnjonogaaifnjlfnp
+    - pooljnboifbodgifngpppfklhifechoe
+    - fjoaledfpmneenckfbpdfhkmimnjocfa
+    - aakchaleigkohafkfjfjbblobjifikek
+    - dpplabbmogkhghncfbfdeeokoefdjegm
+    - padekgcemlokbadohgkifijomclgjgif
+    - bfidboloedlamgdmenmlbipfnccokknp
+  condition: all of chrome_*
+falsepositives:
+- Unknown
+id: b64a026b-8deb-4c1d-92fd-98893209dff1
+level: high
+logsource:
+  category: registry_set
+  product: windows
+modified: 2022/03/26
+product: windows
+references:
+- https://github.com/redcanaryco/atomic-red-team/blob/f339e7da7d05f6057fdfcdd3742bfcf365fee2a9/atomics/T1133/T1133.md#atomic-test-1---running-chrome-vpn-extensions-via-the-registry-2-vpn-extension
+status: experimental
+tags:
+- attack.persistence
+- attack.t1133
+title: Running Chrome VPN Extensions via the Registry 2 VPN Extension

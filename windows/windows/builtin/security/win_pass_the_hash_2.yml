@@ -1,0 +1,39 @@
+author: Dave Kennedy, Jeff Warren (method) / David Vassallo (rule)
+date: 2019/06/14
+definition: The successful use of PtH for lateral movement between workstations would
+  trigger event ID 4624
+description: Detects the attack technique pass the hash which is used to move laterally
+  inside the network
+detection:
+  condition: selection and not filter
+  filter:
+    winlog.event_data.TargetUserName: ANONYMOUS LOGON
+  selection:
+  - winlog.event_data.KeyLength: '0'
+    winlog.event_data.LogonProcessName: NtLmSsp
+    winlog.event_data.LogonType: '3'
+    winlog.event_data.SubjectUserSid: S-1-0-0
+    winlog.event_id: 4624
+  - winlog.event_data.LogonProcessName: seclogo
+    winlog.event_data.LogonType: '9'
+    winlog.event_id: 4624
+falsepositives:
+- Administrator activity
+id: 8eef149c-bd26-49f2-9e5a-9b00e3af499b
+level: medium
+logsource:
+  definition: The successful use of PtH for lateral movement between workstations
+    would trigger event ID 4624
+  product: windows
+  service: security
+product: windows
+references:
+- https://github.com/iadgov/Event-Forwarding-Guidance/tree/master/Events
+- https://blog.binarydefense.com/reliably-detecting-pass-the-hash-through-event-log-analysis
+- https://blog.stealthbits.com/how-to-detect-pass-the-hash-attacks/
+service: security
+status: stable
+tags:
+- attack.lateral_movement
+- attack.t1550.002
+title: Pass the Hash Activity 2

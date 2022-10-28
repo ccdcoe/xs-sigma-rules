@@ -16,11 +16,12 @@ level: medium
 logsource:
   product: linux
   service: auditd
+modified: 2021/11/27
 product: linux
 references:
-- https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1036.003/T1036.003.md
+- https://github.com/redcanaryco/atomic-red-team/blob/8a82e9b66a5b4f4bc5b91089e9f24e0544f20ad7/atomics/T1036.003/T1036.003.md#atomic-test-2---masquerading-as-linux-crond-process
 service: auditd
-status: experimental
+status: test
 tags:
 - attack.defense_evasion
 - attack.t1036.003

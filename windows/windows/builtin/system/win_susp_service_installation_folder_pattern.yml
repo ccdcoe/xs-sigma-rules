@@ -1,0 +1,28 @@
+author: pH-T
+date: 2022/03/18
+description: Detects service installation with suspicious folder patterns
+detection:
+  condition: selection and 1 of suspicious*
+  selection:
+    Provider_Name: Service Control Manager
+    winlog.event_id: 7045
+  suspicious1:
+  - winlog.event_data.ImagePath|re: ^[Cc]:\\[Pp]rogram[Dd]ata\\.{1,9}\.exe
+  - winlog.event_data.ImagePath|re: ^[Cc]:\\.{1,9}\.exe
+falsepositives:
+- Unknown
+id: 1b2ae822-6fe1-43ba-aa7c-d1a3b3d1d5f2
+level: high
+logsource:
+  product: windows
+  service: system
+modified: 2022/03/24
+product: windows
+service: system
+status: experimental
+tags:
+- attack.persistence
+- attack.privilege_escalation
+- car.2013-09-005
+- attack.t1543.003
+title: Service Installation with Suspicious Folder Pattern

@@ -1,0 +1,29 @@
+author: Markus Neis
+category: process_creation
+date: 2019/01/16
+description: Detects installation of a new shim using sdbinst.exe. A shim can be used
+  to load malicious DLLs into applications.
+detection:
+  condition: selection and not filter
+  filter:
+    winlog.event_data.CommandLine|contains: iisexpressshim.sdb
+  selection:
+    winlog.event_data.CommandLine|contains: .sdb
+    winlog.event_data.Image|endswith: \sdbinst.exe
+falsepositives:
+- Unknown
+id: 517490a7-115a-48c6-8862-1a481504d5a8
+level: high
+logsource:
+  category: process_creation
+  product: windows
+modified: 2021/08/14
+product: windows
+references:
+- https://www.fireeye.com/blog/threat-research/2017/05/fin7-shim-databases-persistence.html
+status: experimental
+tags:
+- attack.persistence
+- attack.privilege_escalation
+- attack.t1546.011
+title: Possible Shim Database Persistence via sdbinst.exe

@@ -1,0 +1,29 @@
+author: Antonlovesdnb
+category: image_load
+date: 2020/02/19
+description: Detects any GAC DLL being loaded by an Office Product
+detection:
+  condition: selection
+  selection:
+    winlog.event_data.ImageLoaded|startswith: C:\Windows\Microsoft.NET\assembly\GAC_MSIL
+    winlog.event_data.Image|endswith:
+    - \winword.exe
+    - \powerpnt.exe
+    - \excel.exe
+    - \outlook.exe
+falsepositives:
+- Alerts on legitimate macro usage as well, will need to filter as appropriate
+id: 90217a70-13fc-48e4-b3db-0d836c5824ac
+level: high
+logsource:
+  category: image_load
+  product: windows
+modified: 2021/11/27
+product: windows
+references:
+- https://medium.com/threatpunter/detecting-adversary-tradecraft-with-image-load-event-logging-and-eql-8de93338c16
+status: test
+tags:
+- attack.execution
+- attack.t1204.002
+title: GAC DLL Loaded Via Office Applications

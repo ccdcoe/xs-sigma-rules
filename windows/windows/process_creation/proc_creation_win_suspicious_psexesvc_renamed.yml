@@ -1,0 +1,26 @@
+author: FLorian Roth
+category: process_creation
+date: 2022/07/21
+description: Detects suspicious launch of a renamed version of the PSEXESVC service
+  with, which is not often used by legitimate administrators
+detection:
+  condition: selection and not filter
+  filter:
+    winlog.event_data.Image: C:\Windows\PSEXESVC.exe
+  selection:
+    winlog.event_data.OriginalFileName: psexesvc.exe
+falsepositives:
+- Legitimate administrative tasks
+id: 51ae86a2-e2e1-4097-ad85-c46cb6851de4
+level: high
+logsource:
+  category: process_creation
+  product: windows
+product: windows
+references:
+- https://docs.microsoft.com/en-us/sysinternals/downloads/psexec
+- https://www.youtube.com/watch?v=ro2QuZTIMBM
+status: experimental
+tags:
+- attack.execution
+title: Renamed PsExec Service Execution

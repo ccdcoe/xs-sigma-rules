@@ -1,0 +1,24 @@
+author: Austin Songer
+date: 2021/09/21
+description: Identifies when a new cloudshell is created inside of Azure portal.
+detection:
+  condition: selection
+  selection:
+    operationName: MICROSOFT.PORTAL/CONSOLES/WRITE
+falsepositives:
+- A new cloudshell may be created by a system administrator.
+id: 72af37e2-ec32-47dc-992b-bc288a2708cb
+level: medium
+logsource:
+  product: azure
+  service: activitylogs
+modified: 2022/08/23
+product: azure
+references:
+- https://docs.microsoft.com/en-us/azure/role-based-access-control/resource-provider-operations
+service: activitylogs
+status: experimental
+tags:
+- attack.execution
+- attack.t1059
+title: Azure New CloudShell Created

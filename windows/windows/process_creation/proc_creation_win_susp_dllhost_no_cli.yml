@@ -1,0 +1,30 @@
+author: Nasreddine Bencherchali
+category: process_creation
+date: 2022/06/27
+description: Detects a "dllhost" spawning with no commandline arguments which is a
+  very rare thing to happen and could indicate process injection activity or malware
+  mimicking similar system processes
+detection:
+  condition: selection
+  selection:
+    winlog.event_data.CommandLine|endswith: dllhost.exe
+    winlog.event_data.Image|endswith: \dllhost.exe
+falsepositives:
+- Unlikely
+fields:
+- winlog.event_data.CommandLine
+- winlog.event_data.ParentCommandLine
+id: e7888eb1-13b0-4616-bd99-4bc0c2b054b9
+level: high
+logsource:
+  category: process_creation
+  product: windows
+product: windows
+references:
+- https://redcanary.com/blog/child-processes/
+- https://nasbench.medium.com/what-is-the-dllhost-exe-process-actually-running-ef9fe4c19c08
+status: experimental
+tags:
+- attack.defense_evasion
+- attack.t1055
+title: Dllhost Process With No CommandLine

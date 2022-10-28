@@ -1,0 +1,30 @@
+author: Nasreddine Bencherchali
+category: registry_set
+date: 2022/07/21
+description: 'Detects when an attacker modifies the "REG_MULTI_SZ" value named "Extensions"
+  to include a custom DLL to achieve persistence via lsass.
+
+  The "Extensions" list contains filenames of DLLs being automatically loaded by lsass.exe.
+  Each DLL has its InitializeLsaExtension() method called after loading.
+
+  '
+detection:
+  condition: selection
+  selection:
+    winlog.event_data.EventType: SetValue
+    winlog.event_data.TargetObject|contains: \SYSTEM\CurrentControlSet\Control\LsaExtensionConfig\LsaSrv\Extensions
+falsepositives:
+- Unlikely
+id: 41f6531d-af6e-4c6e-918f-b946f2b85a36
+level: high
+logsource:
+  category: registry_set
+  product: windows
+product: windows
+references:
+- https://persistence-info.github.io/Data/lsaaextension.html
+- https://twitter.com/0gtweet/status/1476286368385019906
+status: experimental
+tags:
+- attack.persistence
+title: Persistence Via LSA Extensions

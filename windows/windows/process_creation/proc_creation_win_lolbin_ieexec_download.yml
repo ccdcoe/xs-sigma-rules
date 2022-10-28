@@ -1,0 +1,25 @@
+author: Nasreddine Bencherchali
+category: process_creation
+date: 2022/05/16
+description: Detects execution of the IEExec utility to download payloads
+detection:
+  condition: lolbas and remote
+  lolbas:
+  - winlog.event_data.Image|endswith: \IEExec.exe
+  - winlog.event_data.OriginalFileName: IEExec.exe
+  remote:
+    winlog.event_data.CommandLine|contains:
+    - https://
+    - http://
+falsepositives:
+- Unknown
+id: 9801abb8-e297-4dbf-9fbd-57dde0e830ad
+level: high
+logsource:
+  category: process_creation
+  product: windows
+product: windows
+references:
+- https://lolbas-project.github.io/lolbas/Binaries/Ieexec/
+status: experimental
+title: Abusing IEExec To Download Payloads

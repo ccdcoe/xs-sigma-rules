@@ -1,0 +1,64 @@
+author: Florian Roth
+category: process_creation
+date: 2022/03/11
+description: Detects suspicious process patterns used in NTDS.DIT exfiltration
+detection:
+  condition: 1 of selection* or all of set1*
+  selection_oneliner_1:
+    winlog.event_data.CommandLine|contains|all:
+    - ac i ntds
+    - create full
+  selection_onliner_2:
+    winlog.event_data.CommandLine|contains|all:
+    - '/c copy '
+    - \windows\ntds\ntds.dit
+  selection_powershell:
+    winlog.event_data.CommandLine|contains|all:
+    - powershell
+    - ntds.dit
+  selection_tool:
+  - winlog.event_data.Image|endswith:
+    - \NTDSDump.exe
+    - \NTDSDumpEx.exe
+  - winlog.event_data.CommandLine|contains|all:
+    - ntds.dit
+    - system.hiv
+  - winlog.event_data.CommandLine|contains: NTDSgrab.ps1
+  set1_selection_image_folder:
+  - winlog.event_data.ParentImage|contains:
+    - \apache
+    - \tomcat
+    - \AppData\
+    - \Temp\
+    - \Public\
+    - \PerfLogs\
+  - winlog.event_data.Image|contains:
+    - \apache
+    - \tomcat
+    - \AppData\
+    - \Temp\
+    - \Public\
+    - \PerfLogs\
+  set1_selection_ntds_dit:
+    winlog.event_data.CommandLine|contains: ntds.dit
+falsepositives:
+- Unknown
+id: 8bc64091-6875-4881-aaf9-7bd25b5dda08
+level: high
+logsource:
+  category: process_creation
+  product: windows
+product: windows
+references:
+- https://www.ired.team/offensive-security/credential-access-and-credential-dumping/ntds.dit-enumeration
+- https://www.n00py.io/2022/03/manipulating-user-passwords-without-mimikatz/
+- https://pentestlab.blog/tag/ntds-dit/
+- https://github.com/samratashok/nishang/blob/414ee1104526d7057f9adaeee196d91ae447283e/Gather/Copy-VSS.ps1
+- https://github.com/zcgonvh/NTDSDumpEx
+- https://github.com/rapid7/metasploit-framework/blob/d297adcebb5c1df6fe30b12ca79b161deb71571c/data/post/powershell/NTDSgrab.ps1
+- https://blog.talosintelligence.com/2022/08/recent-cyber-attack.html?m=1
+status: experimental
+tags:
+- attack.credential_access
+- attack.t1003.003
+title: Suspicious Process Patterns NTDS.DIT Exfil

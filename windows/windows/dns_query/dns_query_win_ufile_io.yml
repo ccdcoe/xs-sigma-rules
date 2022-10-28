@@ -1,0 +1,23 @@
+author: yatinwad and TheDFIRReport
+category: dns_query
+date: 2022/06/23
+description: Detects DNS queries for subdomains used for upload to ufile.io
+detection:
+  condition: selection
+  selection:
+    QueryName|contains: ufile.io
+falsepositives:
+- Legitimate Ufile upload
+id: 1cbbeaaf-3c8c-4e4c-9d72-49485b6a176b
+level: high
+logsource:
+  category: dns_query
+  product: windows
+product: windows
+references:
+- https://thedfirreport.com/2021/12/13/diavol-ransomware/
+status: experimental
+tags:
+- attack.exfiltration
+- attack.t1567.002
+title: DNS Query for Ufile.io Upload Domain

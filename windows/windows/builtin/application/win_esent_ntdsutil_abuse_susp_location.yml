@@ -1,0 +1,35 @@
+author: Nasreddine Bencherchali
+date: 2022/08/14
+description: Detects potential abuse of ntdsutil to dump ntds.dit database to a suspicious
+  location
+detection:
+  condition: all of selection_*
+  selection_paths:
+    Data|contains:
+    - \Users\Public\
+    - \Perflogs\
+    - \Temp\
+    - \Appdata\
+    - \Desktop\
+    - \Downloads\
+    - C:\ntds.dit
+  selection_root:
+    Data|contains: ntds.dit
+    Provider_Name: ESENT
+    winlog.event_id: 325
+falsepositives:
+- Legitimate backup operation/creating shadow copies
+id: 94dc4390-6b7c-4784-8ffc-335334404650
+level: medium
+logsource:
+  product: windows
+  service: application
+product: windows
+references:
+- https://twitter.com/mgreen27/status/1558223256704122882
+- https://docs.microsoft.com/en-us/previous-versions/windows/it-pro/windows-server-2012-r2-and-2012/jj574207(v=ws.11)
+service: application
+status: experimental
+tags:
+- attack.execution
+title: Dump Ntds.dit To Suspicious Location

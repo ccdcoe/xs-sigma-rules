@@ -1,0 +1,30 @@
+author: frack113
+category: ps_script
+date: 2021/09/02
+definition: Script block logging must be enabled
+description: Storing files in Alternate Data Stream (ADS) similar to Astaroth malware.
+detection:
+  condition: selection_compspec
+  selection_compspec:
+    winlog.event_data.ScriptBlockText|contains|all:
+    - Start-Process
+    - '-FilePath "$env:comspec" '
+    - '-ArgumentList '
+    - '>'
+falsepositives:
+- Unknown
+id: a699b30e-d010-46c8-bbd1-ee2e26765fe9
+level: medium
+logsource:
+  category: ps_script
+  definition: Script block logging must be enabled
+  product: windows
+modified: 2021/10/16
+product: windows
+references:
+- https://github.com/redcanaryco/atomic-red-team/blob/f339e7da7d05f6057fdfcdd3742bfcf365fee2a9/atomics/T1564.004/T1564.004.md
+status: experimental
+tags:
+- attack.defense_evasion
+- attack.t1564.004
+title: Powershell Store File In Alternate Data Stream

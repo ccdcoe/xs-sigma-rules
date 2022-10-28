@@ -1,0 +1,46 @@
+author: Teymur Kheirkhabarov (idea), Ryan Plas (rule), oscd.community
+category: process_creation
+date: 2020/10/05
+description: Search for usage of reg or Powershell by non-privileged users to modify
+  service configuration in registry
+detection:
+  condition: (reg or powershell) and select_data
+  powershell:
+    winlog.event_data.CommandLine|contains:
+    - powershell
+    - set-itemproperty
+    - ' sp '
+    - new-itemproperty
+  reg:
+    winlog.event_data.CommandLine|contains|all:
+    - 'reg '
+    - add
+  select_data:
+    winlog.event_data.CommandLine|contains:
+    - FailureCommand
+    - ServiceDLL
+    - winlog.event_data.ImagePath
+    winlog.event_data.CommandLine|contains|all:
+    - ControlSet
+    - Services
+    winlog.event_data.IntegrityLevel: Medium
+falsepositives:
+- Unknown
+fields:
+- winlog.event_id
+- winlog.event_data.IntegrityLevel
+- winlog.event_data.CommandLine
+id: 8f02c935-effe-45b3-8fc9-ef8696a9e41d
+level: high
+logsource:
+  category: process_creation
+  product: windows
+modified: 2022/07/07
+product: windows
+references:
+- https://image.slidesharecdn.com/kheirkhabarovoffzonefinal-181117201458/95/hunting-for-privilege-escalation-in-windows-environment-20-638.jpg
+status: test
+tags:
+- attack.defense_evasion
+- attack.t1112
+title: Non-privileged Usage of Reg or Powershell

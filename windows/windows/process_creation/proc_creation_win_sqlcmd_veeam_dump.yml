@@ -1,0 +1,29 @@
+author: frack113
+category: process_creation
+date: 2021/12/20
+description: Detects dump of credentials in VeeamBackup dbo
+detection:
+  condition: all of selection*
+  selection_query:
+    winlog.event_data.CommandLine|contains|all:
+    - SELECT
+    - TOP
+    - '[VeeamBackup].[dbo].[Credentials]'
+  selection_tools:
+    winlog.event_data.Image|endswith: \sqlcmd.exe
+falsepositives:
+- Unknown
+id: b57ba453-b384-4ab9-9f40-1038086b4e53
+level: high
+logsource:
+  category: process_creation
+  product: windows
+product: windows
+references:
+- https://thedfirreport.com/2021/12/13/diavol-ransomware/
+- https://forums.veeam.com/veeam-backup-replication-f2/recover-esxi-password-in-veeam-t34630.html
+status: experimental
+tags:
+- attack.collection
+- attack.t1005
+title: VeeamBackup Database Credentials Dump

@@ -1,0 +1,24 @@
+author: frack113
+category: process_creation
+date: 2022/01/02
+description: Adversaries may abuse Visual Basic (VB) for execution
+detection:
+  condition: selection
+  selection:
+    winlog.event_data.CommandLine|contains: .vbs
+    winlog.event_data.Image|endswith: \cscript.exe
+falsepositives:
+- Unknown
+id: 23250293-eed5-4c39-b57a-841c8933a57d
+level: medium
+logsource:
+  category: process_creation
+  product: windows
+product: windows
+references:
+- https://github.com/redcanaryco/atomic-red-team/blob/f339e7da7d05f6057fdfcdd3742bfcf365fee2a9/atomics/T1059.005/T1059.005.md
+status: experimental
+tags:
+- attack.execution
+- attack.t1059.005
+title: Cscript Visual Basic Script Execution

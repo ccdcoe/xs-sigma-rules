@@ -20,11 +20,12 @@ level: medium
 logsource:
   product: linux
   service: auditd
+modified: 2021/11/27
 product: linux
 references:
-- https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1070.006/T1070.006.md
+- https://github.com/redcanaryco/atomic-red-team/blob/f339e7da7d05f6057fdfcdd3742bfcf365fee2a9/atomics/T1070.006/T1070.006.md
 service: auditd
-status: experimental
+status: test
 tags:
 - attack.defense_evasion
 - attack.t1070.006

@@ -1,0 +1,33 @@
+author: Florian Roth, Tigzy
+category: process_creation
+date: 2021/11/17
+description: Detects a suspicious winrar execution in a folder which is not the default
+  installation folder
+detection:
+  condition: selection and not filter
+  filter:
+    winlog.event_data.Image|contains:
+    - \WinRAR
+    - C:\Windows\Temp
+    - \UnRAR.exe
+  selection:
+  - winlog.event_data.Image|endswith:
+    - \rar.exe
+    - \winrar.exe
+  - winlog.event_data.Description: Command line RAR
+falsepositives:
+- Legitimate use of WinRAR in a folder of a software that bundles WinRAR
+id: 4ede543c-e098-43d9-a28f-dd784a13132f
+level: high
+logsource:
+  category: process_creation
+  product: windows
+modified: 2021/11/22
+product: windows
+references:
+- https://twitter.com/cyb3rops/status/1460978167628406785
+status: experimental
+tags:
+- attack.collection
+- attack.t1560.001
+title: Winrar Execution in Non-Standard Folder

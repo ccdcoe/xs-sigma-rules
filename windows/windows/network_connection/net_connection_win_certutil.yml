@@ -1,0 +1,32 @@
+author: frack113, Florian Roth
+category: network_connection
+date: 2022/09/02
+description: Detects a network connection intitiated by the certutil.exe tool. Attackers
+  can abuse `certutil.exe` to download malware or offensive security tools.
+detection:
+  condition: all of selection*
+  selection_certutil:
+  - winlog.event_data.Image|endswith: \certutil.exe
+  - OriginalFilename: CertUtil.exe
+  selection_network:
+    Initiated: 'true'
+    winlog.event_data.DestinationPort:
+    - 80
+    - 443
+    - 135
+    - 445
+falsepositives:
+- Legitimate certutil network connection
+id: 0dba975d-a193-4ed1-a067-424df57570d1
+level: high
+logsource:
+  category: network_connection
+  product: windows
+product: windows
+references:
+- https://docs.microsoft.com/en-us/windows-server/administration/windows-commands/certutil
+status: experimental
+tags:
+- attack.command_and_control
+- attack.t1105
+title: Certutil Initiated Connection

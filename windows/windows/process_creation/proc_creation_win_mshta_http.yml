@@ -1,0 +1,33 @@
+author: Nasreddine Bencherchali
+category: process_creation
+date: 2022/08/08
+description: Detects execution of the "mshta" utility with an argument containing
+  the "http" keyword, which could indicate that an attacker is executing a remotely
+  hosted malicious hta file
+detection:
+  condition: all of selection_*
+  selection_cli:
+    winlog.event_data.CommandLine|contains:
+    - http://
+    - https://
+    - ftp://
+  selection_img:
+  - winlog.event_data.Image|endswith: \mshta.exe
+  - winlog.event_data.OriginalFileName: MSHTA.EXE
+falsepositives:
+- Unknown
+id: b98d0db6-511d-45de-ad02-e82a98729620
+level: high
+logsource:
+  category: process_creation
+  product: windows
+modified: 2022/08/19
+product: windows
+references:
+- https://www.trendmicro.com/en_us/research/22/e/avoslocker-ransomware-variant-abuses-driver-file-to-disable-anti-Virus-scans-log4shell.html
+status: experimental
+tags:
+- attack.defense_evasion
+- attack.execution
+- attack.t1218.005
+title: Mshta Remotely Hosted HTA File Execution

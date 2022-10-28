@@ -1,0 +1,23 @@
+author: David ANDRE
+category: file_event
+date: 2021/12/20
+description: Detects Mimikatz MemSSP default log file creation
+detection:
+  condition: selection
+  selection:
+    winlog.event_data.TargetFilename|endswith: mimilsa.log
+falsepositives:
+- Unlikely
+id: 034affe8-6170-11ec-844f-0f78aa0c4d66
+level: critical
+logsource:
+  category: file_event
+  product: windows
+product: windows
+references:
+- https://pentestlab.blog/2019/10/21/persistence-security-support-provider/
+status: experimental
+tags:
+- attack.credential_access
+- attack.t1003
+title: Mimikatz MemSSP Default Log File Creation

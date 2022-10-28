@@ -1,0 +1,30 @@
+author: Nasreddine Bencherchali
+category: process_creation
+date: 2022/07/12
+description: Detects inline windows shell commands redirecting output via the ">"
+  symbol to a suspicious location
+detection:
+  condition: selection
+  selection:
+    winlog.event_data.CommandLine|contains|all:
+    - ' > %USERPROFILE%\'
+    - ' > %APPDATA%\'
+    - ' > \Users\Public\'
+    - ' > C:\Users\Public\'
+    - ' > %TEMP%\'
+    winlog.event_data.Image|endswith: \cmd.exe
+falsepositives:
+- Legitimate admin scripts
+id: 8e0bb260-d4b2-4fff-bb8d-3f82118e6892
+level: medium
+logsource:
+  category: process_creation
+  product: windows
+product: windows
+references:
+- https://thedfirreport.com/2022/07/11/select-xmrig-from-sqlserver/
+status: experimental
+tags:
+- attack.execution
+- attack.t1218
+title: Suspicious CMD Shell Redirect

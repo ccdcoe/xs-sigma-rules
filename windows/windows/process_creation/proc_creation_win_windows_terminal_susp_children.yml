@@ -1,0 +1,56 @@
+author: Nasreddine Bencherchali
+category: process_creation
+date: 2022/07/25
+description: Detects suspicious children spawned via the Windows Terminal application
+  which could be a sign of persistence via WindowsTerminal (see references section)
+detection:
+  condition: all of selection_* and not 1 of filter_*
+  filter_builtin_visual_studio_shell:
+    winlog.event_data.CommandLine|contains|all:
+    - Import-Module
+    - Microsoft.VisualStudio.DevShell.dll
+    - Enter-VsDevShell
+  filter_open_settings:
+    winlog.event_data.CommandLine|contains|all:
+    - \AppData\Local\Packages\Microsoft.WindowsTerminal_
+    - \LocalState\settings.json
+  selection_parent:
+    winlog.event_data.ParentImage|endswith: \WindowsTerminal.exe
+  selection_susp:
+  - winlog.event_data.Image|endswith:
+    - \rundll32.exe
+    - \regsvr32.exe
+    - \certutil.exe
+    - \cscript.exe
+    - \wscript.exe
+    - \csc.exe
+  - winlog.event_data.Image|contains:
+    - C:\Users\Public\
+    - \Downloads\
+    - \Desktop\
+    - \AppData\Local\Temp\
+    - \Windows\TEMP\
+  - winlog.event_data.CommandLine|contains:
+    - ' iex '
+    - Invoke-
+    - Import-Module
+    - DownloadString(
+    - ' /c '
+    - ' /k '
+falsepositives:
+- Other legitimate "Windows Terminal" profiles
+id: 8de89e52-f6e1-4b5b-afd1-41ecfa300d48
+level: medium
+logsource:
+  category: process_creation
+  product: windows
+modified: 2022/07/27
+product: windows
+references:
+- https://persistence-info.github.io/Data/windowsterminalprofile.html
+- https://twitter.com/nas_bench/status/1550836225652686848
+status: experimental
+tags:
+- attack.execution
+- attack.persistence
+title: Suspicious WindowsTerminal Child Processes

@@ -9,8 +9,7 @@ description: Detects suspicious activities as declared by Florian Roth in its 'B
 detection:
   condition: selection
   selection:
-    key:
-    - susp_activity
+    key: susp_activity
 falsepositives:
 - Admin or User activity
 id: f7158a64-6204-4d6d-868a-6e6378b467e0
@@ -18,11 +17,12 @@ level: medium
 logsource:
   product: linux
   service: auditd
+modified: 2021/11/27
 product: linux
 references:
 - https://github.com/Neo23x0/auditd
 service: auditd
-status: experimental
+status: test
 tags:
 - attack.command_and_control
 title: Suspicious C2 Activities

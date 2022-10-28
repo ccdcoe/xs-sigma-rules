@@ -1,0 +1,35 @@
+author: Florian Roth
+category: registry_set
+date: 2017/05/08
+description: Detects the installation of a plugin DLL via ServerLevelPluginDll parameter
+  in Registry, which can be used to execute code in context of the DNS server (restart
+  required)
+detection:
+  condition: selection
+  selection:
+    winlog.event_data.EventType: SetValue
+    winlog.event_data.TargetObject|endswith: \services\DNS\Parameters\ServerLevelPluginDll
+falsepositives:
+- Unknown
+fields:
+- winlog.event_id
+- winlog.event_data.CommandLine
+- winlog.event_data.ParentCommandLine
+- winlog.event_data.Image
+- winlog.event_data.User
+- winlog.event_data.TargetObject
+id: e61e8a88-59a9-451c-874e-70fcc9740d67
+level: high
+logsource:
+  category: registry_set
+  product: windows
+modified: 2022/08/23
+product: windows
+references:
+- https://medium.com/@esnesenon/feature-not-bug-dnsadmin-to-dc-compromise-in-one-line-a0f779b8dc83
+status: experimental
+tags:
+- attack.defense_evasion
+- attack.t1574.002
+- attack.t1112
+title: DNS ServerLevelPluginDll Install

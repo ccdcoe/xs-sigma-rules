@@ -1,0 +1,27 @@
+author: Furkan Caliskan (@caliskanfurkan_)
+category: process_creation
+date: 2020/07/04
+description: Detects the use of Ditsnap tool. Seems to be a tool for ransomware groups.
+detection:
+  condition: selection or selection2
+  selection:
+    winlog.event_data.Image|endswith: \ditsnap.exe
+  selection2:
+    winlog.event_data.CommandLine|contains: ditsnap.exe
+falsepositives:
+- Legitimate admin usage
+id: d3b70aad-097e-409c-9df2-450f80dc476b
+level: high
+logsource:
+  category: process_creation
+  product: windows
+modified: 2021/11/27
+product: windows
+references:
+- https://thedfirreport.com/2020/06/21/snatch-ransomware/
+- https://github.com/yosqueoy/ditsnap
+status: test
+tags:
+- attack.credential_access
+- attack.t1003.003
+title: DIT Snapshot Viewer Use

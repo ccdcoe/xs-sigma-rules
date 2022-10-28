@@ -1,0 +1,35 @@
+author: Roberto Rodriguez (Cyb3rWard0g), OTR (Open Threat Research)
+category: image_load
+date: 2019/09/12
+description: Detects alternate PowerShell hosts potentially bypassing detections looking
+  for powershell.exe
+detection:
+  condition: selection and not filter
+  filter:
+  - winlog.event_data.Image|endswith:
+    - \powershell.exe
+    - \mscorsvw.exe
+  - winlog.event_data.Image|startswith:
+    - C:\Program Files (x86)\Microsoft Visual Studio\
+    - C:\Program Files\Microsoft Visual Studio\
+    - C:\Windows\System32\
+    - C:\Program Files\Citrix\ConfigSync\
+  selection:
+    winlog.event_data.Description: System.Management.Automation
+    winlog.event_data.ImageLoaded|contains: System.Management.Automation
+falsepositives:
+- Unknown
+id: fe6e002f-f244-4278-9263-20e4b593827f
+level: low
+logsource:
+  category: image_load
+  product: windows
+modified: 2022/02/21
+product: windows
+references:
+- https://threathunterplaybook.com/notebooks/windows/02_execution/WIN-190610201010.html
+status: experimental
+tags:
+- attack.execution
+- attack.t1059.001
+title: Alternate PowerShell Hosts

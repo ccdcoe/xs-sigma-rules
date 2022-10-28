@@ -1,0 +1,36 @@
+author: FPT.EagleEye
+category: process_creation
+date: 2020/12/25
+description: Detecting Emotet DLL loading by looking for rundll32.exe processes with
+  command lines ending in ,RunDLL or ,Control_RunDLL
+detection:
+  condition: selection and not filter_ide and not filter_legitimate_dll
+  filter_ide:
+    winlog.event_data.ParentImage|endswith: \tracker.exe
+  filter_legitimate_dll:
+    winlog.event_data.CommandLine|endswith:
+    - .dll,Control_RunDLL
+    - .dll",Control_RunDLL
+    - .dll',Control_RunDLL
+  selection:
+    winlog.event_data.CommandLine|endswith:
+    - ',RunDLL'
+    - ',Control_RunDLL'
+    winlog.event_data.Image|endswith: \rundll32.exe
+falsepositives:
+- Unknown
+id: 54e57ce3-0672-46eb-a402-2c0948d5e3e9
+level: critical
+logsource:
+  category: process_creation
+  product: windows
+modified: 2021/11/17
+product: windows
+references:
+- https://paste.cryptolaemus.com/emotet/2020/12/22/emotet-malware-IoCs_12-22-20.html
+- https://cyber.wtf/2021/11/15/guess-whos-back/
+status: test
+tags:
+- attack.defense_evasion
+- attack.t1218.011
+title: Emotet RunDLL32 Process Creation

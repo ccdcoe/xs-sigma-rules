@@ -1,0 +1,30 @@
+author: E.M. Anhaus (originally from Atomic Blue Detections, Dan Beavin), oscd.community
+category: process_creation
+date: 2019/10/24
+description: Identifies usage of hh.exe executing recently modified .chm files.
+detection:
+  condition: selection
+  selection:
+    winlog.event_data.CommandLine|contains: .chm
+    winlog.event_data.Image|endswith: \hh.exe
+falsepositives:
+- Unlikely
+fields:
+- winlog.ComputerName
+- winlog.event_data.User
+- winlog.event_data.CommandLine
+id: 68c8acb4-1b60-4890-8e82-3ddf7a6dba84
+level: high
+logsource:
+  category: process_creation
+  product: windows
+modified: 2021/11/27
+product: windows
+references:
+- https://github.com/redcanaryco/atomic-red-team/blob/f339e7da7d05f6057fdfcdd3742bfcf365fee2a9/atomics/T1218.001/T1218.001.md
+- https://eqllib.readthedocs.io/en/latest/analytics/b25aa548-7937-11e9-8f5c-d46d6d62a49e.html
+status: test
+tags:
+- attack.defense_evasion
+- attack.t1218.001
+title: HH.exe Execution

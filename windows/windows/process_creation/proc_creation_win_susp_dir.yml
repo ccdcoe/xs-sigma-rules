@@ -1,0 +1,28 @@
+author: frack113
+category: process_creation
+date: 2021/12/13
+description: Detects usage of the "dir" command that's part of windows batch/cmd to
+  collect information about directories
+detection:
+  condition: selection
+  selection:
+    winlog.event_data.CommandLine|contains|all:
+    - 'dir '
+    - ' /s'
+    - ' /b'
+falsepositives:
+- Unknown
+id: 7c9340a9-e2ee-4e43-94c5-c54ebbea1006
+level: low
+logsource:
+  category: process_creation
+  product: windows
+modified: 2022/07/11
+product: windows
+references:
+- https://github.com/redcanaryco/atomic-red-team/blob/f339e7da7d05f6057fdfcdd3742bfcf365fee2a9/atomics/T1217/T1217.md
+status: experimental
+tags:
+- attack.discovery
+- attack.t1217
+title: Suspicious DIR Execution

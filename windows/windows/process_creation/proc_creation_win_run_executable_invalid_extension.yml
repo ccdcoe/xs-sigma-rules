@@ -1,0 +1,46 @@
+author: Tim Shelton, Florian Roth, Yassine Oukessou (fix + fp)
+category: process_creation
+date: 2022/01/13
+description: Detects the execution of rundll32 with a command line that doesn't contain
+  a .dll file
+detection:
+  condition: selection and not 1 of filter*
+  filter:
+  - winlog.event_data.CommandLine|contains: .dll
+  - winlog.event_data.CommandLine: ''
+  filter_empty:
+    winlog.event_data.CommandLine: null
+  filter_iexplorer:
+    winlog.event_data.CommandLine|contains: .cpl
+    winlog.event_data.ParentImage|endswith: :\Program Files\Internet Explorer\iexplore.exe
+  filter_localserver_fp:
+    winlog.event_data.CommandLine|contains: ' -localserver '
+  filter_msiexec_system32:
+    winlog.event_data.ParentCommandLine|startswith: C:\Windows\system32\MsiExec.exe
+      -Embedding
+    winlog.event_data.ParentImage|endswith: :\Windows\System32\msiexec.exe
+  filter_msiexec_syswow64:
+    winlog.event_data.ParentCommandLine|startswith: C:\Windows\syswow64\MsiExec.exe
+      -Embedding
+    winlog.event_data.ParentImage|endswith: :\Windows\SysWOW64\msiexec.exe
+  filter_splunk_ufw:
+    winlog.event_data.ParentCommandLine|contains: ' C:\Program Files\SplunkUniversalForwarder\'
+    winlog.event_data.ParentImage|endswith: :\Windows\System32\cmd.exe
+  selection:
+    winlog.event_data.Image|endswith: \rundll32.exe
+falsepositives:
+- Unknown
+fields:
+- winlog.event_data.Image
+- winlog.event_data.CommandLine
+id: c3a99af4-35a9-4668-879e-c09aeb4f2bdf
+level: high
+logsource:
+  category: process_creation
+  product: windows
+modified: 2022/07/27
+product: windows
+references:
+- https://twitter.com/mrd0x/status/1481630810495139841?s=12
+status: experimental
+title: Rundll32 Execution Without DLL File

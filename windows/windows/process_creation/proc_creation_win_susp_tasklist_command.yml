@@ -1,0 +1,27 @@
+author: frack113
+category: process_creation
+date: 2021/12/11
+description: Adversaries may attempt to get information about running processes on
+  a system. Information obtained could be used to gain an understanding of common
+  software/applications running on systems within the network
+detection:
+  condition: selection
+  selection:
+  - winlog.event_data.CommandLine|contains: tasklist
+  - winlog.event_data.Image|endswith: \tasklist.exe
+  - winlog.event_data.OriginalFileName: tasklist.exe
+falsepositives:
+- Administrator, hotline ask to user
+id: 63332011-f057-496c-ad8d-d2b6afb27f96
+level: low
+logsource:
+  category: process_creation
+  product: windows
+product: windows
+references:
+- https://github.com/redcanaryco/atomic-red-team/blob/f339e7da7d05f6057fdfcdd3742bfcf365fee2a9/atomics/T1057/T1057.md#atomic-test-2---process-discovery---tasklist
+status: experimental
+tags:
+- attack.discovery
+- attack.t1057
+title: Suspicious Tasklist Discovery Command

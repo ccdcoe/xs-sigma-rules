@@ -1,0 +1,33 @@
+author: Andreas Hunkeler (@Karneades)
+category: process_creation
+date: 2021/12/20
+description: Detection of sc.exe utility adding a new service with special permission
+  which hides that service.
+detection:
+  condition: all of selection_*
+  selection_cli:
+    winlog.event_data.CommandLine|contains|all:
+    - sdset
+    - DCLCWPDTSD
+  selection_img:
+  - winlog.event_data.Image|endswith: \sc.exe
+  - winlog.event_data.OriginalFileName: sc.exe
+falsepositives:
+- Rare intended use of hidden services
+id: a537cfc3-4297-4789-92b5-345bfd845ad0
+level: high
+logsource:
+  category: process_creation
+  product: windows
+modified: 2022/08/08
+product: windows
+references:
+- https://blog.talosintelligence.com/2021/10/threat-hunting-in-large-datasets-by.html
+- https://www.sans.org/blog/red-team-tactics-hiding-windows-services/
+status: experimental
+tags:
+- attack.persistence
+- attack.defense_evasion
+- attack.privilege_escalation
+- attack.t1574.011
+title: Abuse of Service Permissions to Hide Services in Tools

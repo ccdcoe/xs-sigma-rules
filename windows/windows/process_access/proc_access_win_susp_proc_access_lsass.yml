@@ -1,0 +1,103 @@
+author: Florian Roth
+category: process_access
+date: 2021/11/22
+description: Detects process access to LSASS memory with suspicious access flags
+detection:
+  condition: selection and not 1 of filter*
+  filter1:
+    winlog.event_data.SourceImage|endswith: \MsMpEng.exe
+    winlog.event_data.SourceImage|startswith: C:\ProgramData\Microsoft\Windows Defender\
+  filter2:
+    winlog.event_data.SourceImage|endswith: \vmtoolsd.exe
+    winlog.event_data.SourceImage|startswith: C:\ProgramData\VMware\VMware Tools\
+  filter3:
+    winlog.event_data.SourceImage|contains: Antivirus
+    winlog.event_data.SourceImage|startswith:
+    - C:\Program Files\
+    - C:\Program Files (x86)\
+  filter_absolute:
+    winlog.event_data.SourceImage:
+    - C:\WINDOWS\system32\taskmgr.exe
+    - C:\Program Files\Malwarebytes\Anti-Malware\MBAMService.exe
+    - C:\PROGRAMDATA\MALWAREBYTES\MBAMSERVICE\ctlrupdate\mbupdatr.exe
+    - C:\WINDOWS\system32\taskhostw.exe
+    - C:\Users\\*\AppData\Local\Programs\Microsoft VS Code\Code.exe
+    - C:\Program Files\Windows Defender\MsMpEng.exe
+    - C:\Windows\SysWOW64\msiexec.exe
+    - C:\Windows\System32\msiexec.exe
+    - C:\Windows\System32\lsass.exe
+    - C:\WINDOWS\System32\perfmon.exe
+    - C:\Windows\System32\MRT.exe
+    - C:\Program Files\Cisco\Cisco AnyConnect Secure Mobility Client\vpnagent.exe
+    - C:\Program Files (x86)\Cisco\Cisco AnyConnect Secure Mobility Client\vpnagent.exe
+  filter_mcafee:
+    winlog.event_data.SourceImage: C:\Program Files\Common Files\McAfee\MMSSHost\MMSSHOST.exe
+  filter_mrt:
+    winlog.event_data.GrantedAccess: '0x1418'
+    winlog.event_data.SourceImage: C:\WINDOWS\system32\MRT.exe
+  filter_nextron:
+    winlog.event_data.GrantedAccess: '0x1fffff'
+    winlog.event_data.SourceImage|endswith:
+    - \thor64.exe
+    - \thor.exe
+    winlog.event_data.SourceImage|startswith: C:\Windows\Temp\asgard2-agent\
+  filter_windefend2:
+    winlog.event_data.CallTrace|contains|all:
+    - '|C:\ProgramData\Microsoft\Windows Defender\Definition Updates\{'
+    - '}\mpengine.dll+'
+    winlog.event_data.GrantedAccess: '0x1418'
+  selection:
+    winlog.event_data.GrantedAccess|endswith:
+    - '30'
+    - '50'
+    - '70'
+    - '90'
+    - B0
+    - D0
+    - F0
+    - '18'
+    - '38'
+    - '58'
+    - '78'
+    - '98'
+    - B8
+    - D8
+    - F8
+    - 1A
+    - 3A
+    - 5A
+    - 7A
+    - 9A
+    - BA
+    - DA
+    - FA
+    - '0x14C2'
+    winlog.event_data.TargetImage|endswith: \lsass.exe
+falsepositives:
+- Legitimate software accessing LSASS process for legitimate reason
+fields:
+- winlog.event_data.User
+- winlog.event_data.SourceImage
+- winlog.event_data.GrantedAccess
+id: a18dd26b-6450-46de-8c91-9659150cf088
+level: high
+logsource:
+  category: process_access
+  product: windows
+modified: 2022/06/20
+product: windows
+references:
+- https://docs.microsoft.com/en-us/windows/win32/procthread/process-security-and-access-rights
+- https://onedrive.live.com/view.aspx?resid=D026B4699190F1E6!2843&ithint=file%2cpptx&app=PowerPoint&authkey=!AMvCRTKB_V1J5ow
+- https://cyberwardog.blogspot.com/2017/03/chronicles-of-threat-hunter-hunting-for_22.html
+- https://www.slideshare.net/heirhabarov/hunting-for-credentials-dumping-in-windows-environment
+- http://security-research.dyndns.org/pub/slides/FIRST2017/FIRST-2017_Tom-Ueltschi_Sysmon_FINAL_notes.pdf
+related:
+- id: 32d0d3e2-e58d-4d41-926b-18b520b2b32d
+  type: obsoletes
+status: experimental
+tags:
+- attack.credential_access
+- attack.t1003.001
+- attack.s0002
+title: Suspicious GrantedAccess Flags on LSASS Access

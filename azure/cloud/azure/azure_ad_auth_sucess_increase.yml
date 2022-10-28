@@ -1,0 +1,25 @@
+author: Mark Morowczynski '@markmorow', MikeDuddington, '@dudders1', Tim Shelton
+date: 2022/08/11
+description: Detects when successful sign-ins increased by 10% or greater.
+detection:
+  condition: selection
+  selection:
+    Count: <10%
+    Status: Success
+falsepositives:
+- Increase of users in the environment
+id: 67d5f8fc-8325-44e4-8f5f-7c0ac07cb5ae
+level: low
+logsource:
+  product: azure
+  service: signinlogs
+modified: 2022/08/18
+product: azure
+references:
+- https://docs.microsoft.com/en-us/azure/active-directory/fundamentals/security-operations-user-accounts#monitoring-for-successful-unusual-sign-ins
+service: signinlogs
+status: experimental
+tags:
+- attack.valid_accounts
+- attack.t1078
+title: Measurable Increase Of Successful Authentications

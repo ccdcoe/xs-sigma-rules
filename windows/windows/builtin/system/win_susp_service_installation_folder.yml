@@ -1,0 +1,29 @@
+author: pH-T
+date: 2022/03/18
+description: Detects service installation in suspicious folder appdata
+detection:
+  condition: selection and 1 of suspicious*
+  selection:
+    Provider_Name: Service Control Manager
+    winlog.event_id: 7045
+  suspicious1:
+    winlog.event_data.ImagePath|contains:
+    - \AppData\
+    - \\\\127.0.0.1
+    - \\\\localhost
+falsepositives:
+- Unknown
+id: 5e993621-67d4-488a-b9ae-b420d08b96cb
+level: medium
+logsource:
+  product: windows
+  service: system
+product: windows
+service: system
+status: experimental
+tags:
+- attack.persistence
+- attack.privilege_escalation
+- car.2013-09-005
+- attack.t1543.003
+title: Service Installation in Suspicious Folder

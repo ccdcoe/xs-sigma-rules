@@ -1,0 +1,37 @@
+author: frack113
+category: image_load
+date: 2022/02/03
+description: Detects the load of advapi31.dll by a process running in an uncommon
+  folder
+detection:
+  condition: selection and not 1 of filter_*
+  filter_common:
+    winlog.event_data.Image|startswith:
+    - C:\Windows\
+    - C:\Program Files (x86)\
+    - C:\Program Files\
+  filter_defender:
+    winlog.event_data.Image|endswith: \MpCmdRun.exe
+    winlog.event_data.Image|startswith: C:\ProgramData\Microsoft\Windows Defender\platform\
+  filter_onedrive:
+    winlog.event_data.Image|contains: \AppData\Local\Microsoft\OneDrive\
+    winlog.event_data.Image|endswith: FileCoAuth.exe
+    winlog.event_data.Image|startswith: C:\Users\
+  selection:
+    winlog.event_data.ImageLoaded|endswith: \advapi32.dll
+falsepositives:
+- Unknown
+id: d813d662-785b-42ca-8b4a-f7457d78d5a9
+level: informational
+logsource:
+  category: image_load
+  product: windows
+modified: 2022/02/11
+product: windows
+references:
+- https://github.com/hlldz/Phant0m
+status: experimental
+tags:
+- attack.defense_evasion
+- attack.t1070
+title: Suspicious Load of Advapi31.dll

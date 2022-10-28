@@ -1,0 +1,93 @@
+author: Florian Roth
+category: process_creation
+date: 2022/03/17
+description: Detects certain parent child patterns found in cases in which a webshell
+  is used to perform certain credential dumping or exfiltration activities on a compromised
+  system
+detection:
+  condition: 1 of selection_webserver* and 1 of selection_child*
+  selection_child_1:
+    winlog.event_data.CommandLine|contains|all:
+    - rundll32
+    - comsvcs
+  selection_child_2:
+    winlog.event_data.CommandLine|contains|all:
+    - ' -hp'
+    - ' a '
+    - ' -m'
+  selection_child_3:
+    winlog.event_data.CommandLine|contains|all:
+    - net
+    - ' user '
+    - ' /add'
+  selection_child_4:
+    winlog.event_data.CommandLine|contains|all:
+    - net
+    - ' localgroup '
+    - ' administrators '
+    - /add
+  selection_child_5:
+    winlog.event_data.Image|endswith:
+    - \ntdsutil.exe
+    - \ldifde.exe
+    - \adfind.exe
+    - \procdump.exe
+    - \Nanodump.exe
+    - \vssadmin.exe
+    - \fsutil.exe
+  selection_child_6:
+    winlog.event_data.CommandLine|contains:
+    - ' -NoP '
+    - ' -W Hidden '
+    - ' -decode '
+    - ' /decode '
+    - 'reg save '
+    - .downloadstring(
+    - .downloadfile(
+    - FromBase64String
+    - ' /ticket:'
+    - ' sekurlsa'
+    - .dmp full
+    - process call create
+    - whoami /priv
+  selection_webserver_characteristics_tomcat1:
+    winlog.event_data.ParentImage|contains:
+    - -tomcat-
+    - \tomcat
+    winlog.event_data.ParentImage|endswith:
+    - \java.exe
+    - \javaw.exe
+  selection_webserver_characteristics_tomcat2:
+    winlog.event_data.CommandLine|contains:
+    - catalina.jar
+    - CATALINA_HOME
+    winlog.event_data.ParentImage|endswith:
+    - \java.exe
+    - \javaw.exe
+  selection_webserver_image:
+    winlog.event_data.ParentImage|endswith:
+    - \w3wp.exe
+    - \php-cgi.exe
+    - \nginx.exe
+    - \httpd.exe
+    - \caddy.exe
+    - \ws_tomcatservice.exe
+falsepositives:
+- Unlikely
+id: 4ebc877f-4612-45cb-b3a5-8e3834db36c9
+level: high
+logsource:
+  category: process_creation
+  product: windows
+modified: 2022/08/04
+product: windows
+references:
+- https://youtu.be/7aemGhaE9ds?t=641
+status: experimental
+tags:
+- attack.persistence
+- attack.t1505.003
+- attack.t1018
+- attack.t1033
+- attack.t1087
+title: Webshell Hacking Activity Patterns

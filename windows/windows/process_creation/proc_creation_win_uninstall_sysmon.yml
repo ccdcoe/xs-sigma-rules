@@ -1,0 +1,27 @@
+author: frack113
+category: process_creation
+date: 2022/01/12
+description: Detects the uninstallation of Sysinternals Sysmon, which could be the
+  result of legitimate administration or a manipulation for defense evasion
+detection:
+  condition: selection
+  selection:
+    winlog.event_data.CommandLine|contains: -u
+    winlog.event_data.Image|endswith:
+    - \Sysmon64.exe
+    - \Sysmon.exe
+falsepositives:
+- Unknown
+id: 6a5f68d1-c4b5-46b9-94ee-5324892ea939
+level: high
+logsource:
+  category: process_creation
+  product: windows
+product: windows
+references:
+- https://github.com/redcanaryco/atomic-red-team/blob/f339e7da7d05f6057fdfcdd3742bfcf365fee2a9/atomics/T1562.001/T1562.001.md#atomic-test-11---uninstall-sysmon
+status: experimental
+tags:
+- attack.defense_evasion
+- attack.t1562.001
+title: Uninstall Sysinternals Sysmon

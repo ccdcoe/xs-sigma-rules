@@ -20,11 +20,12 @@ level: high
 logsource:
   product: linux
   service: auditd
+modified: 2021/11/27
 product: linux
 references:
 - self experience
 service: auditd
-status: experimental
+status: test
 tags:
 - attack.defense_evasion
 - attack.t1562.006

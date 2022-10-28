@@ -1,0 +1,31 @@
+author: Nasreddine Bencherchali
+category: process_creation
+date: 2022/08/12
+description: Detects unusual parent or children of the wab.exe (Windows Contacts)
+  process as seen being used with bumblebee activity
+detection:
+  condition: 1 of selection_*
+  selection_child:
+    winlog.event_data.ParentImage|endswith: \wab.exe
+  selection_parent:
+    winlog.event_data.Image|endswith: \wab.exe
+    winlog.event_data.ParentImage|endswith:
+    - \WmiPrvSE.exe
+    - \svchost.exe
+    - \dllhost.exe
+falsepositives:
+- Unlikely
+id: 63d1ccc0-2a43-4f4b-9289-361b308991ff
+level: high
+logsource:
+  category: process_creation
+  product: windows
+product: windows
+references:
+- https://thedfirreport.com/2022/08/08/bumblebee-roasts-its-way-to-domain-admin/
+- https://symantec-enterprise-blogs.security.com/blogs/threat-intelligence/bumblebee-loader-cybercrime
+status: experimental
+tags:
+- attack.defense_evasion
+- attack.execution
+title: Wab.Exe Unusual Parent Or Child Processes

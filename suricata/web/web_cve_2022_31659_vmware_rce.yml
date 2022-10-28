@@ -1,0 +1,28 @@
+author: Nasreddine Bencherchali
+category: webserver
+date: 2022/08/12
+description: Detects possible exploitation of VMware Workspace ONE Access Admin Remote
+  Code Execution vulnerability as described in CVE-2022-31659
+detection:
+  condition: selection
+  selection:
+    http.http_method: POST
+    http.url|contains: /SAAS/jersey/manager/api/migrate/tenant
+falsepositives:
+- Vulnerability scanners
+- Legitimate access to the URI
+id: efdb2003-a922-48aa-8f37-8b80021a9706
+level: medium
+logsource:
+  category: webserver
+  product: suricata
+  service: http
+product: suricata
+references:
+- https://petrusviet.medium.com/dancing-on-the-architecture-of-vmware-workspace-one-access-eng-ad592ae1b6dd
+service: http
+status: experimental
+tags:
+- attack.initial_access
+- attack.t1190
+title: CVE-2022-31659 VMware Workspace ONE Access RCE

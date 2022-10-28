@@ -1,0 +1,24 @@
+author: frack113
+category: process_creation
+date: 2022/08/20
+description: Detect use of DirLister.exe
+detection:
+  condition: selection
+  selection:
+  - winlog.event_data.OriginalFileName: DirLister.exe
+  - winlog.event_data.Image|endswith: \dirlister.exe
+falsepositives:
+- Legitimate use
+id: b4dc61f5-6cce-468e-a608-b48b469feaa2
+level: medium
+logsource:
+  category: process_creation
+  product: windows
+product: windows
+references:
+- https://github.com/redcanaryco/atomic-red-team/blob/40b77d63808dd4f4eafb83949805636735a1fd15/atomics/T1083/T1083.md
+status: experimental
+tags:
+- attack.discovery
+- attack.t1083
+title: Launch DirLister Executable

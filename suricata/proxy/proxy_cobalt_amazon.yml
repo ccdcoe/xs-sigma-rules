@@ -3,7 +3,7 @@ category: proxy
 date: 2019/11/12
 description: Detects Malleable Amazon Profile
 detection:
-  condition: selection1 or selection2
+  condition: 1 of selection*
   selection1:
     cs-cookie|endswith: =csm-hit=s-24KU11BB82RZSYGJ3BDK|1419899012996
     http.hostname: www.amazon.com
@@ -25,13 +25,13 @@ logsource:
   category: proxy
   product: suricata
   service: http
-modified: 2020/09/02
+modified: 2022/07/07
 product: suricata
 references:
-- https://github.com/rsmudge/Malleable-C2-Profiles/blob/master/normal/amazon.profile
+- https://github.com/rsmudge/Malleable-C2-Profiles/blob/26323784672913923d20c5a638c6ca79459e8529/normal/amazon.profile
 - https://www.hybrid-analysis.com/sample/ee5eca8648e45e2fea9dac0d920ef1a1792d8690c41ee7f20343de1927cc88b9?environmentId=100
 service: http
-status: experimental
+status: test
 tags:
 - attack.defense_evasion
 - attack.command_and_control

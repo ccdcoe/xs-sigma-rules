@@ -31,11 +31,12 @@ level: medium
 logsource:
   product: linux
   service: auditd
+modified: 2021/11/27
 product: linux
 references:
 - Internal Research
 service: auditd
-status: experimental
+status: test
 tags:
 - attack.t1587
 - attack.t1584

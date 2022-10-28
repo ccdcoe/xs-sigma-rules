@@ -1,0 +1,31 @@
+author: Bhabesh Raj (rule), @thefLinkk
+category: process_access
+date: 2022/06/27
+description: Detects HandleKatz opening LSASS to duplicate its handle to later dump
+  the memory without opening any new handles
+detection:
+  call_trace:
+    winlog.event_data.CallTrace|contains: '|UNKNOWN('
+    winlog.event_data.CallTrace|endswith: )
+    winlog.event_data.CallTrace|startswith: C:\Windows\System32\ntdll.dll+
+  condition: selection and call_trace
+  selection:
+    winlog.event_data.GrantedAccess: '0x1440'
+    winlog.event_data.TargetImage|endswith: \lsass.exe
+falsepositives:
+- Unknown
+id: b1bd3a59-c1fd-4860-9f40-4dd161a7d1f5
+level: high
+logsource:
+  category: process_access
+  product: windows
+product: windows
+references:
+- https://github.com/codewhitesec/HandleKatz
+status: experimental
+tags:
+- attack.execution
+- attack.t1106
+- attack.defense_evasion
+- attack.t1003.001
+title: HandleKatz Duplicating LSASS Handle

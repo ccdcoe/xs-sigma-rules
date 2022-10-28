@@ -1,0 +1,27 @@
+author: Alejandro Ortuno, oscd.community
+category: file_event
+date: 2020/10/14
+description: Detects creation of startup item plist files that automatically get executed
+  at boot initialization to establish persistence.
+detection:
+  condition: selection
+  selection:
+  - TargetFilename|contains: /Library/StartupItems/
+  - TargetFilename|endswith: .plist
+falsepositives:
+- Legitimate administration activities
+id: dfe8b941-4e54-4242-b674-6b613d521962
+level: low
+logsource:
+  category: file_event
+  product: macos
+modified: 2022/07/11
+product: macos
+references:
+- https://github.com/redcanaryco/atomic-red-team/blob/f339e7da7d05f6057fdfcdd3742bfcf365fee2a9/atomics/T1037.005/T1037.005.md
+status: test
+tags:
+- attack.persistence
+- attack.privilege_escalation
+- attack.t1037.005
+title: Startup Items

@@ -1,0 +1,28 @@
+author: Thomas Patzke
+category: firewall
+date: 2017/02/19
+description: Detects many failed connection attempts to different ports or hosts
+detection:
+  condition: selection | count(dst_ip) by src_ip > 10
+  selection:
+    action: denied
+  timeframe: 24h
+falsepositives:
+- Inventarization systems
+- Vulnerability scans
+fields:
+- src_ip
+- dest_ip
+- dest_port
+id: 4601eaec-6b45-4052-ad32-2d96d26ce0d8
+level: medium
+logsource:
+  category: firewall
+  product: suricata
+modified: 2021/11/27
+product: suricata
+status: test
+tags:
+- attack.discovery
+- attack.t1046
+title: Network Scans Count By Destination IP

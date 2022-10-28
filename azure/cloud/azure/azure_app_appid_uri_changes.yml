@@ -1,0 +1,28 @@
+author: Mark Morowczynski '@markmorow', Bailey Bercik '@baileybercik'
+date: 2022/06/02
+description: Detects when a configuration change is made to an applications AppID
+  URI.
+detection:
+  condition: selection
+  selection:
+    properties.message:
+    - Update Application
+    - Update Service principal
+falsepositives:
+- When and administrator is making legitimate AppID URI configuration changes to an
+  application. This should be a planned event.
+id: 1b45b0d1-773f-4f23-aedc-814b759563b1
+level: high
+logsource:
+  product: azure
+  service: auditlogs
+product: azure
+references:
+- https://docs.microsoft.com/en-us/azure/active-directory/fundamentals/security-operations-applications#appid-uri-added-modified-or-removed
+service: auditlogs
+status: experimental
+tags:
+- attack.t1528
+- attack.persistence
+- attack.credential_access
+title: Application AppID Uri Configuration Changes

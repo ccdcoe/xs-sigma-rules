@@ -8,7 +8,7 @@ detection:
   keywords:
   - '*.git/*'
 falsepositives:
-- unknown
+- Unknown
 fields:
 - scr_ip
 - http.hostname
@@ -20,13 +20,13 @@ logsource:
   category: webserver
   product: suricata
   service: http
-modified: 2020/09/03
+modified: 2021/11/27
 product: suricata
 references:
 - https://pentester.land/tutorials/2018/10/25/source-code-disclosure-via-exposed-git-folder.html
 - https://medium.com/@logicbomb_1/bugbounty-how-i-was-able-to-download-the-source-code-of-indias-largest-telecom-service-52cf5c5640a1
 service: http
-status: experimental
+status: test
 tags:
 - attack.discovery
 - attack.t1083

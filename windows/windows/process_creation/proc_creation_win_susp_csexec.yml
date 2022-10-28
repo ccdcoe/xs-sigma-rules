@@ -1,0 +1,29 @@
+author: Florian Roth
+category: process_creation
+date: 2022/08/22
+description: Detects the use of the lesser known remote execution tool named CsExec
+  (a PsExec alternative)
+detection:
+  condition: 1 of selection*
+  selection:
+    winlog.event_data.Image|endswith: \csexec.exe
+  selection_pe:
+    winlog.event_data.Description: csexec
+falsepositives:
+- Unknown
+id: d08a2711-ee8b-4323-bdec-b7d85e892b31
+level: high
+logsource:
+  category: process_creation
+  product: windows
+product: windows
+references:
+- https://github.com/malcomvetter/CSExec
+- https://www.microsoft.com/security/blog/2022/05/09/ransomware-as-a-service-understanding-the-cybercrime-gig-economy-and-how-to-protect-yourself/
+status: experimental
+tags:
+- attack.develop_capabilities
+- attack.t1587.001
+- attack.execution
+- attack.t1569.002
+title: CsExec Remote Execution Tool Usage

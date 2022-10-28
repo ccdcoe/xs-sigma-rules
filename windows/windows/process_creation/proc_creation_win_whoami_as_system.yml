@@ -1,0 +1,31 @@
+author: Teymur Kheirkhabarov, Florian Roth
+category: process_creation
+date: 2019/10/23
+description: Detects a whoami.exe executed by LOCAL SYSTEM. This may be a sign of
+  a successful local privilege escalation.
+detection:
+  condition: all of selection*
+  selection_img:
+  - winlog.event_data.OriginalFileName: whoami.exe
+  - winlog.event_data.Image|endswith: \whoami.exe
+  selection_user:
+    winlog.event_data.User|contains:
+    - AUTHORI
+    - AUTORI
+falsepositives:
+- Possible name overlap with NT AUHTORITY substring to cover all languages
+id: 80167ada-7a12-41ed-b8e9-aa47195c66a1
+level: high
+logsource:
+  category: process_creation
+  product: windows
+modified: 2022/05/13
+product: windows
+references:
+- https://speakerdeck.com/heirhabarov/hunting-for-privilege-escalation-in-windows-environment
+status: experimental
+tags:
+- attack.privilege_escalation
+- attack.discovery
+- attack.t1033
+title: Run Whoami as SYSTEM

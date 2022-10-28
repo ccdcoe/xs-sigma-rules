@@ -1,0 +1,30 @@
+author: frack113
+category: process_creation
+date: 2021/11/24
+description: Performs execution of specified file, can be used for defensive evasion.
+detection:
+  condition: selection and not 1 of filter*
+  filter_git:
+    winlog.event_data.ParentCommandLine|contains:
+    - C:\Program Files\Git\post-install.bat
+    - C:\Program Files (x86)\Git\post-install.bat
+  selection:
+    winlog.event_data.CommandLine|contains|all:
+    - bash.exe
+    - '-c '
+falsepositives:
+- Unknown
+id: 5edc2273-c26f-406c-83f3-f4d948e740dd
+level: medium
+logsource:
+  category: process_creation
+  product: windows
+modified: 2022/07/05
+product: windows
+references:
+- https://lolbas-project.github.io/lolbas/Binaries/Bash/
+status: experimental
+tags:
+- attack.defense_evasion
+- attack.t1202
+title: Suspicious Subsystem for Linux Bash Execution

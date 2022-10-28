@@ -1,0 +1,31 @@
+author: frack113
+category: file_event
+date: 2022/01/01
+description: 'Aversaries may use to interact with a remote network share using Server
+  Message Block (SMB).
+
+  This technique is used by post-exploitation frameworks.
+
+  '
+detection:
+  condition: selection
+  selection:
+    winlog.event_data.TargetFilename|contains|all:
+    - \\\\127.0.0
+    - \ADMIN$\
+falsepositives:
+- Unknown
+id: 4aafb0fa-bff5-4b9d-b99e-8093e659c65f
+level: medium
+logsource:
+  category: file_event
+  product: windows
+modified: 2022/08/13
+product: windows
+references:
+- https://github.com/redcanaryco/atomic-red-team/blob/f339e7da7d05f6057fdfcdd3742bfcf365fee2a9/atomics/T1021.002/T1021.002.md#atomic-test-4---execute-command-writing-output-to-local-admin-share
+status: experimental
+tags:
+- attack.lateral_movement
+- attack.t1546.002
+title: Writing Local Admin Share

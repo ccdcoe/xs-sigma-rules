@@ -1,0 +1,45 @@
+author: frack113
+category: ps_module
+date: 2021/12/12
+definition: PowerShell Module Logging must be enabled
+description: 'Adversaries may attempt to find local system groups and permission settings.
+
+  The knowledge of local system permission groups can help adversaries determine which
+  groups exist and which users belong to a particular group.
+
+  Adversaries may use this information to determine which users have elevated permissions,
+  such as the users found within the local administrators group.
+
+  '
+detection:
+  condition: 1 of test_*
+  test_3:
+  - Payload|contains:
+    - get-localgroup
+    - Get-LocalGroupMember
+  - ContextInfo|contains:
+    - get-localgroup
+    - Get-LocalGroupMember
+  test_6:
+  - Payload|contains|all:
+    - Get-WMIObject
+    - Win32_Group
+  - ContextInfo|contains|all:
+    - Get-WMIObject
+    - Win32_Group
+falsepositives:
+- Administrator script
+id: cef24b90-dddc-4ae1-a09a-8764872f69fc
+level: low
+logsource:
+  category: ps_module
+  definition: PowerShell Module Logging must be enabled
+  product: windows
+product: windows
+references:
+- https://github.com/redcanaryco/atomic-red-team/blob/f339e7da7d05f6057fdfcdd3742bfcf365fee2a9/atomics/T1069.001/T1069.001.md
+status: experimental
+tags:
+- attack.discovery
+- attack.t1069.001
+title: Suspicious Get Local Groups Information

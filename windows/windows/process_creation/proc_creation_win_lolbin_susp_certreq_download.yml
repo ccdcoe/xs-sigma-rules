@@ -1,0 +1,35 @@
+author: Christian Burkard
+category: process_creation
+date: 2021/11/24
+description: Detects a suspicious certreq execution taken from the LOLBAS examples,
+  which can be abused to download (small) files
+detection:
+  condition: all of selection*
+  selection_cli:
+    winlog.event_data.CommandLine|contains|all:
+    - ' -Post '
+    - ' -config '
+    - ' http'
+    - ' C:\windows\win.ini '
+  selection_img:
+  - winlog.event_data.Image|endswith: \certreq.exe
+  - winlog.event_data.OriginalFileName: CertReq.exe
+falsepositives:
+- Unlikely
+fields:
+- winlog.event_data.CommandLine
+- winlog.event_data.ParentCommandLine
+id: 4480827a-9799-4232-b2c4-ccc6c4e9e12b
+level: high
+logsource:
+  category: process_creation
+  product: windows
+modified: 2022/06/13
+product: windows
+references:
+- https://lolbas-project.github.io/lolbas/Binaries/Certreq/
+status: experimental
+tags:
+- attack.command_and_control
+- attack.t1105
+title: Suspicious Certreq Command to Download

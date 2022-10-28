@@ -1,0 +1,23 @@
+author: MikeDuddington, '@dudders1'
+date: 2022/07/27
+description: Detect when users are authenticating without MFA being required.
+detection:
+  condition: selection
+  selection:
+    AuthenticationRequirement: singleFactorAuthentication
+    Status: Success
+falsepositives:
+- If this was approved by System Administrator.
+id: 28eea407-28d7-4e42-b0be-575d5ba60b2c
+level: low
+logsource:
+  product: azure
+  service: signinlogs
+product: azure
+references:
+- https://docs.microsoft.com/en-gb/azure/active-directory/fundamentals/security-operations-user-accounts
+service: signinlogs
+status: experimental
+tags:
+- attack.t1078
+title: Azure AD Only Single Factor Authentication Required

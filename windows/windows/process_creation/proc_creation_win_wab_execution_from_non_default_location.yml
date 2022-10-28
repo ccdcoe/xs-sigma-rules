@@ -1,0 +1,30 @@
+author: Nasreddine Bencherchali
+category: process_creation
+date: 2022/08/12
+description: Detects execution of wab.exe (Windows Contacts) from non default locations
+  as seen with bumblebee activity
+detection:
+  condition: selection and not filter
+  filter:
+    winlog.event_data.Image|startswith:
+    - C:\Windows\WinSxS\
+    - C:\Program Files\Windows Mail\
+    - C:\Program Files (x86)\Windows Mail\
+  selection:
+    winlog.event_data.Image|endswith: \wab.exe
+falsepositives:
+- Unlikely
+id: 395907ee-96e5-4666-af2e-2ca91688e151
+level: high
+logsource:
+  category: process_creation
+  product: windows
+product: windows
+references:
+- https://thedfirreport.com/2022/08/08/bumblebee-roasts-its-way-to-domain-admin/
+- https://symantec-enterprise-blogs.security.com/blogs/threat-intelligence/bumblebee-loader-cybercrime
+status: experimental
+tags:
+- attack.defense_evasion
+- attack.execution
+title: Wab Execution From Non Default Location

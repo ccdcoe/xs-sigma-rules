@@ -1,0 +1,52 @@
+author: '@neu5ron'
+date: 2017/04/13
+definition: 'Requirements: Audit Policy : Account Management > Audit User Account
+  Management, Group Policy : Computer Configuration\Windows Settings\Security Settings\Advanced
+  Audit Policy Configuration\Audit Policies\Account Management\Audit User Account
+  Management, DS Access > Audit Directory Service Changes, Group Policy : Computer
+  Configuration\Windows Settings\Security Settings\Advanced Audit Policy Configuration\Audit
+  Policies\DS Access\Audit Directory Service Changes'
+description: Detects scenarios where one can control another users or computers account
+  without having to use their credentials.
+detection:
+  condition: (selection1 and not filter_null) or 1 of selection_5136_*
+  filter_null:
+  - winlog.event_data.AllowedToDelegateTo: '-'
+  - winlog.event_data.AllowedToDelegateTo: null
+  selection1:
+    winlog.event_id: 4738
+  selection_5136_1:
+    winlog.event_data.AttributeLDAPDisplayName: msDS-AllowedToDelegateTo
+    winlog.event_id: 5136
+  selection_5136_2:
+    winlog.event_data.AttributeLDAPDisplayName: servicePrincipalName
+    winlog.event_data.ObjectClass: user
+    winlog.event_id: 5136
+  selection_5136_3:
+    winlog.event_data.AttributeLDAPDisplayName: msDS-AllowedToActOnBehalfOfOtherIdentity
+    winlog.event_id: 5136
+falsepositives:
+- Unknown
+id: 300bac00-e041-4ee2-9c36-e262656a6ecc
+level: high
+logsource:
+  definition: 'Requirements: Audit Policy : Account Management > Audit User Account
+    Management, Group Policy : Computer Configuration\Windows Settings\Security Settings\Advanced
+    Audit Policy Configuration\Audit Policies\Account Management\Audit User Account
+    Management, DS Access > Audit Directory Service Changes, Group Policy : Computer
+    Configuration\Windows Settings\Security Settings\Advanced Audit Policy Configuration\Audit
+    Policies\DS Access\Audit Directory Service Changes'
+  product: windows
+  service: security
+modified: 2021/11/27
+product: windows
+references:
+- https://msdn.microsoft.com/en-us/library/cc220234.aspx
+- https://adsecurity.org/?p=3466
+- https://www.harmj0y.net/blog/redteaming/another-word-on-delegation/
+service: security
+status: test
+tags:
+- attack.t1098
+- attack.persistence
+title: Active Directory User Backdoors

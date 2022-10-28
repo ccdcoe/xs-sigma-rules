@@ -1,0 +1,32 @@
+author: Teymur Kheirkhabarov, Harish Segar (rule)
+category: ps_classic_start
+date: 2020/06/29
+definition: fields have to be extract from event
+description: Detects suspicious powershell process which includes bxor command, alternative
+  obfuscation method to b64 encoded commands.
+detection:
+  condition: selection and filter
+  filter:
+    HostApplication|contains:
+    - bxor
+    - join
+    - char
+  selection:
+    HostName: ConsoleHost
+falsepositives:
+- Unknown
+id: 812837bb-b17f-45e9-8bd0-0ec35d2e3bd6
+level: medium
+logsource:
+  category: ps_classic_start
+  definition: fields have to be extract from event
+  product: windows
+modified: 2022/07/07
+product: windows
+references:
+- https://speakerdeck.com/heirhabarov/hunting-for-powershell-abuse?slide=46
+status: experimental
+tags:
+- attack.execution
+- attack.t1059.001
+title: Suspicious XOR Encoded PowerShell Command Line

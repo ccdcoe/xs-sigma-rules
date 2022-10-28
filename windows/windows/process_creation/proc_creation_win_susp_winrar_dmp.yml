@@ -1,0 +1,30 @@
+author: Florian Roth
+category: process_creation
+date: 2022/01/04
+description: Detects a suspicious winrar execution that involves a file with a .dmp
+  extension, which could be a step in a process of dump file exfiltration
+detection:
+  condition: selection and dumpfile
+  dumpfile:
+    winlog.event_data.CommandLine|contains: .dmp
+  selection:
+  - winlog.event_data.Image|endswith:
+    - \rar.exe
+    - \winrar.exe
+  - winlog.event_data.Description: Command line RAR
+falsepositives:
+- Legitimate use of WinRAR with a command line in which .dmp appears incidentally
+id: 1ac14d38-3dfc-4635-92c7-e3fd1c5f5bfc
+level: high
+logsource:
+  category: process_creation
+  product: windows
+modified: 2022/06/17
+product: windows
+references:
+- https://www.crowdstrike.com/blog/overwatch-exposes-aquatic-panda-in-possession-of-log-4-shell-exploit-tools/
+status: experimental
+tags:
+- attack.collection
+- attack.t1560.001
+title: Winrar Compressing Dump Files

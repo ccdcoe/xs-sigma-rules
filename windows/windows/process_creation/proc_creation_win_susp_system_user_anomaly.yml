@@ -1,0 +1,81 @@
+author: Florian Roth (rule), David ANDRE (additional keywords)
+category: process_creation
+date: 2021/12/20
+description: Detects a suspicious process creation as SYSTEM user (suspicious program
+  or command line parameter)
+detection:
+  condition: all of selection* and not 1 of filter*
+  filter:
+    winlog.event_data.CommandLine: ping 127.0.0.1 -n 5
+  filter_vs:
+    winlog.event_data.Image|endswith: \PING.EXE
+    winlog.event_data.ParentCommandLine|contains: \DismFoDInstall.cmd
+  selection:
+    winlog.event_data.IntegrityLevel: System
+    winlog.event_data.User|contains:
+    - AUTHORI
+    - AUTORI
+  selection_special:
+  - winlog.event_data.Image|endswith:
+    - \calc.exe
+    - \wscript.exe
+    - \cscript.exe
+    - \hh.exe
+    - \mshta.exe
+    - \forfiles.exe
+    - \ping.exe
+  - winlog.event_data.CommandLine|contains:
+    - ' -NoP '
+    - ' -W Hidden '
+    - ' -decode '
+    - ' /decode '
+    - ' /urlcache '
+    - ' -urlcache '
+    - ' -e* JAB'
+    - ' -e* SUVYI'
+    - ' -e* SQBFAFgA'
+    - ' -e* aWV4I'
+    - ' -e* IAB'
+    - ' -e* PAA'
+    - ' -e* aQBlAHgA'
+    - vssadmin delete shadows
+    - reg SAVE HKLM
+    - ' -ma '
+    - Microsoft\Windows\CurrentVersion\Run
+    - .downloadstring(
+    - .downloadfile(
+    - ' /ticket:'
+    - 'dpapi::'
+    - event::clear
+    - event::drop
+    - id::modify
+    - 'kerberos::'
+    - 'lsadump::'
+    - 'misc::'
+    - 'privilege::'
+    - 'rpc::'
+    - 'sekurlsa::'
+    - 'sid::'
+    - 'token::'
+    - vault::cred
+    - vault::list
+    - ' p::d '
+    - ;iex(
+    - MiniDump
+    - 'net user '
+falsepositives:
+- Administrative activity
+- Scripts and administrative tools used in the monitored environment
+- Monitoring activity
+id: 2617e7ed-adb7-40ba-b0f3-8f9945fe6c09
+level: high
+logsource:
+  category: process_creation
+  product: windows
+modified: 2022/04/27
+product: windows
+references:
+- Internal Research
+- https://tools.thehacker.recipes/mimikatz/modules
+status: test
+title: Suspicious SYSTEM User Process Creation

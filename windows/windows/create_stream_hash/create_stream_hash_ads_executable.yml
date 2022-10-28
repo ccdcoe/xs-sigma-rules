@@ -1,0 +1,33 @@
+author: Florian Roth, @0xrawsec
+category: create_stream_hash
+date: 2018/06/03
+definition: 'Requirements: Sysmon config with Imphash logging activated'
+description: Detects the creation of an ADS data stream that contains an executable
+  (non-empty imphash)
+detection:
+  condition: selection and not filter
+  filter:
+    winlog.event_data.Hashes|contains: IMPHASH=00000000000000000000000000000000
+  selection:
+    winlog.event_data.Hashes|contains: IMPHASH=
+falsepositives:
+- Unknown
+fields:
+- winlog.event_data.TargetFilename
+- winlog.event_data.Image
+id: b69888d4-380c-45ce-9cf9-d9ce46e67821
+level: medium
+logsource:
+  category: create_stream_hash
+  definition: 'Requirements: Sysmon config with Imphash logging activated'
+  product: windows
+modified: 2022/08/24
+product: windows
+references:
+- https://twitter.com/0xrawsec/status/1002478725605273600?s=21
+status: test
+tags:
+- attack.defense_evasion
+- attack.s0139
+- attack.t1564.004
+title: Executable in ADS

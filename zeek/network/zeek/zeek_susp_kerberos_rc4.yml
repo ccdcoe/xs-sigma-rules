@@ -10,17 +10,18 @@ detection:
     cipher: rc4-hmac
     request_type: TGS
 falsepositives:
-- normal enterprise SPN requests activity
+- Normal enterprise SPN requests activity
 id: 503fe26e-b5f2-4944-a126-eab405cc06e5
 level: medium
 logsource:
   product: zeek
   service: kerberos
+modified: 2021/11/27
 product: zeek
 references:
 - https://adsecurity.org/?p=3458
 service: kerberos
-status: experimental
+status: test
 tags:
 - attack.credential_access
 - attack.t1558.003

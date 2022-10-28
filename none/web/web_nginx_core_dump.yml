@@ -1,0 +1,23 @@
+author: Florian Roth
+date: 2021/05/31
+description: Detects a core dump of a crashing Nginx worker process, which could be
+  a signal of a serious problem or exploitation attempts.
+detection:
+  condition: keywords
+  keywords:
+  - exited on signal 6 (core dumped)
+falsepositives:
+- Serious issues with a configuration or plugin
+id: 59ec40bb-322e-40ab-808d-84fa690d7e56
+level: high
+logsource:
+  service: apache
+references:
+- https://docs.nginx.com/nginx/admin-guide/monitoring/debugging/#enabling-core-dumps
+- https://www.x41-dsec.de/lab/advisories/x41-2021-002-nginx-resolver-copy/
+service: apache
+status: experimental
+tags:
+- attack.impact
+- attack.t1499.004
+title: Nginx Core Dump

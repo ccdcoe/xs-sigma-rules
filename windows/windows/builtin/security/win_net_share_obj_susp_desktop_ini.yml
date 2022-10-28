@@ -1,0 +1,34 @@
+author: Tim Shelton (HAWK.IO)
+date: 2021/12/06
+description: Detects unusual processes accessing desktop.ini remotely over network
+  share, which can be leveraged to alter how Explorer displays a folder's content
+  (i.e. renaming files) without changing them on disk.
+detection:
+  condition: selection
+  selection:
+    AccessList|contains:
+    - WriteData
+    - DELETE
+    - WriteDAC
+    - AppendData
+    - AddSubdirectory
+    winlog.event_data.ObjectType: File
+    winlog.event_data.RelativeTargetName|endswith: \desktop.ini
+    winlog.event_id: 5145
+falsepositives:
+- Read only access list authority
+id: 35bc7e28-ee6b-492f-ab04-da58fcf6402e
+level: medium
+logsource:
+  product: windows
+  service: security
+modified: 2022/01/16
+product: windows
+references:
+- https://isc.sans.edu/forums/diary/Desktopini+as+a+postexploitation+tool/25912/
+service: security
+status: test
+tags:
+- attack.persistence
+- attack.t1547.009
+title: Windows Network Access Suspicious desktop.ini Action

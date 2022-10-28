@@ -6,18 +6,18 @@ description: Detects a possible remote threat creation with certain characterist
 detection:
   condition: selection
   selection:
-    TargetProcessAddress|endswith:
+    StartAddress|endswith:
     - 0B80
     - 0C7C
     - 0C88
 falsepositives:
-- unknown
+- Unknown
 id: 6309645e-122d-4c5b-bb2b-22e4f9c2fa42
 level: high
 logsource:
   category: create_remote_thread
   product: windows
-modified: 2020/08/28
+modified: 2021/11/20
 product: windows
 references:
 - https://medium.com/@olafhartong/cobalt-strike-remote-threads-detection-206372d11d0f

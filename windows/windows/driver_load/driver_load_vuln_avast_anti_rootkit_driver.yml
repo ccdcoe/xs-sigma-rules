@@ -1,0 +1,37 @@
+author: Nasreddine Bencherchali
+category: driver_load
+date: 2022/07/28
+description: Detects the load of a signed and vulnerable AVAST Anti Rootkit driver
+  often used by threat actors or malware for stopping and disabling AV and EDR products
+detection:
+  condition: 1 of selection* or all of driver_*
+  driver_img:
+    winlog.event_data.ImageLoaded|endswith: \aswArPot.sys
+  driver_status:
+  - winlog.event_data.Signed: 'false'
+  - winlog.event_data.SignatureStatus: Expired
+  selection_other:
+  - MD5: a179c4093d05a3e1ee73f6ff07f994aa
+  - SHA1: 5d6b9e80e12bfc595d4d26f6afb099b3cb471dd4
+  - SHA256: 4b5229b3250c8c08b98cb710d6c056144271de099a57ae09f5d2097fc41bd4f1
+  selection_sysmon:
+    winlog.event_data.Hashes|contains:
+    - MD5=a179c4093d05a3e1ee73f6ff07f994aa
+    - SHA1=5d6b9e80e12bfc595d4d26f6afb099b3cb471dd4
+    - SHA256=4b5229b3250c8c08b98cb710d6c056144271de099a57ae09f5d2097fc41bd4f1
+falsepositives:
+- Unknown
+id: 7c676970-af4f-43c8-80af-ec9b49952852
+level: high
+logsource:
+  category: driver_load
+  product: windows
+modified: 2022/08/24
+product: windows
+references:
+- https://www.aon.com/cyber-solutions/aon_cyber_labs/yours-truly-signed-av-driver-weaponizing-an-antivirus-driver/
+status: experimental
+tags:
+- attack.privilege_escalation
+- attack.t1543.003
+title: Vulnerable AVAST Anti Rootkit Driver Load

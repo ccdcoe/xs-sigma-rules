@@ -1,0 +1,31 @@
+author: FLorian Roth
+category: process_creation
+date: 2022/07/21
+description: Detects suspicious launch of the PSEXESVC service on this system and
+  a sub process run as LOCAL_SYSTEM (-s), which means that someone remotely started
+  a command on this system running it with highest privileges and not only the privileges
+  of the login user account (e.g. the administrator account)
+detection:
+  condition: selection
+  selection:
+    winlog.event_data.ParentImage: C:\Windows\PSEXESVC.exe
+    winlog.event_data.User|contains:
+    - AUTHORI
+    - AUTORI
+falsepositives:
+- Legitimate administrative tasks
+id: 7c0dcd3d-acf8-4f71-9570-f448b0034f94
+level: high
+logsource:
+  category: process_creation
+  product: windows
+product: windows
+references:
+- https://docs.microsoft.com/en-us/sysinternals/downloads/psexec
+related:
+- id: fa91cc36-24c9-41ce-b3c8-3bbc3f2f67ba
+  type: similar
+status: experimental
+tags:
+- attack.execution
+title: PsExec Service Execution as LOCAL SYSTEM

@@ -1,0 +1,36 @@
+author: FPT.EagleEye Team, wagga
+category: process_creation
+date: 2020/12/11
+description: Detects suspicious shell spawn from MSSQL process, this might be sight
+  of RCE or SQL Injection
+detection:
+  condition: selection and not 1 of filter*
+  filter_datev:
+    winlog.event_data.CommandLine|startswith: '"C:\Windows\system32\cmd.exe" '
+    winlog.event_data.Image: C:\Windows\System32\cmd.exe
+    winlog.event_data.ParentImage|endswith: DATEV_DBENGINE\MSSQL\Binn\sqlservr.exe
+    winlog.event_data.ParentImage|startswith: C:\Program Files\Microsoft SQL Server\
+  selection:
+    winlog.event_data.Image|endswith:
+    - \cmd.exe
+    - \sh.exe
+    - \bash.exe
+    - \powershell.exe
+    - \pwsh.exe
+    - \bitsadmin.exe
+    winlog.event_data.ParentImage|endswith: \sqlservr.exe
+id: 869b9ca7-9ea2-4a5a-8325-e80e62f75445
+level: high
+logsource:
+  category: process_creation
+  product: windows
+modified: 2022/07/14
+product: windows
+status: experimental
+tags:
+- attack.t1505.003
+- attack.t1190
+- attack.initial_access
+- attack.persistence
+- attack.privilege_escalation
+title: Suspicious Shells Spawn by SQL Server

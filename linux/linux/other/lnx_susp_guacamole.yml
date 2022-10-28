@@ -1,0 +1,24 @@
+author: Florian Roth
+date: 2020/07/03
+description: Detects suspicious session with two users present
+detection:
+  condition: selection
+  selection:
+  - (2 users now present)
+falsepositives:
+- Unknown
+id: 1edd77db-0669-4fef-9598-165bda82826d
+level: high
+logsource:
+  product: linux
+  service: guacamole
+modified: 2021/11/27
+product: linux
+references:
+- https://research.checkpoint.com/2020/apache-guacamole-rce/
+service: guacamole
+status: test
+tags:
+- attack.credential_access
+- attack.t1212
+title: Guacamole Two Users Sharing Session Anomaly

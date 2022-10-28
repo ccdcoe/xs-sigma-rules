@@ -1,0 +1,31 @@
+author: Florian Roth
+category: process_creation
+date: 2020/07/30
+description: Detects specific process characteristics of Chinese TAIDOOR RAT malware
+  load
+detection:
+  condition: selection1 or ( selection2a and selection2b )
+  selection1:
+    winlog.event_data.CommandLine|contains:
+    - dll,MyStart
+    - dll MyStart
+  selection2a:
+    winlog.event_data.CommandLine|endswith: ' MyStart'
+  selection2b:
+    winlog.event_data.CommandLine|contains: rundll32.exe
+falsepositives:
+- Unknown
+id: d1aa3382-abab-446f-96ea-4de52908210b
+level: high
+logsource:
+  category: process_creation
+  product: windows
+modified: 2021/11/27
+product: windows
+references:
+- https://us-cert.cisa.gov/ncas/analysis-reports/ar20-216a
+status: test
+tags:
+- attack.execution
+- attack.t1055.001
+title: TAIDOOR RAT DLL Load

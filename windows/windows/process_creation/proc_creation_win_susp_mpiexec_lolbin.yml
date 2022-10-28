@@ -1,0 +1,33 @@
+author: Florian Roth
+category: process_creation
+date: 2022/01/11
+description: Detects a certain command line flag combination used by mpiexec.exe LOLBIN
+  from HPC pack that can be used to execute any other binary
+detection:
+  condition: all of selection*
+  selection_binary:
+  - winlog.event_data.Image|endswith: \mpiexec.exe
+  - winlog.event_data.Imphash: d8b52ef6aaa3a81501bdfff9dbb96217
+  - winlog.event_data.Hashes|contains: IMPHASH=d8b52ef6aaa3a81501bdfff9dbb96217
+  selection_flags:
+    winlog.event_data.CommandLine|contains:
+    - ' /n 1 '
+    - ' -n 1 '
+falsepositives:
+- Unknown
+id: 729ce0ea-5d8f-4769-9762-e35de441586d
+level: high
+logsource:
+  category: process_creation
+  product: windows
+modified: 2022/03/04
+product: windows
+references:
+- https://twitter.com/mrd0x/status/1465058133303246867
+- https://docs.microsoft.com/en-us/powershell/high-performance-computing/mpiexec?view=hpc19-ps
+status: experimental
+tags:
+- attack.execution
+- attack.defense_evasion
+- attack.t1218
+title: MpiExec Lolbin

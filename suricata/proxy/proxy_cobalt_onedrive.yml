@@ -10,7 +10,7 @@ detection:
   selection:
     http.hostname: onedrive.live.com
     http.http_method: GET
-    http.url|endswith: ?manifest=wac
+    http.url|endswith: \?manifest=wac
 falsepositives:
 - Unknown
 id: c9b33401-cc6a-4cf6-83bb-57ddcb2407fc
@@ -19,12 +19,12 @@ logsource:
   category: proxy
   product: suricata
   service: http
-modified: 2020/11/28
+modified: 2022/08/15
 product: suricata
 references:
-- https://github.com/rsmudge/Malleable-C2-Profiles/blob/master/normal/onedrive_getonly.profile
+- https://github.com/rsmudge/Malleable-C2-Profiles/blob/26323784672913923d20c5a638c6ca79459e8529/normal/onedrive_getonly.profile
 service: http
-status: experimental
+status: test
 tags:
 - attack.defense_evasion
 - attack.command_and_control

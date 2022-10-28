@@ -1,0 +1,26 @@
+author: frack113
+category: process_creation
+date: 2021/11/24
+description: Execute C# code with the Build Provider and proper folder structure in
+  place.
+detection:
+  condition: selection
+  selection:
+    winlog.event_data.Image|contains|all:
+    - C:\Windows\Microsoft.NET\Framework
+    - aspnet_compiler.exe
+falsepositives:
+- Unknown
+id: a01b8329-5953-4f73-ae2d-aa01e1f35f00
+level: medium
+logsource:
+  category: process_creation
+  product: windows
+product: windows
+references:
+- https://lolbas-project.github.io/lolbas/Binaries/Aspnet_Compiler/
+status: experimental
+tags:
+- attack.defense_evasion
+- attack.t1127
+title: Suspicious aspnet_compiler.exe Execution

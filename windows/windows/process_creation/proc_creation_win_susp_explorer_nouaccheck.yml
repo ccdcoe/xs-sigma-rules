@@ -1,0 +1,32 @@
+author: Florian Roth
+category: process_creation
+date: 2022/02/23
+description: Detects suspicious starts of explorer.exe that use the /NOUACCHECK flag
+  that allows to run all sub processes of that newly started explorer.exe without
+  any UAC checks
+detection:
+  condition: selection and not 1 of filter_*
+  filter_dc_logon:
+  - winlog.event_data.ParentCommandLine: C:\Windows\system32\svchost.exe -k netsvcs
+      -p -s Schedule
+  - winlog.event_data.ParentImage: C:\Windows\System32\svchost.exe
+  selection:
+    winlog.event_data.CommandLine|contains: /NOUACCHECK
+    winlog.event_data.Image|endswith: \explorer.exe
+falsepositives:
+- Domain Controller User Logon
+- Unknown how many legitimate software products use that method
+id: 534f2ef7-e8a2-4433-816d-c91bccde289b
+level: high
+logsource:
+  category: process_creation
+  product: windows
+modified: 2022/04/21
+product: windows
+references:
+- https://twitter.com/ORCA6665/status/1496478087244095491
+status: test
+tags:
+- attack.defense_evasion
+- attack.t1548.002
+title: Explorer NOUACCHECK Flag

@@ -1,0 +1,39 @@
+author: Timur Zinniatullin, oscd.community
+category: process_creation
+date: 2019/10/21
+description: Network sniffing refers to using the network interface on a system to
+  monitor or capture information sent over a wired or wireless connection. An adversary
+  may place a network interface into promiscuous mode to passively access data in
+  transit over the network, or use span ports to capture a larger amount of data.
+detection:
+  condition: 1 of selection*
+  selection_tshark:
+    winlog.event_data.CommandLine|contains: -i
+    winlog.event_data.Image|endswith: \tshark.exe
+  selection_windump:
+    winlog.event_data.Image|endswith: \windump.exe
+falsepositives:
+- Admin activity
+fields:
+- winlog.event_data.Image
+- winlog.event_data.CommandLine
+- winlog.event_data.User
+- winlog.event_data.LogonGuid
+- winlog.event_data.Hashes
+- process.parent.entity_id
+- winlog.event_data.ParentCommandLine
+id: ba1f7802-adc7-48b4-9ecb-81e227fddfd5
+level: low
+logsource:
+  category: process_creation
+  product: windows
+modified: 2022/07/11
+product: windows
+references:
+- https://github.com/redcanaryco/atomic-red-team/blob/f339e7da7d05f6057fdfcdd3742bfcf365fee2a9/atomics/T1040/T1040.md
+status: test
+tags:
+- attack.credential_access
+- attack.discovery
+- attack.t1040
+title: Network Sniffing

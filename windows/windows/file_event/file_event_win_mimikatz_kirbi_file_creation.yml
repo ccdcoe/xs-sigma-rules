@@ -1,0 +1,24 @@
+author: Florian Roth
+category: file_event
+date: 2021/11/08
+description: Detects the creation of files that contain Kerberos tickets based on
+  an extension used by the popular tool Mimikatz
+detection:
+  condition: selection
+  selection:
+    winlog.event_data.TargetFilename|endswith: .kirbi
+falsepositives:
+- Unlikely
+id: 9e099d99-44c2-42b6-a6d8-54c3545cab29
+level: critical
+logsource:
+  category: file_event
+  product: windows
+product: windows
+references:
+- https://cobalt.io/blog/kerberoast-attack-techniques
+status: test
+tags:
+- attack.credential_access
+- attack.t1558
+title: Mimikatz Kirbi File Creation

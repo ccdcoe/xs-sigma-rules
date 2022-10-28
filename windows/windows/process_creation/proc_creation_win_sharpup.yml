@@ -1,0 +1,35 @@
+author: Florian Roth
+category: process_creation
+date: 2022/08/20
+description: Detects the use of SharpUp, a tool for local privilege escalation
+detection:
+  condition: 1 of selection*
+  selection:
+    winlog.event_data.Image|endswith: \SharpUp.exe
+  selection_commandline:
+    winlog.event_data.CommandLine|contains:
+    - HijackablePaths
+    - UnquotedServicePath
+    - ProcessDLLHijack
+    - ModifiableServiceBinaries
+    - ModifiableScheduledTask
+    - DomainGPPPassword
+  selection_pe:
+    winlog.event_data.Description: SharpUp
+falsepositives:
+- Unknown
+id: c484e533-ee16-4a93-b6ac-f0ea4868b2f1
+level: critical
+logsource:
+  category: process_creation
+  product: windows
+product: windows
+references:
+- https://github.com/GhostPack/SharpUp
+status: experimental
+tags:
+- attack.privilege_escalation
+- attack.t1615
+- attack.t1569.002
+- attack.t1574.005
+title: SharpUp PrivEsc Tool

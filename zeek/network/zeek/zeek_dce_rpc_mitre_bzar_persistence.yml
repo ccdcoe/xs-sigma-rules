@@ -4,7 +4,7 @@ description: Windows DCE-RPC functions which indicate a persistence techniques o
   the remote system. All credit for the Zeek mapping of the suspicious endpoint/operation
   field goes to MITRE.
 detection:
-  condition: 1 of them
+  condition: 1 of op*
   op1:
     endpoint: spoolss
     operation: RpcAddMonitor
@@ -31,10 +31,12 @@ level: medium
 logsource:
   product: zeek
   service: dce_rpc
+modified: 2021/11/27
 product: zeek
 references:
 - https://github.com/mitre-attack/bzar#indicators-for-attck-persistence
 service: dce_rpc
+status: test
 tags:
 - attack.persistence
 - attack.t1547.004

@@ -23,6 +23,7 @@ references:
 - https://dirkjanm.io/a-different-way-of-abusing-zerologon/
 - https://twitter.com/_dirkjan/status/1309214379003588608
 service: smb_files
+status: experimental
 tags:
 - attack.lateral_movement
 - attack.t1021.002

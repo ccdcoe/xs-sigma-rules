@@ -1,0 +1,64 @@
+author: Victor Sergeev, Daniil Yugoslavskiy, Gleb Sukhodolskiy, Timur Zinniatullin,
+  oscd.community, Tim Shelton, frack113 (split)
+category: registry_set
+date: 2019/10/25
+description: Detects modification of autostart extensibility point (ASEP) in registry.
+detection:
+  condition: all of system_control_* and not 1 of filter_*
+  filter_cutepdf:
+    winlog.event_data.Details:
+    - cpwmon64_v40.dll
+    - CutePDF Writer
+    winlog.event_data.Image: C:\Windows\System32\spoolsv.exe
+    winlog.event_data.TargetObject|contains: \Print\Monitors\CutePDF Writer Monitor
+  filter_empty:
+    winlog.event_data.Details: (Empty)
+  filter_onenote:
+    winlog.event_data.Image: C:\Windows\System32\spoolsv.exe
+    winlog.event_data.TargetObject|contains: Print\Monitors\Appmon\Ports\Microsoft.Office.OneNote_
+    winlog.event_data.User|contains:
+    - AUTHORI
+    - AUTORI
+  system_control_base:
+    winlog.event_data.EventType: SetValue
+    winlog.event_data.TargetObject|contains: \SYSTEM\CurrentControlSet\Control
+  system_control_keys:
+    winlog.event_data.TargetObject|contains:
+    - \Terminal Server\WinStations\RDP-Tcp\InitialProgram
+    - \Terminal Server\Wds\rdpwd\StartupPrograms
+    - \SecurityProviders\SecurityProviders
+    - \SafeBoot\AlternateShell
+    - \Print\Providers
+    - \Print\Monitors
+    - \NetworkProvider\Order
+    - \Lsa\Notification Packages
+    - \Lsa\Authentication Packages
+    - \BootVerificationProgram\ImagePath
+falsepositives:
+- Legitimate software automatically (mostly, during installation) sets up autorun
+  keys for legitimate reason
+- Legitimate administrator sets up autorun keys for legitimate reason
+fields:
+- OldValueType
+- NewValueType
+- winlog.event_data.SecurityID
+- winlog.event_data.ObjectName
+id: f674e36a-4b91-431e-8aef-f8a96c2aca35
+level: medium
+logsource:
+  category: registry_set
+  product: windows
+modified: 2022/08/09
+product: windows
+references:
+- https://github.com/redcanaryco/atomic-red-team/blob/f339e7da7d05f6057fdfcdd3742bfcf365fee2a9/atomics/T1547.001/T1547.001.md
+- https://docs.microsoft.com/en-us/sysinternals/downloads/autoruns
+- https://gist.github.com/GlebSukhodolskiy/0fc5fa5f482903064b448890db1eaf9d
+related:
+- id: 17f878b8-9968-4578-b814-c4217fc5768c
+  type: derived
+status: experimental
+tags:
+- attack.persistence
+- attack.t1547.001
+title: CurrentControlSet Autorun Keys Modification

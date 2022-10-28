@@ -1,0 +1,32 @@
+author: frack113
+category: process_creation
+date: 2021/11/03
+description: schtasks.exe create task from user AppData\Local\Temp
+detection:
+  condition: schtasks and option and not 1 of filter_*
+  filter_klite_codec:
+    winlog.event_data.CommandLine|contains|all:
+    - '/Create /TN "klcp_update" /XML '
+    - \klcp_update_task.xml
+  option:
+    winlog.event_data.CommandLine|contains|all:
+    - '/Create '
+    - \AppData\Local\Temp
+  schtasks:
+    winlog.event_data.Image|endswith: \schtasks.exe
+falsepositives:
+- Unknown
+id: 43f487f0-755f-4c2a-bce7-d6d2eec2fcf8
+level: high
+logsource:
+  category: process_creation
+  product: windows
+modified: 2022/06/02
+product: windows
+references:
+- malware analyse https://www.joesandbox.com/analysis/514608/0/html#324415FF7D8324231381BAD48A052F85DF04
+status: experimental
+tags:
+- attack.execution
+- attack.t1053.005
+title: Suspicious Add Scheduled Task From User AppData Temp

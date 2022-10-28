@@ -1,0 +1,37 @@
+author: frack113, Florian Roth
+category: process_creation
+date: 2021/07/21
+description: Adversaries may use a non-application layer protocol for communication
+  between host and C2 server or among infected hosts within a network
+detection:
+  condition: 1 of selection_*
+  selection_cmdline:
+    winlog.event_data.CommandLine|contains:
+    - ' -lvp '
+    - ' -lvnp'
+    - ' -l -v -p '
+    - ' -lv -p '
+    - ' -l --proxy-type http '
+    - ' --exec cmd.exe '
+    - ' -vnl --exec '
+  selection_img:
+    winlog.event_data.Image|endswith:
+    - \ncat.exe
+    - \netcat.exe
+falsepositives:
+- Legitimate ncat use
+id: e31033fc-33f0-4020-9a16-faf9b31cbf08
+level: high
+logsource:
+  category: process_creation
+  product: windows
+modified: 2022/07/11
+product: windows
+references:
+- https://nmap.org/ncat/
+- https://github.com/redcanaryco/atomic-red-team/blob/f339e7da7d05f6057fdfcdd3742bfcf365fee2a9/atomics/T1095/T1095.md
+status: experimental
+tags:
+- attack.command_and_control
+- attack.t1095
+title: Ncat Execution

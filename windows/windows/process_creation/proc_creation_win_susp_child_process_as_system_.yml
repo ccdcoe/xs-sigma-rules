@@ -1,0 +1,44 @@
+author: Teymur Kheirkhabarov, Roberto Rodriguez (@Cyb3rWard0g), Open Threat Research
+  (OTR)
+category: process_creation
+date: 2019/10/26
+definition: ParentUser field needs sysmon >= 13.30
+description: Detection of child processes spawned with SYSTEM privileges by parents
+  with LOCAL SERVICE or NETWORK SERVICE accounts
+detection:
+  condition: selection and not rundllexception
+  rundllexception:
+    winlog.event_data.CommandLine|contains: DavSetCookie
+    winlog.event_data.Image|endswith: \rundll32.exe
+  selection:
+    ParentUser:
+    - NT AUTHORITY\NETWORK SERVICE
+    - NT AUTHORITY\LOCAL SERVICE
+    - AUTORITE NT\
+    winlog.event_data.IntegrityLevel: System
+    winlog.event_data.User|contains:
+    - AUTHORI
+    - AUTORI
+    winlog.event_data.User|endswith:
+    - \SYSTEM
+    - "\\\u0421\u0418\u0421\u0422\u0415\u041C\u0410"
+falsepositives:
+- Unknown
+id: 590a5f4c-6c8c-4f10-8307-89afe9453a9d
+level: high
+logsource:
+  category: process_creation
+  definition: ParentUser field needs sysmon >= 13.30
+  product: windows
+modified: 2021/11/27
+product: windows
+references:
+- https://speakerdeck.com/heirhabarov/hunting-for-privilege-escalation-in-windows-environment
+- https://foxglovesecurity.com/2016/09/26/rotten-potato-privilege-escalation-from-service-accounts-to-system/
+- https://github.com/antonioCoco/RogueWinRM
+- https://twitter.com/Cyb3rWard0g/status/1453123054243024897
+status: test
+tags:
+- attack.privilege_escalation
+- attack.t1134.002
+title: Suspicious Child Process Created as System

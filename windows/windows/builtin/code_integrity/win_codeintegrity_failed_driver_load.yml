@@ -1,0 +1,23 @@
+author: Florian Roth
+date: 2022/01/20
+description: Detects driver load events that got blocked by Windows code integrity
+  checks
+detection:
+  condition: keywords
+  keywords:
+  - that did not meet the Microsoft signing level requirements
+falsepositives:
+- Unknown
+id: f8931561-97f5-4c46-907f-0a4a592e47a7
+level: high
+logsource:
+  product: windows
+  service: codeintegrity-operational
+product: windows
+references:
+- https://twitter.com/SBousseaden/status/1483810148602814466
+service: codeintegrity-operational
+status: experimental
+tags:
+- attack.execution
+title: Code Integrity Blocked Driver Load

@@ -1,0 +1,28 @@
+author: frack113
+category: process_creation
+date: 2022/01/22
+description: An adversary may use Radmin Viewer Utility to remotely control Windows
+  device
+detection:
+  condition: selection
+  selection:
+  - winlog.event_data.Description: Radmin Viewer
+  - winlog.event_data.Product: Radmin Viewer
+  - winlog.event_data.OriginalFileName: Radmin.exe
+falsepositives:
+- Unknown
+id: 5817e76f-4804-41e6-8f1d-5fa0b3ecae2d
+level: high
+logsource:
+  category: process_creation
+  product: windows
+product: windows
+references:
+- https://github.com/redcanaryco/atomic-red-team/blob/f339e7da7d05f6057fdfcdd3742bfcf365fee2a9/atomics/T1072/T1072.md
+- https://www.radmin.fr/
+status: experimental
+tags:
+- attack.execution
+- attack.lateral_movement
+- attack.t1072
+title: Use Radmin Viewer Utility

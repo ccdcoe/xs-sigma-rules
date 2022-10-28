@@ -1,0 +1,29 @@
+author: Florian Roth
+category: process_creation
+date: 2022/06/20
+description: Detects events in which a history file gets deleted, e.g. the ~/bash_history
+  to remove traces of malicious activity
+detection:
+  condition: all of selection*
+  selection:
+    Image|endswith: /rm
+  selection_history:
+  - CommandLine|contains:
+    - /.bash_history
+    - /.zsh_history
+  - CommandLine|endswith: _history
+falsepositives:
+- Legitimate administration activities
+id: 1182f3b3-e716-4efa-99ab-d2685d04360f
+level: high
+logsource:
+  category: process_creation
+  product: linux
+product: linux
+references:
+- https://github.com/sleventyeleven/linuxprivchecker/
+status: experimental
+tags:
+- attack.impact
+- attack.t1565.001
+title: History File Deletion

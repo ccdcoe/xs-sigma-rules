@@ -1,0 +1,34 @@
+author: '@neonprimetime, Florian Roth'
+category: process_creation
+date: 2021/09/08
+description: Detects a suspicious process pattern found in CVE-2021-40444 exploitation
+detection:
+  condition: selection and not filter
+  filter:
+    winlog.event_data.CommandLine|endswith:
+    - \control.exe input.dll
+    - \control.exe" input.dll
+  selection:
+    winlog.event_data.Image|endswith: \control.exe
+    winlog.event_data.ParentImage|endswith:
+    - \winword.exe
+    - \powerpnt.exe
+    - \excel.exe
+falsepositives:
+- Unknown
+id: 894397c6-da03-425c-a589-3d09e7d1f750
+level: high
+logsource:
+  category: process_creation
+  product: windows
+modified: 2022/03/03
+product: windows
+references:
+- https://msrc.microsoft.com/update-guide/vulnerability/CVE-2021-40444
+- https://twitter.com/neonprimetime/status/1435584010202255375
+- https://www.joesandbox.com/analysis/476188/1/iochtml
+status: test
+tags:
+- attack.execution
+- attack.t1059
+title: CVE-2021-40444 Process Pattern

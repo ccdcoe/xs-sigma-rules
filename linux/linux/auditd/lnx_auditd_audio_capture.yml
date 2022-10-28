@@ -4,15 +4,12 @@ description: Detects attempts to record audio with arecord utility
 detection:
   condition: selection
   selection:
-    a0:
-    - arecord
-    a1:
-    - -vv
-    a2:
-    - -fdat
+    a0: arecord
+    a1: -vv
+    a2: -fdat
     type: EXECVE
 falsepositives:
-- None
+- Unknown
 id: a7af2487-9c2f-42e4-9bb9-ff961f0561d5
 level: low
 logsource:

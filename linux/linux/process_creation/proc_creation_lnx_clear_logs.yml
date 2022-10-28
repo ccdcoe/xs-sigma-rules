@@ -1,0 +1,30 @@
+author: "\xD6mer G\xFCnal, oscd.community"
+category: process_creation
+date: 2020/10/07
+description: Detects attempts to clear logs on the system. Adversaries may clear system
+  logs to hide evidence of an intrusion
+detection:
+  condition: selection
+  selection:
+    CommandLine|contains:
+    - /var/log
+    - /var/spool/mail
+    Image|endswith:
+    - /rm
+    - /shred
+falsepositives:
+- Legitimate administration activities
+id: 80915f59-9b56-4616-9de0-fd0dea6c12fe
+level: medium
+logsource:
+  category: process_creation
+  product: linux
+modified: 2022/07/07
+product: linux
+references:
+- https://github.com/redcanaryco/atomic-red-team/blob/f339e7da7d05f6057fdfcdd3742bfcf365fee2a9/atomics/T1070.002/T1070.002.md
+status: stable
+tags:
+- attack.defense_evasion
+- attack.t1070.002
+title: Clear Linux Logs

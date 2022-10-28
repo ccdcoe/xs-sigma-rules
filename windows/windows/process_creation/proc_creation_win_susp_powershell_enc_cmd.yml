@@ -1,0 +1,48 @@
+author: Florian Roth, Markus Neis, Jonhnathan Ribeiro, Daniil Yugoslavskiy, Anton
+  Kutepov, oscd.community
+category: process_creation
+date: 2018/09/03
+description: Detects suspicious powershell process starts with base64 encoded commands
+  (e.g. Emotet)
+detection:
+  condition: ((selection and selection2) or (selection and selection2 and selection3)
+    or (selection and selection4) or selection5) and not falsepositive1
+  falsepositive1:
+    winlog.event_data.CommandLine|contains|all:
+    - ' -ExecutionPolicy'
+    - 'remotesigned '
+  selection:
+    winlog.event_data.CommandLine|contains: ' -e'
+  selection2:
+    winlog.event_data.CommandLine|contains: ' JAB'
+  selection3:
+    winlog.event_data.CommandLine|contains|all:
+    - ' -w'
+    - ' hidden '
+  selection4:
+    winlog.event_data.CommandLine|contains:
+    - ' BA^J'
+    - ' SUVYI'
+    - ' SQBFAFgA'
+    - ' aQBlAHgA'
+    - ' aWV4I'
+    - ' IAA'
+    - ' IAB'
+    - ' UwB'
+    - ' cwB'
+  selection5:
+    winlog.event_data.CommandLine|contains: '.exe -ENCOD '
+id: ca2092a1-c273-4878-9b4b-0d60115bf5ea
+level: high
+logsource:
+  category: process_creation
+  product: windows
+modified: 2021/03/02
+product: windows
+references:
+- https://app.any.run/tasks/6217d77d-3189-4db2-a957-8ab239f3e01e
+status: test
+tags:
+- attack.execution
+- attack.t1059.001
+title: Suspicious Encoded PowerShell Command Line

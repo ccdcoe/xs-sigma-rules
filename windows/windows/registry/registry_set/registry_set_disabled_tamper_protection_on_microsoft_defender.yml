@@ -1,0 +1,31 @@
+author: Austin Songer @austinsonger
+category: registry_set
+date: 2021/08/04
+description: Detects disabling Windows Defender Tamper Protection
+detection:
+  condition: selection and not 1 of filter_*
+  filter_msmpeng_client:
+    winlog.event_data.Image|endswith: \MsMpEng.exe
+    winlog.event_data.Image|startswith: C:\ProgramData\Microsoft\Windows Defender\Platform\
+  filter_msmpeng_domain_controller:
+    winlog.event_data.Image: C:\Program Files\Windows Defender\MsMpEng.exe
+  selection:
+    winlog.event_data.Details: DWORD (0x00000000)
+    winlog.event_data.EventType: SetValue
+    winlog.event_data.TargetObject|contains: \Microsoft\Windows Defender\Features\TamperProtection
+falsepositives:
+- Unknown
+id: 93d298a1-d28f-47f1-a468-d971e7796679
+level: medium
+logsource:
+  category: registry_set
+  product: windows
+modified: 2022/04/21
+product: windows
+references:
+- https://www.tenforums.com/tutorials/123792-turn-off-tamper-protection-microsoft-defender-antivirus.html
+status: experimental
+tags:
+- attack.defense_evasion
+- attack.t1562.001
+title: Disable Tamper Protection on Windows Defender

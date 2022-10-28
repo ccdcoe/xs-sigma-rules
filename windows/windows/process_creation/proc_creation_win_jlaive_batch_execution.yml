@@ -1,0 +1,42 @@
+author: Jose Luis Sanchez Martinez (@Joseliyo_Jstnk)
+category: process_creation
+date: 2022/05/24
+description: Detect the use of Jlaive to execute assemblies in a copied PowerShell
+detection:
+  condition: parent_selection and (1 of selection*)
+  parent_selection:
+    winlog.event_data.ParentCommandLine|endswith: .bat
+    winlog.event_data.ParentImage|endswith: \cmd.exe
+  selection1:
+    winlog.event_data.CommandLine|contains|all:
+    - powershell.exe
+    - .bat.exe
+    winlog.event_data.Image|endswith: \xcopy.exe
+  selection2:
+    winlog.event_data.CommandLine|contains|all:
+    - pwsh.exe
+    - .bat.exe
+    winlog.event_data.Image|endswith: \xcopy.exe
+  selection3:
+    winlog.event_data.CommandLine|contains|all:
+    - +s
+    - +h
+    - .bat.exe
+    winlog.event_data.Image|endswith: \attrib.exe
+falsepositives:
+- Unknown
+id: 0a99eb3e-1617-41bd-b095-13dc767f3def
+level: medium
+logsource:
+  category: process_creation
+  product: windows
+modified: 2022/07/14
+product: windows
+references:
+- https://jstnk9.github.io/jstnk9/research/Jlaive-Antivirus-Evasion-Tool
+- https://github.com/ch2sh/Jlaive
+status: experimental
+tags:
+- attack.execution
+- attack.t1059.003
+title: Jlaive Usage For Assembly Execution In-Memory

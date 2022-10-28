@@ -6,7 +6,7 @@ description: This detection excludes known namped pipes accessible remotely and 
 detection:
   condition: selection1 and not selection2
   selection1:
-    path: \\*\IPC$
+    path: \\\*\IPC$
   selection2:
     name:
     - atsvc
@@ -26,18 +26,20 @@ detection:
     - HydraLsPipe
     - TermSrv_API_service
     - MsFteWds
-    path: \\*\IPC$
+    path: \\\*\IPC$
 falsepositives:
-- update the excluded named pipe to filter out any newly observed legit named pipe
+- Update the excluded named pipe to filter out any newly observed legit named pipe
 id: 021310d9-30a6-480a-84b7-eaa69aeb92bb
 level: high
 logsource:
   product: zeek
   service: smb_files
+modified: 2021/11/27
 product: zeek
 references:
 - https://github.com/neo23x0/sigma/blob/d42e87edd741dd646db946f30964f331f92f50e6/rules/windows/builtin/win_lm_namedpipe.yml
 service: smb_files
+status: test
 tags:
 - attack.lateral_movement
 - attack.t1021.002

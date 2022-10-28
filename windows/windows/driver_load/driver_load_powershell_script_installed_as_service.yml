@@ -3,8 +3,8 @@ category: driver_load
 date: 2020/10/06
 description: Detects powershell script installed as a Service
 detection:
-  condition: powershell_as_service
-  powershell_as_service:
+  condition: selection
+  selection:
     winlog.event_data.ImageLoaded|contains:
     - powershell
     - pwsh

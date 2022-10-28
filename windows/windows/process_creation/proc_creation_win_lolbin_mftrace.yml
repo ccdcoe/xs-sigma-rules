@@ -1,0 +1,30 @@
+author: Nasreddine Bencherchali
+category: process_creation
+date: 2022/06/09
+description: The "Trace log generation tool for Media Foundation Tools" (Mftrace.exe)
+  can be used to execute arbitrary binaries
+detection:
+  condition: all of selection* or parent
+  parent:
+    winlog.event_data.ParentImage|endswith: \mftrace.exe
+  selection_cli:
+    winlog.event_data.CommandLine|contains: '.exe '
+    winlog.event_data.CommandLine|endswith: .exe
+  selection_img:
+  - winlog.event_data.Image|endswith: \mftrace.exe
+  - winlog.event_data.OriginalFileName: mftrace.exe
+falsepositives:
+- Legitimate use for tracing purposes
+id: 3d48c9d3-1aa6-418d-98d3-8fd3c01a564e
+level: medium
+logsource:
+  category: process_creation
+  product: windows
+product: windows
+references:
+- https://lolbas-project.github.io/lolbas/OtherMSBinaries/Mftrace/
+status: experimental
+tags:
+- attack.defense_evasion
+- attack.t1127
+title: Use of Mftrace.exe

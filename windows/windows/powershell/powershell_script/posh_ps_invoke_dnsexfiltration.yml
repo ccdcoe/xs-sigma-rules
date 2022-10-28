@@ -1,0 +1,33 @@
+author: frack113
+category: ps_script
+date: 2022/01/07
+definition: Script block logging must be enabled
+description: DNSExfiltrator allows for transferring (exfiltrate) a file over a DNS
+  request covert channel
+detection:
+  condition: selection_cmdlet
+  selection_cmdlet:
+  - winlog.event_data.ScriptBlockText|contains: Invoke-DNSExfiltrator
+  - winlog.event_data.ScriptBlockText|contains|all:
+    - ' -i '
+    - ' -d '
+    - ' -p '
+    - ' -doh '
+    - ' -t '
+falsepositives:
+- Legitimate script
+id: d59d7842-9a21-4bc6-ba98-64bfe0091355
+level: high
+logsource:
+  category: ps_script
+  definition: Script block logging must be enabled
+  product: windows
+product: windows
+references:
+- https://github.com/redcanaryco/atomic-red-team/blob/f339e7da7d05f6057fdfcdd3742bfcf365fee2a9/atomics/T1048/T1048.md#atomic-test-3---dnsexfiltration-doh
+- https://github.com/Arno0x/DNSExfiltrator
+status: experimental
+tags:
+- attack.exfiltration
+- attack.t1048
+title: Powershell DNSExfiltration

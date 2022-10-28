@@ -1,0 +1,27 @@
+author: Nasreddine Bencherchali
+category: image_load
+date: 2022/08/02
+description: Detects loading of a DLL by the VMware Xfer utility from the non-default
+  directory which may be an attempt to sideload arbitrary DLL
+detection:
+  condition: selection and not filter
+  filter:
+    winlog.event_data.ImageLoaded|startswith: C:\Program Files\VMware\
+  selection:
+    winlog.event_data.ImageLoaded|endswith: \glib-2.0.dll
+    winlog.event_data.Image|endswith: \VMwareXferlogs.exe
+falsepositives:
+- Unlikely
+id: 9313dc13-d04c-46d8-af4a-a930cc55d93b
+level: high
+logsource:
+  category: image_load
+  product: windows
+product: windows
+references:
+- https://www.sentinelone.com/labs/lockbit-ransomware-side-loads-cobalt-strike-beacon-with-legitimate-vmware-utility/
+status: experimental
+tags:
+- attack.defense_evasion
+- attack.t1574.002
+title: VMware Xfer Loading DLL from Nondefault Path

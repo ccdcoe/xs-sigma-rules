@@ -1,0 +1,29 @@
+author: frack113
+category: registry_set
+date: 2022/01/05
+description: Bypasses User Account Control using a fileless method
+detection:
+  condition: selection
+  selection:
+    winlog.event_data.Details: (Empty)
+    winlog.event_data.EventType: SetValue
+    winlog.event_data.TargetObject|endswith: \open\command\DelegateExecute
+falsepositives:
+- Unknown
+id: 46dd5308-4572-4d12-aa43-8938f0184d4f
+level: high
+logsource:
+  category: registry_set
+  product: windows
+modified: 2022/03/26
+product: windows
+references:
+- https://docs.microsoft.com/en-us/windows/win32/api/shobjidl_core/nn-shobjidl_core-iexecutecommand
+- https://devblogs.microsoft.com/oldnewthing/20100312-01/?p=14623
+- https://github.com/redcanaryco/atomic-red-team/blob/f339e7da7d05f6057fdfcdd3742bfcf365fee2a9/atomics/T1548.002/T1548.002.md#atomic-test-7---bypass-uac-using-sdclt-delegateexecute
+status: experimental
+tags:
+- attack.privilege_escalation
+- attack.defense_evasion
+- attack.t1548.002
+title: Bypass UAC Using DelegateExecute

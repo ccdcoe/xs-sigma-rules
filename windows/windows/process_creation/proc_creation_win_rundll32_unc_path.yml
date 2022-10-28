@@ -1,0 +1,30 @@
+author: Nasreddine Bencherchali
+category: process_creation
+date: 2022/08/10
+description: Detects rundll32 execution where the DLL is located on a remote location
+  (share)
+detection:
+  condition: all of selection_*
+  selection_cli:
+    winlog.event_data.CommandLine|contains: ' \\\\'
+  selection_img:
+  - winlog.event_data.Image|endswith: \rundll32.exe
+  - winlog.event_data.OriginalFileName: RUNDLL32.EXE
+  - winlog.event_data.CommandLine|contains: rundll32
+falsepositives:
+- Unlikely
+id: 5cdb711b-5740-4fb2-ba88-f7945027afac
+level: high
+logsource:
+  category: process_creation
+  product: windows
+product: windows
+references:
+- https://www.cybereason.com/blog/rundll32-the-infamous-proxy-for-executing-malicious-code
+status: experimental
+tags:
+- attack.defense_evasion
+- attack.execution
+- attack.t1021.002
+- attack.t1218.011
+title: Rundll32 UNC Path Execution

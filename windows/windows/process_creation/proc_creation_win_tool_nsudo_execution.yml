@@ -1,0 +1,50 @@
+author: Florian Roth, Nasreddine Bencherchali
+category: process_creation
+date: 2022/01/24
+description: Detects the use of NSudo tool for command execution
+detection:
+  condition: all of selection*
+  selection_cli:
+    winlog.event_data.CommandLine|contains:
+    - '-U:S '
+    - '-U:T '
+    - '-U:E '
+    - '-P:E '
+    - '-M:S '
+    - '-M:H '
+    - '-U=S '
+    - '-U=T '
+    - '-U=E '
+    - '-P=E '
+    - '-M=S '
+    - '-M=H '
+  selection_img:
+  - winlog.event_data.Image|endswith:
+    - \NSudo.exe
+    - \NSudoLC.exe
+    - \NSudoLG.exe
+  - winlog.event_data.OriginalFileName:
+    - NSudo.exe
+    - NSudoLC.exe
+    - NSudoLG.exe
+falsepositives:
+- Legitimate use by administrators
+fields:
+- winlog.event_data.CommandLine
+- winlog.event_data.ParentCommandLine
+id: 771d1eb5-9587-4568-95fb-9ec44153a012
+level: high
+logsource:
+  category: process_creation
+  product: windows
+modified: 2022/06/07
+product: windows
+references:
+- https://nsudo.m2team.org/en-us/
+- https://www.winhelponline.com/blog/run-program-as-system-localsystem-account-windows/
+status: experimental
+tags:
+- attack.execution
+- attack.t1569.002
+- attack.s0029
+title: NSudo Tool Execution

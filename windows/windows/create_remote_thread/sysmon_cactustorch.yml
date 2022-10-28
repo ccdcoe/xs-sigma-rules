@@ -13,15 +13,14 @@ detection:
     - \excel.exe
     winlog.event_data.StartModule: null
     winlog.event_data.TargetImage|contains: \SysWOW64\
-    winlog.event_id: 8
 falsepositives:
-- unknown
+- Unknown
 id: 2e4e488a-6164-4811-9ea1-f960c7359c40
 level: high
 logsource:
   category: create_remote_thread
   product: windows
-modified: 2020/08/28
+modified: 2021/11/12
 product: windows
 references:
 - https://twitter.com/SBousseaden/status/1090588499517079552

@@ -1,0 +1,32 @@
+author: Vasiliy Burov
+category: process_creation
+date: 2019/08/06
+description: Detects Ryuk Ransomware command lines
+detection:
+  condition: all of selection*
+  selection1:
+    winlog.event_data.CommandLine|contains: stop
+    winlog.event_data.Image|endswith:
+    - \net.exe
+    - \net1.exe
+  selection2:
+    winlog.event_data.CommandLine|contains:
+    - samss
+    - audioendpointbuilder
+    - unistoresvc_?????
+falsepositives:
+- Unlikely
+id: 0acaad27-9f02-4136-a243-c357202edd74
+level: critical
+logsource:
+  category: process_creation
+  product: windows
+modified: 2021/11/27
+product: windows
+references:
+- https://research.checkpoint.com/ryuk-ransomware-targeted-campaign-break/
+status: stable
+tags:
+- attack.execution
+- attack.t1204
+title: Ryuk Ransomware

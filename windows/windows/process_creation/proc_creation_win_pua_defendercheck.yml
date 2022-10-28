@@ -1,0 +1,26 @@
+author: Florian Roth
+category: process_creation
+date: 2022/08/30
+description: Detects the use of DefenderCheck, a tool to evaluate the signatures used
+  in Microsoft Defender. It can be used to figure out the strings / byte chains used
+  in Microsoft Defender to detect a tool and thus used for AV evasion.
+detection:
+  condition: selection
+  selection:
+  - winlog.event_data.Image|endswith: \DefenderCheck.exe
+  - winlog.event_data.Description: DefenderCheck
+falsepositives:
+- Unlikely
+id: f0ca6c24-3225-47d5-b1f5-352bf07ecfa7
+level: high
+logsource:
+  category: process_creation
+  product: windows
+product: windows
+references:
+- https://github.com/matterpreter/DefenderCheck
+status: experimental
+tags:
+- attack.defense_evasion
+- attack.t1027.005
+title: DefenderCheck Usage

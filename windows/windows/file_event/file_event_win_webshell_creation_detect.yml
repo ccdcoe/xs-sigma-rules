@@ -1,0 +1,50 @@
+author: Beyu Denis, oscd.community, Tim Shelton
+category: file_event
+date: 2019/10/22
+description: Possible webshell file creation on a static web site
+detection:
+  condition: not false_positive2 and ( (selection_2 and selection_3 and not false_positive1)
+    or (selection_4 and selection_5 and not false_positive1) or (selection_6 and not
+    false_positive1) )
+  false_positive1:
+    winlog.event_data.TargetFilename|contains:
+    - \AppData\Local\Temp\
+    - \Windows\Temp\
+  false_positive2:
+    winlog.event_data.Image: System
+  selection_2:
+    winlog.event_data.TargetFilename|contains: \inetpub\wwwroot\
+  selection_3:
+    winlog.event_data.TargetFilename|contains:
+    - .asp
+    - .ashx
+    - .ph
+  selection_4:
+    winlog.event_data.TargetFilename|contains:
+    - \www\
+    - \htdocs\
+    - \html\
+  selection_5:
+    winlog.event_data.TargetFilename|contains: .ph
+  selection_6:
+  - winlog.event_data.TargetFilename|endswith: .jsp
+  - winlog.event_data.TargetFilename|contains|all:
+    - \cgi-bin\
+    - .pl
+falsepositives:
+- Legitimate administrator or developer creating legitimate executable files in a
+  web application folder
+id: 39f1f9f2-9636-45de-98f6-a4046aa8e4b9
+level: high
+logsource:
+  category: file_event
+  product: windows
+modified: 2022/05/24
+product: windows
+references:
+- PT ESC rule and personal experience
+status: test
+tags:
+- attack.persistence
+- attack.t1505.003
+title: Windows Webshell Creation

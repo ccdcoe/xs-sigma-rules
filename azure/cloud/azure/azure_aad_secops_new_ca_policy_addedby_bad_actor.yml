@@ -1,0 +1,25 @@
+author: Corissa Koopmans, '@corissalea'
+date: 2022/07/18
+description: Monitor and alert on conditional access changes.
+detection:
+  condition: selection
+  selection:
+    properties.message: Add conditional access policy
+falsepositives:
+- Misconfigured role permissions
+- Verify whether the user identity, user agent, and/or hostname should be making changes
+  in your environment.
+id: 0922467f-db53-4348-b7bf-dee8d0d348c6
+level: medium
+logsource:
+  product: azure
+  service: auditlogs
+product: azure
+references:
+- https://docs.microsoft.com/en-us/azure/active-directory/fundamentals/security-operations-infrastructure
+service: auditlogs
+status: experimental
+tags:
+- attack.defense_evasion
+- attack.t1548
+title: New CA Policy by Non-approved Actor

@@ -1,0 +1,32 @@
+author: Florian Roth
+category: process_creation
+date: 2022/04/27
+description: Detects suspicious Unicode characters in the command line, which could
+  be a sign of obfuscation or defense evasion
+detection:
+  condition: 1 of selection*
+  selection_spacing_modifiers:
+    winlog.event_data.CommandLine|contains:
+    - "\u02E3"
+    - "\u02EA"
+    - "\u02E2"
+  selection_unicode_hyphens:
+    winlog.event_data.CommandLine|contains:
+    - "\u2015"
+    - "\u2014"
+  selection_unicode_slashes:
+    winlog.event_data.CommandLine|contains:
+    - "\u2215"
+    - "\u2044"
+falsepositives:
+- Unknown
+id: 2c0d2d7b-30d6-4d14-9751-7b9113042ab9
+level: high
+logsource:
+  category: process_creation
+  product: windows
+product: windows
+references:
+- https://www.wietzebeukema.nl/blog/windows-command-line-obfuscation
+status: experimental
+title: Suspicious Characters in CommandLine

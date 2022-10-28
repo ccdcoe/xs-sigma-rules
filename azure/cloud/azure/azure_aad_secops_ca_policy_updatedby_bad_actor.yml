@@ -1,0 +1,27 @@
+author: Corissa Koopmans, '@corissalea'
+date: 2022/07/19
+description: Monitor and alert on conditional access changes. Is Initiated by (actor)
+  approved to make changes? Review Modified Properties and compare "old" vs "new"
+  value.
+detection:
+  condition: keywords
+  keywords:
+  - Update conditional access policy
+falsepositives:
+- Misconfigured role permissions
+- Verify whether the user identity, user agent, and/or hostname should be making changes
+  in your environment.
+id: 50a3c7aa-ec29-44a4-92c1-fce229eef6fc
+level: medium
+logsource:
+  product: azure
+  service: auditlogs
+product: azure
+references:
+- https://docs.microsoft.com/en-us/azure/active-directory/fundamentals/security-operations-infrastructure#conditional-access
+service: auditlogs
+status: experimental
+tags:
+- attack.defense_evasion
+- attack.t1548
+title: CA Policy Updated by Non Approved Actor

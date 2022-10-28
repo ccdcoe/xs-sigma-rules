@@ -1,0 +1,36 @@
+author: Lednyov Alexey, oscd.community
+category: registry_set
+date: 2020/10/16
+definition: 'Requirements: Sysmon config that monitors \SOFTWARE\Microsoft\Windows
+  NT\CurrentVersion\AppCompatFlags\TelemetryController subkey of the HKLU hives'
+description: Detects persistence method using windows telemetry
+detection:
+  condition: selection and not filter
+  filter:
+    winlog.event_data.Details|contains:
+    - \system32\CompatTelRunner.exe
+    - \system32\DeviceCensus.exe
+  selection:
+    winlog.event_data.Details|contains: .exe
+    winlog.event_data.EventType: SetValue
+    winlog.event_data.TargetObject|contains|all:
+    - \SOFTWARE\Microsoft\Windows NT\CurrentVersion\AppCompatFlags\TelemetryController\
+    - \Command
+falsepositives:
+- Unknown
+id: 73a883d0-0348-4be4-a8d8-51031c2564f8
+level: critical
+logsource:
+  category: registry_set
+  definition: 'Requirements: Sysmon config that monitors \SOFTWARE\Microsoft\Windows
+    NT\CurrentVersion\AppCompatFlags\TelemetryController subkey of the HKLU hives'
+  product: windows
+modified: 2022/03/26
+product: windows
+references:
+- https://www.trustedsec.com/blog/abusing-windows-telemetry-for-persistence/
+status: test
+tags:
+- attack.persistence
+- attack.t1053.005
+title: Registry Persistence Mechanism via Windows Telemetry

@@ -1,0 +1,29 @@
+author: Florian Roth
+category: file_event
+date: 2022/01/30
+description: Detects the creation of log files during a TeamViewer remote session
+detection:
+  condition: 1 of selection*
+  selection1:
+    winlog.event_data.TargetFilename|endswith:
+    - \TeamViewer\RemotePrinting\tvprint.db
+    - \TeamViewer\TVNetwork.log
+  selection2:
+    winlog.event_data.TargetFilename|contains|all:
+    - \TeamViewer
+    - _Logfile.log
+falsepositives:
+- Legitimate uses of TeamViewer in an organisation
+id: 162ab1e4-6874-4564-853c-53ec3ab8be01
+level: medium
+logsource:
+  category: file_event
+  product: windows
+product: windows
+references:
+- https://www.teamviewer.com/en-us/
+status: experimental
+tags:
+- attack.command_and_control
+- attack.t1219
+title: TeamViewer Remote Session

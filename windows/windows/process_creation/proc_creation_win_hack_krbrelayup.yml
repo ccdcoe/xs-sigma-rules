@@ -1,0 +1,44 @@
+author: Florian Roth
+category: process_creation
+date: 2022/04/26
+description: Detects KrbRelayUp used to perform a universal no-fix local privilege
+  escalation in windows domain environments where LDAP signing is not enforced
+detection:
+  condition: 1 of selection*
+  selection_flags1:
+    winlog.event_data.CommandLine|contains|all:
+    - ' relay '
+    - ' -Domain '
+    - ' -ComputerName '
+  selection_flags2:
+    winlog.event_data.CommandLine|contains|all:
+    - ' krbscm '
+    - ' -sc '
+  selection_flags3:
+    winlog.event_data.CommandLine|contains|all:
+    - ' spawn '
+    - ' -d '
+    - ' -cn '
+    - ' -cp '
+  selection_name:
+    winlog.event_data.Image|endswith: \KrbRelayUp.exe
+  selection_original_name:
+    winlog.event_data.OriginalFileName: KrbRelayUp.exe
+falsepositives:
+- Unlikely
+id: 12827a56-61a4-476a-a9cb-f3068f191073
+level: high
+logsource:
+  category: process_creation
+  product: windows
+modified: 2022/04/27
+product: windows
+references:
+- https://github.com/Dec0ne/KrbRelayUp
+status: experimental
+tags:
+- attack.credential_access
+- attack.t1558.003
+- attack.lateral_movement
+- attack.t1550.003
+title: KrbRelayUp Hack Tool

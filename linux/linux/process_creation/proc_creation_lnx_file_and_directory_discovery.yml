@@ -1,0 +1,32 @@
+author: Daniil Yugoslavskiy, oscd.community
+category: process_creation
+date: 2020/10/19
+description: Detects usage of system utilities to discover files and directories
+detection:
+  condition: 1 of select*
+  select_file_with_asterisk:
+    CommandLine|re: (.){200,}
+    Image|endswith: /file
+  select_find_execution:
+    Image|endswith: /find
+  select_recursive_ls:
+    CommandLine|contains: -R
+    Image|endswith: /ls
+  select_tree_execution:
+    Image|endswith: /tree
+falsepositives:
+- Legitimate activities
+id: d3feb4ee-ff1d-4d3d-bd10-5b28a238cc72
+level: informational
+logsource:
+  category: process_creation
+  product: linux
+modified: 2021/11/27
+product: linux
+references:
+- https://github.com/redcanaryco/atomic-red-team/blob/f339e7da7d05f6057fdfcdd3742bfcf365fee2a9/atomics/T1083/T1083.md
+status: test
+tags:
+- attack.discovery
+- attack.t1083
+title: File and Directory Discovery

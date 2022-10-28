@@ -54,10 +54,10 @@ logsource:
   category: proxy
   product: suricata
   service: http
-modified: 2020/09/03
+modified: 2021/11/27
 product: suricata
 service: http
-status: experimental
+status: test
 tags:
 - attack.initial_access
 - attack.t1566

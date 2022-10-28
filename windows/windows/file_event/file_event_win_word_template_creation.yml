@@ -1,0 +1,44 @@
+author: Max Altgelt
+category: file_event
+date: 2022/06/02
+description: Detects creation of template files for Microsoft Office from outside
+  Office
+detection:
+  condition: 1 of selection* and not filter_office
+  filter_office:
+    winlog.event_data.Image|endswith:
+    - \WINWORD.exe
+    - \EXCEL.exe
+  selection_excel:
+    winlog.event_data.TargetFilename|contains: \Microsoft\Excel\Startup
+    winlog.event_data.TargetFilename|endswith:
+    - .xlt
+    - .xltm
+    - .xls
+    - .xlsm
+    - .xlsx
+  selection_word:
+    winlog.event_data.TargetFilename|contains: \Microsoft\Word\Startup
+    winlog.event_data.TargetFilename|endswith:
+    - .dot
+    - .dotm
+    - .doc
+    - .docm
+    - .docx
+    - .rtf
+falsepositives:
+- Loading a user environment from a backup or a domain controller
+- Synchronization of templates
+id: 0e20c89d-2264-44ae-8238-aeeaba609ece
+level: high
+logsource:
+  category: file_event
+  product: windows
+product: windows
+references:
+- https://insight-jp.nttsecurity.com/post/102hojk/operation-restylink-apt-campaign-targeting-japanese-companies
+status: experimental
+tags:
+- attack.persistence
+- attack.t1137
+title: Office Template Creation

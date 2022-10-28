@@ -1,0 +1,33 @@
+author: Nasreddine Bencherchali
+category: process_creation
+date: 2022/06/28
+description: Detects when a program changes the default file association of any extension
+  to an executable
+detection:
+  condition: selection and not filter
+  filter:
+    winlog.event_data.CommandLine|contains: .exe=exefile
+  selection:
+    winlog.event_data.CommandLine|contains|all:
+    - cmd
+    - ' /c '
+    - 'assoc '
+    - exefile
+falsepositives:
+- Unknown
+id: ae6f14e6-14de-45b0-9f44-c0986f50dc89
+level: high
+logsource:
+  category: process_creation
+  product: windows
+product: windows
+references:
+- https://docs.microsoft.com/en-us/windows-server/administration/windows-commands/assoc
+related:
+- id: 3d3aa6cd-6272-44d6-8afc-7e88dfef7061
+  type: derived
+status: experimental
+tags:
+- attack.persistence
+- attack.t1546.001
+title: Change Default File Association To Executable

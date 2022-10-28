@@ -1,0 +1,39 @@
+author: Nasreddine Bencherchali, Wietze Beukema (project and research)
+category: image_load
+date: 2022/08/17
+description: Detects DLL sideloading of DLLs that are part of third party software
+  (zoom, discord....etc)
+detection:
+  condition: (selection_lenovo and not filter_lenovo) or (selection_toshiba and not
+    filter_toshiba)
+  filter_lenovo:
+  - winlog.event_data.ImageLoaded|contains: \AppData\local\Google\Chrome\Application\
+  - winlog.event_data.ImageLoaded|startswith:
+    - C:\Program Files\Lenovo\Communications Utility\
+    - C:\Program Files (x86)\Lenovo\Communications Utility\
+  filter_toshiba:
+    winlog.event_data.ImageLoaded|startswith:
+    - C:\Program Files\Toshiba\Bluetooth Toshiba Stack\
+    - C:\Program Files (x86)\Toshiba\Bluetooth Toshiba Stack\
+  selection_lenovo:
+    winlog.event_data.ImageLoaded|endswith: \commfunc.dll
+  selection_toshiba:
+    winlog.event_data.ImageLoaded|endswith: \tosbtkbd.dll
+falsepositives:
+- Unknown
+id: f9df325d-d7bc-4a32-8a1a-2cc61dcefc63
+level: medium
+logsource:
+  category: image_load
+  product: windows
+product: windows
+references:
+- https://hijacklibs.net/
+status: experimental
+tags:
+- attack.defense_evasion
+- attack.persistence
+- attack.privilege_escalation
+- attack.t1574.001
+- attack.t1574.002
+title: Third Party Software DLL Sideloading

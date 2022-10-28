@@ -1,0 +1,34 @@
+author: frack113
+category: ps_script
+date: 2022/03/17
+definition: Script block logging must be enabled
+description: Detects technique used by MAZE ransomware to enumerate directories using
+  Powershell
+detection:
+  condition: selection
+  selection:
+    winlog.event_data.ScriptBlockText|contains|all:
+    - foreach
+    - Get-ChildItem
+    - '-Path '
+    - '-ErrorAction '
+    - SilentlyContinue
+    - 'Out-File '
+    - -append
+falsepositives:
+- Legitimate PowerShell scripts
+id: 162e69a7-7981-4344-84a9-0f1c9a217a52
+level: medium
+logsource:
+  category: ps_script
+  definition: Script block logging must be enabled
+  product: windows
+product: windows
+references:
+- https://github.com/redcanaryco/atomic-red-team/blob/f339e7da7d05f6057fdfcdd3742bfcf365fee2a9/atomics/T1083/T1083.md
+- https://www.mandiant.com/resources/tactics-techniques-procedures-associated-with-maze-ransomware-incidents
+status: experimental
+tags:
+- attack.discovery
+- attack.t1083
+title: Powershell Directory Enumeration

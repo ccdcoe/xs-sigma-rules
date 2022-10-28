@@ -1,0 +1,46 @@
+author: Florian Roth, wagga
+category: process_creation
+date: 2020/12/23
+description: Detects different loaders as described in various threat reports on Lazarus
+  group activity
+detection:
+  condition: ( selection_cmd1 and selection_cmd2 ) or ( selection_rundll1 and selection_rundll2
+    )
+  selection_cmd1:
+    winlog.event_data.CommandLine|contains|all:
+    - 'cmd.exe /c '
+    - ' -p 0x'
+  selection_cmd2:
+    winlog.event_data.CommandLine|contains:
+    - C:\ProgramData\
+    - C:\RECYCLER\
+  selection_rundll1:
+    winlog.event_data.CommandLine|contains|all:
+    - 'rundll32.exe '
+    - C:\ProgramData\
+  selection_rundll2:
+    winlog.event_data.CommandLine|contains:
+    - .bin,
+    - .tmp,
+    - .dat,
+    - .io,
+    - .ini,
+    - .db,
+falsepositives:
+- Unknown
+id: 7b49c990-4a9a-4e65-ba95-47c9cc448f6e
+level: critical
+logsource:
+  category: process_creation
+  product: windows
+modified: 2021/06/27
+product: windows
+references:
+- https://www.hvs-consulting.de/lazarus-report/
+- https://securelist.com/lazarus-covets-covid-19-related-intelligence/99906/
+status: test
+tags:
+- attack.g0032
+- attack.execution
+- attack.t1059
+title: Lazarus Loaders

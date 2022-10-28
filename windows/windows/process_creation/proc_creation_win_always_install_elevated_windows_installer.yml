@@ -1,0 +1,55 @@
+author: Teymur Kheirkhabarov (idea), Mangatas Tondang (rule), oscd.community
+category: process_creation
+date: 2020/10/13
+description: This rule looks for Windows Installer service (msiexec.exe) trying to
+  install MSI packages with SYSTEM privilege
+detection:
+  condition: ( (image_1 and user) or (image_2 and user and integrity_level) ) and
+    not 1 of filter*
+  filter_autoupdater:
+    winlog.event_data.ParentImage|startswith:
+    - C:\ProgramData\Sophos\
+    - C:\ProgramData\Avira\
+    - C:\Program Files\Avast Software\
+    - C:\Program Files (x86)\Avast Software\
+    - C:\Program Files\Google\Update\
+    - C:\Program Files (x86)\Google\Update\
+  filter_installer:
+    winlog.event_data.ParentImage: C:\Windows\System32\services.exe
+  filter_repair:
+  - winlog.event_data.CommandLine|endswith: \system32\msiexec.exe /V
+  - winlog.event_data.ParentCommandLine|endswith: \system32\msiexec.exe /V
+  image_1:
+    winlog.event_data.Image|contains|all:
+    - \Windows\Installer\
+    - msi
+    winlog.event_data.Image|endswith: tmp
+  image_2:
+    winlog.event_data.Image|endswith: \msiexec.exe
+  integrity_level:
+    winlog.event_data.IntegrityLevel: System
+  user:
+    winlog.event_data.User|contains:
+    - AUTHORI
+    - AUTORI
+falsepositives:
+- System administrator usage
+- Anti virus products
+fields:
+- winlog.event_data.IntegrityLevel
+- winlog.event_data.User
+- winlog.event_data.Image
+id: cd951fdc-4b2f-47f5-ba99-a33bf61e3770
+level: medium
+logsource:
+  category: process_creation
+  product: windows
+modified: 2022/08/25
+product: windows
+references:
+- https://image.slidesharecdn.com/kheirkhabarovoffzonefinal-181117201458/95/hunting-for-privilege-escalation-in-windows-environment-48-638.jpg
+status: experimental
+tags:
+- attack.privilege_escalation
+- attack.t1548.002
+title: Always Install Elevated Windows Installer

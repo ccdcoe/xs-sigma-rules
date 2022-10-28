@@ -1,0 +1,30 @@
+author: Florian Roth, @testanull
+date: 2021/11/18
+description: Detects log entries that appear in exploitation attempts against MS Exchange
+  RCE CVE-2021-42321
+detection:
+  condition: selection
+  selection:
+    Data|contains:
+    - 'Cmdlet failed. Cmdlet Get-App, '
+    - 'Task Get-App throwing unhandled exception: System.InvalidCastException:'
+    winlog.event_id:
+    - 6
+    - 8
+falsepositives:
+- Unknown, please report false positives via https://github.com/SigmaHQ/sigma/issues
+id: c92f1896-d1d2-43c3-92d5-7a5b35c217bb
+level: high
+logsource:
+  product: windows
+  service: msexchange-management
+modified: 2022/07/12
+product: windows
+references:
+- https://msrc.microsoft.com/update-guide/vulnerability/CVE-2021-42321
+service: msexchange-management
+status: experimental
+tags:
+- attack.lateral_movement
+- attack.t1210
+title: Possible Exploitation of Exchange RCE CVE-2021-42321

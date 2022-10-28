@@ -1,0 +1,37 @@
+author: Florian Roth, Samir Bousseaden
+category: process_creation
+date: 2019/10/15
+description: Detects suspicious command line arguments of common data compression
+  tools
+detection:
+  condition: selection and not falsepositive
+  falsepositive:
+    winlog.event_data.ParentImage|startswith: C:\Program
+  selection:
+    winlog.event_data.CommandLine|contains:
+    - ' -p'
+    - ' -ta'
+    - ' -tb'
+    - ' -sdel'
+    - ' -dw'
+    - ' -hp'
+    winlog.event_data.OriginalFileName:
+    - 7z*.exe
+    - '*rar.exe'
+    - '*Command*Line*RAR*'
+falsepositives:
+- Unknown
+id: 27a72a60-7e5e-47b1-9d17-909c9abafdcd
+level: high
+logsource:
+  category: process_creation
+  product: windows
+modified: 2021/11/27
+product: windows
+references:
+- https://twitter.com/SBousseaden/status/1184067445612535811
+status: test
+tags:
+- attack.collection
+- attack.t1560.001
+title: Suspicious Compression Tool Parameters

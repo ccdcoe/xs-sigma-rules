@@ -1,0 +1,36 @@
+author: Florian Roth
+category: process_creation
+date: 2022/08/29
+description: Detects SharpLdapWhoami, a whoami alternative by asking the LDAP service
+  on a domain controller
+detection:
+  condition: 1 of selection*
+  selection_flags1:
+    winlog.event_data.CommandLine|endswith:
+    - ' /method:ntlm'
+    - ' /method:kerb'
+    - ' /method:nego'
+    - ' /m:nego'
+    - ' /m:ntlm'
+    - ' /m:kerb'
+  selection_name:
+    winlog.event_data.Image|endswith: \SharpLdapWhoami.exe
+  selection_pe:
+  - winlog.event_data.OriginalFileName|contains: SharpLdapWhoami
+  - winlog.event_data.Product: SharpLdapWhoami
+falsepositives:
+- Programs that use the same command line flags
+id: d9367cbb-c2e0-47ce-bdc0-128cb6da898d
+level: high
+logsource:
+  category: process_creation
+  product: windows
+product: windows
+references:
+- https://github.com/bugch3ck/SharpLdapWhoami
+status: experimental
+tags:
+- attack.discovery
+- attack.t1033
+- car.2016-03-001
+title: SharpLdapWhoami

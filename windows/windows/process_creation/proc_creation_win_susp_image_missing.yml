@@ -1,0 +1,38 @@
+author: Max Altgelt
+category: process_creation
+date: 2021/12/09
+description: Checks whether the image specified in a process creation event is not
+  a full, absolute path (caused by process ghosting or other unorthodox methods to
+  start a process)
+detection:
+  condition: not image_absolute_path and not 1 of filter*
+  filter_4688:
+  - winlog.event_data.Image:
+    - Registry
+    - MemCompression
+  - winlog.event_data.CommandLine:
+    - Registry
+    - MemCompression
+  filter_empty:
+    winlog.event_data.Image:
+    - '-'
+    - ''
+  filter_null:
+    winlog.event_data.Image: null
+  image_absolute_path:
+    winlog.event_data.Image|contains: \
+falsepositives:
+- Unknown
+id: 71158e3f-df67-472b-930e-7d287acaa3e1
+level: high
+logsource:
+  category: process_creation
+  product: windows
+modified: 2022/03/08
+product: windows
+references:
+- https://pentestlaboratories.com/2021/12/08/process-ghosting/
+status: experimental
+tags:
+- attack.defense_evasion
+title: Execution Of Non-Existing File

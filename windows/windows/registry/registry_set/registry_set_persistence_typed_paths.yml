@@ -1,0 +1,30 @@
+author: Nasreddine Bencherchali
+category: registry_set
+date: 2022/08/22
+description: Detects modification addition to the 'TypedPaths' key in the user or
+  admin registry from a non standard application. Which might indicate persistence
+  attempt
+detection:
+  condition: selection and not filter
+  filter:
+    winlog.event_data.Image:
+    - C:\Windows\explorer.exe
+    - C:\Windows\SysWOW64\explorer.exe
+  selection:
+    winlog.event_data.EventType: SetValue
+    winlog.event_data.TargetObject|contains: \Software\Microsoft\Windows\CurrentVersion\Explorer\TypedPaths\
+falsepositives:
+- Unlikely
+id: 086ae989-9ca6-4fe7-895a-759c5544f247
+level: high
+logsource:
+  category: registry_set
+  product: windows
+product: windows
+references:
+- https://twitter.com/dez_/status/1560101453150257154
+- https://forensafe.com/blogs/typedpaths.html
+status: experimental
+tags:
+- attack.persistence
+title: Persistence Via TypedPaths

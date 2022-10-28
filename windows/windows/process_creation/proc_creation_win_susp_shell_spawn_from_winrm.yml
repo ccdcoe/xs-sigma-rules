@@ -1,0 +1,36 @@
+author: Andreas Hunkeler (@Karneades), Markus Neis
+category: process_creation
+date: 2021/05/20
+description: Detects suspicious processes including shells spawnd from WinRM host
+  process
+detection:
+  condition: selection
+  selection:
+    winlog.event_data.Image|endswith:
+    - \cmd.exe
+    - \sh.exe
+    - \bash.exe
+    - \powershell.exe
+    - \pwsh.exe
+    - \wsl.exe
+    - \schtasks.exe
+    - \certutil.exe
+    - \whoami.exe
+    - \bitsadmin.exe
+    winlog.event_data.ParentImage|endswith: \wsmprovhost.exe
+falsepositives:
+- Legitimate WinRM usage
+id: 5cc2cda8-f261-4d88-a2de-e9e193c86716
+level: high
+logsource:
+  category: process_creation
+  product: windows
+modified: 2022/07/14
+product: windows
+status: experimental
+tags:
+- attack.t1190
+- attack.initial_access
+- attack.persistence
+- attack.privilege_escalation
+title: Suspicious Processes Spawned by WinRM

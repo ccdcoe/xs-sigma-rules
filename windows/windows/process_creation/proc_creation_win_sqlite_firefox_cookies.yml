@@ -1,0 +1,27 @@
+author: frack113
+category: process_creation
+date: 2022/04/08
+description: Detect use of sqlite binary to query the Firefox cookies.sqlite database
+  and steal the cookie data contained within it
+detection:
+  condition: all of selection_*
+  selection_firefox:
+    winlog.event_data.CommandLine|contains: cookies.sqlite
+  selection_sql:
+  - winlog.event_data.Product: SQLite
+  - winlog.event_data.Image|endswith: \sqlite.exe
+falsepositives:
+- Unknown
+id: 4833155a-4053-4c9c-a997-777fcea0baa7
+level: high
+logsource:
+  category: process_creation
+  product: windows
+product: windows
+references:
+- https://github.com/redcanaryco/atomic-red-team/blob/f339e7da7d05f6057fdfcdd3742bfcf365fee2a9/atomics/T1539/T1539.md#atomic-test-1---steal-firefox-cookies-windows
+status: experimental
+tags:
+- attack.credential_access
+- attack.t1539
+title: SQLite Firefox Cookie DB Access

@@ -1,0 +1,39 @@
+author: frack113
+category: ps_script
+date: 2021/12/16
+definition: Script block logging must be enabled
+description: 'Adversaries may attempt to get a listing of security software, configurations,
+  defensive tools, and sensors that are installed on a system or in a cloud environment.
+
+  This may include things such as firewall rules and anti-viru
+
+  '
+detection:
+  condition: all of selection_*
+  selection_1:
+    winlog.event_data.ScriptBlockText|contains|all:
+    - get-process
+    - .Description
+    - -like
+  selection_2:
+    winlog.event_data.ScriptBlockText|contains:
+    - '"*virus*"'
+    - '"*carbonblack*"'
+    - '"*defender*"'
+    - '"*cylance*"'
+falsepositives:
+- Unknown
+id: 904e8e61-8edf-4350-b59c-b905fc8e810c
+level: low
+logsource:
+  category: ps_script
+  definition: Script block logging must be enabled
+  product: windows
+product: windows
+references:
+- https://github.com/redcanaryco/atomic-red-team/blob/f339e7da7d05f6057fdfcdd3742bfcf365fee2a9/atomics/T1518.001/T1518.001.md
+status: experimental
+tags:
+- attack.discovery
+- attack.t1518.001
+title: Security Software Discovery by Powershell

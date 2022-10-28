@@ -1,0 +1,33 @@
+author: Florian Roth, oscd.community
+category: process_creation
+date: 2020/07/30
+description: Detects specific process characteristics of Winnti Pipemon malware reported
+  by ESET
+detection:
+  condition: selection1 or all of selection2*
+  selection1:
+    winlog.event_data.CommandLine|contains: setup0.exe -p
+  selection2a:
+    winlog.event_data.CommandLine|contains: setup.exe
+  selection2b:
+    winlog.event_data.CommandLine|endswith:
+    - -x:0
+    - -x:1
+    - -x:2
+falsepositives:
+- Legitimate setups that use similar flags
+id: 73d70463-75c9-4258-92c6-17500fe972f2
+level: critical
+logsource:
+  category: process_creation
+  product: windows
+modified: 2021/11/27
+product: windows
+references:
+- https://www.welivesecurity.com/2020/05/21/no-game-over-winnti-group/
+status: stable
+tags:
+- attack.defense_evasion
+- attack.t1574.002
+- attack.g0044
+title: Winnti Pipemon Characteristics

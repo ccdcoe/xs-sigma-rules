@@ -1,0 +1,22 @@
+author: Florian Roth
+category: process_creation
+date: 2022/03/24
+description: Detects suspicious ways to download files or content using PowerShell
+detection:
+  condition: selection
+  selection:
+    winlog.event_data.CommandLine|contains:
+    - .DownloadString(
+    - .DownloadFile(
+falsepositives:
+- Scripts or tools that download files
+id: 6e897651-f157-4d8f-aaeb-df8151488385
+level: medium
+logsource:
+  category: process_creation
+  product: windows
+product: windows
+references:
+- https://github.com/VirtualAlllocEx/Payload-Download-Cradles/blob/88e8eca34464a547c90d9140d70e9866dcbc6a12/Download-Cradles.cmd
+status: experimental
+title: PowerShell Web Download

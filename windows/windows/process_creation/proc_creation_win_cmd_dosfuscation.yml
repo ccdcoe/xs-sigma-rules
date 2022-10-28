@@ -1,0 +1,30 @@
+author: frack113
+category: process_creation
+date: 2022/02/15
+description: Detects possible payload obfuscation via the commandline
+detection:
+  condition: selection
+  selection:
+    winlog.event_data.CommandLine|contains:
+    - ^^
+    - ',;,'
+    - '%COMSPEC:~'
+    - ' s^et '
+    - ' s^e^t '
+    - ' se^t '
+falsepositives:
+- Legitimate use
+id: a77c1610-fc73-4019-8e29-0f51efc04a51
+level: medium
+logsource:
+  category: process_creation
+  product: windows
+modified: 2022/09/02
+product: windows
+references:
+- https://www.fireeye.com/content/dam/fireeye-www/blog/pdfs/dosfuscation-report.pdf
+status: experimental
+tags:
+- attack.execution
+- attack.t1059
+title: Suspicious Dosfuscation Character in Commandline

@@ -1,0 +1,23 @@
+author: Michael Epping, '@mepples21'
+date: 2022/06/28
+description: Monitor and alert for sign-ins where the device was non-compliant.
+detection:
+  condition: selection
+  selection:
+    DeviceDetail.isCompliant: 'false'
+falsepositives:
+- Unknown
+id: 4f77e1d7-3982-4ee0-8489-abf2d6b75284
+level: high
+logsource:
+  product: azure
+  service: signinlogs
+product: azure
+references:
+- https://docs.microsoft.com/en-us/azure/active-directory/fundamentals/security-operations-devices#non-compliant-device-sign-in
+service: signinlogs
+status: experimental
+tags:
+- attack.valid_accounts
+- attack.t1078
+title: Sign-ins from Non-Compliant Devices

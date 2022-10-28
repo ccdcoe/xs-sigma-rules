@@ -1,0 +1,26 @@
+author: Markus Neis
+category: process_creation
+date: 2018/06/07
+description: Detects MSHTA.EXE spwaned by SVCHOST as seen in LethalHTA and described
+  in report
+detection:
+  condition: selection
+  selection:
+    winlog.event_data.Image|endswith: \mshta.exe
+    winlog.event_data.ParentImage|endswith: \svchost.exe
+falsepositives:
+- Unknown
+id: ed5d72a6-f8f4-479d-ba79-02f6a80d7471
+level: high
+logsource:
+  category: process_creation
+  product: windows
+modified: 2021/11/27
+product: windows
+references:
+- https://codewhitesec.blogspot.com/2018/07/lethalhta.html
+status: test
+tags:
+- attack.defense_evasion
+- attack.t1218.005
+title: MSHTA Spwaned by SVCHOST

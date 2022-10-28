@@ -1,0 +1,27 @@
+author: frack113
+category: ps_script
+date: 2022/03/17
+definition: Script block logging must be enabled
+description: utilize Get-AdComputer to enumerate Computers within Active Directory.
+detection:
+  condition: selection
+  selection:
+    winlog.event_data.ScriptBlockText|contains|all:
+    - 'Get-AdComputer '
+    - -Filter
+falsepositives:
+- Unknown
+id: 36bed6b2-e9a0-4fff-beeb-413a92b86138
+level: low
+logsource:
+  category: ps_script
+  definition: Script block logging must be enabled
+  product: windows
+product: windows
+references:
+- https://github.com/redcanaryco/atomic-red-team/blob/f339e7da7d05f6057fdfcdd3742bfcf365fee2a9/atomics/T1018/T1018.md
+status: experimental
+tags:
+- attack.discovery
+- attack.t1018
+title: Suspicious Enumerate Active Directory Computers with Get-AdComputer

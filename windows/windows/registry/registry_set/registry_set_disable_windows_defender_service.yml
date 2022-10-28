@@ -1,0 +1,27 @@
+author: "J\xE1n Tren\u010Dansk\xFD, frack113, AlertIQ, Nasreddine Bencherchali"
+category: registry_set
+date: 2022/08/01
+description: Detects when an attacker or tool disables the  Windows Defender service
+  (WinDefend) via the registry
+detection:
+  condition: selection
+  selection:
+    winlog.event_data.Details: DWORD (0x00000004)
+    winlog.event_data.EventType: SetValue
+    winlog.event_data.TargetObject: HKLM\SYSTEM\CurrentControlSet\Services\WinDefend\Start
+falsepositives:
+- Administrator actions
+id: e1aa95de-610a-427d-b9e7-9b46cfafbe6a
+level: high
+logsource:
+  category: registry_set
+  product: windows
+product: windows
+references:
+- https://thedfirreport.com/2021/10/18/icedid-to-xinglocker-ransomware-in-24-hours/
+- https://gist.github.com/anadr/7465a9fde63d41341136949f14c21105
+status: experimental
+tags:
+- attack.defense_evasion
+- attack.t1562.001
+title: Windows Defender Service Disabled

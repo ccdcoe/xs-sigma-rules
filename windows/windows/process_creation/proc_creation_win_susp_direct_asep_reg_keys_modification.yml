@@ -1,0 +1,39 @@
+author: Victor Sergeev, Daniil Yugoslavskiy, oscd.community
+category: process_creation
+date: 2019/10/25
+description: Detects direct modification of autostart extensibility point (ASEP) in
+  registry using reg.exe.
+detection:
+  condition: all of selection_*
+  selection_1:
+    winlog.event_data.CommandLine|contains: add
+    winlog.event_data.Image|endswith: \reg.exe
+  selection_2:
+    winlog.event_data.CommandLine|contains:
+    - \software\Microsoft\Windows\CurrentVersion\Run
+    - \software\Microsoft\Windows NT\CurrentVersion\Winlogon\Userinit
+    - \software\Microsoft\Windows NT\CurrentVersion\Winlogon\Shell
+    - \software\Microsoft\Windows NT\CurrentVersion\Windows
+    - \software\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders
+    - \system\CurrentControlSet\Control\SafeBoot\AlternateShell
+falsepositives:
+- Legitimate software automatically (mostly, during installation) sets up autorun
+  keys for legitimate reasons.
+- Legitimate administrator sets up autorun keys for legitimate reasons.
+fields:
+- winlog.event_data.CommandLine
+- winlog.event_data.ParentCommandLine
+id: 24357373-078f-44ed-9ac4-6d334a668a11
+level: medium
+logsource:
+  category: process_creation
+  product: windows
+modified: 2022/08/04
+product: windows
+references:
+- https://github.com/redcanaryco/atomic-red-team/blob/f339e7da7d05f6057fdfcdd3742bfcf365fee2a9/atomics/T1547.001/T1547.001.md
+status: test
+tags:
+- attack.persistence
+- attack.t1547.001
+title: Direct Autorun Keys Modification

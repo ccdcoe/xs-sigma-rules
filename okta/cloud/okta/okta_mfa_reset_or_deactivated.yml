@@ -1,0 +1,26 @@
+author: Austin Songer @austinsonger
+date: 2021/09/21
+description: Detects when an attempt at deactivating  or resetting MFA.
+detection:
+  condition: selection
+  selection:
+    eventtype:
+    - user.mfa.factor.deactivate
+    - user.mfa.factor.reset_all
+falsepositives:
+- If a MFA reset or deactivated was performed by a system administrator.
+id: 50e068d7-1e6b-4054-87e5-0a592c40c7e0
+level: medium
+logsource:
+  product: okta
+  service: okta
+modified: 2021/09/22
+product: okta
+references:
+- https://developer.okta.com/docs/reference/api/system-log/
+- https://developer.okta.com/docs/reference/api/event-types/
+service: okta
+status: experimental
+tags:
+- attack.persistence
+title: Okta MFA Reset or Deactivated

@@ -1,0 +1,41 @@
+author: frack113
+category: process_creation
+date: 2021/12/20
+description: Threat actors performed dumping of SAM, SECURITY and SYSTEM registry
+  hives using DelegateExecute key
+detection:
+  condition: 1 of selection_*
+  selection_1:
+    winlog.event_data.CommandLine|contains|all:
+    - reg
+    - add
+    - hkcu\software\classes\ms-settings\shell\open\command
+    - '/ve '
+    - /d
+  selection_2:
+    winlog.event_data.CommandLine|contains|all:
+    - reg
+    - add
+    - hkcu\software\classes\ms-settings\shell\open\command
+    - /v
+    - DelegateExecute
+  selection_3:
+    winlog.event_data.CommandLine|contains|all:
+    - reg
+    - delete
+    - hkcu\software\classes\ms-settings
+falsepositives:
+- Unknown
+id: dd3ee8cc-f751-41c9-ba53-5a32ed47e563
+level: medium
+logsource:
+  category: process_creation
+  product: windows
+product: windows
+references:
+- https://thedfirreport.com/2021/12/13/diavol-ransomware/
+status: experimental
+tags:
+- attack.credential_access
+- attack.t1003
+title: Suspicious Reg Add Open Command

@@ -1,0 +1,32 @@
+author: Andreas Hunkeler (@Karneades), Nasreddine Bencherchali
+category: process_creation
+date: 2021/12/17
+description: Detects shell spawned from Java host process, which could be a sign of
+  exploitation (e.g. log4j exploitation)
+detection:
+  condition: selection and not filter
+  filter:
+    winlog.event_data.CommandLine|contains: build
+    winlog.event_data.ParentImage|contains: build
+  selection:
+    winlog.event_data.Image|endswith:
+    - \cmd.exe
+    - \powershell.exe
+    - \pwsh.exe
+    winlog.event_data.ParentImage|endswith: \java.exe
+falsepositives:
+- Legitimate calls to system binaries
+- Company specific internal usage
+id: dff1e1cc-d3fd-47c8-bfc2-aeb878a754c0
+level: medium
+logsource:
+  category: process_creation
+  product: windows
+modified: 2022/07/27
+product: windows
+status: experimental
+tags:
+- attack.initial_access
+- attack.persistence
+- attack.privilege_escalation
+title: Shells Spawned by Java

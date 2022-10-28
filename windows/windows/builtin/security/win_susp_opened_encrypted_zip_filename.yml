@@ -1,0 +1,32 @@
+author: Florian Roth
+date: 2022/05/09
+description: Detects the extraction of password protected ZIP archives with suspicious
+  file names. See the filename variable for more details on which file has been opened.
+detection:
+  condition: selection and selection_filename
+  selection:
+    winlog.event_data.TargetName|contains: Microsoft_Windows_Shell_ZipFolder:filename
+    winlog.event_id: 5379
+  selection_filename:
+    winlog.event_data.TargetName|contains:
+    - invoice
+    - new order
+    - rechnung
+    - factura
+    - delivery
+    - purchase
+    - order
+    - payment
+falsepositives:
+- Legitimate used of encrypted ZIP files
+id: 54f0434b-726f-48a1-b2aa-067df14516e4
+level: high
+logsource:
+  product: windows
+  service: security
+product: windows
+references:
+- https://twitter.com/sbousseaden/status/1523383197513379841
+service: security
+status: experimental
+title: Password Protected ZIP File Opened (Suspicious Filenames)

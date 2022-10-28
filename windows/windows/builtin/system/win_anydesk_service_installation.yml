@@ -1,0 +1,25 @@
+author: Nasreddine Bencherchali
+date: 2022/08/11
+description: Detects the installation of the anydesk software service. Which could
+  be an indication of anydesk abuse if you the software isn't already used.
+detection:
+  condition: selection
+  selection:
+    Provider_Name: Service Control Manager
+    winlog.event_data.ServiceName: AnyDesk Service
+    winlog.event_id: 7045
+falsepositives:
+- Legitimate usage of the anydesk tool
+id: 530a6faa-ff3d-4022-b315-50828e77eef5
+level: medium
+logsource:
+  product: windows
+  service: system
+product: windows
+references:
+- https://thedfirreport.com/2022/08/08/bumblebee-roasts-its-way-to-domain-admin/
+service: system
+status: experimental
+tags:
+- attack.persistence
+title: Anydesk Remote Access Software Service Installation

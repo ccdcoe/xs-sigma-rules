@@ -4,8 +4,8 @@ description: Detects attempts to collect image data stored in the clipboard from
   with the usage of xclip tool. Xclip has to be installed. Highly recommended using
   rule on servers, due to high usage of clipboard utilities on user workstations.
 detection:
-  condition: xclip
-  xclip:
+  condition: selection
+  selection:
     a0: xclip
     a1:
     - -selection

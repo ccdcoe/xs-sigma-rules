@@ -1,0 +1,26 @@
+author: frack113
+category: ps_script
+date: 2022/03/17
+definition: Script block logging must be enabled
+description: Get the processes that are running on the local computer.
+detection:
+  condition: selection
+  selection:
+    winlog.event_data.ScriptBlockText|contains: Get-Process
+falsepositives:
+- Legitimate PowerShell scripts
+id: af4c87ce-bdda-4215-b998-15220772e993
+level: low
+logsource:
+  category: ps_script
+  definition: Script block logging must be enabled
+  product: windows
+product: windows
+references:
+- https://github.com/redcanaryco/atomic-red-team/blob/f339e7da7d05f6057fdfcdd3742bfcf365fee2a9/atomics/T1057/T1057.md#atomic-test-3---process-discovery---get-process
+- https://docs.microsoft.com/en-us/powershell/module/microsoft.powershell.management/get-process?view=powershell-7
+status: experimental
+tags:
+- attack.discovery
+- attack.t1057
+title: Suspicious Process Discovery With Get-Process

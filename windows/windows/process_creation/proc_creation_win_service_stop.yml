@@ -1,0 +1,45 @@
+author: Jakob Weinzettl, oscd.community, Nasreddine Bencherchali
+category: process_creation
+date: 2019/10/23
+description: Detects a windows service to be stopped
+detection:
+  condition: (all of selection_sc_net* and not filter) or selection_pwsh
+  filter:
+    winlog.event_data.CommandLine: sc  stop KSCWebConsoleMessageQueue
+    winlog.event_data.User|contains:
+    - AUTHORI
+    - AUTORI
+  selection_pwsh:
+    winlog.event_data.CommandLine|contains: 'Stop-Service '
+    winlog.event_data.Image|endswith:
+    - \powershell.exe
+    - \pwsh.exe
+  selection_sc_net_cli:
+    winlog.event_data.CommandLine|contains: ' stop '
+  selection_sc_net_img:
+  - winlog.event_data.OriginalFileName:
+    - sc.exe
+    - net.exe
+    - net1.exe
+  - winlog.event_data.Image|endswith:
+    - \sc.exe
+    - \net.exe
+    - \net1.exe
+falsepositives:
+- Administrator shutting down the service due to upgrade or removal purposes
+fields:
+- winlog.ComputerName
+- winlog.event_data.User
+- winlog.event_data.CommandLine
+id: eb87818d-db5d-49cc-a987-d5da331fbd90
+level: low
+logsource:
+  category: process_creation
+  product: windows
+modified: 2022/09/01
+product: windows
+status: experimental
+tags:
+- attack.impact
+- attack.t1489
+title: Stop Windows Service

@@ -1,0 +1,43 @@
+author: Oddvar Moe, Sander Wiebing, oscd.community
+category: process_creation
+date: 2020/10/07
+description: Detects the import of the specified file to the registry with regedit.exe.
+detection:
+  condition: selection and not all of filter*
+  filter:
+    winlog.event_data.CommandLine|contains:
+    - ' /e '
+    - ' /a '
+    - ' /c '
+    - ' -e '
+    - ' -a '
+    - ' -c '
+  filter_2:
+    winlog.event_data.CommandLine|re: :[^ \\\\]
+  selection:
+    winlog.event_data.CommandLine|contains:
+    - ' /i '
+    - ' /s '
+    - .reg
+    winlog.event_data.Image|endswith: \regedit.exe
+falsepositives:
+- Legitimate import of keys
+- Evernote
+fields:
+- winlog.event_data.ParentImage
+- winlog.event_data.CommandLine
+id: 73bba97f-a82d-42ce-b315-9182e76c57b1
+level: medium
+logsource:
+  category: process_creation
+  product: windows
+modified: 2022/07/07
+product: windows
+references:
+- https://lolbas-project.github.io/lolbas/Binaries/Regedit/
+- https://gist.github.com/api0cradle/cdd2d0d0ec9abb686f0e89306e277b8f
+status: test
+tags:
+- attack.t1112
+- attack.defense_evasion
+title: Imports Registry Key From a File

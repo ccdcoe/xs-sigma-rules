@@ -1,0 +1,30 @@
+author: Markus Neis, keepwatch
+category: process_creation
+date: 2018/11/14
+description: Detects Service Principal Name Enumeration used for Kerberoasting
+detection:
+  cmd:
+    winlog.event_data.CommandLine|contains: -q
+  condition: (selection_image or selection_desc) and cmd
+  selection_desc:
+    winlog.event_data.Description|contains|all:
+    - Query or reset the computer
+    - SPN attribute
+  selection_image:
+    winlog.event_data.Image|endswith: \setspn.exe
+falsepositives:
+- Administrator Activity
+id: 1eeed653-dbc8-4187-ad0c-eeebb20e6599
+level: medium
+logsource:
+  category: process_creation
+  product: windows
+modified: 2021/11/27
+product: windows
+references:
+- https://p16.praetorian.com/blog/how-to-use-kerberoasting-t1208-for-privilege-escalation
+status: test
+tags:
+- attack.credential_access
+- attack.t1558.003
+title: Possible SPN Enumeration

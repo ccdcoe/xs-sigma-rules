@@ -1,0 +1,29 @@
+author: pH-T
+category: process_creation
+date: 2022/07/27
+description: Detects browsers starting with the '--remote-debugging' flag. Which is
+  a technique often used to perform browser injection attacks
+detection:
+  condition: 1 of selection*
+  selection_chrome_based:
+    winlog.event_data.CommandLine|contains:
+    - ' --remote-debugging-address='
+    - ' --remote-debugging-port='
+  selection_firefox:
+    winlog.event_data.CommandLine|contains: ' -start-debugger-server '
+    winlog.event_data.Image|endswith: \firefox.exe
+falsepositives:
+- Unknown
+id: b3d34dc5-2efd-4ae3-845f-8ec14921f449
+level: medium
+logsource:
+  category: process_creation
+  product: windows
+product: windows
+references:
+- https://yoroi.company/wp-content/uploads/2022/05/EternityGroup_report_compressed.pdf
+status: experimental
+tags:
+- attack.credential_access
+- attack.t1185
+title: Browser Started with Remote Debugging

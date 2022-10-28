@@ -1,0 +1,42 @@
+author: Kyaw Min Thein, Furkan Caliskan (@caliskanfurkan_)
+category: process_creation
+date: 2020/06/22
+description: Detects the malicious use of a control panel item
+detection:
+  condition: selection_reg or (selection_cpl and not 1 of filter_cpl_*)
+  filter_cpl_igfx:
+    winlog.event_data.CommandLine|contains|all:
+    - 'regsvr32 '
+    - ' /s '
+    - igfxCPL.cpl
+  filter_cpl_sys:
+    winlog.event_data.CommandLine|contains:
+    - \System32\
+    - '%System%'
+  selection_cpl:
+    winlog.event_data.CommandLine|endswith: .cpl
+  selection_reg:
+    winlog.event_data.CommandLine|contains|all:
+    - add
+    - CurrentVersion\Control Panel\CPLs
+    winlog.event_data.Image|endswith: \reg.exe
+falsepositives:
+- Unknown
+id: 0ba863e6-def5-4e50-9cea-4dd8c7dc46a4
+level: high
+logsource:
+  category: process_creation
+  product: windows
+modified: 2022/08/11
+product: windows
+references:
+- https://attack.mitre.org/techniques/T1196/
+- https://ired.team/offensive-security/code-execution/code-execution-through-control-panel-add-ins
+status: test
+tags:
+- attack.execution
+- attack.defense_evasion
+- attack.t1218.002
+- attack.persistence
+- attack.t1546
+title: Control Panel Items

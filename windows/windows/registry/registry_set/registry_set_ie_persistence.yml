@@ -1,0 +1,41 @@
+author: frack113
+category: registry_set
+date: 2022/01/22
+description: Detects the modification of the registry settings used for Internet Explorer
+  and other Windows components that use these settings
+detection:
+  condition: selection_domains and not 1 of filter_*
+  filter_binary:
+    winlog.event_data.Details: Binary Data
+  filter_dword:
+    winlog.event_data.Details|startswith: DWORD
+  filter_office:
+    winlog.event_data.Details:
+    - 'Cookie:'
+    - 'Visited:'
+    - (Empty)
+  filter_path:
+    winlog.event_data.TargetObject|contains:
+    - \Cache
+    - \ZoneMap
+    - \WpadDecision
+  selection_domains:
+    winlog.event_data.EventType: SetValue
+    winlog.event_data.TargetObject|contains: \Software\Microsoft\Windows\CurrentVersion\Internet
+      Settings
+falsepositives:
+- Unknown
+id: d88d0ab2-e696-4d40-a2ed-9790064e66b3
+level: low
+logsource:
+  category: registry_set
+  product: windows
+modified: 2022/03/29
+product: windows
+references:
+- https://github.com/redcanaryco/atomic-red-team/blob/f339e7da7d05f6057fdfcdd3742bfcf365fee2a9/atomics/T1112/T1112.md#atomic-test-5---javascript-in-registry
+status: experimental
+tags:
+- attack.defense_evasion
+- attack.t1112
+title: Modification of IE Registry Settings

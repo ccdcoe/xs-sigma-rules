@@ -1,0 +1,28 @@
+author: frack113
+category: process_creation
+date: 2022/09/02
+description: Detects the use of Fast Reverse Proxy. frp is a fast reverse proxy to
+  help you expose a local server behind a NAT or firewall to the Internet.
+detection:
+  condition: selection
+  selection:
+    winlog.event_data.CommandLine|contains: \frpc.ini
+    winlog.event_data.Image|endswith:
+    - \frpc.exe
+    - \frps.exe
+falsepositives:
+- Legitimate use
+id: 32410e29-5f94-4568-b6a3-d91a8adad863
+level: high
+logsource:
+  category: process_creation
+  product: windows
+product: windows
+references:
+- https://asec.ahnlab.com/en/38156/
+- https://github.com/fatedier/frp
+status: experimental
+tags:
+- attack.command_and_control
+- attack.t1090
+title: Fast Reverse Proxy (FRP)

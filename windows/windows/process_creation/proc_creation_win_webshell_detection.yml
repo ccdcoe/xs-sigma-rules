@@ -1,0 +1,99 @@
+author: Florian Roth, Jonhnathan Ribeiro, Anton Kutepov, oscd.community
+category: process_creation
+date: 2017/01/01
+description: Detects certain command line parameters often used during reconnaissance
+  activity via web shells
+detection:
+  condition: 1 of selection* and 1 of susp*
+  selection_webserver_characteristics_tomcat1:
+    winlog.event_data.ParentImage|contains:
+    - -tomcat-
+    - \tomcat
+    winlog.event_data.ParentImage|endswith:
+    - \java.exe
+    - \javaw.exe
+  selection_webserver_characteristics_tomcat2:
+    winlog.event_data.CommandLine|contains:
+    - catalina.jar
+    - CATALINA_HOME
+    winlog.event_data.ParentImage|endswith:
+    - \java.exe
+    - \javaw.exe
+  selection_webserver_image:
+    winlog.event_data.ParentImage|endswith:
+    - \w3wp.exe
+    - \php-cgi.exe
+    - \nginx.exe
+    - \httpd.exe
+    - \caddy.exe
+    - \ws_tomcatservice.exe
+  susp_change_dir:
+    winlog.event_data.CommandLine|contains:
+    - '&cd&echo'
+    - 'cd /d '
+  susp_misc_discovery_binaries:
+  - winlog.event_data.Image|endswith:
+    - \whoami.exe
+    - \systeminfo.exe
+    - \quser.exe
+    - \ipconfig.exe
+    - \pathping.exe
+    - \tracert.exe
+    - \netstat.exe
+    - \schtasks.exe
+    - \vssadmin.exe
+    - \wevtutil.exe
+    - \tasklist.exe
+  - winlog.event_data.OriginalFileName:
+    - whoami.exe
+    - sysinfo.exe
+    - quser.exe
+    - ipconfig.exe
+    - pathping.exe
+    - tracert.exe
+    - netstat.exe
+    - schtasks.exe
+    - VSSADMIN.EXE
+    - wevtutil.exe
+    - tasklist.exe
+  susp_misc_discovery_commands:
+    winlog.event_data.CommandLine|contains:
+    - ' Test-NetConnection '
+    - dir \
+  susp_net_utility:
+    winlog.event_data.CommandLine|contains:
+    - ' user '
+    - ' use '
+    - ' group '
+    winlog.event_data.OriginalFileName:
+    - net.exe
+    - net1.exe
+  susp_ping_utility:
+    winlog.event_data.CommandLine|contains: ' -n '
+    winlog.event_data.OriginalFileName: ping.exe
+  susp_wmic_utility:
+    winlog.event_data.CommandLine|contains: ' /node:'
+    winlog.event_data.OriginalFileName: wmic.exe
+falsepositives:
+- Unknown
+fields:
+- winlog.event_data.CommandLine
+- winlog.event_data.ParentCommandLine
+id: bed2a484-9348-4143-8a8a-b801c979301c
+level: high
+logsource:
+  category: process_creation
+  product: windows
+modified: 2022/05/13
+product: windows
+references:
+- https://www.fireeye.com/blog/threat-research/2013/08/breaking-down-the-china-chopper-web-shell-part-ii.html
+- https://unit42.paloaltonetworks.com/bumblebee-webshell-xhunt-campaign/
+status: experimental
+tags:
+- attack.persistence
+- attack.t1505.003
+- attack.t1018
+- attack.t1033
+- attack.t1087
+title: Webshell Detection With Command Line Keywords

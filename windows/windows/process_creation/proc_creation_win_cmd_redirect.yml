@@ -1,0 +1,24 @@
+author: frack113
+category: process_creation
+date: 2022/01/22
+description: Use ">" to redicrect information in commandline
+detection:
+  condition: selection
+  selection:
+    winlog.event_data.CommandLine|contains: '>'
+    winlog.event_data.Image|endswith: \cmd.exe
+falsepositives:
+- Unknown
+id: 4f4eaa9f-5ad4-410c-a4be-bc6132b0175a
+level: low
+logsource:
+  category: process_creation
+  product: windows
+product: windows
+references:
+- https://ss64.com/nt/syntax-redirection.html
+status: experimental
+tags:
+- attack.discovery
+- attack.t1082
+title: Redirect Output in CommandLine

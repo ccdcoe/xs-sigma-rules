@@ -1,0 +1,33 @@
+author: Eli Salem, Sander Wiebing, oscd.community
+category: process_creation
+date: 2020/10/08
+description: Detects the execution of regini.exe which can be used to modify registry
+  keys, the changes are imported from one or more text files.
+detection:
+  condition: selection and not filter
+  filter:
+    winlog.event_data.CommandLine|re: :[^ \\\\]
+  selection:
+  - winlog.event_data.Image|endswith: \regini.exe
+  - winlog.event_data.OriginalFileName: REGINI.EXE
+falsepositives:
+- Legitimate modification of keys
+fields:
+- winlog.event_data.ParentImage
+- winlog.event_data.CommandLine
+id: 5f60740a-f57b-4e76-82a1-15b6ff2cb134
+level: low
+logsource:
+  category: process_creation
+  product: windows
+modified: 2022/05/09
+product: windows
+references:
+- https://lolbas-project.github.io/lolbas/Binaries/Regini/
+- https://gist.github.com/api0cradle/cdd2d0d0ec9abb686f0e89306e277b8f
+- https://docs.microsoft.com/en-us/windows-server/administration/windows-commands/regini
+status: experimental
+tags:
+- attack.t1112
+- attack.defense_evasion
+title: Modifies the Registry From a File

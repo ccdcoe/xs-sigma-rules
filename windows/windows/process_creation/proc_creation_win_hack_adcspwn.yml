@@ -1,0 +1,27 @@
+author: Florian Roth
+category: process_creation
+date: 2021/07/31
+description: Detects command line parameters used by ADCSPwn, a tool to escalate privileges
+  in an active directory network by coercing authenticate from machine accounts and
+  relaying to the certificate service
+detection:
+  condition: selection
+  selection:
+    winlog.event_data.CommandLine|contains|all:
+    - ' --adcs '
+    - ' --port '
+falsepositives:
+- Unlikely
+id: cd8c163e-a19b-402e-bdd5-419ff5859f12
+level: high
+logsource:
+  category: process_creation
+  product: windows
+product: windows
+references:
+- https://github.com/bats3c/ADCSPwn
+status: test
+tags:
+- attack.credential_access
+- attack.t1557.001
+title: ADCSPwn Hack Tool

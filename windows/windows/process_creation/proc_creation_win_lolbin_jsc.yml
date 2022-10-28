@@ -1,0 +1,25 @@
+author: frack113
+category: process_creation
+date: 2022/05/02
+description: Detects the execution of the LOLBIN jsc.exe used by .NET to compile javascript
+  code to .exe or .dll format
+detection:
+  condition: selection
+  selection:
+    winlog.event_data.CommandLine|contains: .js
+    winlog.event_data.Image|endswith: \jsc.exe
+falsepositives:
+- Unknown
+id: 52788a70-f1da-40dd-8fbd-73b5865d6568
+level: medium
+logsource:
+  category: process_creation
+  product: windows
+product: windows
+references:
+- https://lolbas-project.github.io/lolbas/Binaries/Jsc/
+status: experimental
+tags:
+- attack.defense_evasion
+- attack.t1127
+title: JSC Convert Javascript To Executable

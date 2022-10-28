@@ -1,0 +1,28 @@
+author: Austin Songer @austinsonger
+date: 2020/07/06
+description: Detects when a Microsoft Cloud App Security reported a risky sign-in
+  attempt due to a login associated with an impossible travel.
+detection:
+  condition: selection
+  selection:
+    eventName: Impossible travel activity
+    eventSource: SecurityComplianceCenter
+    status: success
+falsepositives:
+- Unknown
+id: d7eab125-5f94-43df-8710-795b80fa1189
+level: medium
+logsource:
+  product: m365
+  service: threat_management
+modified: 2021/11/27
+product: m365
+references:
+- https://docs.microsoft.com/en-us/cloud-app-security/anomaly-detection-policy
+- https://docs.microsoft.com/en-us/cloud-app-security/policy-template-reference
+service: threat_management
+status: test
+tags:
+- attack.initial_access
+- attack.t1078
+title: Microsoft 365 - Impossible Travel Activity

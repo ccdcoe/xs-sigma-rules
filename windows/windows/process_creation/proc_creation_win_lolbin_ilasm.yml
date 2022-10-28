@@ -1,0 +1,26 @@
+author: frack113
+category: process_creation
+date: 2022/05/07
+description: Detect use of Ilasm.exe to compile c# code into dll or exe.
+detection:
+  condition: selection
+  selection:
+  - winlog.event_data.Image|endswith: \ilasm.exe
+  - winlog.event_data.OriginalFileName: ilasm.exe
+falsepositives:
+- Unknown
+id: 850d55f9-6eeb-4492-ad69-a72338f65ba4
+level: medium
+logsource:
+  category: process_creation
+  product: windows
+modified: 2022/05/16
+product: windows
+references:
+- https://lolbas-project.github.io/lolbas/Binaries/Ilasm/
+- https://www.echotrail.io/insights/search/ilasm.exe
+status: experimental
+tags:
+- attack.defense_evasion
+- attack.t1127
+title: Ilasm Lolbin Use Compile C-Sharp

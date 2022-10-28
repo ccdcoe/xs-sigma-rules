@@ -1,0 +1,51 @@
+author: Ecco, oscd.community, Jonhnathan Ribeiro
+category: process_creation
+date: 2019/09/03
+description: Detects wmiexec/dcomexec/atexec/smbexec from Impacket framework
+detection:
+  condition: 1 of selection_*
+  selection_atexec:
+    winlog.event_data.CommandLine|contains|all:
+    - cmd.exe
+    - /C
+    - Windows\Temp\
+    - '&1'
+    winlog.event_data.ParentCommandLine|contains:
+    - svchost.exe -k netsvcs
+    - taskeng.exe
+  selection_other:
+    winlog.event_data.CommandLine|contains|all:
+    - cmd.exe
+    - /Q
+    - /c
+    - \\\\127.0.0.1\
+    - '&1'
+    winlog.event_data.ParentImage|endswith:
+    - \wmiprvse.exe
+    - \mmc.exe
+    - \explorer.exe
+    - \services.exe
+falsepositives:
+- Unknown
+fields:
+- winlog.event_data.CommandLine
+- winlog.event_data.ParentCommandLine
+id: 10c14723-61c7-4c75-92ca-9af245723ad2
+level: high
+logsource:
+  category: process_creation
+  product: windows
+modified: 2021/11/27
+product: windows
+references:
+- https://github.com/SecureAuthCorp/impacket/blob/8b1a99f7c715702eafe3f24851817bb64721b156/examples/wmiexec.py
+- https://github.com/SecureAuthCorp/impacket/blob/8b1a99f7c715702eafe3f24851817bb64721b156/examples/atexec.py
+- https://github.com/SecureAuthCorp/impacket/blob/8b1a99f7c715702eafe3f24851817bb64721b156/examples/smbexec.py
+- https://github.com/SecureAuthCorp/impacket/blob/8b1a99f7c715702eafe3f24851817bb64721b156/examples/dcomexec.py
+status: stable
+tags:
+- attack.execution
+- attack.t1047
+- attack.lateral_movement
+- attack.t1021.003
+title: Impacket Lateralization Detection

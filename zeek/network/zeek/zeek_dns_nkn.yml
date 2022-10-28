@@ -1,0 +1,32 @@
+author: Michael Portera (@mportatoes)
+date: 2022/04/21
+description: NKN is a networking service using blockchain technology to support a
+  decentralized network of peers. While there are legitimate uses for it, it can also
+  be used as a C2 channel. This rule looks for a DNS request to the ma>
+detection:
+  condition: selection
+  selection:
+    query|contains|all:
+    - seed
+    - .nkn.org
+falsepositives:
+- Unknown
+fields:
+- id.orig_h
+- id.resp_h
+- answers
+id: fa7703d6-0ee8-4949-889c-48c84bc15b6f
+level: low
+logsource:
+  product: zeek
+  service: dns
+product: zeek
+references:
+- https://github.com/nknorg/nkn-sdk-go
+- https://unit42.paloaltonetworks.com/manageengine-godzilla-nglite-kdcsponge/
+- https://github.com/Maka8ka/NGLite
+service: dns
+status: experimental
+tags:
+- attack.command_and_control
+title: New Kind of Network (NKN) Detection

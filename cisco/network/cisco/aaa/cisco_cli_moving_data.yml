@@ -21,10 +21,10 @@ logsource:
   category: accounting
   product: cisco
   service: aaa
-modified: 2020/09/02
+modified: 2021/11/27
 product: cisco
 service: aaa
-status: experimental
+status: test
 tags:
 - attack.collection
 - attack.lateral_movement

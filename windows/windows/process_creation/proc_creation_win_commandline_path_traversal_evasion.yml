@@ -1,0 +1,34 @@
+author: Christian Burkard
+category: process_creation
+date: 2021/10/26
+description: Detects the attempt to evade or obfuscate the executed command on the
+  CommandLine using bogus path traversal
+detection:
+  condition: 1 of selection* and not filter
+  filter:
+    winlog.event_data.CommandLine|contains: \Google\Drive\googledrivesync.exe\..\
+  selection1:
+    winlog.event_data.CommandLine|contains:
+    - \..\Windows\
+    - \..\System32\
+    - \..\..\
+    winlog.event_data.Image|contains: \Windows\
+  selection2:
+    winlog.event_data.CommandLine|contains: .exe\..\
+falsepositives:
+- Google Drive
+id: 1327381e-6ab0-4f38-b583-4c1b8346a56b
+level: high
+logsource:
+  category: process_creation
+  product: windows
+modified: 2022/02/02
+product: windows
+references:
+- https://twitter.com/hexacorn/status/1448037865435320323
+- https://twitter.com/Gal_B1t/status/1062971006078345217
+status: experimental
+tags:
+- attack.defense_evasion
+- attack.t1036
+title: Command Line Path Traversal Evasion

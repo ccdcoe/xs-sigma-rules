@@ -1,0 +1,24 @@
+author: Mark Morowczynski '@markmorow', Thomas Detzner '@tdetzner'
+date: 2022/08/04
+description: Monitor and alert on group membership additions of groups that have CA
+  policy modification access
+detection:
+  condition: selection
+  selection:
+    properties.message: Add member from group
+falsepositives:
+- User removed from the group is approved
+id: 91c95675-1f27-46d0-bead-d1ae96b97cd3
+level: medium
+logsource:
+  product: azure
+  service: auditlogs
+product: azure
+references:
+- https://docs.microsoft.com/en-us/azure/active-directory/fundamentals/security-operations-infrastructure#conditional-access
+service: auditlogs
+status: experimental
+tags:
+- attack.persistence
+- attack.t1098
+title: User Added To Group With CA Policy Modification Access

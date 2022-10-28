@@ -1,0 +1,24 @@
+author: Nasreddine Bencherchali
+category: process_creation
+date: 2022/08/22
+description: Detects modification addition to the 'TypedPaths' key in the user or
+  admin registry via the commandline. Which might indicate persistence attempt
+detection:
+  condition: selection
+  selection:
+    winlog.event_data.CommandLine|contains: \Software\Microsoft\Windows\CurrentVersion\Explorer\TypedPaths
+falsepositives:
+- Unknown
+id: ec88289a-7e1a-4cc3-8d18-bd1f60e4b9ba
+level: medium
+logsource:
+  category: process_creation
+  product: windows
+product: windows
+references:
+- https://twitter.com/dez_/status/1560101453150257154
+- https://forensafe.com/blogs/typedpaths.html
+status: experimental
+tags:
+- attack.persistence
+title: Persistence Via TypedPaths - CommandLine

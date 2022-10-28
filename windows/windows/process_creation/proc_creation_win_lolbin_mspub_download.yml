@@ -1,0 +1,31 @@
+author: Nasreddine Bencherchali
+category: process_creation
+date: 2022/08/19
+description: Detects usage of "MSPUB" (Microsoft Publisher) to download arbitrary
+  files
+detection:
+  condition: all of selection*
+  selection_cli:
+    winlog.event_data.CommandLine|contains:
+    - http://
+    - https://
+    - ftp://
+  selection_img:
+  - winlog.event_data.Image|endswith: \MSPUB.exe
+  - winlog.event_data.OriginalFileName: MSPUB.exe
+falsepositives:
+- Unknown
+id: 3b3c7f55-f771-4dd6-8a6e-08d057a17caf
+level: medium
+logsource:
+  category: process_creation
+  product: windows
+product: windows
+references:
+- https://github.com/LOLBAS-Project/LOLBAS/pull/238/files
+status: experimental
+tags:
+- attack.defense_evasion
+- attack.execution
+- attack.t1218
+title: Download Arbitrary Files Via MSPUB.EXE

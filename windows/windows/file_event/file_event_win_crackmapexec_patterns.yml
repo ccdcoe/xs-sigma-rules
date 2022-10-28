@@ -1,0 +1,60 @@
+author: Florian Roth
+category: file_event
+date: 2022/03/12
+description: Detects suspicious file creation patterns found in logs when CrackMapExec
+  is used
+detection:
+  condition: 1 of selection*
+  selection_lsass_dump1:
+    winlog.event_data.Image: C:\WINDOWS\system32\rundll32.exe
+    winlog.event_data.TargetFilename|endswith:
+    - .rtf
+    - .otf
+    - .odt
+    - .txt
+    - .doc
+    - .pdf
+    - .dll
+    - .docx
+    - .wpd
+    - .icns
+    - .db
+    - .ini
+    - .tex
+    - .sys
+    - .csv
+    - .fon
+    - .tar
+    - .ttf
+    - .xml
+    - .cfg
+    - .cpl
+    - .jpg
+    - .drv
+    - .cur
+    - .tmp
+    winlog.event_data.TargetFilename|startswith: C:\Windows\Temp\
+    winlog.event_data.User|contains:
+    - AUTHORI
+    - AUTORI
+  selection_procdump:
+    winlog.event_data.TargetFilename: C:\Windows\Temp\procdump.exe
+    winlog.event_data.User|contains:
+    - AUTHORI
+    - AUTORI
+falsepositives:
+- Unknown
+id: 9433ff9c-5d3f-4269-99f8-95fc826ea489
+level: high
+logsource:
+  category: file_event
+  product: windows
+modified: 2022/05/27
+product: windows
+references:
+- https://mpgn.gitbook.io/crackmapexec/smb-protocol/obtaining-credentials/dump-lsass
+status: experimental
+tags:
+- attack.credential_access
+- attack.t1003.001
+title: CrackMapExec File Creation Patterns

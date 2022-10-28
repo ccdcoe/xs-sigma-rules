@@ -1,0 +1,30 @@
+author: frack113
+category: ps_script
+date: 2022/01/09
+definition: Script block logging must be enabled
+description: Open a handle on the drive volume via the \\.\ DOS device path specifier
+  and perform direct access read of the first few bytes of the volume.
+detection:
+  condition: selection
+  selection:
+    winlog.event_data.ScriptBlockText|contains|all:
+    - New-Object
+    - IO.FileStream
+    - \\\\.\\
+falsepositives:
+- Legitimate PowerShell scripts
+id: 70ad982f-67c8-40e0-a955-b920c2fa05cb
+level: medium
+logsource:
+  category: ps_script
+  definition: Script block logging must be enabled
+  product: windows
+modified: 2022/03/05
+product: windows
+references:
+- https://github.com/redcanaryco/atomic-red-team/blob/f339e7da7d05f6057fdfcdd3742bfcf365fee2a9/atomics/T1006/T1006.md
+status: experimental
+tags:
+- attack.defense_evasion
+- attack.t1070.003
+title: Suspicious IO.FileStream

@@ -18,12 +18,12 @@ logsource:
   category: proxy
   product: suricata
   service: http
-modified: 2020/09/03
+modified: 2021/11/27
 product: suricata
 references:
 - https://twitter.com/Carlos_Perez/status/883455096645931008
 service: http
-status: experimental
+status: test
 tags:
 - attack.defense_evasion
 - attack.command_and_control

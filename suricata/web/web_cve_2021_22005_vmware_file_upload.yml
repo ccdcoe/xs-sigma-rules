@@ -9,7 +9,7 @@ detection:
     http.http_method: POST
     http.url|contains: /analytics/telemetry/ph/api/hyper/send?
 falsepositives:
-- Vulnerability Scanning/Pentesting
+- Vulnerability Scanning
 id: b014ea07-8ea0-4859-b517-50a4e5b7ecec
 level: high
 logsource:

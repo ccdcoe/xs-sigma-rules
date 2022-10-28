@@ -1,0 +1,35 @@
+author: Christopher Peacock '@securepeacock', SCYTHE '@scythe_io', Sittikorn S
+category: process_tampering
+date: 2022/01/25
+description: Detects when a memory process image does not match the disk image, indicative
+  of process hollowing.
+detection:
+  condition: selection and not filters
+  filters:
+    winlog.event_data.Image|contains:
+    - :\Program Files\
+    - :\Program Files (x86)
+    winlog.event_data.Image|endswith:
+    - \chrome.exe
+    - \opera.exe
+    - \firefox.exe
+    - \MicrosoftEdge.exe
+  selection:
+    Type: Image is replaced
+falsepositives:
+- There are no known false positives at this time
+id: c4b890e5-8d8c-4496-8c66-c805753817cd
+level: high
+logsource:
+  category: process_tampering
+  product: windows
+modified: 2022/02/01
+product: windows
+references:
+- https://twitter.com/SecurePeacock/status/1486054048390332423?s=20
+- https://www.bleepingcomputer.com/news/microsoft/microsoft-sysmon-now-detects-malware-process-tampering-attempts/
+status: experimental
+tags:
+- attack.process_injection
+- attack.t1055.012
+title: Sysmon Process Hollowing Detection

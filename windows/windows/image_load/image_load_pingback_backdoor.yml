@@ -7,7 +7,7 @@ detection:
   condition: selection
   selection:
     winlog.event_data.ImageLoaded: C:\Windows\oci.dll
-    winlog.event_data.Image|endswith: msdtc.exe
+    winlog.event_data.Image|endswith: \msdtc.exe
 falsepositives:
 - Very unlikely
 id: 35a7dc42-bc6f-46e0-9f83-81f8e56c8d4b
@@ -15,7 +15,7 @@ level: high
 logsource:
   category: image_load
   product: windows
-modified: 2021/09/09
+modified: 2022/08/14
 product: windows
 references:
 - https://www.trustwave.com/en-us/resources/blogs/spiderlabs-blog/backdoor-at-the-end-of-the-icmp-tunnel

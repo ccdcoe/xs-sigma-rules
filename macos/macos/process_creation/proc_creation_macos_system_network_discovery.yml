@@ -1,0 +1,35 @@
+author: remotephone, oscd.community
+category: process_creation
+date: 2020/10/06
+description: Detects enumeration of local network configuration
+detection:
+  condition: 1 of selection*
+  selection1:
+    Image:
+    - /usr/sbin/netstat
+    - /sbin/ifconfig
+    - /usr/sbin/ipconfig
+    - /usr/libexec/ApplicationFirewall/socketfilterfw
+    - /usr/sbin/networksetup
+    - /usr/sbin/arp
+  selection2:
+    CommandLine|contains|all:
+    - read
+    - /Library/Preferences/com.apple.alf
+    Image: /usr/bin/defaults
+falsepositives:
+- Legitimate administration activities
+id: 58800443-f9fc-4d55-ae0c-98a3966dfb97
+level: informational
+logsource:
+  category: process_creation
+  product: macos
+modified: 2022/07/07
+product: macos
+references:
+- https://github.com/redcanaryco/atomic-red-team/blob/f339e7da7d05f6057fdfcdd3742bfcf365fee2a9/atomics/T1016/T1016.md
+status: test
+tags:
+- attack.discovery
+- attack.t1016
+title: System Network Discovery - macOS

@@ -1,0 +1,94 @@
+author: Victor Sergeev, Daniil Yugoslavskiy, Gleb Sukhodolskiy, Timur Zinniatullin,
+  oscd.community, Tim Shelton, frack113 (split)
+category: registry_set
+date: 2019/10/25
+description: Detects modification of autostart extensibility point (ASEP) in registry.
+detection:
+  condition: nt_current_version_base and nt_current_version and not 1 of filter_*
+  filter_edge:
+    winlog.event_data.Image|endswith: \MicrosoftEdgeUpdate.exe
+    winlog.event_data.Image|startswith: C:\Program Files (x86)\Microsoft\Temp\
+  filter_empty:
+    winlog.event_data.Details: (Empty)
+  filter_legitimate_subkey:
+    winlog.event_data.TargetObject|contains: \Image File Execution Options\
+    winlog.event_data.TargetObject|endswith:
+    - \DisableExceptionChainValidation
+    - \MitigationOptions
+  filter_msoffice:
+  - winlog.event_data.TargetObject|contains:
+    - \ClickToRunStore\HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\
+    - \ClickToRun\REGISTRY\MACHINE\Software\Microsoft\Windows NT\CurrentVersion\
+  - winlog.event_data.Image:
+    - C:\Program Files\Microsoft Office\root\integration\integrator.exe
+    - C:\Program Files (x86)\Microsoft Office\root\integration\integrator.exe
+  filter_ngen:
+    winlog.event_data.Image|endswith: \ngen.exe
+    winlog.event_data.Image|startswith: C:\Windows\Microsoft.NET\Framework
+  filter_officeclicktorun:
+    winlog.event_data.Image|endswith: \OfficeClickToRun.exe
+    winlog.event_data.Image|startswith:
+    - C:\Program Files\Common Files\Microsoft Shared\ClickToRun\
+    - C:\Program Files\Common Files\Microsoft Shared\ClickToRun\Updates\
+  filter_onedrive:
+    winlog.event_data.Details|endswith: \AppData\Local\Microsoft\OneDrive\Update\OneDriveSetup.exe"
+    winlog.event_data.Details|startswith: C:\Windows\system32\cmd.exe /q /c del /q
+      "C:\Users\
+    winlog.event_data.Image|endswith: \AppData\Local\Microsoft\OneDrive\StandaloneUpdater\OneDriveSetup.exe
+    winlog.event_data.TargetObject|endswith: \Microsoft\Windows\CurrentVersion\RunOnce\Delete
+      Cached Update Binary
+  filter_security_extension_dc:
+    winlog.event_data.Details:
+    - DWORD (0x00000009)
+    - DWORD (0x000003c0)
+    winlog.event_data.Image: C:\Windows\system32\svchost.exe
+    winlog.event_data.TargetObject|contains:
+    - \Winlogon\GPExtensions\{827D319E-6EAC-11D2-A4EA-00C04F79F83A}\PreviousPolicyAreas
+    - \Winlogon\GPExtensions\{827D319E-6EAC-11D2-A4EA-00C04F79F83A}\MaxNoGPOListChangesInterval
+  nt_current_version:
+    winlog.event_data.TargetObject|contains:
+    - \Winlogon\VmApplet
+    - \Winlogon\Userinit
+    - \Winlogon\Taskman
+    - \Winlogon\Shell
+    - \Winlogon\GpExtensions
+    - \Winlogon\AppSetup
+    - \Winlogon\AlternateShells\AvailableShells
+    - \Windows\IconServiceLib
+    - \Windows\Appinit_Dlls
+    - \Image File Execution Options
+    - \Font Drivers
+    - \Drivers32
+    - \Windows\Run
+    - \Windows\Load
+  nt_current_version_base:
+    winlog.event_data.EventType: SetValue
+    winlog.event_data.TargetObject|contains: \SOFTWARE\Microsoft\Windows NT\CurrentVersion
+falsepositives:
+- Legitimate software automatically (mostly, during installation) sets up autorun
+  keys for legitimate reason
+- Legitimate administrator sets up autorun keys for legitimate reason
+fields:
+- OldValueType
+- NewValueType
+- winlog.event_data.SecurityID
+- winlog.event_data.ObjectName
+id: cbf93e5d-ca6c-4722-8bea-e9119007c248
+level: medium
+logsource:
+  category: registry_set
+  product: windows
+modified: 2022/07/05
+product: windows
+references:
+- https://github.com/redcanaryco/atomic-red-team/blob/f339e7da7d05f6057fdfcdd3742bfcf365fee2a9/atomics/T1547.001/T1547.001.md
+- https://docs.microsoft.com/en-us/sysinternals/downloads/autoruns
+- https://gist.github.com/GlebSukhodolskiy/0fc5fa5f482903064b448890db1eaf9d
+related:
+- id: 17f878b8-9968-4578-b814-c4217fc5768c
+  type: derived
+status: experimental
+tags:
+- attack.persistence
+- attack.t1547.001
+title: CurrentVersion NT Autorun Keys Modification

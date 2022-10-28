@@ -1,0 +1,31 @@
+author: frack113
+category: process_creation
+date: 2021/12/26
+description: Adversaries may stop services or processes in order to conduct Data Destruction
+  or Data Encrypted for Impact on the data stores of services like Exchange and SQL
+  Server.
+detection:
+  condition: all of selection*
+  selection_cli:
+    winlog.event_data.CommandLine|contains|all:
+    - ' /f'
+    - ' /im '
+  selection_img:
+  - winlog.event_data.Image|endswith: \taskkill.exe
+  - winlog.event_data.OriginalFileName: taskkill.exe
+falsepositives:
+- Unknown
+id: 86085955-ea48-42a2-9dd3-85d4c36b167d
+level: low
+logsource:
+  category: process_creation
+  product: windows
+modified: 2022/05/17
+product: windows
+references:
+- https://github.com/redcanaryco/atomic-red-team/blob/f339e7da7d05f6057fdfcdd3742bfcf365fee2a9/atomics/T1489/T1489.md#atomic-test-3---windows---stop-service-by-killing-process
+status: experimental
+tags:
+- attack.impact
+- attack.t1489
+title: Suspicious Execution of Taskkill

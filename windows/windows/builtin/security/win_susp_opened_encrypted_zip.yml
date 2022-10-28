@@ -1,0 +1,24 @@
+author: Florian Roth
+date: 2022/05/09
+description: Detects the extraction of password protected ZIP archives. See the filename
+  variable for more details on which file has been opened.
+detection:
+  condition: selection and not filter
+  filter:
+    winlog.event_data.TargetName|contains: \Temporary Internet Files\Content.Outlook
+  selection:
+    winlog.event_data.TargetName|contains: Microsoft_Windows_Shell_ZipFolder:filename
+    winlog.event_id: 5379
+falsepositives:
+- Legitimate used of encrypted ZIP files
+id: 00ba9da1-b510-4f6b-b258-8d338836180f
+level: medium
+logsource:
+  product: windows
+  service: security
+product: windows
+references:
+- https://twitter.com/sbousseaden/status/1523383197513379841
+service: security
+status: experimental
+title: Password Protected ZIP File Opened

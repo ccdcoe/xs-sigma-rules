@@ -1,0 +1,58 @@
+author: Teymur Kheirkhabarov (idea), Vasiliy Burov (rule), oscd.community, Tim Shelton
+category: process_creation
+date: 2020/10/11
+description: Detects the PowerShell command lines with reversed strings
+detection:
+  condition: selection and not 1 of filter*
+  filter_1:
+    winlog.event_data.CommandLine|contains: -EncodedCommand
+  selection:
+    winlog.event_data.CommandLine|contains:
+    - hctac
+    - kaerb
+    - dnammoc
+    - ekovn
+    - eliFd
+    - rahc
+    - etirw
+    - golon
+    - tninon
+    - eddih
+    - tpircS
+    - ssecorp
+    - llehsrewop
+    - esnopser
+    - daolnwod
+    - tneilCbeW
+    - tneilc
+    - ptth
+    - elifotevas
+    - 46esab
+    - htaPpmeTteG
+    - tcejbO
+    - maerts
+    - hcaerof
+    - ekovni
+    - retupmoc
+    winlog.event_data.Image|endswith:
+    - powershell.exe
+    - pwsh.exe
+falsepositives:
+- Unlikely
+id: b6b49cd1-34d6-4ead-b1bf-176e9edba9a4
+level: high
+logsource:
+  category: process_creation
+  product: windows
+modified: 2022/07/14
+product: windows
+references:
+- https://2019.offzone.moscow/ru/report/hunting-for-powershell-abuses/
+- https://speakerdeck.com/heirhabarov/hunting-for-powershell-abuse?slide=66
+status: test
+tags:
+- attack.defense_evasion
+- attack.t1027
+- attack.execution
+- attack.t1059.001
+title: Suspicious PowerShell Cmdline

@@ -1,0 +1,35 @@
+author: Florian Roth, oscd.community, Jonhnathan Ribeiro
+category: process_creation
+date: 2019/01/16
+description: Detects a Powershell process that contains download commands in its command
+  line string
+detection:
+  condition: selection
+  selection:
+    winlog.event_data.CommandLine|contains:
+    - string(
+    - file(
+    winlog.event_data.CommandLine|contains|all:
+    - new-object
+    - net.webclient).
+    - download
+    winlog.event_data.Image|endswith:
+    - \powershell.exe
+    - \pwsh.exe
+falsepositives:
+- Unknown
+fields:
+- winlog.event_data.CommandLine
+- winlog.event_data.ParentCommandLine
+id: 3b6ab547-8ec2-4991-b9d2-2b06702a48d7
+level: medium
+logsource:
+  category: process_creation
+  product: windows
+modified: 2022/07/14
+product: windows
+status: test
+tags:
+- attack.execution
+- attack.t1059.001
+title: PowerShell Download from URL

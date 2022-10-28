@@ -1,0 +1,28 @@
+author: frack113
+category: process_creation
+date: 2022/03/06
+description: Use OfflineScannerShell.exe to execute mpclient.dll library in the current
+  working directory
+detection:
+  condition: lolbas and not 1 of filter_*
+  filter_correct:
+    winlog.event_data.CurrentDirectory: C:\Program Files\Windows Defender\Offline\
+  filter_missing:
+    winlog.event_data.CurrentDirectory: null
+  lolbas:
+    winlog.event_data.Image|endswith: \OfflineScannerShell.exe
+falsepositives:
+- Unknown
+id: 02b18447-ea83-4b1b-8805-714a8a34546a
+level: medium
+logsource:
+  category: process_creation
+  product: windows
+product: windows
+references:
+- https://lolbas-project.github.io/lolbas/Binaries/OfflineScannerShell/
+status: experimental
+tags:
+- attack.defense_evasion
+- attack.t1218
+title: Suspicious OfflineScannerShell.exe Execution From Another Folder

@@ -1,0 +1,32 @@
+author: frack113
+category: process_creation
+date: 2022/01/16
+description: 'Adversaries may abuse msiexec.exe to proxy execution of malicious payloads.
+
+  Msiexec.exe is the command-line utility for the Windows Installer and is thus commonly
+  associated with executing installation packages (.msi)
+
+  '
+detection:
+  condition: selection
+  selection:
+    winlog.event_data.CommandLine|contains|all:
+    - ' /i'
+    - ' /q'
+    winlog.event_data.Image|endswith: \msiexec.exe
+falsepositives:
+- Legitimate script
+id: 79a87aa6-e4bd-42fc-a5bb-5e6fbdcd62f5
+level: low
+logsource:
+  category: process_creation
+  product: windows
+product: windows
+references:
+- https://docs.microsoft.com/en-us/windows-server/administration/windows-commands/msiexec
+- https://github.com/redcanaryco/atomic-red-team/blob/f339e7da7d05f6057fdfcdd3742bfcf365fee2a9/atomics/T1218.007/T1218.007.md
+status: experimental
+tags:
+- attack.defense_evasion
+- attack.t1218.007
+title: Suspicious Msiexec Quiet Install

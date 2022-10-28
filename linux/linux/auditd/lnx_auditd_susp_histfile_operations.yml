@@ -14,7 +14,7 @@ detection:
   - fish_history
 falsepositives:
 - Legitimate administrative activity
-- Ligitimate software, cleaning hist file
+- Legitimate software, cleaning hist file
 fields:
 - a0
 - a1
@@ -26,11 +26,12 @@ level: medium
 logsource:
   product: linux
   service: auditd
+modified: 2021/11/27
 product: linux
 references:
-- https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1552.003/T1552.003.md
+- https://github.com/redcanaryco/atomic-red-team/blob/f339e7da7d05f6057fdfcdd3742bfcf365fee2a9/atomics/T1552.003/T1552.003.md
 service: auditd
-status: experimental
+status: test
 tags:
 - attack.credential_access
 - attack.t1552.003

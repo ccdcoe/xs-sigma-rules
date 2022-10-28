@@ -1,0 +1,24 @@
+author: sawwinnnaung
+date: 2020/05/07
+description: Identifies IPs from which users grant access to other users on azure
+  resources and alerts when a previously unseen source IP address is used.
+detection:
+  condition: keywords
+  keywords:
+  - Microsoft.Authorization/roleAssignments/write
+falsepositives:
+- Valid change
+id: a622fcd2-4b5a-436a-b8a2-a4171161833c
+level: medium
+logsource:
+  product: azure
+  service: azureactivity
+modified: 2021/11/27
+product: azure
+references:
+- https://github.com/Azure/Azure-Sentinel/blob/e534407884b1ec5371efc9f76ead282176c9e8bb/Detections/AzureActivity/Granting_Permissions_To_Account_detection.yaml
+service: azureactivity
+status: test
+tags:
+- attack.t1098
+title: Granting Of Permissions To An Account

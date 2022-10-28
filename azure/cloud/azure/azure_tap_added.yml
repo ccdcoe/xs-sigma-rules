@@ -1,0 +1,26 @@
+author: Mark Morowczynski '@markmorow', Yochana Henderson, '@Yochana-H'
+date: 2022/08/10
+description: Detects when a temporary access pass (TAP) is added to an account. TAPs
+  added to priv accounts should be investigated
+detection:
+  condition: selection
+  selection:
+    Status: Admin registered temporary access pass method for user
+    properties.message: Admin registered security info
+falsepositives:
+- Administrator adding a legitmate temporary access pass
+id: fa84aaf5-8142-43cd-9ec2-78cfebf878ce
+level: high
+logsource:
+  product: azure
+  service: auditlogs
+product: azure
+references:
+- https://docs.microsoft.com/en-us/azure/active-directory/fundamentals/security-operations-privileged-accounts#changes-to-privileged-accounts
+service: auditlogs
+status: experimental
+tags:
+- attack.privilege_escalation
+- attack.defense_evasion
+- attack.t1078
+title: Temporary Access Pass Added To An Account

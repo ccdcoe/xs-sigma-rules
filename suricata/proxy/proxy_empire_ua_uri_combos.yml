@@ -5,7 +5,7 @@ description: Detects user agent and URI paths used by empire agents
 detection:
   condition: selection
   selection:
-    cs-uri-query:
+    cs-uri:
     - /admin/get.php
     - /news.php
     - /login/process.php
@@ -23,12 +23,12 @@ logsource:
   category: proxy
   product: suricata
   service: http
-modified: 2020/09/03
+modified: 2022/08/05
 product: suricata
 references:
 - https://github.com/BC-SECURITY/Empire
 service: http
-status: experimental
+status: test
 tags:
 - attack.defense_evasion
 - attack.command_and_control

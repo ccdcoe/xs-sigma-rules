@@ -1,0 +1,32 @@
+author: frack113
+date: 2022/02/19
+description: A rule has been modified in the Windows Firewall exception list
+detection:
+  condition: selection and not 1 of filter_*
+  filter_block:
+    Action: 2
+  filter_installations:
+  - ApplicationPath|startswith:
+    - C:\Program Files\
+    - C:\Program Files (x86)\
+  - ModifyingApplication: C:\Windows\System32\oobe\Setup.exe
+  - ModifyingApplication|startswith: C:\Windows\WinSxS\
+  - ModifyingApplication:
+    - C:\Windows\SysWOW64\msiexec.exe
+    - C:\Windows\System32\svchost.exe
+    - C:\Windows\System32\dllhost.exe
+    - C:\Program Files\Windows Defender\MsMpEng.exe
+  selection:
+    winlog.event_id: 2004
+id: cde0a575-7d3d-4a49-9817-b8004a7bf105
+level: medium
+logsource:
+  product: windows
+  service: firewall-as
+modified: 2022/04/07
+product: windows
+references:
+- https://docs.microsoft.com/en-us/previous-versions/windows/it-pro/windows-server-2008-r2-and-2008/dd364427(v=ws.10)
+service: firewall-as
+status: experimental
+title: Added Rule in Windows Firewall with Advanced Security

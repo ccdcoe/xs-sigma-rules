@@ -1,35 +1,46 @@
-author: Florian Roth
+author: Florian Roth (rule), David ANDRE (additional keywords)
 date: 2017/01/10
 description: This method detects mimikatz keywords in different Eventlogs (some of
   them only appear in older Mimikatz version that are however still used by different
   threat groups)
 detection:
-  condition: keywords
+  condition: keywords and not filter
+  filter:
+    winlog.event_id: 15
   keywords:
-  - \mimikatz
-  - mimikatz.exe
-  - \mimilib.dll
-  - <3 eo.oe
+  - dpapi::masterkey
   - eo.oe.kiwi
-  - privilege::debug
-  - sekurlsa::logonpasswords
-  - lsadump::sam
-  - mimidrv.sys
-  - ' p::d '
-  - ' s::l '
+  - event::clear
+  - event::drop
   - gentilkiwi.com
+  - kerberos::golden
+  - kerberos::ptc
+  - kerberos::ptt
+  - kerberos::tgt
   - Kiwi Legit Printer
+  - 'lsadump::'
+  - mimidrv.sys
+  - \mimilib.dll
+  - misc::printnightmare
+  - misc::shadowcopies
+  - misc::skeleton
+  - privilege::backup
+  - privilege::debug
+  - privilege::driver
+  - 'sekurlsa::'
 falsepositives:
 - Naughty administrators
-- Penetration test
 - AV Signature updates
 - Files with Mimikatz in their filename
 id: 06d71506-7beb-4f22-8888-e2e5e2ca7fd8
-level: critical
+level: high
 logsource:
   product: windows
-modified: 2021/08/26
+modified: 2022/01/05
 product: windows
+references:
+- https://tools.thehacker.recipes/mimikatz/modules
+status: experimental
 tags:
 - attack.s0002
 - attack.lateral_movement

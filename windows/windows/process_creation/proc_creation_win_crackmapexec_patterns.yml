@@ -1,0 +1,41 @@
+author: Florian Roth
+category: process_creation
+date: 2022/03/12
+description: Detects suspicious process patterns found in logs when CrackMapExec is
+  used
+detection:
+  condition: 1 of selection*
+  selection_lsass_dump1:
+    winlog.event_data.CommandLine|contains|all:
+    - 'cmd.exe /c '
+    - 'tasklist /fi '
+    - Imagename eq lsass.exe
+    winlog.event_data.User|contains:
+    - AUTHORI
+    - AUTORI
+  selection_lsass_dump2:
+    winlog.event_data.CommandLine|contains|all:
+    - do rundll32.exe C:\windows\System32\comsvcs.dll, MiniDump
+    - \Windows\Temp\
+    - ' full'
+    - '%%B'
+  selection_procdump:
+    winlog.event_data.CommandLine|contains|all:
+    - tasklist /v /fo csv
+    - findstr /i "lsass"
+falsepositives:
+- Unknown
+id: f26307d8-14cd-47e3-a26b-4b4769f24af6
+level: high
+logsource:
+  category: process_creation
+  product: windows
+modified: 2022/05/27
+product: windows
+references:
+- https://mpgn.gitbook.io/crackmapexec/smb-protocol/obtaining-credentials/dump-lsass
+status: experimental
+tags:
+- attack.credential_access
+- attack.t1003.001
+title: CrackMapExec Process Patterns

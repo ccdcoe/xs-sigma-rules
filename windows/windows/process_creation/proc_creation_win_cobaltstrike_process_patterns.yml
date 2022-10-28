@@ -1,0 +1,44 @@
+author: Florian Roth
+category: process_creation
+date: 2021/07/27
+description: Detects process patterns found in Cobalt Strike beacon activity (see
+  reference for more details) and also cases in which a China Chopper like webshell
+  is used to run whoami
+detection:
+  condition: 1 of selection*
+  selection1:
+    winlog.event_data.CommandLine|contains: \cmd.exe /C whoami
+    winlog.event_data.ParentImage|startswith: C:\Temp
+  selection2:
+    winlog.event_data.CommandLine|contains: conhost.exe 0xffffffff -ForceV1
+    winlog.event_data.ParentCommandLine|contains:
+    - /C whoami
+    - cmd.exe /C echo
+    - ' > \\\\.\\pipe'
+  selection3:
+    winlog.event_data.CommandLine|contains:
+    - cmd.exe /c echo
+    - '> \\\\.\\pipe'
+    - \whoami.exe
+    winlog.event_data.ParentImage|endswith: \dllhost.exe
+  selection4:
+    winlog.event_data.Image|endswith: \cmd.exe
+    winlog.event_data.ParentCommandLine|endswith: \runonce.exe
+    winlog.event_data.ParentImage|endswith: \runonce.exe
+falsepositives:
+- Other programs that cause these patterns (please report)
+id: f35c5d71-b489-4e22-a115-f003df287317
+level: high
+logsource:
+  category: process_creation
+  product: windows
+modified: 2022/03/05
+product: windows
+references:
+- https://hausec.com/2021/07/26/cobalt-strike-and-tradecraft/
+- https://thedfirreport.com/2021/08/29/cobalt-strike-a-defenders-guide/
+status: experimental
+tags:
+- attack.execution
+- attack.t1059
+title: CobaltStrike Process Patterns

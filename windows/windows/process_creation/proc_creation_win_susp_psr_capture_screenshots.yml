@@ -1,0 +1,28 @@
+author: Beyu Denis, oscd.community
+category: process_creation
+date: 2019/10/12
+description: The psr.exe captures desktop screenshots and saves them on the local
+  machine
+detection:
+  condition: selection
+  selection:
+    winlog.event_data.CommandLine|contains: /start
+    winlog.event_data.Image|endswith: \Psr.exe
+falsepositives:
+- Unknown
+id: 2158f96f-43c2-43cb-952a-ab4580f32382
+level: medium
+logsource:
+  category: process_creation
+  product: windows
+modified: 2021/11/27
+product: windows
+references:
+- https://lolbas-project.github.io/lolbas/Binaries/Psr/
+- https://www.sans.org/summit-archives/file/summit-archive-1493861893.pdf
+- https://github.com/redcanaryco/atomic-red-team/blob/f339e7da7d05f6057fdfcdd3742bfcf365fee2a9/atomics/T1560.001/T1560.001.md
+status: test
+tags:
+- attack.collection
+- attack.t1113
+title: Psr.exe Capture Screenshots

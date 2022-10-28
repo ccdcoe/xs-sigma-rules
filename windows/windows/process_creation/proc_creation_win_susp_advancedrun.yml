@@ -1,0 +1,31 @@
+author: Florian Roth
+category: process_creation
+date: 2022/01/20
+description: Detects the execution of AdvancedRun utility
+detection:
+  condition: selection
+  selection:
+  - winlog.event_data.OriginalFileName: AdvancedRun.exe
+  - winlog.event_data.CommandLine|contains|all:
+    - ' /EXEFilename '
+    - ' /Run'
+  - winlog.event_data.CommandLine|contains|all:
+    - ' /WindowState 0'
+    - ' /RunAs '
+    - ' /CommandLine '
+falsepositives:
+- Unknown
+id: d2b749ee-4225-417e-b20e-a8d2193cbb84
+level: medium
+logsource:
+  category: process_creation
+  product: windows
+modified: 2022/05/13
+product: windows
+references:
+- https://twitter.com/splinter_code/status/1483815103279603714
+- https://medium.com/s2wblog/analysis-of-destructive-malware-whispergate-targeting-ukraine-9d5d158f19f3
+- https://elastic.github.io/security-research/malware/2022/01/01.operation-bleeding-bear/article/
+- https://www.winhelponline.com/blog/run-program-as-system-localsystem-account-windows/
+status: experimental
+title: Suspicious AdvancedRun Execution

@@ -1,0 +1,29 @@
+author: frack113
+category: ps_script
+date: 2022/01/12
+definition: Script block logging must be enabled
+description: The infrastructure for management data and operations that enables local
+  and remote management of Windows personal computers and servers
+detection:
+  condition: selection
+  selection:
+    winlog.event_data.ScriptBlockText|contains:
+    - Get-WmiObject
+    - gwmi
+falsepositives:
+- Legitimate PowerShell scripts
+id: 0332a266-b584-47b4-933d-a00b103e1b37
+level: low
+logsource:
+  category: ps_script
+  definition: Script block logging must be enabled
+  product: windows
+product: windows
+references:
+- https://attack.mitre.org/datasources/DS0005/
+- https://docs.microsoft.com/en-us/powershell/module/microsoft.powershell.management/get-wmiobject?view=powershell-5.1&viewFallbackFrom=powershell-7
+status: experimental
+tags:
+- attack.persistence
+- attack.t1546
+title: Suspicious Get-WmiObject

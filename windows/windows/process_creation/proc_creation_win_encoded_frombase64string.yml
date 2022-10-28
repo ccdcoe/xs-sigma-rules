@@ -1,0 +1,32 @@
+author: Florian Roth
+category: process_creation
+date: 2019/08/24
+description: Detects a base64 encoded FromBase64String keyword in a process command
+  line
+detection:
+  condition: selection
+  selection:
+  - winlog.event_data.CommandLine|base64offset|contains: ::FromBase64String
+  - winlog.event_data.CommandLine|contains:
+    - OgA6AEYAcgBvAG0AQgBhAHMAZQA2ADQAUwB0AHIAaQBuAGcA
+    - oAOgBGAHIAbwBtAEIAYQBzAGUANgA0AFMAdAByAGkAbgBnA
+    - 6ADoARgByAG8AbQBCAGEAcwBlADYANABTAHQAcgBpAG4AZw
+falsepositives:
+- Unknown
+fields:
+- winlog.event_data.CommandLine
+- winlog.event_data.ParentCommandLine
+id: fdb62a13-9a81-4e5c-a38f-ea93a16f6d7c
+level: high
+logsource:
+  category: process_creation
+  product: windows
+modified: 2022/03/07
+product: windows
+status: test
+tags:
+- attack.defense_evasion
+- attack.t1140
+- attack.execution
+- attack.t1059.001
+title: Encoded FromBase64String

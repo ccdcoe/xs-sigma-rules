@@ -1,0 +1,26 @@
+author: Nasreddine Bencherchali
+category: process_creation
+date: 2022/08/19
+description: Detects the execution of CustomShellHost binary where the child isn't
+  located in 'C:\Windows\explorer.exe'
+detection:
+  condition: selection and not filter
+  filter:
+    winlog.event_data.Image: C:\Windows\explorer.exe
+  selection:
+    winlog.event_data.ParentImage|endswith: \CustomShellHost.exe
+falsepositives:
+- Unknown
+id: 84b14121-9d14-416e-800b-f3b829c5a14d
+level: medium
+logsource:
+  category: process_creation
+  product: windows
+product: windows
+references:
+- https://github.com/LOLBAS-Project/LOLBAS/pull/180
+status: experimental
+tags:
+- attack.defense_evasion
+- attack.t1216
+title: Suspicious CustomShellHost Execution

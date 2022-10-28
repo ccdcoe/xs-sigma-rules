@@ -1,0 +1,38 @@
+author: frack113
+category: registry_set
+date: 2022/03/18
+description: Detects registry modifications that hide internal tools or functions
+  from the user (malware like Agent Tesla, Hermetic Wiper uses this technique)
+detection:
+  condition: 1 of selection_set_*
+  selection_set_0:
+    winlog.event_data.Details: DWORD (0x00000000)
+    winlog.event_data.EventType: SetValue
+    winlog.event_data.TargetObject|endswith:
+    - SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced\ShowInfoTip
+    - SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced\ShowCompColor
+  selection_set_1:
+    winlog.event_data.Details: DWORD (0x00000001)
+    winlog.event_data.EventType: SetValue
+    winlog.event_data.TargetObject|endswith:
+    - SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\Explorer\HideClock
+    - SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\Explorer\HideSCAHealth
+    - SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\Explorer\HideSCANetwork
+    - SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\Explorer\HideSCAPower
+    - Software\Microsoft\Windows\CurrentVersion\Policies\Explorer\HideSCAVolume
+falsepositives:
+- Legitimate admin script
+id: 5a93eb65-dffa-4543-b761-94aa60098fb6
+level: medium
+logsource:
+  category: registry_set
+  product: windows
+modified: 2022/03/26
+product: windows
+references:
+- https://github.com/redcanaryco/atomic-red-team/blob/f339e7da7d05f6057fdfcdd3742bfcf365fee2a9/atomics/T1564.001/T1564.001.md
+status: experimental
+tags:
+- attack.defense_evasion
+- attack.t1112
+title: Registry Hide Function from User

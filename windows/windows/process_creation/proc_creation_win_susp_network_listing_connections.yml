@@ -1,0 +1,35 @@
+author: frack113
+category: process_creation
+date: 2021/12/10
+description: Adversaries may attempt to get a listing of network connections to or
+  from the compromised system they are currently accessing or from remote systems
+  by querying for information over the network.
+detection:
+  condition: netstat or all of net_*
+  net_cmd:
+    winlog.event_data.CommandLine|contains: 'net '
+  net_opt:
+  - winlog.event_data.CommandLine|endswith:
+    - ' use'
+    - ' sessions'
+  - winlog.event_data.CommandLine|contains:
+    - ' use '
+    - ' sessions '
+  netstat:
+    winlog.event_data.CommandLine|contains: netstat
+falsepositives:
+- Unknown
+id: 1c67a717-32ba-409b-a45d-0fb704a73a81
+level: low
+logsource:
+  category: process_creation
+  product: windows
+modified: 2022/07/14
+product: windows
+references:
+- https://github.com/redcanaryco/atomic-red-team/blob/f339e7da7d05f6057fdfcdd3742bfcf365fee2a9/atomics/T1049/T1049.md#atomic-test-1---system-network-connections-discovery
+status: experimental
+tags:
+- attack.discovery
+- attack.t1049
+title: Suspicious Listing of Network Connections

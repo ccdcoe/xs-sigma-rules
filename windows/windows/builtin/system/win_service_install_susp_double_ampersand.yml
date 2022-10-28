@@ -1,0 +1,26 @@
+author: Florian Roth
+date: 2022/07/05
+description: Detects a service installation that uses a suspicious double ampersand
+  used in the image path value
+detection:
+  condition: selection
+  selection:
+    Provider_Name: Service Control Manager
+    winlog.event_data.ImagePath|contains: '&&'
+    winlog.event_id: 7045
+falsepositives:
+- Unknown
+id: ca83e9f3-657a-45d0-88d6-c1ac280caf53
+level: high
+logsource:
+  product: windows
+  service: system
+product: windows
+references:
+- Internal Research
+service: system
+status: experimental
+tags:
+- attack.defense_evasion
+- attack.t1027
+title: New Service Uses Double Ampersand in Path

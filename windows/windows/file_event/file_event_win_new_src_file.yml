@@ -1,0 +1,32 @@
+author: Christopher Peacock @securepeacock, SCYTHE @scythe_io
+category: file_event
+date: 2022/04/27
+description: An attacker may execute an application as a .SCR File (Screensaver) using
+  rundll32.exe desk.cpl,InstallScreenSaver
+detection:
+  condition: selection and not filter
+  filter:
+    winlog.event_data.TargetFilename|startswith:
+    - C:\Windows\System32\
+    - C:\Windows\system32\
+    - C:\Windows\SysWOW64\
+    - C:\Windows\SysWow64\
+    - C:\Windows\winsxs\
+    - C:\Windows\WinSxS\
+  selection:
+    winlog.event_data.TargetFilename|endswith: .scr
+falsepositives:
+- The installation of new screen savers.
+id: c048f047-7e2a-4888-b302-55f509d4a91d
+level: medium
+logsource:
+  category: file_event
+  product: windows
+product: windows
+references:
+- https://lolbas-project.github.io/lolbas/Libraries/Desk/
+status: experimental
+tags:
+- attack.t1218.011
+- attack.defense_evasion
+title: SCR File Write Event

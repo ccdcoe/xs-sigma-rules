@@ -1,0 +1,38 @@
+author: Florian Roth
+category: proxy
+date: 2022/06/10
+description: Detects Bitsadmin connections to IP addresses instead of FQDN names
+detection:
+  condition: selection
+  selection:
+    http.hostname|endswith:
+    - '1'
+    - '2'
+    - '3'
+    - '4'
+    - '5'
+    - '6'
+    - '7'
+    - '8'
+    - '9'
+    http.http_user_agent|startswith: Microsoft BITS/
+falsepositives:
+- Unknown
+id: 8ccd35a2-1c7c-468b-b568-ac6cdf80eec3
+level: high
+logsource:
+  category: proxy
+  product: suricata
+  service: http
+modified: 2022/08/24
+product: suricata
+service: http
+status: experimental
+tags:
+- attack.command_and_control
+- attack.t1071.001
+- attack.defense_evasion
+- attack.persistence
+- attack.t1197
+- attack.s0190
+title: Bitsadmin to Uncommon IP Server Address

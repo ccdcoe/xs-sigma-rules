@@ -1,0 +1,37 @@
+author: Tom Ueltschi (@c_APT_ure), Tim Shelton
+category: process_creation
+date: 2019/01/12
+description: Detects creation or execution of UserInitMprLogonScript persistence method
+detection:
+  condition: ( exec_selection and not 1 of exec_exclusion* ) or create_keywords_cli
+  create_keywords_cli:
+    winlog.event_data.CommandLine|contains: UserInitMprLogonScript
+  exec_exclusion1:
+    winlog.event_data.Image|endswith:
+    - explorer.exe
+    - \proquota.exe
+  exec_exclusion2:
+    winlog.event_data.CommandLine|contains:
+    - netlogon*.bat
+    - UsrLogon.cmd
+    - C:\WINDOWS\Explorer.EXE
+  exec_exclusion3:
+    winlog.event_data.Image|endswith: \Citrix\System32\icast.exe
+  exec_selection:
+    winlog.event_data.ParentImage|endswith: \userinit.exe
+falsepositives:
+- Exclude legitimate logon scripts
+id: 0a98a10c-685d-4ab0-bddc-b6bdd1d48458
+level: high
+logsource:
+  category: process_creation
+  product: windows
+modified: 2022/05/31
+product: windows
+references:
+- https://attack.mitre.org/techniques/T1037/
+status: test
+tags:
+- attack.t1037.001
+- attack.persistence
+title: Logon Scripts (UserInitMprLogonScript)

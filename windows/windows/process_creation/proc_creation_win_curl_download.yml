@@ -1,0 +1,29 @@
+author: Florian Roth
+category: process_creation
+date: 2022/07/05
+description: Detects a curl process start on Windows, which indicates a file download
+  from a remote location or a simple web request to a remote server
+detection:
+  condition: selection
+  selection:
+  - winlog.event_data.Image|endswith: \curl.exe
+  - winlog.event_data.Product: The curl executable
+falsepositives:
+- Scripts created by developers and admins
+- Administrative activity
+fields:
+- winlog.event_data.CommandLine
+- winlog.event_data.ParentCommandLine
+id: bbeaed61-1990-4773-bf57-b81dbad7db2d
+level: low
+logsource:
+  category: process_creation
+  product: windows
+product: windows
+references:
+- https://web.archive.org/web/20200128160046/https://twitter.com/reegun21/status/1222093798009790464
+status: test
+tags:
+- attack.command_and_control
+- attack.t1105
+title: Curl Usage on Windows

@@ -1,0 +1,27 @@
+author: Florian Roth
+date: 2021/12/22
+description: Detects the renaming of an existing computer account to a account name
+  that doesn't contain a $ symbol as seen in attacks against CVE-2021-42287
+detection:
+  condition: selection and not filter
+  filter:
+    NewTargetUserName|contains: $
+  selection:
+    OldTargetUserName|contains: $
+    winlog.event_id: 4781
+falsepositives:
+- Unknown
+fields:
+- winlog.event_id
+- winlog.event_data.SubjectUserName
+id: 45eb2ae2-9aa2-4c3a-99a5-6e5077655466
+level: high
+logsource:
+  product: windows
+  service: security
+product: windows
+references:
+- https://medium.com/@mvelazco/hunting-for-samaccountname-spoofing-cve-2021-42287-and-domain-controller-impersonation-f704513c8a45
+service: security
+status: experimental
+title: Suspicious Computer Account Name Change CVE-2021-42287

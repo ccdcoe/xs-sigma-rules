@@ -1,0 +1,25 @@
+author: MikeDuddington, '@dudders1'
+date: 2022/07/28
+description: Detect successful authentications from countries you do not operate out
+  of.
+detection:
+  condition: selection and not filter
+  filter:
+    Location|contains: <Countries you DO operate out of e,g GB, use OR for multiple>
+  selection:
+    Status: Success
+falsepositives:
+- If this was approved by System Administrator.
+id: 8c944ecb-6970-4541-8496-be554b8e2846
+level: medium
+logsource:
+  product: azure
+  service: signinlogs
+product: azure
+references:
+- https://docs.microsoft.com/en-gb/azure/active-directory/fundamentals/security-operations-user-accounts
+service: signinlogs
+status: experimental
+tags:
+- attack.t1078
+title: Successful Authentications From Countries You Do Not Operate Out Of

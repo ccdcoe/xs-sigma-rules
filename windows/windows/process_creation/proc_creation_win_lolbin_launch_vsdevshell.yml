@@ -1,0 +1,28 @@
+author: Nasreddine Bencherchali
+category: process_creation
+date: 2022/08/19
+description: Detects the use of the 'Launch-VsDevShell.ps1' Microsoft signed script
+  to execute commands.
+detection:
+  condition: all of selection_*
+  selection_flags:
+    winlog.event_data.CommandLine|contains:
+    - 'VsWherePath '
+    - 'VsInstallationPath '
+  selection_script:
+    winlog.event_data.CommandLine|contains: Launch-VsDevShell.ps1
+falsepositives:
+- Legitimate usage of the script by a developer
+id: 45d3a03d-f441-458c-8883-df101a3bb146
+level: medium
+logsource:
+  category: process_creation
+  product: windows
+product: windows
+references:
+- https://twitter.com/nas_bench/status/1535981653239255040
+status: experimental
+tags:
+- attack.defense_evasion
+- attack.t1216.001
+title: Launch-VsDevShell.PS1 Proxy Execution

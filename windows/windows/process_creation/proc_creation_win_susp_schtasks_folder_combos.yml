@@ -1,0 +1,37 @@
+author: Florian Roth
+category: process_creation
+date: 2022/04/15
+description: Detects scheduled task creations that have suspicious action command
+  and folder combinations
+detection:
+  condition: all of selection_*
+  selection_all_folders:
+    winlog.event_data.CommandLine|contains:
+    - C:\ProgramData\
+    - '%ProgramData%'
+  selection_command:
+    winlog.event_data.CommandLine|contains:
+    - powershell
+    - 'cmd /c '
+    - 'cmd /k '
+    - 'cmd.exe /c '
+    - 'cmd.exe /k '
+  selection_create:
+    winlog.event_data.CommandLine|contains: ' /create '
+    winlog.event_data.Image|endswith: \schtasks.exe
+falsepositives:
+- Unknown
+id: 8a8379b8-780b-4dbf-b1e9-31c8d112fefb
+level: high
+logsource:
+  category: process_creation
+  product: windows
+modified: 2022/08/24
+product: windows
+references:
+- https://symantec-enterprise-blogs.security.com/blogs/threat-intelligence/lazarus-dream-job-chemical
+status: experimental
+tags:
+- attack.execution
+- attack.t1053.005
+title: Schtasks From Suspicious Folders

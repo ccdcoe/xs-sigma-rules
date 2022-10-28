@@ -1,0 +1,33 @@
+author: frack113
+category: process_creation
+date: 2021/07/27
+description: An adversary may compress or encrypt data that is collected prior to
+  exfiltration using 3rd party utilities
+detection:
+  condition: all of selection*
+  selection_other:
+    winlog.event_data.CommandLine|contains:
+    - ' -min '
+    - ' -a '
+  selection_password:
+    winlog.event_data.CommandLine|contains: -s"
+  selection_winzip:
+    winlog.event_data.CommandLine|contains:
+    - winzip.exe
+    - winzip64.exe
+falsepositives:
+- Unknown
+id: e2e80da2-8c66-4e00-ae3c-2eebd29f6b6d
+level: medium
+logsource:
+  category: process_creation
+  product: windows
+modified: 2021/12/02
+product: windows
+references:
+- https://github.com/redcanaryco/atomic-red-team/blob/f339e7da7d05f6057fdfcdd3742bfcf365fee2a9/atomics/T1560.001/T1560.001.md
+status: experimental
+tags:
+- attack.collection
+- attack.t1560.001
+title: Compress Data and Lock With Password for Exfiltration With WINZIP

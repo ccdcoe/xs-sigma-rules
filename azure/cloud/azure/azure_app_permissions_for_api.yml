@@ -1,0 +1,22 @@
+author: Bailey Bercik '@baileybercik', Mark Morowczynski '@markmorow'
+date: 2022/07/28
+description: Detects when app permissions (app roles) for other APIs are granted
+detection:
+  condition: selection
+  selection:
+    properties.message: Add app role assignment to service principal
+falsepositives:
+- When the permission is legitimately needed for the app
+id: ba2a7c80-027b-460f-92e2-57d113897dbc
+level: medium
+logsource:
+  product: azure
+  service: auditlogs
+product: azure
+references:
+- https://docs.microsoft.com/en-us/azure/active-directory/fundamentals/security-operations-applications#application-granted-highly-privileged-permissions
+service: auditlogs
+status: experimental
+tags:
+- attack.privilege_escalation
+title: App Permissions Granted For Other APIs

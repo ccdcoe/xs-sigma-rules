@@ -14,13 +14,13 @@ level: high
 logsource:
   product: linux
   service: auditd
-modified: 2019/11/11
+modified: 2021/11/27
 product: linux
 references:
-- https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1574.006/T1574.006.md
+- https://github.com/redcanaryco/atomic-red-team/blob/f339e7da7d05f6057fdfcdd3742bfcf365fee2a9/atomics/T1574.006/T1574.006.md
 - https://eqllib.readthedocs.io/en/latest/analytics/fd9b987a-1101-4ed3-bda6-a70300eaf57e.html
 service: auditd
-status: experimental
+status: test
 tags:
 - attack.defense_evasion
 - attack.t1574.006

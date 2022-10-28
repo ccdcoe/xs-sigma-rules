@@ -1,0 +1,59 @@
+author: Teymur Kheirkhabarov (idea), Vasiliy Burov (rule), oscd.community, Tim Shelton
+  (fp)
+category: process_creation
+date: 2020/10/15
+description: Detects the PowerShell command lines with special characters
+detection:
+  condition: (selection1 or selection2 or selection3 or selection4 or selection5)
+    and not filter_amazonSSM and not (selection3 and filter_windef_atp)
+  filter_amazonSSM:
+    winlog.event_data.ParentImage: C:\Program Files\Amazon\SSM\ssm-document-worker.exe
+  filter_windef_atp:
+    winlog.event_data.CommandLine|contains:
+    - new EventSource("Microsoft.Windows.Sense.Client.Management"
+    - public static extern bool InstallELAMCertificateInfo(SafeFileHandle handle);
+  selection1:
+    winlog.event_data.CommandLine|re: .*\+.*\+.*\+.*\+.*\+.*\+.*\+.*\+.*\+.*\+.*\+.*\+.*\+.*\+.*
+    winlog.event_data.Image|endswith:
+    - \powershell.exe
+    - \pwsh.exe
+  selection2:
+    winlog.event_data.CommandLine|re: .*\{.*\{.*\{.*\{.*\{.*\{.*\{.*\{.*\{.*\{.*
+    winlog.event_data.Image|endswith:
+    - \powershell.exe
+    - \pwsh.exe
+  selection3:
+    winlog.event_data.CommandLine|re: .*{.*{.*{.*{.*{.*
+    winlog.event_data.Image|endswith:
+    - \powershell.exe
+    - \pwsh.exe
+  selection4:
+    winlog.event_data.CommandLine|re: .*\^.*\^.*\^.*\^.*\^.*
+    winlog.event_data.Image|endswith:
+    - \powershell.exe
+    - \pwsh.exe
+  selection5:
+    winlog.event_data.CommandLine|re: .*`.*`.*`.*`.*`.*
+    winlog.event_data.Image|endswith:
+    - \powershell.exe
+    - \pwsh.exe
+falsepositives:
+- Unlikely
+- Amazon SSM Document Worker
+- Windows Defender ATP
+id: d7bcd677-645d-4691-a8d4-7a5602b780d1
+level: high
+logsource:
+  category: process_creation
+  product: windows
+modified: 2022/07/14
+product: windows
+references:
+- https://speakerdeck.com/heirhabarov/hunting-for-powershell-abuse?slide=64
+status: test
+tags:
+- attack.defense_evasion
+- attack.t1027
+- attack.execution
+- attack.t1059.001
+title: Suspicious PowerShell Command Line

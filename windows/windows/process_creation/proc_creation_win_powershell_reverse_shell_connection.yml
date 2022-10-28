@@ -1,0 +1,31 @@
+author: FPT.EagleEye, wagga
+category: process_creation
+date: 2021/03/03
+description: Detects the Nishang Invoke-PowerShellTcpOneLine reverse shell
+detection:
+  condition: selection
+  selection:
+    winlog.event_data.CommandLine|contains: new-object system.net.sockets.tcpclient
+    winlog.event_data.Image|endswith:
+    - \powershell.exe
+    - \pwsh.exe
+falsepositives:
+- Administrative might use this function for checking network connectivity
+fields:
+- winlog.event_data.CommandLine
+- winlog.event_data.ParentCommandLine
+id: edc2f8ae-2412-4dfd-b9d5-0c57727e70be
+level: high
+logsource:
+  category: process_creation
+  product: windows
+modified: 2022/07/14
+product: windows
+references:
+- https://www.volexity.com/blog/2021/03/02/active-exploitation-of-microsoft-exchange-zero-day-vulnerabilities/
+- https://www.microsoft.com/security/blog/2021/03/02/hafnium-targeting-exchange-servers/
+status: experimental
+tags:
+- attack.execution
+- attack.t1059.001
+title: Powershell Reverse Shell Connection

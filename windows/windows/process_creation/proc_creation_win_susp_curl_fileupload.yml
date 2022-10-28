@@ -1,0 +1,40 @@
+author: Florian Roth
+category: process_creation
+date: 2020/07/03
+description: Detects a suspicious curl process start the adds a file to a web request
+detection:
+  condition: all of selection*
+  selection_cli:
+    winlog.event_data.CommandLine|contains:
+    - ' -F '
+    - ' --form '
+    - ' -T '
+    - ' --upload-file '
+    - ' -d '
+    - ' --data '
+  selection_img:
+  - winlog.event_data.Image|endswith: \curl.exe
+  - winlog.event_data.Product: The curl executable
+falsepositives:
+- Scripts created by developers and admins
+fields:
+- winlog.event_data.CommandLine
+- winlog.event_data.ParentCommandLine
+id: 00bca14a-df4e-4649-9054-3f2aa676bc04
+level: medium
+logsource:
+  category: process_creation
+  product: windows
+modified: 2022/01/22
+product: windows
+references:
+- https://twitter.com/d1r4c/status/1279042657508081664
+- https://medium.com/@petehouston/upload-files-with-curl-93064dcccc76
+- https://github.com/redcanaryco/atomic-red-team/blob/f339e7da7d05f6057fdfcdd3742bfcf365fee2a9/atomics/T1105/T1105.md#atomic-test-19---curl-upload-file
+- https://curl.se/docs/manpage.html
+status: test
+tags:
+- attack.exfiltration
+- attack.t1567
+- attack.t1105
+title: Suspicious Curl File Upload

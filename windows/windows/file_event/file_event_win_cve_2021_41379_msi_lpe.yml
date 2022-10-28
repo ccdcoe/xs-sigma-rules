@@ -1,0 +1,31 @@
+author: Florian Roth
+category: file_event
+date: 2021/11/22
+description: Detects signs of the exploitation of LPE CVE-2021-41379 that include
+  an msiexec process that creates an elevation_service.exe file
+detection:
+  condition: selection
+  selection:
+    winlog.event_data.Image|endswith: \msiexec.exe
+    winlog.event_data.TargetFilename|endswith: \elevation_service.exe
+    winlog.event_data.TargetFilename|startswith: C:\Program Files (x86)\Microsoft\Edge\Application
+falsepositives:
+- Unknown
+- Possibly some Microsoft Edge upgrades
+fields:
+- winlog.ComputerName
+- winlog.event_data.TargetFilename
+id: 3be82d5d-09fe-4d6a-a275-0d40d234d324
+level: critical
+logsource:
+  category: file_event
+  product: windows
+product: windows
+references:
+- https://github.com/klinix5/InstallerFileTakeOver
+- https://www.zerodayinitiative.com/advisories/ZDI-21-1308/
+status: experimental
+tags:
+- attack.privilege_escalation
+- attack.t1068
+title: InstallerFileTakeOver LPE CVE-2021-41379 File Create Event

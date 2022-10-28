@@ -7,7 +7,7 @@ detection:
   selection:
     certificate.serial: 8BB00EE
 falsepositives:
-- none
+- Unknown
 fields:
 - san.dns
 - certificate.subject
@@ -22,6 +22,7 @@ product: zeek
 references:
 - https://sergiusechel.medium.com/improving-the-network-based-detection-of-cobalt-strike-c2-servers-in-the-wild-while-reducing-the-6964205f6468
 service: x509
+status: experimental
 tags:
 - attack.command_and_control
 - attack.s0154

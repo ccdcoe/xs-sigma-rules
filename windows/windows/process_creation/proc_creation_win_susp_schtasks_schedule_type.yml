@@ -1,0 +1,37 @@
+author: Nasreddine Bencherchali
+category: process_creation
+date: 2022/08/31
+description: Detects scheduled task creations or modification to be run with high
+  privileges on a suspicious schedule type
+detection:
+  condition: all of selection_*
+  selection_img:
+  - winlog.event_data.Image|endswith: \schtasks.exe
+  - winlog.event_data.OriginalFileName: schtasks.exe
+  selection_privs:
+    winlog.event_data.CommandLine|contains:
+    - NT AUT
+    - ' SYSTEM'
+    - HIGHEST
+  selection_time:
+    winlog.event_data.CommandLine|contains:
+    - ' ONLOGON '
+    - ' ONSTART '
+    - ' ONCE '
+    - ' ONIDLE '
+falsepositives:
+- Unknown
+id: 7a02e22e-b885-4404-b38b-1ddc7e65258a
+level: high
+logsource:
+  category: process_creation
+  product: windows
+product: windows
+references:
+- https://docs.microsoft.com/en-us/windows-server/administration/windows-commands/schtasks-change
+- https://docs.microsoft.com/en-us/windows-server/administration/windows-commands/schtasks-create
+status: experimental
+tags:
+- attack.execution
+- attack.t1053.005
+title: Suspicious Schtasks Schedule Type

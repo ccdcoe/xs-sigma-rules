@@ -1,0 +1,26 @@
+author: Christopher Peacock @securepeacock, SCYTHE @scythe_io
+category: registry_set
+date: 2022/06/15
+description: Detects enabling TurnOffCheck which can be used to bypass defense of
+  MSDT Follina vulnerability
+detection:
+  condition: selection
+  selection:
+    winlog.event_data.Details: DWORD (0x00000001)
+    winlog.event_data.EventType: SetValue
+    winlog.event_data.TargetObject: HKLM\SOFTWARE\Policies\Microsoft\Windows\ScriptedDiagnostics\TurnOffCheck
+falsepositives:
+- Administrator actions
+id: 7d995e63-ec83-4aa3-89d5-8a17b5c87c86
+level: medium
+logsource:
+  category: registry_set
+  product: windows
+product: windows
+references:
+- https://twitter.com/wdormann/status/1537075968568877057?s=20&t=0lr18OAnmAGoGpma6grLUw
+status: experimental
+tags:
+- attack.defense_evasion
+- attack.t1562.001
+title: Scripted Diagnostics Turn Off Check Enabled - Registry

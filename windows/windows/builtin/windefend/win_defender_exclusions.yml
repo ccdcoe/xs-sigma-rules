@@ -1,0 +1,25 @@
+author: Christian Burkard
+date: 2021/07/06
+description: Detects the Setting of Windows Defender Exclusions
+detection:
+  condition: selection1
+  selection1:
+    NewValue|contains: \Microsoft\Windows Defender\Exclusions
+    winlog.event_id: 5007
+falsepositives:
+- Administrator actions
+id: 1321dc4e-a1fe-481d-a016-52c45f0c8b4f
+level: medium
+logsource:
+  product: windows
+  service: windefend
+modified: 2022/02/02
+product: windows
+references:
+- https://twitter.com/_nullbind/status/1204923340810543109
+service: windefend
+status: stable
+tags:
+- attack.defense_evasion
+- attack.t1562.001
+title: Windows Defender Exclusions Added

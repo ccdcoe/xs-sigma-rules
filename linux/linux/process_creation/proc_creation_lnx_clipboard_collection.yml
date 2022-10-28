@@ -1,0 +1,37 @@
+author: Pawel Mazur, Roberto Rodriguez (Cyb3rWard0g), OTR (Open Threat Research),
+  MSTIC
+category: process_creation
+date: 2021/10/15
+description: Detects attempts to collect data stored in the clipboard from users with
+  the usage of xclip tool. Xclip has to be installed. Highly recommended using rule
+  on servers, due to high usage of clipboard utilities on user workstations.
+detection:
+  condition: all of selection*
+  selection1:
+    Image|contains: xclip
+  selection2:
+    CommandLine|contains:
+    - -selection
+    - -sel
+  selection3:
+    CommandLine|contains:
+    - clipboard
+    - clip
+  selection4:
+    CommandLine|contains: -o
+falsepositives:
+- Legitimate usage of xclip tools.
+id: ec127035-a636-4b9a-8555-0efd4e59f316
+level: low
+logsource:
+  category: process_creation
+  product: linux
+modified: 2022/07/07
+product: linux
+references:
+- https://www.packetlabs.net/posts/clipboard-data-security/
+status: experimental
+tags:
+- attack.collection
+- attack.t1115
+title: Clipboard Collection with Xclip Tool

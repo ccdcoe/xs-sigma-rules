@@ -1,0 +1,37 @@
+author: Markus Neis / @Karneades
+category: process_creation
+date: 2019/04/03
+description: Detects WMI spawning a PowerShell process
+detection:
+  condition: all of selection* and not filter_null1 and not filter_null2
+  filter_null1:
+    winlog.event_data.CommandLine: 'null'
+  filter_null2:
+    winlog.event_data.CommandLine: null
+  selection_img:
+  - winlog.event_data.Image|endswith:
+    - \powershell.exe
+    - \pwsh.exe
+  - winlog.event_data.OriginalFileName:
+    - PowerShell.EXE
+    - pwsh.dll
+  selection_parent:
+    winlog.event_data.ParentImage|endswith: \wmiprvse.exe
+falsepositives:
+- AppvClient
+- CCM
+id: 692f0bec-83ba-4d04-af7e-e884a96059b6
+level: high
+logsource:
+  category: process_creation
+  product: windows
+modified: 2022/07/14
+product: windows
+references:
+- https://any.run/report/68bc255f9b0db6a0d30a8f2dadfbee3256acfe12497bf93943bc1eab0735e45e/a2385d6f-34f7-403c-90d3-b1f9d2a90a5e
+status: experimental
+tags:
+- attack.execution
+- attack.t1047
+- attack.t1059.001
+title: WMI Spawning Windows PowerShell

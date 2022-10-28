@@ -1,0 +1,35 @@
+author: frack113
+category: file_event
+date: 2022/09/05
+description: Detect creation of suspicious executable file name. Some strings look
+  for suspicious file extensions, others look for filenames that exploit unquoted
+  service paths.
+detection:
+  condition: 1 of selection_*
+  selection_double:
+    winlog.event_data.TargetFilename|endswith:
+    - .bat.exe
+    - .sys.exe
+  selection_folder:
+    winlog.event_data.TargetFilename:
+    - C:\$Recycle.Bin.exe
+    - C:\Documents and Settings.exe
+    - C:\MSOCache.exe
+    - C:\Recovery.exe
+    - C:\PerfLogs.exe
+falsepositives:
+- Unknown
+id: 74babdd6-a758-4549-9632-26535279e654
+level: high
+logsource:
+  category: file_event
+  product: windows
+product: windows
+references:
+- https://medium.com/@SumitVerma101/windows-privilege-escalation-part-1-unquoted-service-path-c7a011a8d8ae
+- https://app.any.run/tasks/76c69e2d-01e8-49d9-9aea-fb7cc0c4d3ad/
+status: experimental
+tags:
+- attack.defense_evasion
+- attack.t1564
+title: Suspicious Executable File Creation

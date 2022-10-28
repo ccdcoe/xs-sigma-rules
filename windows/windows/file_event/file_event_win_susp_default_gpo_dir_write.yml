@@ -1,0 +1,27 @@
+author: elhoim
+category: file_event
+date: 2022/04/28
+description: Detects the creation of copy of suspicious files (EXE/DLL) to the default
+  GPO storage folder
+detection:
+  condition: selection
+  selection:
+    winlog.event_data.TargetFilename|contains: \Policies\{31B2F340-016D-11D2-945F-00C04FB984F9}\
+    winlog.event_data.TargetFilename|endswith:
+    - .dll
+    - .exe
+falsepositives:
+- Unknown
+id: 5f87308a-0a5b-4623-ae15-d8fa1809bc60
+level: medium
+logsource:
+  category: file_event
+  product: windows
+product: windows
+references:
+- https://redcanary.com/blog/intelligence-insights-november-2021/
+status: experimental
+tags:
+- attack.t1036.005
+- attack.defense_evasion
+title: Suspicious Files in Default GPO Folder

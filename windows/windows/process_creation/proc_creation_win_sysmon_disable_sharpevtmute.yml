@@ -1,0 +1,28 @@
+author: Florian Roth
+category: process_creation
+date: 2022/09/07
+description: Detects the use of SharpEvtHook, a tool to tamper with Windows event
+  logs
+detection:
+  condition: selection
+  selection:
+  - winlog.event_data.Image|endswith: \SharpEvtMute.exe
+  - winlog.event_data.Description: SharpEvtMute
+  - winlog.event_data.CommandLine|contains:
+    - '--Filter "rule '
+    - --Encoded --Filter \"
+falsepositives:
+- Unknown
+id: bedfc8ad-d1c7-4e37-a20e-e2b0dbee759c
+level: high
+logsource:
+  category: process_creation
+  product: windows
+product: windows
+references:
+- https://github.com/bats3c/EvtMute
+status: experimental
+tags:
+- attack.defense_evasion
+- attack.t1562.002
+title: SharpEvtMute EvtMuteHook Load

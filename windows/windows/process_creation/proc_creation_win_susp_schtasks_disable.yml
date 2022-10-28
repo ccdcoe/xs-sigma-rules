@@ -1,0 +1,39 @@
+author: frack113, Nasreddine Bencherchali
+category: process_creation
+date: 2021/12/26
+description: Adversaries may stop services or processes in order to conduct Data Destruction
+  or Data Encrypted for Impact on the data stores of services like Exchange, SQL Server...etc.
+detection:
+  condition: all of schtasks_*
+  schtasks_exe:
+    winlog.event_data.CommandLine|contains:
+    - Microsoft\Windows\SystemRestore\SR
+    - Microsoft\Windows\Windows Defender\
+    - Microsoft\Windows\BitLocker
+    - Microsoft\Windows\WindowsBackup\
+    - Microsoft\Windows\WindowsUpdate\
+    - Microsoft\Windows\UpdateOrchestrator\
+    - Windows\ExploitGuard
+    winlog.event_data.CommandLine|contains|all:
+    - /Change
+    - /TN
+    - /disable
+    winlog.event_data.Image|endswith: \schtasks.exe
+falsepositives:
+- Unknown
+id: 9ac94dc8-9042-493c-ba45-3b5e7c86b980
+level: high
+logsource:
+  category: process_creation
+  product: windows
+modified: 2022/09/02
+product: windows
+references:
+- https://github.com/redcanaryco/atomic-red-team/blob/f339e7da7d05f6057fdfcdd3742bfcf365fee2a9/atomics/T1490/T1490.md#atomic-test-8---windows---disable-the-sr-scheduled-task
+- https://twitter.com/MichalKoczwara/status/1553634816016498688
+- https://thedfirreport.com/2021/10/18/icedid-to-xinglocker-ransomware-in-24-hours/
+status: experimental
+tags:
+- attack.impact
+- attack.t1489
+title: Disable Important Scheduled Task

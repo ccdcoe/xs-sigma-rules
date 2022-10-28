@@ -1,0 +1,26 @@
+author: Yochana Henderson, '@Yochana-H'
+date: 2022/06/17
+description: Detects when an account is disabled or blocked for sign in but tried
+  to log in
+detection:
+  condition: selection
+  selection:
+    ResultDescription: Failure
+    ResultType: 50057
+falsepositives:
+- Account disabled or blocked in error
+- Automation account has been blocked or disabled
+id: 4afac85c-224a-4dd7-b1af-8da40e1c60bd
+level: medium
+logsource:
+  product: azure
+  service: signinlogs
+product: azure
+references:
+- https://docs.microsoft.com/en-gb/azure/active-directory/fundamentals/security-operations-privileged-accounts
+service: signinlogs
+status: experimental
+tags:
+- attack.credential_access
+- attack.t1110
+title: Account Disabled or Blocked for Sign in Attempts

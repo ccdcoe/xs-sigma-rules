@@ -1,0 +1,31 @@
+author: Florian Roth
+category: process_creation
+date: 2022/04/13
+description: Detects suspicious remote procedure call (RPC) service anomalies based
+  on the spawned sub processes (long shot to detect the exploitation of vulnerabilities
+  like CVE-2022-26809)
+detection:
+  condition: selection
+  selection:
+    winlog.event_data.ParentCommandLine|startswith: C:\WINDOWS\system32\svchost.exe
+      -k RPCSS
+falsepositives:
+- Unknown
+- Some cases in which the service spawned a werfault.exe process
+id: a7cd7306-df8b-4398-b711-6f3e4935cf16
+level: high
+logsource:
+  category: process_creation
+  product: windows
+product: windows
+references:
+- https://msrc.microsoft.com/update-guide/vulnerability/CVE-2022-26809
+- https://www.bleepingcomputer.com/startups/RpcSs.exe-14544.html
+- https://twitter.com/cyb3rops/status/1514217991034097664
+status: experimental
+tags:
+- attack.initial_access
+- attack.t1190
+- attack.execution
+- attack.t1569.002
+title: Remote Procedure Call Service Anomaly

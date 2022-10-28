@@ -1,0 +1,27 @@
+author: Florian Roth
+category: process_creation
+date: 2021/08/16
+description: Detects usage of the SysInternals Procdump utility
+detection:
+  condition: selection
+  selection:
+    winlog.event_data.Image|endswith:
+    - \procdump.exe
+    - \procdump64.exe
+falsepositives:
+- Legitimate use of procdump by a developer or administrator
+id: 2e65275c-8288-4ab4-aeb7-6274f58b6b20
+level: medium
+logsource:
+  category: process_creation
+  product: windows
+modified: 2022/08/11
+product: windows
+references:
+- Internal Research
+status: experimental
+tags:
+- attack.defense_evasion
+- attack.t1036
+- attack.t1003.001
+title: Procdump Usage

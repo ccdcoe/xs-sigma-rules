@@ -1,0 +1,30 @@
+author: frack113
+date: 2021/12/04
+definition: Other error are in Microsoft-Windows-WindowsUpdateClient/Operational
+description: Windows Update get some error Check if need a 0-days KB
+detection:
+  condition: selection
+  selection:
+    Provider_Name: Microsoft-Windows-WindowsUpdateClient
+    winlog.event_id:
+    - 16
+    - 20
+    - 24
+    - 213
+    - 217
+falsepositives:
+- Unknown
+id: 13cfeb75-9e33-4d04-b0f7-ab8faaa95a59
+level: low
+logsource:
+  definition: Other error are in Microsoft-Windows-WindowsUpdateClient/Operational
+  product: windows
+  service: system
+product: windows
+service: system
+status: experimental
+tags:
+- attack.impact
+- attack.resource_development
+- attack.t1584
+title: Windows Update Error

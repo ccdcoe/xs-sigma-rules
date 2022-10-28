@@ -1,0 +1,37 @@
+author: Bhabesh Raj
+category: file_event
+date: 2021/03/03
+description: "Detects possible successful exploitation for vulnerability described\
+  \ in CVE-2021-26858 by looking for | creation of non-standard files on disk by Exchange\
+  \ Server\u2019s Unified Messaging service | which could indicate dropping web shells\
+  \ or other malicious content"
+detection:
+  condition: selection and not filter
+  filter:
+    winlog.event_data.TargetFilename|endswith:
+    - CacheCleanup.bin
+    - .txt
+    - .LOG
+    - .cfg
+    - cleanup.bin
+  selection:
+    winlog.event_data.Image|endswith: UMWorkerProcess.exe
+falsepositives:
+- Unknown
+fields:
+- winlog.ComputerName
+- winlog.event_data.TargetFilename
+id: b06335b3-55ac-4b41-937e-16b7f5d57dfd
+level: high
+logsource:
+  category: file_event
+  product: windows
+product: windows
+references:
+- https://www.microsoft.com/security/blog/2021/03/02/hafnium-targeting-exchange-servers/
+status: experimental
+tags:
+- attack.t1203
+- attack.execution
+- cve.2021.26858
+title: CVE-2021-26858 Exchange Exploitation

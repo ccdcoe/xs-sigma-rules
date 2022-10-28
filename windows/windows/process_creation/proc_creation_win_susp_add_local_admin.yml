@@ -1,0 +1,26 @@
+author: Florian Roth
+category: process_creation
+date: 2022/08/12
+description: Detects suspicious command line that adds an account to the local administrators
+  group
+detection:
+  condition: selection
+  selection:
+    winlog.event_data.CommandLine|contains|all:
+    - 'localgroup administrators '
+    - ' /add'
+falsepositives:
+- Administrative activity
+id: ad720b90-25ad-43ff-9b5e-5c841facc8e5
+level: medium
+logsource:
+  category: process_creation
+  product: windows
+product: windows
+references:
+- https://blog.talosintelligence.com/2022/08/recent-cyber-attack.html?m=1
+status: experimental
+tags:
+- attack.persistence
+- attack.t1098
+title: Add User to Local Administrators

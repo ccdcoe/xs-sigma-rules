@@ -1,0 +1,31 @@
+author: Florian Roth
+category: process_creation
+date: 2017/04/15
+description: Detects suspicious Rundll32 execution from control.exe as used by Equation
+  Group and Exploit Kits
+detection:
+  condition: selection and not filter
+  filter:
+    winlog.event_data.CommandLine|contains: Shell32.dll
+  selection:
+    winlog.event_data.Image|endswith: '\rundll32.exe '
+    winlog.event_data.ParentImage|endswith: \System32\control.exe
+falsepositives:
+- Unknown
+fields:
+- winlog.event_data.CommandLine
+- winlog.event_data.ParentCommandLine
+id: d7eb979b-c2b5-4a6f-a3a7-c87ce6763819
+level: high
+logsource:
+  category: process_creation
+  product: windows
+modified: 2021/11/27
+product: windows
+references:
+- https://twitter.com/rikvduijn/status/853251879320662017
+status: test
+tags:
+- attack.defense_evasion
+- attack.t1218.011
+title: Suspicious Control Panel DLL Load

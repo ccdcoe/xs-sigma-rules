@@ -19,16 +19,18 @@ detection:
     - \IPC$
     path|startswith: PSEXESVC
 falsepositives:
-- nothing observed so far
+- Unknown
 id: f1b3a22a-45e6-4004-afb5-4291f9c21166
 level: high
 logsource:
   product: zeek
   service: smb_files
+modified: 2021/11/27
 product: zeek
 references:
 - https://github.com/neo23x0/sigma/blob/d42e87edd741dd646db946f30964f331f92f50e6/rules/windows/builtin/win_susp_psexec.yml
 service: smb_files
+status: test
 tags:
 - attack.lateral_movement
 - attack.t1021.002

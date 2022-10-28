@@ -1,0 +1,51 @@
+author: frack113
+category: file_event
+date: 2022/03/09
+description: Detects the creation of an executable by another executable
+detection:
+  condition: selection and not 1 of filter_*
+  filter_defender:
+    winlog.event_data.Image|startswith: C:\ProgramData\Microsoft\Windows Defender\
+  filter_programfiles:
+  - winlog.event_data.Image|startswith:
+    - C:\Program Files\
+    - C:\Program Files (x86)\
+  - winlog.event_data.TargetFilename|startswith:
+    - C:\Program Files\
+    - C:\Program Files (x86)\
+  filter_tiworker:
+    winlog.event_data.Image|endswith: \TiWorker.exe
+    winlog.event_data.Image|startswith: C:\Windows\WinSxS\
+  filter_update:
+    winlog.event_data.Image: C:\WINDOWS\system32\svchost.exe
+    winlog.event_data.TargetFilename|startswith: C:\Windows\SoftwareDistribution\Download\Install\
+  filter_whitelist:
+    winlog.event_data.Image:
+    - C:\Windows\System32\msiexec.exe
+    - C:\Windows\system32\cleanmgr.exe
+    - C:\Windows\explorer.exe
+    - C:\WINDOWS\system32\dxgiadaptercache.exe
+    - C:\WINDOWS\system32\Dism.exe
+    - C:\Windows\System32\wuauclt.exe
+  filter_windows_apps:
+    winlog.event_data.TargetFilename|contains: \Microsoft\WindowsApps\
+  selection:
+    winlog.event_data.Image|endswith: .exe
+    winlog.event_data.TargetFilename|endswith: .exe
+falsepositives:
+- Software installers
+- Update utilities
+id: 297afac9-5d02-4138-8c58-b977bac60556
+level: low
+logsource:
+  category: file_event
+  product: windows
+modified: 2022/07/27
+product: windows
+references:
+- Malware Sandbox
+status: experimental
+tags:
+- attack.resource_development
+- attack.t1587.001
+title: Creation of an Executable by an Executable

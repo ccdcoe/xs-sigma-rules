@@ -1,0 +1,27 @@
+author: Timur Zinniatullin, Daniil Yugoslavskiy, oscd.community
+category: process_creation
+date: 2019/10/21
+description: Detects manual service execution (start) via system utilities.
+detection:
+  condition: selection
+  selection:
+    winlog.event_data.CommandLine|contains: ' start '
+    winlog.event_data.Image|endswith:
+    - \net.exe
+    - \net1.exe
+falsepositives:
+- Legitimate administrator or user executes a service for legitimate reasons.
+id: 2a072a96-a086-49fa-bcb5-15cc5a619093
+level: low
+logsource:
+  category: process_creation
+  product: windows
+modified: 2021/11/27
+product: windows
+references:
+- https://github.com/redcanaryco/atomic-red-team/blob/f339e7da7d05f6057fdfcdd3742bfcf365fee2a9/atomics/T1569.002/T1569.002.md
+status: test
+tags:
+- attack.execution
+- attack.t1569.002
+title: Service Execution

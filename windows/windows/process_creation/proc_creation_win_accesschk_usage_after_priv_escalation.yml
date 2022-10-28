@@ -1,0 +1,42 @@
+author: Teymur Kheirkhabarov (idea), Mangatas Tondang (rule), oscd.community, Nasreddine
+  Bencherchali (modified)
+category: process_creation
+date: 2020/10/13
+description: Accesschk is an access and privilege audit tool developed by SysInternal
+  and often being used by attacker to verify privileges
+detection:
+  condition: all of selection*
+  selection_cli:
+    winlog.event_data.CommandLine|contains:
+    - 'uwcqv '
+    - 'kwsu '
+    - 'qwsu '
+    - 'uwdqs '
+  selection_img:
+  - winlog.event_data.Product|endswith: AccessChk
+  - winlog.event_data.Description|contains: Reports effective permissions
+  - winlog.event_data.Image|endswith: \accesschk.exe
+falsepositives:
+- System administrator Usage
+fields:
+- winlog.event_data.IntegrityLevel
+- winlog.event_data.Product
+- winlog.event_data.Description
+- winlog.event_data.CommandLine
+id: c625d754-6a3d-4f65-9c9a-536aea960d37
+level: medium
+logsource:
+  category: process_creation
+  product: windows
+modified: 2022/06/20
+product: windows
+references:
+- https://speakerdeck.com/heirhabarov/hunting-for-privilege-escalation-in-windows-environment?slide=43
+- https://www.youtube.com/watch?v=JGs-aKf2OtU&ab_channel=OFFZONEMOSCOW
+- https://github.com/carlospolop/PEASS-ng/blob/fa0f2e17fbc1d86f1fd66338a40e665e7182501d/winPEAS/winPEASbat/winPEAS.bat
+- https://github.com/gladiatx0r/Powerless/blob/04f553bbc0c65baf4e57344deff84e3f016e6b51/Powerless.bat
+status: test
+tags:
+- attack.discovery
+- attack.t1069.001
+title: Accesschk Usage To Check Privileges

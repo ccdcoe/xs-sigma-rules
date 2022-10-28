@@ -1,0 +1,29 @@
+author: Markus Neis
+category: process_creation
+date: 2018/08/25
+description: Detects PowerShell Strings applied to rundll as seen in PowerShdll.dll
+detection:
+  condition: all of selection_*
+  selection_cli:
+    winlog.event_data.CommandLine|contains:
+    - Default.GetString
+    - FromBase64String
+  selection_img:
+  - winlog.event_data.Image|endswith: \rundll32.exe
+  - winlog.event_data.Description|contains: Windows-Hostprozess (Rundll32)
+falsepositives:
+- Unknown
+id: 6812a10b-60ea-420c-832f-dfcc33b646ba
+level: high
+logsource:
+  category: process_creation
+  product: windows
+modified: 2022/07/11
+product: windows
+references:
+- https://github.com/p3nt4/PowerShdll/blob/62cfa172fb4e1f7f4ac00ca942685baeb88ff356/README.md
+status: test
+tags:
+- attack.defense_evasion
+- attack.t1218.011
+title: Detection of PowerShell Execution via DLL

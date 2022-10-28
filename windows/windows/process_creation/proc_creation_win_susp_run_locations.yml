@@ -1,0 +1,37 @@
+author: juju4, Jonhnathan Ribeiro, oscd.community
+category: process_creation
+date: 2019/01/16
+description: Detects suspicious process run from unusual locations
+detection:
+  condition: selection
+  selection:
+  - winlog.event_data.Image|contains:
+    - :\RECYCLER\
+    - :\SystemVolumeInformation\
+  - winlog.event_data.Image|startswith:
+    - C:\Windows\Tasks\
+    - C:\Windows\debug\
+    - C:\Windows\fonts\
+    - C:\Windows\help\
+    - C:\Windows\drivers\
+    - C:\Windows\addins\
+    - C:\Windows\cursors\
+    - C:\Windows\system32\tasks\
+falsepositives:
+- False positives depend on scripts and administrative tools used in the monitored
+  environment
+id: 15b75071-74cc-47e0-b4c6-b43744a62a2b
+level: medium
+logsource:
+  category: process_creation
+  product: windows
+modified: 2022/01/07
+product: windows
+references:
+- https://car.mitre.org/wiki/CAR-2013-05-002
+status: test
+tags:
+- attack.defense_evasion
+- attack.t1036
+- car.2013-05-002
+title: Suspicious Process Start Locations

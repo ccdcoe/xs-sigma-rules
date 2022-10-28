@@ -1,0 +1,39 @@
+author: Florian Roth, Sittikorn S
+category: file_event
+date: 2021/09/10
+description: Detects file creation patterns noticeable during the exploitation of
+  CVE-2021-40444
+detection:
+  condition: (selection_cab or selection_inf) and not filter_legit
+  filter_legit:
+    winlog.event_data.TargetFilename|contains: AppData\Local\Temp
+    winlog.event_data.TargetFilename|endswith: \Content.inf
+    winlog.event_data.TargetFilename|startswith: C:\Users\
+  selection_cab:
+    winlog.event_data.Image|endswith: \winword.exe
+    winlog.event_data.TargetFilename|contains: \Windows\INetCache
+    winlog.event_data.TargetFilename|endswith: .cab
+  selection_inf:
+    winlog.event_data.Image|endswith: \winword.exe
+    winlog.event_data.TargetFilename|contains|all:
+    - \AppData\Local\Temp\
+    - '.inf'
+falsepositives:
+- Unknown
+fields:
+- winlog.event_data.TargetFilename
+id: 60c0a111-787a-4e8a-9262-ee485f3ef9d5
+level: high
+logsource:
+  category: file_event
+  product: windows
+modified: 2022/06/17
+product: windows
+references:
+- https://twitter.com/RonnyTNL/status/1436334640617373699?s=20
+- https://twitter.com/vanitasnk/status/1437329511142420483?s=21
+status: experimental
+tags:
+- attack.resource_development
+- attack.t1587
+title: Suspicious Word Cab File Write CVE-2021-40444

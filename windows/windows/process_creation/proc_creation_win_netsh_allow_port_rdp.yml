@@ -1,0 +1,35 @@
+author: Sander Wiebing
+category: process_creation
+date: 2020/05/23
+description: Detects netsh commands that opens the port 3389 used for RDP, used in
+  Sarwent Malware
+detection:
+  condition: 1 of selection*
+  selection1:
+    winlog.event_data.CommandLine|contains|all:
+    - netsh
+    - firewall add portopening
+    - tcp 3389
+  selection2:
+    winlog.event_data.CommandLine|contains|all:
+    - netsh
+    - advfirewall firewall add rule
+    - action=allow
+    - protocol=TCP
+    - localport=3389
+falsepositives:
+- Legitimate administration
+id: 01aeb693-138d-49d2-9403-c4f52d7d3d62
+level: high
+logsource:
+  category: process_creation
+  product: windows
+modified: 2021/11/27
+product: windows
+references:
+- https://labs.sentinelone.com/sarwent-malware-updates-command-detonation/
+status: test
+tags:
+- attack.defense_evasion
+- attack.t1562.004
+title: Netsh RDP Port Opening

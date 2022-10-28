@@ -1,0 +1,31 @@
+author: Vadim Varganov, Florian Roth
+category: file_event
+date: 2022/08/24
+description: Detects msdt.exe creating files in suspicious directories
+detection:
+  condition: selection
+  selection:
+    winlog.event_data.Image|endswith: \msdt.exe
+    winlog.event_data.TargetFilename|contains:
+    - \Start Menu\Programs\Startup\
+    - C:\Users\Public\
+    - C:\PerfLogs\
+    - \Desktop\
+    - C:\ProgramData\
+falsepositives:
+- Unknown
+id: 318557a5-150c-4c8d-b70e-a9910e199857
+level: high
+logsource:
+  category: file_event
+  product: windows
+product: windows
+references:
+- https://irsl.medium.com/the-trouble-with-microsofts-troubleshooters-6e32fc80b8bd
+- https://msrc-blog.microsoft.com/2022/05/30/guidance-for-cve-2022-30190-microsoft-support-diagnostic-tool-vulnerability/
+status: experimental
+tags:
+- attack.persistence
+- attack.t1547.001
+- cve.2022.30190
+title: MSDT.exe Creates Files in Autorun Directory

@@ -1,0 +1,24 @@
+author: Austin Songer @austinsonger
+date: 2021/09/12
+description: Detects when a API token is created
+detection:
+  condition: selection
+  selection:
+    eventtype: system.api_token.create
+falsepositives:
+- Unknown
+id: 19951c21-229d-4ccb-8774-b993c3ff3c5c
+level: medium
+logsource:
+  product: okta
+  service: okta
+modified: 2021/09/22
+product: okta
+references:
+- https://developer.okta.com/docs/reference/api/system-log/
+- https://developer.okta.com/docs/reference/api/event-types/
+service: okta
+status: experimental
+tags:
+- attack.persistence
+title: Okta API Token Created

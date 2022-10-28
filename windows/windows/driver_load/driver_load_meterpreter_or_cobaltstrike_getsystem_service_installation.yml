@@ -45,6 +45,7 @@ references:
 related:
 - id: 843544a7-56e0-4dcc-a44f-5cc266dd97d6
   type: derived
+status: experimental
 tags:
 - attack.privilege_escalation
 - attack.t1134.001

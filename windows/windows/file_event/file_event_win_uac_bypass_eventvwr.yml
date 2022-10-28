@@ -1,0 +1,29 @@
+author: Antonio Cocomazzi (idea), Florian Roth (rule)
+category: file_event
+date: 2022/04/27
+description: Detects the pattern of a UAC bypass using Windows Event Viewer
+detection:
+  condition: selection and not filter
+  filter:
+    winlog.event_data.Image|startswith:
+    - C:\Windows\System32\
+    - C:\Windows\SysWOW64\
+  selection:
+    winlog.event_data.TargetFilename|contains: \AppData\Local\Microsoft\Event Viewer\RecentViews
+falsepositives:
+- Unknown
+id: 63e4f530-65dc-49cc-8f80-ccfa95c69d43
+level: high
+logsource:
+  category: file_event
+  product: windows
+modified: 2022/04/27
+product: windows
+references:
+- https://twitter.com/orange_8361/status/1518970259868626944?s=20&t=RFXqZjtA7tWM3HxqEH78Aw
+- https://twitter.com/splinter_code/status/1519075134296006662?s=12&t=DLUXH86WtcmG_AZ5gY3C6g
+status: experimental
+tags:
+- attack.defense_evasion
+- attack.privilege_escalation
+title: UAC Bypass Using EventVwr

@@ -1,0 +1,41 @@
+author: frack113
+category: ps_script
+date: 2021/07/28
+definition: Script block logging must be enabled
+description: Once established within a system or network, an adversary may use automated
+  techniques for collecting internal data.
+detection:
+  condition: all of selection*
+  selection_cmd:
+    winlog.event_data.ScriptBlockText|contains|all:
+    - Get-ChildItem
+    - ' -Recurse '
+    - ' -Include '
+  selection_ext:
+    winlog.event_data.ScriptBlockText|contains:
+    - .doc
+    - .docx
+    - .xls
+    - .xlsx
+    - .ppt
+    - .pptx
+    - .rtf
+    - .pdf
+    - .txt
+falsepositives:
+- Unknown
+id: c1dda054-d638-4c16-afc8-53e007f3fbc5
+level: medium
+logsource:
+  category: ps_script
+  definition: Script block logging must be enabled
+  product: windows
+modified: 2021/12/02
+product: windows
+references:
+- https://github.com/redcanaryco/atomic-red-team/blob/f339e7da7d05f6057fdfcdd3742bfcf365fee2a9/atomics/T1119/T1119.md
+status: experimental
+tags:
+- attack.collection
+- attack.t1119
+title: Automated Collection Command PowerShell

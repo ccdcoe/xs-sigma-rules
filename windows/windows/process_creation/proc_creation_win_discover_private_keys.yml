@@ -1,0 +1,43 @@
+author: frack113
+category: process_creation
+date: 2021/07/20
+description: Adversaries may search for private key certificate files on compromised
+  systems for insecurely stored credential
+detection:
+  condition: all of selection_*
+  selection_exe:
+    winlog.event_data.CommandLine|contains:
+    - 'dir '
+    - 'findstr '
+  selection_ext:
+    winlog.event_data.CommandLine|contains:
+    - .key
+    - .pgp
+    - .gpg
+    - .ppk
+    - .p12
+    - .pem
+    - .pfx
+    - .cer
+    - .p7b
+    - .asc
+falsepositives:
+- Unknown
+fields:
+- winlog.ComputerName
+- winlog.event_data.User
+- winlog.event_data.CommandLine
+- winlog.event_data.ParentCommandLine
+id: 213d6a77-3d55-4ce8-ba74-fcfef741974e
+level: medium
+logsource:
+  category: process_creation
+  product: windows
+product: windows
+references:
+- https://github.com/redcanaryco/atomic-red-team/blob/f339e7da7d05f6057fdfcdd3742bfcf365fee2a9/atomics/T1552.004/T1552.004.md
+status: experimental
+tags:
+- attack.credential_access
+- attack.t1552.004
+title: Discover Private Keys

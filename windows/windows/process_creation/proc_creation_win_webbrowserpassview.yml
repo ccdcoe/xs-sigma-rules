@@ -1,0 +1,24 @@
+author: frack113
+category: process_creation
+date: 2022/08/20
+description: Detect use of WebBrowserPassView.exe
+detection:
+  condition: selection
+  selection:
+  - winlog.event_data.Description: Web Browser Password Viewer
+  - winlog.event_data.Image|endswith: \WebBrowserPassView.exe
+falsepositives:
+- Legitimate use
+id: d0dae994-26c6-4d2d-83b5-b3c8b79ae513
+level: medium
+logsource:
+  category: process_creation
+  product: windows
+product: windows
+references:
+- https://github.com/redcanaryco/atomic-red-team/blob/40b77d63808dd4f4eafb83949805636735a1fd15/atomics/T1555.003/T1555.003.md
+status: experimental
+tags:
+- attack.credential_access
+- attack.t1555.003
+title: Launch WebBrowserPassView Executable

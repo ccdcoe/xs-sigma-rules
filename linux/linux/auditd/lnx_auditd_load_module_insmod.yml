@@ -5,8 +5,8 @@ description: Detects loading of kernel modules with insmod command. Loadable Ker
   upon demand. Adversaries may use LKMs to obtain persistence within the system or
   elevate the privileges.
 detection:
-  condition: insmod
-  insmod:
+  condition: selection
+  selection:
     comm: insmod
     exe: /usr/bin/kmod
     type: SYSCALL
@@ -20,7 +20,7 @@ logsource:
 product: linux
 references:
 - https://attack.mitre.org/techniques/T1547/006/
-- https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1547.006/T1547.006.md
+- https://github.com/redcanaryco/atomic-red-team/blob/f339e7da7d05f6057fdfcdd3742bfcf365fee2a9/atomics/T1547.006/T1547.006.md
 - https://linux.die.net/man/8/insmod
 - https://man7.org/linux/man-pages/man8/kmod.8.html
 service: auditd

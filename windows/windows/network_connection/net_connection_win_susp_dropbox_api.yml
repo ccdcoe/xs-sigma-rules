@@ -1,0 +1,27 @@
+author: Florian Roth
+category: network_connection
+date: 2022/04/20
+description: Detects an executable that isn't dropbox but communicates with the Dropbox
+  API
+detection:
+  condition: selection and not filter
+  filter:
+    winlog.event_data.Image|contains: \Dropbox
+  selection:
+    Initiated: 'true'
+    winlog.event_data.DestinationHostname|endswith:
+    - api.dropboxapi.com
+    - content.dropboxapi.com
+falsepositives:
+- Legitimate use of the API with a tool that the author wasn't aware of
+id: 25eabf56-22f0-4915-a1ed-056b8dae0a68
+level: high
+logsource:
+  category: network_connection
+  product: windows
+product: windows
+references:
+- https://app.any.run/tasks/7e906adc-9d11-447f-8641-5f40375ecebb
+- https://www.zscaler.com/blogs/security-research/new-espionage-attack-molerats-apt-targeting-users-middle-east
+status: experimental
+title: Suspicious Dropbox API Usage

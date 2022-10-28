@@ -1,0 +1,34 @@
+author: Daniil Yugoslavskiy, oscd.community
+category: process_creation
+date: 2020/10/19
+description: Detects usage of system utilities to discover files and directories
+detection:
+  condition: 1 of select*
+  select_file_with_asterisk:
+    CommandLine|re: (.){200,}
+    Image: /usr/bin/file
+  select_find_execution:
+    Image: /usr/bin/find
+  select_mdfind_execution:
+    Image: /usr/bin/mdfind
+  select_recursive_ls:
+    CommandLine|contains: -R
+    Image: /bin/ls
+  select_tree_execution|endswith:
+    Image: /tree
+falsepositives:
+- Legitimate activities
+id: 089dbdf6-b960-4bcc-90e3-ffc3480c20f6
+level: informational
+logsource:
+  category: process_creation
+  product: macos
+modified: 2021/11/27
+product: macos
+references:
+- https://github.com/redcanaryco/atomic-red-team/blob/f339e7da7d05f6057fdfcdd3742bfcf365fee2a9/atomics/T1083/T1083.md
+status: test
+tags:
+- attack.discovery
+- attack.t1083
+title: File and Directory Discovery

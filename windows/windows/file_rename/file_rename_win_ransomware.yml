@@ -1,0 +1,53 @@
+author: frack113
+category: file_rename
+date: 2022/07/16
+description: Detects possible ransomware adding a custom extension to the encrypted
+  files, such as ".jpg.crypted", ".docx.locky" etc.
+detection:
+  condition: selection and not filter
+  filter:
+    winlog.event_data.TargetFilename|endswith:
+    - .tmp
+    - .bak
+    - .old
+    - .orig
+    - .backup
+    - .temp
+  selection:
+    OriginalFilename|endswith:
+    - .lnk
+    - .rtf
+    - .pst
+    - .docx
+    - .xlsx
+    - .jpg
+    - .jpeg
+    - .png
+    - .pdf
+    winlog.event_data.TargetFilename|contains:
+    - .lnk.
+    - .rtf.
+    - .pst.
+    - .docx.
+    - .xlsx.
+    - .jpg.
+    - .jpeg.
+    - .png.
+    - .pdf.
+falsepositives:
+- Backup software
+id: e3f673b3-65d1-4d80-9146-466f8b63fa99
+level: medium
+logsource:
+  category: file_rename
+  product: windows
+modified: 2022/08/31
+product: windows
+references:
+- https://app.any.run/tasks/d66ead5a-faf4-4437-93aa-65785afaf9e5/
+- https://blog.cyble.com/2022/08/10/onyx-ransomware-renames-its-leak-site-to-vsop/
+status: experimental
+tags:
+- attack.impact
+- attack.t1486
+title: Suspicious Appended Extension

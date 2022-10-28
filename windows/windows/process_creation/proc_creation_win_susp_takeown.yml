@@ -1,0 +1,32 @@
+author: frack113
+category: process_creation
+date: 2022/01/30
+description: Adversaries can interact with the DACLs using built-in Windows commands
+  takeown which can grant adversaries higher permissions on specific files and folders
+detection:
+  condition: selection
+  selection:
+    winlog.event_data.CommandLine|contains|all:
+    - '/f '
+    - /r
+    winlog.event_data.Image|endswith: \takeown.exe
+falsepositives:
+- Scripts created by developers and admins
+- Administrative activity
+fields:
+- winlog.event_data.CommandLine
+- winlog.event_data.ParentCommandLine
+id: 554601fb-9b71-4bcc-abf4-21a611be4fde
+level: medium
+logsource:
+  category: process_creation
+  product: windows
+product: windows
+references:
+- https://docs.microsoft.com/en-us/windows-server/administration/windows-commands/takeown
+- https://github.com/redcanaryco/atomic-red-team/blob/f339e7da7d05f6057fdfcdd3742bfcf365fee2a9/atomics/T1222.001/T1222.001.md#atomic-test-1---take-ownership-using-takeown-utility
+status: experimental
+tags:
+- attack.defense_evasion
+- attack.t1222.001
+title: Suspicious Recursif Takeown

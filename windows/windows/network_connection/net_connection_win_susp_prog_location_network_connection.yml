@@ -1,0 +1,44 @@
+author: Florian Roth, Tim Shelton
+category: network_connection
+date: 2017/03/19
+definition: Use the following config to generate the necessary Event ID 3 Network
+  Connection events
+description: Detects programs with network connections running in suspicious files
+  system locations
+detection:
+  condition: selection and not 1 of false_positive*
+  false_positive1:
+    winlog.event_data.Image|startswith: C:\Users\Public\IBM\ClientSolutions\Start_Programs\
+  selection:
+  - winlog.event_data.Image|contains:
+    - \Users\All Users\
+    - \Users\Default\
+    - \Users\Public\
+    - \Users\Contacts\
+    - \Users\Searches\
+    - \config\systemprofile\
+    - \Windows\Fonts\
+    - \Windows\IME\
+    - \Windows\addins\
+  - winlog.event_data.Image|endswith:
+    - \$Recycle.bin
+  - winlog.event_data.Image|startswith:
+    - C:\Perflogs\
+falsepositives:
+- Unknown
+id: 7b434893-c57d-4f41-908d-6a17bf1ae98f
+level: high
+logsource:
+  category: network_connection
+  definition: Use the following config to generate the necessary Event ID 3 Network
+    Connection events
+  product: windows
+modified: 2022/05/26
+product: windows
+references:
+- https://docs.google.com/spreadsheets/d/17pSTDNpa0sf6pHeRhusvWG6rThciE8CsXTSlDUAZDyo
+status: test
+tags:
+- attack.command_and_control
+- attack.t1105
+title: Suspicious Program Location with Network Connections

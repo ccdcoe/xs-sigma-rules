@@ -3,11 +3,16 @@ category: create_remote_thread
 date: 2020/10/06
 definition: Note that you have to configure logging for CreateRemoteThread in Symson
   config
-description: Detecting Code injection with PowerShell in another process
+description: Detects the creation of a remote thread from a Powershell process to
+  another process
 detection:
-  condition: selection
+  condition: selection and not 1 of filter*
+  filter_powershell:
+    SourceParentImage: C:\Windows\System32\CompatTelRunner.exe
   selection:
-    winlog.event_data.SourceImage|endswith: \powershell.exe
+    winlog.event_data.SourceImage|endswith:
+    - \powershell.exe
+    - \pwsh.exe
 falsepositives:
 - Unknown
 id: eeb2e3dc-c1f4-40dd-9bd5-149ee465ad50
@@ -17,11 +22,12 @@ logsource:
   definition: Note that you have to configure logging for CreateRemoteThread in Symson
     config
   product: windows
+modified: 2022/08/12
 product: windows
 references:
 - https://speakerdeck.com/heirhabarov/hunting-for-powershell-abuse
-status: experimental
+status: test
 tags:
 - attack.execution
 - attack.t1059.001
-title: Accessing WinAPI in PowerShell. Code Injection.
+title: Accessing WinAPI in PowerShell. Code Injection

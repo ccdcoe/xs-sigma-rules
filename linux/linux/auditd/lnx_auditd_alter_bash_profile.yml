@@ -6,6 +6,9 @@ detection:
   condition: selection
   selection:
     name:
+    - /root/.bashrc
+    - /root/.bash_profile
+    - /root/.profile
     - /home/*/.bashrc
     - /home/*/.bash_profile
     - /home/*/.profile
@@ -22,11 +25,12 @@ level: medium
 logsource:
   product: linux
   service: auditd
+modified: 2022/02/22
 product: linux
 references:
 - 'MITRE Attack technique T1156; .bash_profile and .bashrc. '
 service: auditd
-status: experimental
+status: test
 tags:
 - attack.s0003
 - attack.persistence

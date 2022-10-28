@@ -1,0 +1,30 @@
+author: Nasreddine Bencherchali
+category: process_creation
+date: 2022/08/19
+description: Detects the use the .NET InstallUtil.exe application in order to download
+  arbitrary files. The files will be written to %LOCALAPPDATA%\Microsoft\Windows\INetCache\IE\
+detection:
+  condition: all of selection_*
+  selection_cli:
+    winlog.event_data.CommandLine|contains:
+    - http://
+    - https://
+    - ftp://
+  selection_img:
+  - winlog.event_data.Image|endswith: \InstallUtil.exe
+  - winlog.event_data.OriginalFileName: InstallUtil.exe
+falsepositives:
+- Unknown
+id: 75edd216-1939-4c73-8d61-7f3a0d85b5cc
+level: medium
+logsource:
+  category: process_creation
+  product: windows
+product: windows
+references:
+- https://github.com/LOLBAS-Project/LOLBAS/pull/239
+status: experimental
+tags:
+- attack.defense_evasion
+- attack.t1218
+title: Suspicious Execution of InstallUtil To Download

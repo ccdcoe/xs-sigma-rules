@@ -1,0 +1,33 @@
+author: Vasiliy Burov
+category: process_creation
+date: 2020/10/05
+description: Detects command line parameters used by Hydra password guessing hack
+  tool
+detection:
+  condition: all of selection*
+  selection1:
+    winlog.event_data.CommandLine|contains|all:
+    - '-u '
+    - '-p '
+  selection2:
+    winlog.event_data.CommandLine|contains:
+    - ^USER^
+    - ^PASS^
+falsepositives:
+- Software that uses the caret encased keywords PASS and USER in its command line
+id: aaafa146-074c-11eb-adc1-0242ac120002
+level: high
+logsource:
+  category: process_creation
+  product: windows
+modified: 2021/11/27
+product: windows
+references:
+- https://github.com/vanhauser-thc/thc-hydra
+- https://attack.mitre.org/techniques/T1110/001/
+status: test
+tags:
+- attack.credential_access
+- attack.t1110
+- attack.t1110.001
+title: Hydra Password Guessing Hack Tool

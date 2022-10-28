@@ -1,0 +1,25 @@
+author: frack113
+category: process_creation
+date: 2022/03/17
+description: Tools to Capture Network Packets on the windows 10 with October 2018
+  Update or later.
+detection:
+  condition: selection
+  selection:
+  - winlog.event_data.Image|endswith: PktMon.exe
+  - winlog.event_data.OriginalFileName: PktMon.exe
+falsepositives:
+- Legitimate use
+id: f956c7c1-0f60-4bc5-b7d7-b39ab3c08908
+level: medium
+logsource:
+  category: process_creation
+  product: windows
+product: windows
+references:
+- https://lolbas-project.github.io/lolbas/Binaries/Pktmon/
+status: experimental
+tags:
+- attack.credential_access
+- attack.t1040
+title: Use of PktMon.exe

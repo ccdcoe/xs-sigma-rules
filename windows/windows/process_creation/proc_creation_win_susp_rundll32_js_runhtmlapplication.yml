@@ -1,0 +1,28 @@
+author: Florian Roth
+category: process_creation
+date: 2022/01/14
+description: Detects suspicious command line patterns used when rundll32 is used to
+  run JavaScript code
+detection:
+  condition: 1 of selection*
+  selection1:
+    winlog.event_data.CommandLine|contains|all:
+    - rundll32
+    - javascript
+    - ..\..\mshtml,RunHTMLApplication
+  selection2:
+    winlog.event_data.CommandLine|contains: ;document.write();GetObject("script
+falsepositives:
+- Unlikely
+id: 9f06447a-a33a-4cbe-a94f-a3f43184a7a3
+level: high
+logsource:
+  category: process_creation
+  product: windows
+product: windows
+references:
+- http://hyp3rlinx.altervista.org/advisories/MICROSOFT_WINDOWS_DEFENDER_DETECTION_BYPASS.txt
+status: experimental
+tags:
+- attack.defense_evasion
+title: Rundll32 JS RunHTMLApplication Pattern

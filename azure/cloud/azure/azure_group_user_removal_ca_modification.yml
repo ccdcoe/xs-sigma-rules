@@ -1,0 +1,24 @@
+author: Mark Morowczynski '@markmorow', Thomas Detzner '@tdetzner'
+date: 2022/08/04
+description: Monitor and alert on group membership removal of groups that have CA
+  policy modification access
+detection:
+  condition: selection
+  selection:
+    properties.message: Remove member from group
+falsepositives:
+- User removed from the group is approved
+id: 665e2d43-70dc-4ccc-9d27-026c9dd7ed9c
+level: medium
+logsource:
+  product: azure
+  service: auditlogs
+product: azure
+references:
+- https://docs.microsoft.com/en-us/azure/active-directory/fundamentals/security-operations-infrastructure#conditional-access
+service: auditlogs
+status: experimental
+tags:
+- attack.persistence
+- attack.t1098
+title: User Removed From Group With CA Policy Modification Access

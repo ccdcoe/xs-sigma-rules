@@ -1,0 +1,35 @@
+author: Beyu Denis, oscd.community
+category: process_creation
+date: 2020/10/18
+description: Detects file execution using the msdeploy.exe lolbin
+detection:
+  condition: selection
+  selection:
+    winlog.event_data.CommandLine|contains|all:
+    - verb:sync
+    - -source:RunCommand
+    - -dest:runCommand
+    winlog.event_data.Image|endswith: \msdeploy.exe
+falsepositives:
+- System administrator Usage
+fields:
+- winlog.ComputerName
+- winlog.event_data.User
+- winlog.event_data.CommandLine
+- winlog.event_data.ParentCommandLine
+id: 646bc99f-6682-4b47-a73a-17b1b64c9d34
+level: medium
+logsource:
+  category: process_creation
+  product: windows
+modified: 2021/11/27
+product: windows
+references:
+- https://lolbas-project.github.io/lolbas/OtherMSBinaries/Msdeploy/
+- https://twitter.com/pabraeken/status/995837734379032576
+- https://twitter.com/pabraeken/status/999090532839313408
+status: test
+tags:
+- attack.execution
+- attack.t1218
+title: Execute Files with Msdeploy.exe

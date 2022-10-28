@@ -1,0 +1,26 @@
+author: NVISO
+category: file_event
+date: 2020/06/09
+description: Detects Octopus Scanner Malware.
+detection:
+  condition: selection
+  selection:
+    winlog.event_data.TargetFilename|endswith:
+    - \AppData\Local\Microsoft\Cache134.dat
+    - \AppData\Local\Microsoft\ExplorerSync.db
+falsepositives:
+- Unknown
+id: 805c55d9-31e6-4846-9878-c34c75054fe9
+level: high
+logsource:
+  category: file_event
+  product: windows
+modified: 2021/11/27
+product: windows
+references:
+- https://securitylab.github.com/research/octopus-scanner-malware-open-source-supply-chain
+status: test
+tags:
+- attack.t1195
+- attack.t1195.001
+title: Octopus Scanner Malware

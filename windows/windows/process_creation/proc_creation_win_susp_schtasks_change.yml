@@ -1,0 +1,74 @@
+author: Nasreddine Bencherchali
+category: process_creation
+date: 2022/07/28
+description: 'Detects when an attacker tries to modify an already existing scheduled
+  tasks to run from a suspicious location
+
+  Attackers can create a simple looking task in order to avoid detection on creation
+  as it''s often the most focused on
+
+  Instead they modify the task after creation to include their malicious payload
+
+  '
+detection:
+  condition: all of selection_*
+  selection_schtasks:
+    winlog.event_data.CommandLine|contains|all:
+    - ' /Change '
+    - ' /TN '
+    winlog.event_data.Image|endswith: \schtasks.exe
+  selection_susp_images:
+    winlog.event_data.CommandLine|contains:
+    - regsvr32
+    - rundll32
+    - 'cmd /c '
+    - 'cmd /k '
+    - 'cmd.exe /c '
+    - 'cmd.exe /k '
+    - powershell
+    - mshta
+    - wscript
+    - cscript
+    - certutil
+    - bitsadmin
+    - bash.exe
+    - 'bash '
+    - scrcons
+    - 'wmic '
+    - wmic.exe
+    - forfiles
+    - scriptrunner
+    - hh.exe
+    - 'hh '
+  selection_susp_locations:
+    winlog.event_data.CommandLine|contains:
+    - \AppData\Local\Temp
+    - \AppData\Roaming\
+    - \Users\Public\
+    - \WINDOWS\Temp\
+    - \Desktop\
+    - \Downloads\
+    - \Temporary Internet
+    - C:\ProgramData\
+    - C:\Perflogs\
+    - '%ProgramData%'
+    - '%appdata%'
+    - '%comspec%'
+    - '%localappdata%'
+falsepositives:
+- Unknown
+id: 1c0e41cd-21bb-4433-9acc-4a2cd6367b9b
+level: high
+logsource:
+  category: process_creation
+  product: windows
+modified: 2022/08/24
+product: windows
+references:
+- Internal Research
+- https://docs.microsoft.com/en-us/windows-server/administration/windows-commands/schtasks
+status: experimental
+tags:
+- attack.execution
+- attack.t1053.005
+title: Suspicious Modification Of Scheduled Tasks

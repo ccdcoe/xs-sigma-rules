@@ -1,0 +1,27 @@
+author: Florian Roth
+category: process_creation
+date: 2022/06/20
+description: Detects the execution of a cat /etc/sudoers to list all users that have
+  sudo rights
+detection:
+  condition: selection
+  selection:
+    CommandLine|contains: ' /etc/sudoers'
+    Image|endswith:
+    - /cat
+    - grep
+falsepositives:
+- Legitimate administration activities
+id: 0f79c4d2-4e1f-4683-9c36-b5469a665e06
+level: medium
+logsource:
+  category: process_creation
+  product: linux
+product: linux
+references:
+- https://github.com/sleventyeleven/linuxprivchecker/
+status: test
+tags:
+- attack.reconnaissance
+- attack.t1592.004
+title: Cat Sudoers

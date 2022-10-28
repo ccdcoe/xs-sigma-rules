@@ -25,7 +25,7 @@ logsource:
 modified: 2021/09/14
 product: linux
 references:
-- https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1082/T1082.md
+- https://github.com/redcanaryco/atomic-red-team/blob/f339e7da7d05f6057fdfcdd3742bfcf365fee2a9/atomics/T1082/T1082.md#atomic-test-4---linux-vm-check-via-hardware
 related:
 - id: 42df45e7-e6e9-43b5-8f26-bec5b39cc239
   type: derived

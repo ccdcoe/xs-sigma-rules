@@ -1,0 +1,37 @@
+author: _pete_0, TheDFIRReport
+category: process_creation
+date: 2022/02/21
+description: Detects use of chcp to look up the system locale value as part of host
+  discovery
+detection:
+  condition: selection
+  selection:
+    winlog.event_data.CommandLine|endswith:
+    - chcp
+    - 'chcp '
+    - 'chcp  '
+    winlog.event_data.Image|endswith: \chcp.com
+    winlog.event_data.ParentCommandLine|contains:
+    - ' /c '
+    - ' /k '
+    winlog.event_data.ParentImage|endswith: \cmd.exe
+falsepositives:
+- Unknown
+fields:
+- winlog.event_data.CommandLine
+- winlog.event_data.ParentCommandLine
+id: 7090adee-82e2-4269-bd59-80691e7c6338
+level: high
+logsource:
+  category: process_creation
+  product: windows
+modified: 2022/04/21
+product: windows
+references:
+- https://thedfirreport.com/2022/04/04/stolen-images-campaign-ends-in-conti-ransomware/
+- https://docs.microsoft.com/en-us/windows-server/administration/windows-commands/chcp
+status: experimental
+tags:
+- attack.discovery
+- attack.t1614.001
+title: CHCP CodePage Locale Lookup

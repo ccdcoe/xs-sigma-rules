@@ -1,0 +1,54 @@
+author: Florian Roth
+category: network_connection
+date: 2017/03/13
+description: Detects a Powershell process that opens network connections - check for
+  suspicious target ports and target systems - adjust to your environment (e.g. extend
+  filters with company's ip range')
+detection:
+  condition: selection and not filter
+  filter:
+    winlog.event_data.DestinationIp|startswith:
+    - '10.'
+    - 192.168.
+    - 172.16.
+    - 172.17.
+    - 172.18.
+    - 172.19.
+    - 172.20.
+    - 172.21.
+    - 172.22.
+    - 172.23.
+    - 172.24.
+    - 172.25.
+    - 172.26.
+    - 172.27.
+    - 172.28.
+    - 172.29.
+    - 172.30.
+    - 172.31.
+    - 127.0.0.1
+    winlog.event_data.User|contains:
+    - AUTHORI
+    - AUTORI
+  selection:
+    Initiated: 'true'
+    winlog.event_data.DestinationIsIpv6: 'false'
+    winlog.event_data.Image|endswith:
+    - \powershell.exe
+    - \pwsh.exe
+falsepositives:
+- Administrative scripts
+id: 1f21ec3f-810d-4b0e-8045-322202e22b4b
+level: low
+logsource:
+  category: network_connection
+  product: windows
+modified: 2022/07/14
+product: windows
+references:
+- https://www.youtube.com/watch?v=DLtJTxMWZ2o
+status: experimental
+tags:
+- attack.execution
+- attack.t1059.001
+title: PowerShell Network Connections

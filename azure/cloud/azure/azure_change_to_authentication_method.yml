@@ -1,0 +1,25 @@
+author: AlertIQ
+date: 2021/10/10
+description: Change to authentication method could be an indicated of an attacker
+  adding an auth method to the account so they can have continued access.
+detection:
+  condition: selection
+  selection:
+    Category: UserManagement
+    LoggedByService: Authentication Methods
+    OperationName: User registered security info
+falsepositives:
+- Unknown
+id: 4d78a000-ab52-4564-88a5-7ab5242b20c7
+level: medium
+logsource:
+  product: azure
+  service: auditlogs
+product: azure
+references:
+- https://docs.microsoft.com/en-us/azure/active-directory/fundamentals/security-operations-privileged-accounts
+service: auditlogs
+status: experimental
+tags:
+- attack.credential_access
+title: Change to Authentication Method

@@ -1,0 +1,42 @@
+author: Daniil Yugoslavskiy, oscd.community
+category: process_creation
+date: 2020/10/19
+description: Detects usage of system utilities (only grep for now) to discover security
+  software discovery
+detection:
+  condition: image and 1 of selection_cli_*
+  image:
+    Image: /usr/bin/grep
+  selection_cli_1:
+    CommandLine|contains:
+    - nessusd
+    - santad
+    - CbDefense
+    - falcond
+    - td-agent
+    - packetbeat
+    - filebeat
+    - auditbeat
+    - osqueryd
+    - BlockBlock
+    - LuLu
+  selection_cli_2:
+    CommandLine|contains|all:
+    - Little
+    - Snitch
+falsepositives:
+- Legitimate activities
+id: 0ed75b9c-c73b-424d-9e7d-496cd565fbe0
+level: medium
+logsource:
+  category: process_creation
+  product: macos
+modified: 2022/07/11
+product: macos
+references:
+- https://github.com/redcanaryco/atomic-red-team/blob/f339e7da7d05f6057fdfcdd3742bfcf365fee2a9/atomics/T1518.001/T1518.001.md
+status: test
+tags:
+- attack.discovery
+- attack.t1518.001
+title: Security Software Discovery

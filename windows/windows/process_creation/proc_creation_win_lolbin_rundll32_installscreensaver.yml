@@ -1,0 +1,25 @@
+author: Christopher Peacock @securepeacock, SCYTHE @scythe_io, TactiKoolSec
+category: process_creation
+date: 2022/04/28
+description: An attacker may execute an application as a SCR File using rundll32.exe
+  desk.cpl,InstallScreenSaver
+detection:
+  condition: selection
+  selection:
+    winlog.event_data.CommandLine|contains: InstallScreenSaver
+    winlog.event_data.Image|endswith: \rundll32.exe
+falsepositives:
+- Legitimate installation of a new screensaver
+id: 15bd98ea-55f4-4d37-b09a-e7caa0fa2221
+level: medium
+logsource:
+  category: process_creation
+  product: windows
+product: windows
+references:
+- https://lolbas-project.github.io/lolbas/Libraries/Desk/
+status: experimental
+tags:
+- attack.t1218.011
+- attack.defense_evasion
+title: Rundll32 InstallScreenSaver Execution

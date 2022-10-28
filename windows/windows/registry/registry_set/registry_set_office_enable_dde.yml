@@ -1,0 +1,35 @@
+author: frack113
+category: registry_set
+date: 2022/02/26
+description: Enable Dynamic Data Exchange protocol (DDE) in all supported editions
+  of Microsoft Word or Excel.
+detection:
+  condition: 1 of selection_*
+  selection_excel:
+    winlog.event_data.Details: DWORD (0x00000000)
+    winlog.event_data.EventType: SetValue
+    winlog.event_data.TargetObject|endswith:
+    - \Excel\Security\DisableDDEServerLaunch
+    - \Excel\Security\DisableDDEServerLookup
+  selection_word:
+    winlog.event_data.Details:
+    - DWORD (0x00000001)
+    - DWORD (0x00000002)
+    winlog.event_data.EventType: SetValue
+    winlog.event_data.TargetObject|endswith: \Word\Security\AllowDDE
+falsepositives:
+- Unknown
+id: 63647769-326d-4dde-a419-b925cc0caf42
+level: medium
+logsource:
+  category: registry_set
+  product: windows
+modified: 2022/03/26
+product: windows
+references:
+- https://msrc.microsoft.com/update-guide/vulnerability/ADV170021
+status: experimental
+tags:
+- attack.execution
+- attack.t1559.002
+title: Enable Microsoft Dynamic Data Exchange

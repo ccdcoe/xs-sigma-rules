@@ -1,0 +1,30 @@
+author: remotephone, oscd.community
+category: process_creation
+date: 2020/10/11
+description: Detects deletion of local audit logs
+detection:
+  condition: selection1 and 1 of selection_cli*
+  selection1:
+    Image|endswith: /rm
+  selection_cli_1:
+    CommandLine|contains: /var/log
+  selection_cli_2:
+    CommandLine|contains|all:
+    - /Users/
+    - /Library/Logs/
+falsepositives:
+- Legitimate administration activities
+id: acf61bd8-d814-4272-81f0-a7a269aa69aa
+level: medium
+logsource:
+  category: process_creation
+  product: macos
+modified: 2022/07/07
+product: macos
+references:
+- https://github.com/redcanaryco/atomic-red-team/blob/f339e7da7d05f6057fdfcdd3742bfcf365fee2a9/atomics/T1070.002/T1070.002.md
+status: experimental
+tags:
+- attack.defense_evasion
+- attack.t1070.002
+title: Indicator Removal on Host - Clear Mac System Logs

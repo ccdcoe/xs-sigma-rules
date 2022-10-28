@@ -1,0 +1,48 @@
+author: Syed Hasan (@syedhasan009)
+category: registry_set
+date: 2021/06/18
+description: Monitor the creation of a new key under 'TaskCache' when a new scheduled
+  task is registered by a process that is not svchost.exe, which is suspicious
+detection:
+  condition: selection and not 1 of filter*
+  filter:
+    winlog.event_data.TargetObject|contains:
+    - Microsoft\Windows\UpdateOrchestrator
+    - Microsoft\Windows\SoftwareProtectionPlatform\SvcRestartTask\Index
+    - Microsoft\Windows\Flighting\OneSettings\RefreshCache\Index
+  filter_msiexec:
+    winlog.event_data.Image: C:\Windows\System32\msiexec.exe
+  filter_ngen:
+    winlog.event_data.Image|endswith: \ngen.exe
+    winlog.event_data.Image|startswith: C:\Windows\Microsoft.NET\Framework\
+    winlog.event_data.TargetObject|contains: \Microsoft\Windows NT\CurrentVersion\Schedule\TaskCache\Tasks\{B66B135D-DA06-4FC4-95F8-7458E1D10129}
+  filter_office_click_to_run:
+    winlog.event_data.Image:
+    - C:\Program Files\Microsoft Office\root\Integration\Integrator.exe
+    - C:\Program Files (x86)\Microsoft Office\root\Integration\Integrator.exe
+  filter_svchost:
+    winlog.event_data.Image: C:\WINDOWS\system32\svchost.exe
+  filter_tiworker:
+    winlog.event_data.Image|endswith: \TiWorker.exe
+    winlog.event_data.Image|startswith: C:\Windows\
+  selection:
+    winlog.event_data.EventType: SetValue
+    winlog.event_data.TargetObject|contains: SOFTWARE\Microsoft\Windows NT\CurrentVersion\Schedule\TaskCache\
+falsepositives:
+- Unknown
+id: 4720b7df-40c3-48fd-bbdf-fd4b3c464f0d
+level: high
+logsource:
+  category: registry_set
+  product: windows
+modified: 2022/08/24
+product: windows
+references:
+- https://thedfirreport.com/2021/03/29/sodinokibi-aka-revil-ransomware/
+- https://labs.f-secure.com/blog/scheduled-task-tampering/
+status: experimental
+tags:
+- attack.persistence
+- attack.t1053
+- attack.t1053.005
+title: Scheduled TaskCache Change by Uncommon Program

@@ -1,0 +1,27 @@
+author: Austin Songer @austinsonger
+date: 2021/08/23
+description: Detects when a Microsoft Cloud App Security reported when users were
+  active from an IP address that has been identified as an anonymous proxy IP address.
+detection:
+  condition: selection
+  selection:
+    eventName: Activity from anonymous IP addresses
+    eventSource: SecurityComplianceCenter
+    status: success
+falsepositives:
+- User using a VPN or Proxy
+id: d8b0a4fe-07a8-41be-bd39-b14afa025d95
+level: medium
+logsource:
+  product: m365
+  service: threat_management
+product: m365
+references:
+- https://docs.microsoft.com/en-us/cloud-app-security/anomaly-detection-policy
+- https://docs.microsoft.com/en-us/cloud-app-security/policy-template-reference
+service: threat_management
+status: experimental
+tags:
+- attack.command_and_control
+- attack.t1573
+title: Activity from Anonymous IP Addresses

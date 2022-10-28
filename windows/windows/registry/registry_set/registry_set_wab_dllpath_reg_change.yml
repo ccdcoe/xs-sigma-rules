@@ -1,0 +1,30 @@
+author: oscd.community, Natalia Shornikova
+category: registry_set
+date: 2020/10/13
+description: This rule detects that the path to the DLL written in the registry is
+  different from the default one. Launched WAB.exe tries to load the DLL from Registry.
+detection:
+  condition: selection and not filter
+  filter:
+    winlog.event_data.Details: '%CommonProgramFiles%\System\wab32.dll'
+  selection:
+    winlog.event_data.EventType: SetValue
+    winlog.event_data.TargetObject|endswith: \Software\Microsoft\WAB\DLLPath
+falsepositives:
+- Unknown
+id: fc014922-5def-4da9-a0fc-28c973f41bfb
+level: high
+logsource:
+  category: registry_set
+  product: windows
+modified: 2022/03/26
+product: windows
+references:
+- https://github.com/LOLBAS-Project/LOLBAS/blob/8283d8d91552213ded165fd36deb6cb9534cb443/yml/OSBinaries/Wab.yml
+- https://twitter.com/Hexacorn/status/991447379864932352
+- http://www.hexacorn.com/blog/2018/05/01/wab-exe-as-a-lolbin/
+status: experimental
+tags:
+- attack.defense_evasion
+- attack.t1218
+title: Execution DLL of Choice Using WAB.EXE

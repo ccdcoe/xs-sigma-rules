@@ -1,0 +1,38 @@
+author: '@SBousseaden (idea), Christian Burkard (rule)'
+category: process_creation
+date: 2022/06/02
+description: Detects Office Applications executing a Windows child process including
+  directory traversal patterns
+detection:
+  condition: selection
+  selection:
+    winlog.event_data.CommandLine:
+    - ../../../..
+    - ..\..\..\..
+    - ..//..//..//..
+    winlog.event_data.Image|contains:
+    - \Windows\System32\
+    - \Windows\SysWOW64\
+    winlog.event_data.ParentImage|endswith:
+    - \winword.exe
+    - \excel.exe
+    - \powerpnt.exe
+    - \msaccess.exe
+    - \mspub.exe
+    - \eqnedt32.exe
+    - \visio.exe
+falsepositives:
+- Unknown
+id: 868955d9-697e-45d4-a3da-360cefd7c216
+level: high
+logsource:
+  category: process_creation
+  product: windows
+product: windows
+references:
+- https://twitter.com/sbousseaden/status/1531653369546301440
+status: experimental
+tags:
+- attack.execution
+- attack.defense_evasion
+title: Office Directory Traversal CommandLine

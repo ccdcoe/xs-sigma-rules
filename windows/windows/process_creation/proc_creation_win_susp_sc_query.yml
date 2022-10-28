@@ -1,0 +1,23 @@
+author: frack113
+category: process_creation
+date: 2021/12/06
+description: Adversaries may try to get information about registered services
+detection:
+  condition: selection
+  selection:
+    winlog.event_data.CommandLine|contains: sc query
+falsepositives:
+- Unknown
+id: 57712d7a-679c-4a41-a913-87e7175ae429
+level: low
+logsource:
+  category: process_creation
+  product: windows
+product: windows
+references:
+- https://github.com/redcanaryco/atomic-red-team/blob/f339e7da7d05f6057fdfcdd3742bfcf365fee2a9/atomics/T1007/T1007.md#atomic-test-1---system-service-discovery
+status: experimental
+tags:
+- attack.discovery
+- attack.t1007
+title: Suspicious Sc Query

@@ -1,0 +1,36 @@
+author: Timur Zinniatullin, E.M. Anhaus, oscd.community
+category: process_creation
+date: 2019/10/21
+description: An adversary may compress data (e.g., sensitive documents) that is collected
+  prior to exfiltration in order to make it portable and minimize the amount of data
+  sent over the network.
+detection:
+  condition: selection
+  selection:
+    winlog.event_data.CommandLine|contains: ' a '
+    winlog.event_data.Image|endswith: \rar.exe
+falsepositives:
+- Highly likely if rar is a default archiver in the monitored environment.
+fields:
+- winlog.event_data.Image
+- winlog.event_data.CommandLine
+- winlog.event_data.User
+- winlog.event_data.LogonGuid
+- winlog.event_data.Hashes
+- process.parent.entity_id
+- winlog.event_data.ParentCommandLine
+id: 6f3e2987-db24-4c78-a860-b4f4095a7095
+level: low
+logsource:
+  category: process_creation
+  product: windows
+modified: 2021/11/27
+product: windows
+references:
+- https://github.com/redcanaryco/atomic-red-team/blob/f339e7da7d05f6057fdfcdd3742bfcf365fee2a9/atomics/T1560.001/T1560.001.md
+- https://eqllib.readthedocs.io/en/latest/analytics/1ec33c93-3d0b-4a28-8014-dbdaae5c60ae.html
+status: test
+tags:
+- attack.collection
+- attack.t1560.001
+title: Data Compressed - rar.exe

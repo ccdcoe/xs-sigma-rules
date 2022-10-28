@@ -8,9 +8,9 @@ description: Rule to detect the use of the SCX RunAsProvider Invoke_ExecuteShell
 detection:
   condition: selection
   selection:
-    SYSCALL: execve
     comm: sh
     cwd: /var/opt/microsoft/scx/tmp
+    syscall: execve
     type: SYSCALL
     uid: '0'
 falsepositives:
@@ -20,6 +20,7 @@ level: high
 logsource:
   product: linux
   service: auditd
+modified: 2021/11/11
 product: linux
 references:
 - https://www.wiz.io/blog/omigod-critical-vulnerabilities-in-omi-azure

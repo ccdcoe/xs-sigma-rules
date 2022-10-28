@@ -1,0 +1,32 @@
+author: Florian Roth
+category: process_creation
+date: 2021/12/07
+description: Detects the use of the Dinject PowerShell cradle based on the specific
+  flags
+detection:
+  condition: selection and not 1 of filter_*
+  filter_fps:
+  - winlog.event_data.CommandLine|contains: ' /PASSWORDCHG'
+  - winlog.event_data.ParentImage:
+    - C:\Program Files\CEETIS\CEETIS_IDE.exe
+    - C:\Program Files (x86)\CEETIS\CEETIS_IDE.exe
+  selection:
+    winlog.event_data.CommandLine|contains:
+    - ' /am51'
+    - ' /password'
+falsepositives:
+- Unlikely
+id: d78b5d61-187d-44b6-bf02-93486a80de5a
+level: critical
+logsource:
+  category: process_creation
+  product: windows
+modified: 2022/03/07
+product: windows
+references:
+- https://github.com/snovvcrash/DInjector
+status: test
+tags:
+- attack.defense_evasion
+- attack.t1055
+title: DInject PowerShell Cradle CommandLine Flags

@@ -1,0 +1,26 @@
+author: Roberto Rodriguez @Cyb3rWard0g, Open Threat Research (OTR)
+date: 2020/10/20
+description: Detects volume shadow copy mount via windows event log
+detection:
+  condition: selection
+  selection:
+    Provider_Name: Microsoft-Windows-Ntfs
+    winlog.event_data.DeviceName|contains: HarddiskVolumeShadowCopy
+    winlog.event_id: 98
+falsepositives:
+- Legitimate use of volume shadow copy mounts (backups maybe).
+id: f512acbf-e662-4903-843e-97ce4652b740
+level: low
+logsource:
+  product: windows
+  service: system
+modified: 2021/10/13
+product: windows
+references:
+- https://github.com/redcanaryco/atomic-red-team/blob/f339e7da7d05f6057fdfcdd3742bfcf365fee2a9/atomics/T1003.002/T1003.002.md#atomic-test-3---esentutlexe-sam-copy
+service: system
+status: experimental
+tags:
+- attack.credential_access
+- attack.t1003.002
+title: Volume Shadow Copy Mount

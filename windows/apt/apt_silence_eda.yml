@@ -26,10 +26,10 @@ level: critical
 logsource:
   product: windows
   service: powershell
-modified: 2020/09/01
+modified: 2021/11/27
 product: windows
 service: powershell
-status: experimental
+status: test
 tags:
 - attack.execution
 - attack.t1059.001

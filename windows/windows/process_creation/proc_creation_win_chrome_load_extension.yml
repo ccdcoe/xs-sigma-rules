@@ -1,0 +1,33 @@
+author: Aedan Russell, frack113 (sigma)
+category: process_creation
+date: 2022/06/19
+description: Detects PowerShell process spawning a 'chrome.exe' process with the 'load-extension'
+  flag to start a new chrome instance with custom extensions, as seen being used in
+  'ChromeLoader'
+detection:
+  condition: selection
+  selection:
+    winlog.event_data.CommandLine|contains|all:
+    - --load-extension=
+    - \AppData\Local\
+    winlog.event_data.Image|endswith: \chrome.exe
+    winlog.event_data.ParentImage|endswith:
+    - \powershell.exe
+    - \pwsh.exe
+falsepositives:
+- Unknown
+id: 27ba3207-dd30-4812-abbf-5d20c57d474e
+level: high
+logsource:
+  category: process_creation
+  product: windows
+modified: 2022/07/14
+product: windows
+references:
+- https://redcanary.com/blog/chromeloader/
+- https://emkc.org/s/RJjuLa
+status: experimental
+tags:
+- attack.persistence
+- attack.t1176
+title: Powershell ChromeLoader Browser Hijacker

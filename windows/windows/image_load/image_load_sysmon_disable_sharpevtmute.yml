@@ -1,0 +1,25 @@
+author: Florian Roth
+category: image_load
+date: 2022/09/07
+description: Detects the load of EvtMuteHook.dll, a key component of SharpEvtHook,
+  a tool to tamper with Windows event logs
+detection:
+  condition: selection
+  selection:
+  - winlog.event_data.Hashes|contains: IMPHASH=330768A4F172E10ACB6287B87289D83B
+  - winlog.event_data.Imphash: 330768a4f172e10acb6287b87289d83b
+falsepositives:
+- Other DLLs with that import hash
+id: 49329257-089d-46e6-af37-4afce4290685
+level: high
+logsource:
+  category: image_load
+  product: windows
+product: windows
+references:
+- https://github.com/bats3c/EvtMute
+status: experimental
+tags:
+- attack.defense_evasion
+- attack.t1562.002
+title: SharpEvtMute EvtMuteHook Load

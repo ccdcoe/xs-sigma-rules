@@ -1,0 +1,29 @@
+author: Nasreddine Bencherchali
+date: 2022/07/22
+description: Detects PDQDeploy service installation on the target system. When a package
+  is deployed via PDQDeploy it installs a remote service on the target machine with
+  the name "PDQDeployRunner-X" where "X" is an integer starting from 1
+detection:
+  condition: all of selection_*
+  selection_root:
+    Provider_Name: Service Control Manager
+    winlog.event_id: 7045
+  selection_service:
+  - winlog.event_data.ImagePath|contains: PDQDeployRunner-
+  - winlog.event_data.ServiceName|startswith: PDQDeployRunner-
+falsepositives:
+- Legitimate use of the tool
+id: b98a10af-1e1e-44a7-bab2-4cc026917648
+level: medium
+logsource:
+  product: windows
+  service: system
+product: windows
+references:
+- https://documentation.pdq.com/PDQDeploy/13.0.3.0/index.html?windows-services.htm
+service: system
+status: experimental
+tags:
+- attack.privilege_escalation
+- attack.t1543.003
+title: New PDQDeploy Service - Client Side

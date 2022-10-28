@@ -1,0 +1,48 @@
+author: Roberto Rodriguez (Cyb3rWard0g), OTR (Open Threat Research)
+category: image_load
+date: 2020/10/20
+description: Detects potential use of UIPromptForCredentials functions by looking
+  for some of the DLLs needed for it.
+detection:
+  condition: selection and not 1 of filter_*
+  filter_end:
+    winlog.event_data.Image|endswith: \opera_autoupdate.exe
+  filter_full:
+    winlog.event_data.Image: C:\Windows\ImmersiveControlPanel\SystemSettings.exe
+  filter_path:
+    winlog.event_data.Image|contains: \Local\Microsoft\OneDrive\
+  filter_start:
+    winlog.event_data.Image|startswith:
+    - C:\Windows\System32\
+    - C:\Windows\explorer.exe
+    - C:\Program Files\
+    - C:\Program Files (x86)\
+  filter_user:
+    winlog.event_data.Image|endswith: \AppData\Roaming\Spotify\Spotify.exe
+    winlog.event_data.Image|startswith: C:\Users\
+  selection:
+  - winlog.event_data.ImageLoaded|endswith:
+    - \credui.dll
+    - \wincredui.dll
+  - winlog.event_data.OriginalFileName:
+    - credui.dll
+    - wincredui.dll
+falsepositives:
+- Other legitimate processes loading those DLLs in your environment.
+id: 9ae01559-cf7e-4f8e-8e14-4c290a1b4784
+level: medium
+logsource:
+  category: image_load
+  product: windows
+modified: 2022/08/13
+product: windows
+references:
+- https://securitydatasets.com/notebooks/small/windows/06_credential_access/SDWIN-201020013208.html
+- https://github.com/redcanaryco/atomic-red-team/blob/f339e7da7d05f6057fdfcdd3742bfcf365fee2a9/atomics/T1056.002/T1056.002.md#atomic-test-2---powershell---prompt-user-for-password
+- https://docs.microsoft.com/en-us/windows/win32/api/wincred/nf-wincred-creduipromptforcredentialsa
+status: experimental
+tags:
+- attack.credential_access
+- attack.collection
+- attack.t1056.002
+title: UIPromptForCredentials DLLs

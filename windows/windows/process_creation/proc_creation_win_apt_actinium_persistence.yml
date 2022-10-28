@@ -1,0 +1,32 @@
+author: Andreas Hunkeler (@Karneades)
+category: process_creation
+date: 2022/02/07
+description: Detects specific process parameters as used by ACTINIUM scheduled task
+  persistence creation.
+detection:
+  condition: selection
+  selection:
+    winlog.event_data.CommandLine|contains|all:
+    - schtasks
+    - create
+    - wscript
+    - e:vbscript
+falsepositives:
+- Unlikely
+fields:
+- winlog.event_data.CommandLine
+- winlog.event_data.ParentCommandLine
+id: e1118a8f-82f5-44b3-bb6b-8a284e5df602
+level: high
+logsource:
+  category: process_creation
+  product: windows
+product: windows
+references:
+- https://www.microsoft.com/security/blog/2022/02/04/actinium-targets-ukrainian-organizations
+status: experimental
+tags:
+- attack.persistence
+- attack.t1053
+- attack.t1053.005
+title: Scheduled Task WScript VBScript

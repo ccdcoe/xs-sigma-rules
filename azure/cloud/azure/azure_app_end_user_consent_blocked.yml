@@ -1,0 +1,22 @@
+author: Bailey Bercik '@baileybercik', Mark Morowczynski '@markmorow'
+date: 2022/07/10
+description: Detects when end user consent is blocked due to risk-based consent.
+detection:
+  condition: selection
+  selection:
+    failure_status_reason: Microsoft.online.Security.userConsentBlockedForRiskyAppsExceptions
+falsepositives:
+- Unknown
+id: 7091372f-623c-4293-bc37-20c32b3492be
+level: medium
+logsource:
+  product: azure
+  service: auditlogs
+product: azure
+references:
+- https://docs.microsoft.com/en-us/azure/active-directory/fundamentals/security-operations-applications#end-user-stopped-due-to-risk-based-consent
+service: auditlogs
+status: experimental
+tags:
+- attack.privilege_escalation
+title: End User Consent Blocked

@@ -1,0 +1,38 @@
+author: Florian Roth
+category: process_creation
+date: 2022/03/14
+description: Detects suspicious process command line that starts with a shell that
+  executes something and finally gets piped into another shell
+detection:
+  condition: all of selection*
+  selection:
+    CommandLine|startswith:
+    - 'sh -c '
+    - 'bash -c '
+  selection_exec:
+  - CommandLine|contains:
+    - '| bash '
+    - '| sh '
+    - '|bash '
+    - '|sh '
+  - CommandLine|endswith:
+    - '| bash'
+    - '| sh'
+    - '|bash'
+    - ' |sh'
+falsepositives:
+- Legitimate software that uses these patterns
+id: 880973f3-9708-491c-a77b-2a35a1921158
+level: medium
+logsource:
+  category: process_creation
+  product: linux
+modified: 2022/07/26
+product: linux
+references:
+- Internal Research
+status: experimental
+tags:
+- attack.defense_evasion
+- attack.t1140
+title: Linux Shell Pipe to Shell

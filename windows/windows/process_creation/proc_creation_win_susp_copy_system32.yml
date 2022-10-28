@@ -1,0 +1,59 @@
+author: Florian Roth, Markus Neis, Tim Shelton (HAWK.IO), Nasreddine Bencherchali
+  (update)
+category: process_creation
+date: 2020/07/03
+description: 'Detects a suspicious copy operation that tries to copy a program from
+  a system (System32 or SysWOW64) directory to another on disk.
+
+  Often used to move LOLBINs such as ''certutil'' or ''desktopimgdownldr'' to a different
+  location with a different name in order to bypass detections based on locations
+
+  '
+detection:
+  condition: 1 of selection* and target
+  selection_cmd:
+    winlog.event_data.CommandLine|contains: 'copy '
+    winlog.event_data.Image|endswith: \cmd.exe
+  selection_other:
+    winlog.event_data.Image|endswith:
+    - \robocopy.exe
+    - \xcopy.exe
+  selection_pwsh:
+    winlog.event_data.CommandLine|contains:
+    - copy-item
+    - copy
+    - 'cpi '
+    - ' cp '
+    winlog.event_data.Image|endswith:
+    - \powershell.exe
+    - \pwsh.exe
+  target:
+    winlog.event_data.CommandLine|contains:
+    - \System32
+    - \SysWOW64
+falsepositives:
+- Depend on scripts and administrative tools used in the monitored environment (For
+  example an admin scripts like https://www.itexperience.net/sccm-batch-files-and-32-bits-processes-on-64-bits-os/)
+- When cmd.exe and xcopy.exe are called directly
+- When the command contains the keywords but not in the correct order
+fields:
+- winlog.event_data.CommandLine
+- winlog.event_data.ParentCommandLine
+id: fff9d2b7-e11c-4a69-93d3-40ef66189767
+level: medium
+logsource:
+  category: process_creation
+  product: windows
+modified: 2022/08/04
+product: windows
+references:
+- https://www.hybrid-analysis.com/sample/8da5b75b6380a41eee3a399c43dfe0d99eeefaa1fd21027a07b1ecaa4cd96fdd?environmentId=120
+- https://web.archive.org/web/20180331144337/https://www.fireeye.com/blog/threat-research/2018/03/sanny-malware-delivery-method-updated-in-recently-observed-attacks.html
+related:
+- id: 855bc8b5-2ae8-402e-a9ed-b889e6df1900
+  type: derived
+status: test
+tags:
+- attack.defense_evasion
+- attack.t1036.003
+title: Suspicious Copy From or To System32

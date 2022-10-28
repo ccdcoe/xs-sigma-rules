@@ -1,0 +1,33 @@
+author: Nasreddine Bencherchali
+category: process_creation
+date: 2022/07/01
+description: Detects usage of "PresentationHost" which is a utility that runs ".xbap"
+  (Browser Applications) files. It can be abused to run malicious ".xbap" files any
+  bypass AWL
+detection:
+  condition: all of selection* and not filter
+  filter:
+    winlog.event_data.CommandLine|contains:
+    - C:\Windows\
+    - C:\Program Files
+  selection_cli:
+    winlog.event_data.CommandLine|contains: .xbap
+  selection_img:
+  - winlog.event_data.Image|endswith: \presentationhost.exe
+  - winlog.event_data.OriginalFileName: PresentationHost.exe
+falsepositives:
+- Legitimate ".xbap" being executed via "PresentationHost"
+id: d22e2925-cfd8-463f-96f6-89cec9d9bc5f
+level: medium
+logsource:
+  category: process_creation
+  product: windows
+product: windows
+references:
+- https://lolbas-project.github.io/lolbas/Binaries/Presentationhost/
+status: experimental
+tags:
+- attack.defense_evasion
+- attack.execution
+- attack.t1218
+title: Application Whitelisting Bypass via PresentationHost.exe

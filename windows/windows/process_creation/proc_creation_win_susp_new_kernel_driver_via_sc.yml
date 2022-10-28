@@ -1,0 +1,32 @@
+author: Nasreddine Bencherchali
+category: process_creation
+date: 2022/07/14
+description: Detects creation of a new service (kernel driver) with the type "kernel"
+detection:
+  condition: selection
+  selection:
+    winlog.event_data.CommandLine|contains:
+    - create
+    - config
+    winlog.event_data.CommandLine|contains|all:
+    - binPath
+    - type
+    - kernel
+    winlog.event_data.Image|endswith: \sc.exe
+falsepositives:
+- Rare legitimate installation of kernel drivers via sc.exe
+id: 431a1fdb-4799-4f3b-91c3-a683b003fc49
+level: medium
+logsource:
+  category: process_creation
+  product: windows
+modified: 2022/08/08
+product: windows
+references:
+- https://www.aon.com/cyber-solutions/aon_cyber_labs/yours-truly-signed-av-driver-weaponizing-an-antivirus-driver/
+status: experimental
+tags:
+- attack.persistence
+- attack.privilege_escalation
+- attack.t1543.003
+title: New Kernel Driver Via SC.EXE

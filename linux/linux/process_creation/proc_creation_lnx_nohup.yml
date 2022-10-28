@@ -1,0 +1,23 @@
+author: Christopher Peacock @SecurePeacock, SCYTHE @scythe_io
+category: process_creation
+date: 2022/06/06
+description: Detects usage of nohup which could be leveraged by an attacker to keep
+  a process running or break out from restricted environments
+detection:
+  condition: selection
+  selection:
+    Image|endswith: /nohup
+falsepositives:
+- Administrators or installed processes that leverage nohup
+id: e4ffe466-6ff8-48d4-94bd-e32d1a6061e2
+level: medium
+logsource:
+  category: process_creation
+  product: linux
+product: linux
+references:
+- https://gtfobins.github.io/gtfobins/nohup/
+- https://en.wikipedia.org/wiki/Nohup
+- https://www.computerhope.com/unix/unohup.htm
+status: experimental
+title: Nohup Execution

@@ -1,0 +1,34 @@
+author: frack113
+category: process_creation
+date: 2022/01/16
+description: Deployment Image Servicing and Management tool. DISM is used to enumerate,
+  install, uninstall, configure, and update features and packages in Windows images
+detection:
+  condition: 1 of selection_*
+  selection_dism:
+    winlog.event_data.CommandLine|contains|all:
+    - /Online
+    - /Disable-Feature
+    winlog.event_data.Image|endswith: \Dism.exe
+  selection_dismhost:
+    winlog.event_data.Image|endswith: \DismHost.exe
+    winlog.event_data.ParentCommandLine|contains|all:
+    - /Online
+    - /Disable-Feature
+falsepositives:
+- Legitimate script
+id: 43e32da2-fdd0-4156-90de-50dfd62636f9
+level: medium
+logsource:
+  category: process_creation
+  product: windows
+modified: 2022/08/26
+product: windows
+references:
+- https://github.com/redcanaryco/atomic-red-team/blob/f339e7da7d05f6057fdfcdd3742bfcf365fee2a9/atomics/T1562.001/T1562.001.md#atomic-test-26---disable-windows-defender-with-dism
+- https://www.trendmicro.com/en_us/research/22/h/ransomware-actor-abuses-genshin-impact-anti-cheat-driver-to-kill-antivirus.html
+status: experimental
+tags:
+- attack.defense_evasion
+- attack.t1562.001
+title: Dism Remove Online Package

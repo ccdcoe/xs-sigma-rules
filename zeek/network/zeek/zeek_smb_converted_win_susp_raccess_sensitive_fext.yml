@@ -18,8 +18,7 @@ detection:
     - \groups.xml
     - .rdp
 falsepositives:
-- Help Desk operator doing backup or re-imaging end user machine or pentest or backup
-  software
+- Help Desk operator doing backup or re-imaging end user machine or backup software
 - Users working with these data types or exchanging message files
 fields:
 - ComputerName
@@ -31,10 +30,12 @@ level: medium
 logsource:
   product: zeek
   service: smb_files
+modified: 2021/11/27
 product: zeek
 references:
 - https://github.com/neo23x0/sigma/blob/d42e87edd741dd646db946f30964f331f92f50e6/rules/windows/builtin/win_susp_raccess_sensitive_fext.yml
 service: smb_files
+status: test
 tags:
 - attack.collection
 title: Suspicious Access to Sensitive File Extensions - Zeek

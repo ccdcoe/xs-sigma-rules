@@ -1,0 +1,31 @@
+author: Mike Wade
+category: dns
+date: 2020/09/16
+description: Detects wannacry killswitch domain dns queries
+detection:
+  condition: selection
+  selection:
+    query:
+    - ifferfsodp9ifjaposdfjhgosurijfaewrwergwea.testing
+    - ifferfsodp9ifjaposdfjhgosurijfaewrwergwea.test
+    - ifferfsodp9ifjaposdfjhgosurijfaewrwergwea.com
+    - ayylmaotjhsstasdfasdfasdfasdfasdfasdfasdf.com
+    - iuqssfsodp9ifjaposdfjhgosurijfaewrwergwea.com
+falsepositives:
+- Analyst testing
+id: 3eaf6218-3bed-4d8a-8707-274096f12a18
+level: high
+logsource:
+  category: dns
+  product: suricata
+  service: dns
+modified: 2022/03/24
+product: suricata
+references:
+- https://www.fireeye.com/blog/products-and-services/2017/05/wannacry-ransomware-campaign.html
+service: dns
+status: test
+tags:
+- attack.command_and_control
+- attack.t1071.001
+title: Wannacry Killswitch Domain

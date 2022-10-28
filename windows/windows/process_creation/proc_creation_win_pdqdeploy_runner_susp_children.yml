@@ -1,0 +1,54 @@
+author: Nasreddine Bencherchali
+category: process_creation
+date: 2022/07/22
+description: Detects suspicious execution of "PDQDeployRunner" which is part of the
+  PDQDeploy service stack that is responsible for executing commands and packages
+  on a remote machines
+detection:
+  condition: all of selection_*
+  selection_parent:
+    winlog.event_data.ParentImage|contains: PDQDeployRunner-
+  selection_susp:
+  - winlog.event_data.Image|endswith:
+    - \wscript.exe
+    - \cscript.exe
+    - \rundll32.exe
+    - \regsvr32.exe
+    - \wmic.exe
+    - \msiexec.exe
+    - \mshta.exe
+    - \csc.exe
+    - \dllhost.exe
+    - \certutil.exe
+    - \scriptrunner.exe
+    - \bash.exe
+    - \wsl.exe
+  - winlog.event_data.Image|contains:
+    - C:\Users\Public\
+    - C:\ProgramData\
+    - C:\Windows\TEMP\
+    - \AppData\Local\Temp
+  - winlog.event_data.CommandLine|contains:
+    - 'iex '
+    - Invoke-
+    - DownloadString
+    - http
+    - ' -enc '
+    - ' -encodedcommand '
+    - FromBase64String
+    - ' -decode '
+    - ' -w hidden'
+falsepositives:
+- Legitimate use of the PDQDeploy tool to execute these commands
+id: 12b8e9f5-96b2-41e1-9a42-8c6779a5c184
+level: medium
+logsource:
+  category: process_creation
+  product: windows
+product: windows
+references:
+- https://twitter.com/malmoeb/status/1550483085472432128
+status: experimental
+tags:
+- attack.execution
+title: Suspicious Execution Of PDQDeployRunner

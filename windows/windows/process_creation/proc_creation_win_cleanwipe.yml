@@ -1,0 +1,35 @@
+author: Nasreddine Bencherchali @nas_bench
+category: process_creation
+date: 2021/12/18
+description: Detects the use of CleanWipe a tool usually used to delete Symantec antivirus.
+detection:
+  condition: 1 of selection*
+  selection1:
+    winlog.event_data.Image|endswith: \SepRemovalToolNative_x64.exe
+  selection2:
+    winlog.event_data.CommandLine|contains: --uninstall
+    winlog.event_data.Image|endswith: \CATClean.exe
+  selection3:
+    winlog.event_data.CommandLine|contains: -r
+    winlog.event_data.Image|endswith: \NetInstaller.exe
+  selection4:
+    winlog.event_data.CommandLine|contains|all:
+    - /uninstall
+    - /enterprise
+    winlog.event_data.Image|endswith: \WFPUnins.exe
+falsepositives:
+- Legitimate administrative use (Should be investigated either way)
+id: f44800ac-38ec-471f-936e-3fa7d9c53100
+level: high
+logsource:
+  category: process_creation
+  product: windows
+modified: 2022/09/02
+product: windows
+references:
+- https://github.com/3CORESec/MAL-CL/tree/master/Descriptors/Other/CleanWipe
+status: experimental
+tags:
+- attack.defense_evasion
+- attack.t1562.001
+title: CleanWipe Usage

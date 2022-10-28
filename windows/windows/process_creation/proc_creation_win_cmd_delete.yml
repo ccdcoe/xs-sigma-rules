@@ -1,0 +1,39 @@
+author: frack113
+category: process_creation
+date: 2022/01/15
+description: 'Adversaries may delete files left behind by the actions of their intrusion
+  activity.
+
+  Malware, tools, or other non-native files dropped or created on a system by an adversary
+  may leave traces to indicate to what was done within a network and how.
+
+  Removal of these files can occur during an intrusion, or as part of a post-intrusion
+  process to minimize the adversary''s footprint.
+
+  '
+detection:
+  condition: selection
+  selection:
+  - winlog.event_data.CommandLine|contains|all:
+    - ' del '
+    - /f
+  - winlog.event_data.CommandLine|contains|all:
+    - rmdir
+    - /s
+    - /q
+falsepositives:
+- Legitimate scripts
+id: 379fa130-190e-4c3f-b7bc-6c8e834485f3
+level: low
+logsource:
+  category: process_creation
+  product: windows
+modifier: 2022/08/20
+product: windows
+references:
+- https://github.com/redcanaryco/atomic-red-team/blob/f339e7da7d05f6057fdfcdd3742bfcf365fee2a9/atomics/T1070.004/T1070.004.md
+status: experimental
+tags:
+- attack.defense_evasion
+- attack.t1070.004
+title: Windows Cmd Delete File

@@ -18,7 +18,7 @@ detection:
     a0: cp
     a1: /bin/sh
     type: EXECVE
-  condition: 1 of them
+  condition: 1 of cmd*
 falsepositives:
 - Admin activity
 id: 1543ae20-cbdf-4ec1-8d12-7664d667a825
@@ -26,11 +26,12 @@ level: medium
 logsource:
   product: linux
   service: auditd
+modified: 2021/11/27
 product: linux
 references:
 - Internal Research - mostly derived from exploit code including code in MSF
 service: auditd
-status: experimental
+status: test
 tags:
 - attack.execution
 - attack.t1059.004

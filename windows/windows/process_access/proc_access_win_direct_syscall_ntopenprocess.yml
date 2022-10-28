@@ -1,0 +1,44 @@
+author: Christian Burkard, Tim Shelton
+category: process_access
+date: 2021/07/28
+description: Detects the usage of the direct syscall of NtOpenProcess which might
+  be done from a CobaltStrike BOF.
+detection:
+  condition: selection and not 1 of falsepositive*
+  falsepositive1:
+    winlog.event_data.SourceImage: C:\Windows\Explorer.EXE
+    winlog.event_data.TargetImage: C:\Program Files\Cylance\Desktop\CylanceUI.exe
+  falsepositive2:
+    winlog.event_data.SourceImage|endswith: \MicrosoftEdgeUpdate.exe
+    winlog.event_data.SourceImage|startswith: C:\Program Files (x86)\Microsoft\Temp\
+    winlog.event_data.TargetImage: C:\Program Files (x86)\Microsoft\EdgeUpdate\MicrosoftEdgeUpdate.exe
+  falsepositive3:
+    winlog.event_data.SourceImage|endswith: vcredist_x64.exe
+    winlog.event_data.TargetImage|endswith: vcredist_x64.exe
+  falsepositive4:
+    winlog.event_data.SourceImage|endswith: setup64.exe
+    winlog.event_data.TargetImage: C:\Windows\system32\systeminfo.exe
+  falsepositive5:
+    winlog.event_data.SourceImage|endswith: AmazonSSMAgentSetup.exe
+    winlog.event_data.TargetImage|endswith: AmazonSSMAgentSetup.exe
+  falsepositive6:
+    winlog.event_data.SourceImage|endswith: C:\Program Files\Mozilla Firefox\firefox.exe
+    winlog.event_data.TargetImage|endswith: C:\Program Files\Mozilla Firefox\firefox.exe
+  selection:
+    winlog.event_data.CallTrace|startswith: UNKNOWN
+falsepositives:
+- Unknown
+id: 3f3f3506-1895-401b-9cc3-e86b16e630d0
+level: high
+logsource:
+  category: process_access
+  product: windows
+modified: 2022/08/09
+product: windows
+references:
+- https://medium.com/falconforce/falconfriday-direct-system-calls-and-cobalt-strike-bofs-0xff14-741fa8e1bdd6
+status: experimental
+tags:
+- attack.execution
+- attack.t1106
+title: Direct Syscall of NtOpenProcess

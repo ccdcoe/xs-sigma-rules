@@ -7,12 +7,11 @@ detection:
     - .jpg
     - .png
   commands:
-    a0:
-    - unzip
+    a0: unzip
     type: EXECVE
   condition: commands and a1
 falsepositives:
-- None
+- Unknown
 id: edd595d7-7895-4fa7-acb3-85a18a8772ca
 level: low
 logsource:

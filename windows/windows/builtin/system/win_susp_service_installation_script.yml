@@ -1,0 +1,34 @@
+author: pH-T
+date: 2022/03/18
+description: Detects suspicious service installation scripts
+detection:
+  condition: selection and all of suspicious*
+  selection:
+    Provider_Name: Service Control Manager
+    winlog.event_id: 7045
+  suspicious1:
+    winlog.event_data.ImagePath|contains: ' /C '
+  suspicious2:
+    winlog.event_data.ImagePath|contains:
+    - powershell
+    - wscript
+    - cscript
+    - mshta
+    - rundll32
+falsepositives:
+- Unknown
+id: 70f00d10-60b2-4f34-b9a0-dc3df3fe762a
+level: high
+logsource:
+  product: windows
+  service: system
+modified: 2022/03/24
+product: windows
+service: system
+status: experimental
+tags:
+- attack.persistence
+- attack.privilege_escalation
+- car.2013-09-005
+- attack.t1543.003
+title: Suspicious Service Installation Script

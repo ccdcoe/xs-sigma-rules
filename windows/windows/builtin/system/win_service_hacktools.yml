@@ -1,0 +1,39 @@
+author: Florian Roth
+date: 2022/03/21
+description: Detects PsExec service installation and execution events (service and
+  Sysmon)
+detection:
+  condition: service and selection
+  selection:
+  - winlog.event_data.ServiceName|contains:
+    - WCESERVICE
+    - WCE SERVICE
+    - winexesvc
+    - DumpSvc
+    - pwdump
+    - gsecdump
+    - cachedump
+  - winlog.event_data.ImagePath|contains:
+    - bypass
+  service:
+    Provider_Name: Service Control Manager
+    winlog.event_id:
+    - 7045
+    - 7036
+falsepositives:
+- Unknown
+id: d26ce60c-2151-403c-9a42-49420d87b5e4
+level: high
+logsource:
+  product: windows
+  service: system
+product: windows
+references:
+- Internal Research
+service: system
+status: experimental
+tags:
+- attack.execution
+- attack.t1569.002
+- attack.s0029
+title: Hacktool Service Registration or Execution

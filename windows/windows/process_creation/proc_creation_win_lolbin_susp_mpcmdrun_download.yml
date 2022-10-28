@@ -1,0 +1,33 @@
+author: Matthew Matchen
+category: process_creation
+date: 2020/09/04
+description: Detect the use of Windows Defender to download payloads
+detection:
+  condition: all of selection*
+  selection1:
+  - winlog.event_data.CommandLine|contains: MpCmdRun.exe
+  - winlog.event_data.Description: Microsoft Malware Protection Command Line Utility
+  selection2:
+    winlog.event_data.CommandLine|contains|all:
+    - DownloadFile
+    - url
+falsepositives:
+- Unknown
+fields:
+- winlog.event_data.CommandLine
+id: 46123129-1024-423e-9fae-43af4a0fa9a5
+level: high
+logsource:
+  category: process_creation
+  product: windows
+product: windows
+references:
+- https://web.archive.org/web/20200903194959/https://twitter.com/djmtshepana/status/1301608169496612866
+- https://lolbas-project.github.io/lolbas/Binaries/MpCmdRun/
+status: test
+tags:
+- attack.defense_evasion
+- attack.t1218
+- attack.command_and_control
+- attack.t1105
+title: Windows Defender Download Activity

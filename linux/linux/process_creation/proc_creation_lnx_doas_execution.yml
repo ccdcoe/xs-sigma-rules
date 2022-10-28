@@ -1,0 +1,24 @@
+author: Sittikorn S, Teoderick Contreras
+category: process_creation
+date: 2022/01/20
+description: Detects the doas tool execution in linux host platform.
+detection:
+  condition: selection
+  selection:
+    Image|endswith: /doas
+falsepositives:
+- Unlikely
+id: 067d8238-7127-451c-a9ec-fa78045b618b
+level: low
+logsource:
+  category: process_creation
+  product: linux
+product: linux
+references:
+- https://research.splunk.com/endpoint/linux_doas_tool_execution/
+- https://www.makeuseof.com/how-to-install-and-use-doas/
+status: stable
+tags:
+- attack.privilege_escalation
+- attack.t1548
+title: Linux Doas Tool Execution

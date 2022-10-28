@@ -1,0 +1,30 @@
+author: Florian Roth
+category: file_event
+date: 2021/11/16
+description: Detects the creation of tasks from processes executed from suspicious
+  locations
+detection:
+  condition: selection
+  selection:
+    winlog.event_data.Image|contains:
+    - \AppData\
+    - C:\PerfLogs
+    - \Windows\System32\config\systemprofile
+    winlog.event_data.TargetFilename|contains: \Windows\System32\Tasks
+falsepositives:
+- Unknown
+id: 80e1f67a-4596-4351-98f5-a9c3efabac95
+level: high
+logsource:
+  category: file_event
+  product: windows
+modified: 2022/01/12
+product: windows
+references:
+- Internal Research
+status: experimental
+tags:
+- attack.persistence
+- attack.execution
+- attack.t1053
+title: Suspicious Scheduled Task Write to System32 Tasks

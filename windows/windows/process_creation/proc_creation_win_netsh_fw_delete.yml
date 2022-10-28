@@ -1,0 +1,30 @@
+author: frack113
+category: process_creation
+date: 2022/08/14
+description: Detects the removal of a port or application rule in the Windows Firewall
+  configuration using netsh
+detection:
+  condition: selection and not filter_dropbox
+  filter_dropbox:
+    winlog.event_data.CommandLine|contains: name=Dropbox
+    winlog.event_data.ParentImage|endswith: \Dropbox.exe
+  selection:
+    winlog.event_data.CommandLine|contains|all:
+    - firewall
+    - delete
+    winlog.event_data.Image|endswith: \netsh.exe
+falsepositives:
+- Legitimate administration
+id: 1a5fefe6-734f-452e-a07d-fc1c35bce4b2
+level: medium
+logsource:
+  category: process_creation
+  product: windows
+product: windows
+references:
+- https://app.any.run/tasks/8bbd5b4c-b82d-4e6d-a3ea-d454594a37cc/
+status: experimental
+tags:
+- attack.defense_evasion
+- attack.t1562.004
+title: Netsh Firewall Rule Deletion

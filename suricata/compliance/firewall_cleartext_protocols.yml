@@ -6,9 +6,9 @@ description: Ensure that all account usernames and authentication credentials ar
   is used for all sensitive information in transit. Ensure that an encrypted channels
   is used  for all administrative account access.
 detection:
-  condition: selection1 and selection2
+  condition: all of selection*
   selection1:
-    destination.port:
+    dest_port:
     - 8080
     - 21
     - 80
@@ -31,12 +31,13 @@ detection:
     - accept
     - 2
 falsepositives:
-- unknown
+- Unknown
 id: d7fb8f0e-bd5f-45c2-b467-19571c490d7e
 level: low
 logsource:
   category: firewall
   product: suricata
+modified: 2021/11/23
 product: suricata
 references:
 - https://www.cisecurity.org/controls/cis-controls-list/

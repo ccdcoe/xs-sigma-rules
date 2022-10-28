@@ -1,0 +1,31 @@
+author: frack113
+category: ps_script
+date: 2022/02/12
+definition: Script Block Logging must be enabled
+description: Enumerates Active Directory to determine computers that are joined to
+  the domain
+detection:
+  condition: selection
+  selection:
+    winlog.event_data.ScriptBlockText|contains|all:
+    - 'New-Object '
+    - System.DirectoryServices.DirectorySearcher
+    - .PropertiesToLoad.Add
+    - .findall()
+    - Properties.name
+falsepositives:
+- Unknown
+id: 1f6399cf-2c80-4924-ace1-6fcff3393480
+level: medium
+logsource:
+  category: ps_script
+  definition: Script Block Logging must be enabled
+  product: windows
+product: windows
+references:
+- https://github.com/redcanaryco/atomic-red-team/blob/f339e7da7d05f6057fdfcdd3742bfcf365fee2a9/atomics/T1018/T1018.md#atomic-test-15---enumerate-domain-computers-within-active-directory-using-directorysearcher
+status: experimental
+tags:
+- attack.discovery
+- attack.t1018
+title: DirectorySearcher Powershell Exploitation

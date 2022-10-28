@@ -1,0 +1,51 @@
+author: Florian Roth, Tim Shelton
+category: process_creation
+date: 2019/01/16
+description: Detects a suspicious execution from an uncommon folder
+detection:
+  condition: selection and not false_positive
+  false_positive:
+    winlog.event_data.Image|startswith: C:\Users\Public\IBM\ClientSolutions\Start_Programs\
+  selection:
+  - winlog.event_data.Image|contains:
+    - \$Recycle.bin\
+    - \config\systemprofile\
+    - \Intel\Logs\
+    - \RSA\MachineKeys\
+    - \Users\All Users\
+    - \Users\Default\
+    - \Users\NetworkService\
+    - \Users\Public\
+    - \Windows\addins\
+    - \Windows\debug\
+    - \Windows\Fonts\
+    - \Windows\Help\
+    - \Windows\IME\
+    - \Windows\Media\
+    - \Windows\repair\
+    - \Windows\security\
+    - \Windows\System32\Tasks\
+    - \Windows\Tasks\
+  - winlog.event_data.Image|startswith: C:\Perflogs\
+falsepositives:
+- Unknown
+fields:
+- winlog.event_data.CommandLine
+- winlog.event_data.ParentCommandLine
+id: 3dfd06d2-eaf4-4532-9555-68aca59f57c4
+level: high
+logsource:
+  category: process_creation
+  product: windows
+modified: 2022/05/26
+product: windows
+references:
+- https://github.com/mbevilacqua/appcompatprocessor/blob/6c847937c5a836e2ce2fe2b915f213c345a3c389/AppCompatSearch.txt
+- https://www.secureworks.com/research/bronze-butler-targets-japanese-businesses
+- https://www.crowdstrike.com/resources/reports/2019-crowdstrike-global-threat-report/
+- https://github.com/ThreatHuntingProject/ThreatHunting/blob/cb22598bb70651f88e0285abc8d835757d2cb596/hunts/suspicious_process_creation_via_windows_event_logs.md
+status: experimental
+tags:
+- attack.defense_evasion
+- attack.t1036
+title: Execution from Suspicious Folder
